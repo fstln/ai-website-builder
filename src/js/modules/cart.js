@@ -1,20 +1,20 @@
 /**
- * 购物车功能模块
- * 处理购物车的添加、更新和删除操作
+ * Cart Functionality Module
+ * Handles cart add, update, and remove operations
  */
 
 export function initCart() {
-  // 购物车图标和数量
+  // Cart icon and count
   const cartIcon = document.querySelector('[data-cart-icon]');
   const cartCount = document.querySelector('[data-cart-count]');
   
-  // 购物车表单
+  // Cart form
   const cartForm = document.querySelector('[data-cart-form]');
   if (cartForm) {
     setupCartForm(cartForm);
   }
   
-  // 监听添加到购物车事件
+  // Listen for add to cart events
   document.addEventListener('submit', async (e) => {
     if (e.target.matches('[data-product-form]')) {
       e.preventDefault();
@@ -22,7 +22,7 @@ export function initCart() {
     }
   });
   
-  // 监听移除商品事件
+  // Listen for remove item events
   document.addEventListener('click', async (e) => {
     const removeBtn = e.target.closest('[data-cart-remove]');
     if (removeBtn) {
@@ -34,7 +34,7 @@ export function initCart() {
 }
 
 /**
- * 添加商品到购物车
+ * Add item to cart
  */
 async function addToCart(form) {
   const formData = new FormData(form);
@@ -51,21 +51,21 @@ async function addToCart(form) {
     
     const item = await response.json();
     
-    // 更新购物车数量
+    // Update cart count
     await updateCartCount();
     
-    // 显示成功消息
-    showNotification('商品已添加到购物车');
+    // Show success message
+    showNotification('Item added to cart');
     
     return item;
   } catch (error) {
     console.error('Add to cart error:', error);
-    showNotification('添加失败，请重试', 'error');
+    showNotification('Failed to add item. Please try again.', 'error');
   }
 }
 
 /**
- * 从购物车移除商品
+ * Remove item from cart
  */
 async function removeFromCart(itemKey) {
   try {
@@ -84,30 +84,30 @@ async function removeFromCart(itemKey) {
       throw new Error('Failed to remove from cart');
     }
     
-    // 重新加载页面以更新购物车
+    // Reload page to update cart
     window.location.reload();
   } catch (error) {
     console.error('Remove from cart error:', error);
-    showNotification('删除失败，请重试', 'error');
+    showNotification('Failed to remove item. Please try again.', 'error');
   }
 }
 
 /**
- * 设置购物车表单
+ * Setup cart form
  */
 function setupCartForm(form) {
-  // 监听数量变化
+  // Listen for quantity changes
   const quantityInputs = form.querySelectorAll('[data-quantity-input]');
   quantityInputs.forEach(input => {
     input.addEventListener('change', () => {
-      // 自动提交表单更新
+      // Auto-submit form update
       form.querySelector('[name="update"]')?.click();
     });
   });
 }
 
 /**
- * 更新购物车数量显示
+ * Update cart count display
  */
 async function updateCartCount() {
   try {
@@ -124,10 +124,10 @@ async function updateCartCount() {
 }
 
 /**
- * 显示通知消息
+ * Show notification message
  */
 function showNotification(message, type = 'success') {
-  // 简单的通知实现
+  // Simple notification implementation
   const notification = document.createElement('div');
   notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
     type === 'error' ? 'bg-red-600' : 'bg-green-600'

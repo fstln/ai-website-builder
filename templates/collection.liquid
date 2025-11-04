@@ -1,5 +1,5 @@
 {% comment %}
-  集合列表模板
+  Collection List Template
 {% endcomment %}
 
 <div class="container-custom py-8">
@@ -25,13 +25,13 @@
       {% if paginate.pages > 1 %}
         <div class="pagination mt-12 flex justify-center gap-2">
           {% if paginate.previous %}
-            <a href="{{ paginate.previous.url }}" class="btn btn-secondary">{{ 'general.pagination.previous' | t | default: '上一页' }}</a>
+            <a href="{{ paginate.previous.url }}" class="btn btn-secondary">{{ 'general.pagination.previous' | t | default: 'Previous' }}</a>
           {% endif %}
           
-          <span class="px-4 py-2">{{ 'general.pagination.page' | t | default: '第' }} {{ paginate.current_page }} / {{ paginate.pages }} {{ 'general.pagination.of' | t | default: '页' }}</span>
+          <span class="px-4 py-2">Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
           
           {% if paginate.next %}
-            <a href="{{ paginate.next.url }}" class="btn btn-secondary">{{ 'general.pagination.next' | t | default: '下一页' }}</a>
+            <a href="{{ paginate.next.url }}" class="btn btn-secondary">{{ 'general.pagination.next' | t | default: 'Next' }}</a>
           {% endif %}
         </div>
       {% endif %}

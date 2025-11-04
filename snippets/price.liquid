@@ -1,7 +1,7 @@
 {% comment %}
-  价格格式化组件
+  Price Formatting Component
   
-  用法:
+  Usage:
     {% render 'price', product: product %}
 {% endcomment %}
 
@@ -23,7 +23,7 @@
   
   {% if product.price_varies %}
     <span class="price-varies text-sm text-gray-600">
-      {{ 'products.product.from' | t | default: '起' }}
+      {{ 'products.product.from' | t | default: 'from' }}
     </span>
   {% endif %}
 </div>

@@ -1,5 +1,5 @@
 {% comment %}
-  博客文章模板
+  Blog Article Template
 {% endcomment %}
 
 <div class="container-custom py-8">
@@ -28,7 +28,7 @@
     
     {% if article.tags.size > 0 %}
       <div class="article-tags mt-8 pt-8 border-t">
-        <h3 class="text-sm font-medium mb-2">{{ 'blogs.article.tags' | t | default: '标签' }}</h3>
+        <h3 class="text-sm font-medium mb-2">{{ 'blogs.article.tags' | t | default: 'Tags' }}</h3>
         <div class="flex flex-wrap gap-2">
           {% for tag in article.tags %}
             <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-gray-200">
@@ -41,7 +41,7 @@
     
     {% if blog.comments_enabled? %}
       <div class="article-comments mt-12 pt-12 border-t">
-        <h2 class="text-2xl font-bold mb-6">{{ 'blogs.article.comments' | t | default: '评论' }} ({{ article.comments_count }})</h2>
+        <h2 class="text-2xl font-bold mb-6">{{ 'blogs.article.comments' | t | default: 'Comments' }} ({{ article.comments_count }})</h2>
         
         {% paginate article.comments by 50 %}
           {% for comment in article.comments %}
@@ -57,25 +57,25 @@
         {% endpaginate %}
         
         {% form 'new_comment', article %}
-          <h3 class="text-xl font-bold mb-4">{{ 'blogs.article.comment_form_title' | t | default: '发表评论' }}</h3>
+          <h3 class="text-xl font-bold mb-4">{{ 'blogs.article.comment_form_title' | t | default: 'Post a Comment' }}</h3>
           
           <div class="space-y-4">
             <div>
-              <label for="CommentAuthor" class="block text-sm font-medium mb-1">{{ 'blogs.article.name' | t | default: '姓名' }}</label>
+              <label for="CommentAuthor" class="block text-sm font-medium mb-1">{{ 'blogs.article.name' | t | default: 'Name' }}</label>
               <input type="text" name="comment[author]" id="CommentAuthor" class="w-full border rounded-md px-4 py-2" required>
             </div>
             
             <div>
-              <label for="CommentEmail" class="block text-sm font-medium mb-1">{{ 'blogs.article.email' | t | default: '邮箱' }}</label>
+              <label for="CommentEmail" class="block text-sm font-medium mb-1">{{ 'blogs.article.email' | t | default: 'Email' }}</label>
               <input type="email" name="comment[email]" id="CommentEmail" class="w-full border rounded-md px-4 py-2" required>
             </div>
             
             <div>
-              <label for="CommentBody" class="block text-sm font-medium mb-1">{{ 'blogs.article.message' | t | default: '内容' }}</label>
+              <label for="CommentBody" class="block text-sm font-medium mb-1">{{ 'blogs.article.message' | t | default: 'Message' }}</label>
               <textarea name="comment[body]" id="CommentBody" rows="5" class="w-full border rounded-md px-4 py-2" required></textarea>
             </div>
             
-            <button type="submit" class="btn btn-primary">{{ 'blogs.article.post' | t | default: '发表评论' }}</button>
+            <button type="submit" class="btn btn-primary">{{ 'blogs.article.post' | t | default: 'Post Comment' }}</button>
           </div>
         {% endform %}
       </div>

@@ -1,5 +1,5 @@
 {% comment %}
-  购物车模板
+  Cart Template
 {% endcomment %}
 
 <div class="container-custom py-8">
@@ -69,7 +69,7 @@
   {% else %}
     <div class="text-center py-12">
       <p class="text-gray-600 mb-4">{{ 'general.cart.empty' | t }}</p>
-      <a href="/collections/all" class="btn btn-primary">{{ 'general.continue_shopping' | t | default: '继续购物' }}</a>
+      <a href="/collections/all" class="btn btn-primary">{{ 'general.continue_shopping' | t | default: 'Continue Shopping' }}</a>
     </div>
   {% endif %}
 </div>

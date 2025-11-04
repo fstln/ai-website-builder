@@ -1,7 +1,7 @@
 {% comment %}
-  面包屑导航代码片段
+  Breadcrumb Navigation Snippet
   
-  用法:
+  Usage:
     {% render 'breadcrumbs' %}
 {% endcomment %}
 
@@ -9,7 +9,7 @@
   <nav class="breadcrumbs text-sm" aria-label="breadcrumb">
     <ol class="flex flex-wrap items-center gap-2 text-gray-600">
       <li>
-        <a href="/" class="hover:text-black">{{ 'general.breadcrumbs.home' | t | default: '首页' }}</a>
+        <a href="/" class="hover:text-black">{{ 'general.breadcrumbs.home' | t | default: 'Home' }}</a>
       </li>
       
       {% case template %}

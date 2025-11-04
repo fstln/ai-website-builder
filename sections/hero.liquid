@@ -1,5 +1,5 @@
 {% comment %}
-  首页英雄横幅部分
+  Homepage Hero Banner Section
 {% endcomment %}
 
 <section class="hero-section" data-section-id="{{ section.id }}" data-section-type="hero">
@@ -43,12 +43,12 @@
 
 {% schema %}
 {
-  "name": "英雄横幅",
+  "name": "Hero Banner",
   "settings": [
     {
       "type": "image_picker",
       "id": "image",
-      "label": "背景图片"
+      "label": "Background Image"
     },
     {
       "type": "range",
@@ -57,33 +57,33 @@
       "max": 80,
       "step": 10,
       "unit": "%",
-      "label": "图片覆盖层不透明度",
+      "label": "Image Overlay Opacity",
       "default": 30
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "标题",
-      "default": "欢迎来到我们的商店"
+      "label": "Heading",
+      "default": "Welcome to Our Store"
     },
     {
       "type": "textarea",
       "id": "subheading",
-      "label": "副标题",
-      "default": "发现我们最新的产品系列"
+      "label": "Subheading",
+      "default": "Discover Our Latest Product Collection"
     },
     {
       "type": "select",
       "id": "text_color",
-      "label": "文本颜色",
+      "label": "Text Color",
       "options": [
         {
           "value": "text-white",
-          "label": "白色"
+          "label": "White"
         },
         {
           "value": "text-black",
-          "label": "黑色"
+          "label": "Black"
         }
       ],
       "default": "text-white"
@@ -91,19 +91,19 @@
     {
       "type": "text",
       "id": "button_label",
-      "label": "按钮文本",
-      "default": "立即购物"
+      "label": "Button Label",
+      "default": "Shop Now"
     },
     {
       "type": "url",
       "id": "button_link",
-      "label": "按钮链接",
+      "label": "Button Link",
       "default": "/collections/all"
     }
   ],
   "presets": [
     {
-      "name": "英雄横幅"
+      "name": "Hero Banner"
     }
   ]
 }

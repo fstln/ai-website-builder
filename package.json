@@ -1,7 +1,7 @@
 {
   "name": "minimal-shopify-theme",
   "version": "1.0.0",
-  "description": "最小化 Shopify 主题模板框架，用于快速启动新项目",
+  "description": "Minimal Shopify theme template framework for quick project starts",
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",

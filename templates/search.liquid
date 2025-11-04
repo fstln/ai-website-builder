@@ -1,5 +1,5 @@
 {% comment %}
-  搜索结果模板
+  Search Results Template
 {% endcomment %}
 
 <div class="container-custom py-8">
@@ -15,7 +15,7 @@
           placeholder="{{ 'general.search.placeholder' | t }}"
           class="flex-grow border rounded-md px-4 py-2"
         >
-        <button type="submit" class="btn btn-primary">{{ 'general.search.submit' | t | default: '搜索' }}</button>
+        <button type="submit" class="btn btn-primary">{{ 'general.search.submit' | t | default: 'Search' }}</button>
       </div>
     </form>
   </div>
@@ -24,7 +24,7 @@
     <div class="search-results">
       {% if search.performed %}
         <p class="text-gray-600 mb-6">
-          {{ 'general.search.results_with_count' | t: count: search.results_count | default: '找到' }} {{ search.results_count }} {{ 'general.search.results' | t | default: '个结果' }}
+          Found {{ search.results_count }} {{ 'general.search.results' | t | default: 'result' }}{{ search.results_count | pluralize: '', 's' }}
         </p>
         
         {% if search.results.size > 0 %}
@@ -55,18 +55,18 @@
           {% if paginate.pages > 1 %}
             <div class="pagination mt-12 flex justify-center gap-2">
               {% if paginate.previous %}
-                <a href="{{ paginate.previous.url }}" class="btn btn-secondary">{{ 'general.pagination.previous' | t | default: '上一页' }}</a>
+                <a href="{{ paginate.previous.url }}" class="btn btn-secondary">{{ 'general.pagination.previous' | t | default: 'Previous' }}</a>
               {% endif %}
               
               <span class="px-4 py-2">{{ paginate.current_page }} / {{ paginate.pages }}</span>
               
               {% if paginate.next %}
-                <a href="{{ paginate.next.url }}" class="btn btn-secondary">{{ 'general.pagination.next' | t | default: '下一页' }}</a>
+                <a href="{{ paginate.next.url }}" class="btn btn-secondary">{{ 'general.pagination.next' | t | default: 'Next' }}</a>
               {% endif %}
             </div>
           {% endif %}
         {% else %}
-          <p class="text-center py-12 text-gray-600">{{ 'general.search.no_results' | t | default: '未找到匹配的结果' }}</p>
+          <p class="text-center py-12 text-gray-600">{{ 'general.search.no_results' | t | default: 'No matching results found' }}</p>
         {% endif %}
       {% endif %}
     </div>

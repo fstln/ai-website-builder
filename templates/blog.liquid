@@ -1,5 +1,5 @@
 {% comment %}
-  博客列表模板
+  Blog List Template
 {% endcomment %}
 
 <div class="container-custom py-8">
@@ -35,7 +35,7 @@
                 {% endif %}
                 
                 <a href="{{ article.url }}" class="text-primary font-medium hover:underline">
-                  {{ 'blogs.article.read_more' | t | default: '阅读更多' }} →
+                  {{ 'blogs.article.read_more' | t | default: 'Read More' }} →
                 </a>
               </div>
             </article>
@@ -45,18 +45,18 @@
         {% if paginate.pages > 1 %}
           <div class="pagination mt-12 flex justify-center gap-2">
             {% if paginate.previous %}
-              <a href="{{ paginate.previous.url }}" class="btn btn-secondary">{{ 'general.pagination.previous' | t | default: '上一页' }}</a>
+              <a href="{{ paginate.previous.url }}" class="btn btn-secondary">{{ 'general.pagination.previous' | t | default: 'Previous' }}</a>
             {% endif %}
             
             <span class="px-4 py-2">{{ paginate.current_page }} / {{ paginate.pages }}</span>
             
             {% if paginate.next %}
-              <a href="{{ paginate.next.url }}" class="btn btn-secondary">{{ 'general.pagination.next' | t | default: '下一页' }}</a>
+              <a href="{{ paginate.next.url }}" class="btn btn-secondary">{{ 'general.pagination.next' | t | default: 'Next' }}</a>
             {% endif %}
           </div>
         {% endif %}
       {% else %}
-        <p class="text-center text-gray-600">{{ 'blogs.general.no_articles' | t | default: '暂无文章' }}</p>
+        <p class="text-center text-gray-600">{{ 'blogs.general.no_articles' | t | default: 'No articles found' }}</p>
       {% endif %}
     </div>
   {% endpaginate %}

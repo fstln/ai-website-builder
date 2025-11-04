@@ -1,10 +1,10 @@
 /**
- * 导航模块
- * 处理移动菜单和下拉菜单交互
+ * Navigation Module
+ * Handles mobile menu and dropdown menu interactions
  */
 
 export function initNavigation() {
-  // 移动菜单切换
+  // Mobile menu toggle
   const mobileMenuToggle = document.querySelector('[data-mobile-menu-toggle]');
   const mobileNav = document.querySelector('[data-mobile-nav]');
   
@@ -13,7 +13,7 @@ export function initNavigation() {
       toggleMobileMenu(mobileNav);
     });
     
-    // 点击外部关闭移动菜单
+    // Close mobile menu when clicking outside
     document.addEventListener('click', (e) => {
       if (!e.target.closest('[data-mobile-menu-toggle]') && 
           !e.target.closest('[data-mobile-nav]')) {
@@ -21,7 +21,7 @@ export function initNavigation() {
       }
     });
     
-    // ESC 键关闭移动菜单
+    // Close mobile menu with ESC key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeMobileMenu(mobileNav);
@@ -29,15 +29,15 @@ export function initNavigation() {
     });
   }
   
-  // 下拉菜单（如果有）
+  // Dropdown menus (if any)
   setupDropdowns();
   
-  // 滚动时固定头部
+  // Sticky header on scroll
   setupStickyHeader();
 }
 
 /**
- * 切换移动菜单
+ * Toggle mobile menu
  */
 function toggleMobileMenu(nav) {
   const isHidden = nav.classList.contains('hidden');
@@ -50,20 +50,20 @@ function toggleMobileMenu(nav) {
 }
 
 /**
- * 打开移动菜单
+ * Open mobile menu
  */
 function openMobileMenu(nav) {
   nav.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
   
-  // 添加动画
+  // Add animation
   requestAnimationFrame(() => {
     nav.classList.add('active');
   });
 }
 
 /**
- * 关闭移动菜单
+ * Close mobile menu
  */
 function closeMobileMenu(nav) {
   nav.classList.remove('active');
@@ -72,7 +72,7 @@ function closeMobileMenu(nav) {
 }
 
 /**
- * 设置下拉菜单
+ * Setup dropdown menus
  */
 function setupDropdowns() {
   const dropdownTriggers = document.querySelectorAll('[data-dropdown-trigger]');
@@ -82,7 +82,7 @@ function setupDropdowns() {
     
     if (!dropdown) return;
     
-    // 悬停显示下拉菜单（桌面）
+    // Show dropdown on hover (desktop)
     if (window.matchMedia('(min-width: 768px)').matches) {
       trigger.addEventListener('mouseenter', () => {
         showDropdown(dropdown);
@@ -92,7 +92,7 @@ function setupDropdowns() {
         hideDropdown(dropdown);
       });
     } else {
-      // 移动设备点击切换
+      // Toggle on click for mobile devices
       trigger.addEventListener('click', (e) => {
         e.preventDefault();
         toggleDropdown(dropdown);
@@ -102,7 +102,7 @@ function setupDropdowns() {
 }
 
 /**
- * 显示下拉菜单
+ * Show dropdown menu
  */
 function showDropdown(dropdown) {
   dropdown.classList.remove('hidden');
@@ -110,7 +110,7 @@ function showDropdown(dropdown) {
 }
 
 /**
- * 隐藏下拉菜单
+ * Hide dropdown menu
  */
 function hideDropdown(dropdown) {
   dropdown.classList.remove('active');
@@ -118,7 +118,7 @@ function hideDropdown(dropdown) {
 }
 
 /**
- * 切换下拉菜单
+ * Toggle dropdown menu
  */
 function toggleDropdown(dropdown) {
   if (dropdown.classList.contains('hidden')) {
@@ -129,7 +129,7 @@ function toggleDropdown(dropdown) {
 }
 
 /**
- * 设置固定头部
+ * Setup sticky header
  */
 function setupStickyHeader() {
   const header = document.querySelector('.site-header');
@@ -148,7 +148,7 @@ function setupStickyHeader() {
       header.classList.remove('scrolled');
     }
     
-    // 向下滚动时隐藏，向上滚动时显示
+    // Hide on scroll down, show on scroll up
     if (scrollY > lastScrollY && scrollY > 200) {
       header.classList.add('header-hidden');
     } else {

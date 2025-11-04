@@ -1,5 +1,5 @@
 {% comment %}
-  404 错误页面模板
+  404 Error Page Template
 {% endcomment %}
 
 <div class="container-custom">
@@ -10,8 +10,8 @@
       <p class="text-gray-600 mb-8">{{ 'general.404.subtext' | t }}</p>
       
       <div class="space-x-4">
-        <a href="/" class="btn btn-primary">{{ 'general.404.link' | t | default: '返回首页' }}</a>
-        <a href="/collections/all" class="btn btn-secondary">{{ 'general.continue_shopping' | t | default: '继续购物' }}</a>
+        <a href="/" class="btn btn-primary">{{ 'general.404.link' | t | default: 'Back to Home' }}</a>
+        <a href="/collections/all" class="btn btn-secondary">{{ 'general.continue_shopping' | t | default: 'Continue Shopping' }}</a>
       </div>
       
       <div class="mt-12">
@@ -23,7 +23,7 @@
               placeholder="{{ 'general.search.placeholder' | t }}"
               class="flex-grow border rounded-md px-4 py-2"
             >
-            <button type="submit" class="btn btn-primary">{{ 'general.search.submit' | t | default: '搜索' }}</button>
+            <button type="submit" class="btn btn-primary">{{ 'general.search.submit' | t | default: 'Search' }}</button>
           </div>
         </form>
       </div>

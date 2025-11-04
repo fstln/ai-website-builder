@@ -1,6 +1,6 @@
 /**
- * 产品表单模块
- * 处理产品变体选择和数量选择
+ * Product Form Module
+ * Handles product variant selection and quantity selection
  */
 
 export function initProduct() {
@@ -12,44 +12,44 @@ export function initProduct() {
 }
 
 /**
- * 设置产品表单
+ * Setup product form
  */
 function setupProductForm(form) {
   const variantSelects = form.querySelectorAll('select[name^="options"]');
   
-  // 监听变体选择变化
+  // Listen for variant selection changes
   variantSelects.forEach(select => {
     select.addEventListener('change', () => {
       updateVariant(form);
     });
   });
   
-  // 初始化变体
+  // Initialize variant
   updateVariant(form);
 }
 
 /**
- * 更新选中的变体
+ * Update selected variant
  */
 function updateVariant(form) {
-  // 获取所有选项值
+  // Get all option values
   const options = Array.from(form.querySelectorAll('select[name^="options"]'))
     .map(select => select.value);
   
-  // 这里简化处理，实际应该根据选项匹配正确的变体
-  // 在完整实现中，需要从产品数据中找到匹配的变体
+  // Simplified handling - in full implementation, should match correct variant based on options
+  // In complete implementation, need to find matching variant from product data
   const variantIdInput = form.querySelector('input[name="id"]');
   
-  // 检查变体是否可用
+  // Check if variant is available
   const submitButton = form.querySelector('button[type="submit"]');
-  // 简化处理，实际需要检查变体库存
+  // Simplified handling - in full implementation, need to check variant inventory
   if (submitButton && variantIdInput) {
     submitButton.disabled = !variantIdInput.value;
   }
 }
 
 /**
- * 获取产品数据（如果页面中嵌入了产品JSON）
+ * Get product data (if product JSON is embedded in page)
  */
 export function getProductData() {
   const productScript = document.querySelector('[data-product-json]');
@@ -65,8 +65,8 @@ export function getProductData() {
 }
 
 /**
- * Web Component 示例：产品卡片
- * 优先使用原生 JavaScript Web Component
+ * Web Component Example: Product Card
+ * Prioritize native JavaScript Web Components
  */
 if (typeof customElements !== 'undefined') {
   class ProductCard extends HTMLElement {
@@ -81,9 +81,9 @@ if (typeof customElements !== 'undefined') {
       
       try {
         const product = JSON.parse(productData);
-        // 渲染产品卡片内容
-        // 实际实现中，这里应该使用 Liquid 模板生成 HTML
-        // Web Component 主要用于交互逻辑
+        // Render product card content
+        // In actual implementation, should use Liquid template to generate HTML
+        // Web Component is mainly for interaction logic
       } catch (error) {
         console.error('Error rendering product card:', error);
       }
@@ -119,7 +119,7 @@ if (typeof customElements !== 'undefined') {
           throw new Error('Failed to add to cart');
         }
         
-        // 触发自定义事件
+        // Trigger custom event
         this.dispatchEvent(new CustomEvent('product-added-to-cart', {
           bubbles: true,
           detail: { productId, quantity }
@@ -130,7 +130,7 @@ if (typeof customElements !== 'undefined') {
     }
   }
   
-  // 注册自定义元素
+  // Register custom element
   if (!customElements.get('product-card')) {
     customElements.define('product-card', ProductCard);
   }

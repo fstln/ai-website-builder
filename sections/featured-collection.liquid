@@ -1,5 +1,5 @@
 {% comment %}
-  特色集合部分
+  Featured Collection Section
 {% endcomment %}
 
 <section class="featured-collection py-16 bg-gray-50" data-section-id="{{ section.id }}" data-section-type="featured-collection">
@@ -33,12 +33,12 @@
       
       <div class="text-center mt-8">
         <a href="{{ collection.url }}" class="btn btn-primary">
-          {{ section.settings.button_label | default: '查看集合' }}
+          {{ section.settings.button_label | default: 'View Collection' }}
         </a>
       </div>
     {% else %}
       <div class="text-center py-12 text-gray-600">
-        <p>请在主题设置中选择一个集合</p>
+        <p>Please select a collection in theme settings</p>
       </div>
     {% endif %}
   </div>
@@ -46,23 +46,23 @@
 
 {% schema %}
 {
-  "name": "特色集合",
+  "name": "Featured Collection",
   "settings": [
     {
       "type": "text",
       "id": "heading",
-      "label": "自定义标题",
-      "info": "留空使用集合标题"
+      "label": "Custom Heading",
+      "info": "Leave blank to use collection title"
     },
     {
       "type": "collection",
       "id": "collection",
-      "label": "集合"
+      "label": "Collection"
     },
     {
       "type": "checkbox",
       "id": "show_description",
-      "label": "显示集合描述",
+      "label": "Show Collection Description",
       "default": false
     },
     {
@@ -71,19 +71,19 @@
       "min": 2,
       "max": 12,
       "step": 1,
-      "label": "显示产品数量",
+      "label": "Number of Products to Show",
       "default": 8
     },
     {
       "type": "text",
       "id": "button_label",
-      "label": "按钮文本",
-      "default": "查看集合"
+      "label": "Button Label",
+      "default": "View Collection"
     }
   ],
   "presets": [
     {
-      "name": "特色集合"
+      "name": "Featured Collection"
     }
   ]
 }
