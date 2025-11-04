@@ -1,0 +1,103 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "最小化 Shopify 主题",
+    "theme_version": "1.0.0",
+    "theme_author": "Your Name",
+    "theme_documentation_url": "https://github.com/yourusername/minimal-shopify-theme",
+    "theme_support_url": "https://github.com/yourusername/minimal-shopify-theme/issues"
+  },
+  {
+    "name": "颜色",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "主色",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "辅助色",
+        "default": "#666666"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "背景色",
+        "default": "#FFFFFF"
+      }
+    ]
+  },
+  {
+    "name": "排版",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "标题字体",
+        "default": "assistant_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "正文字体",
+        "default": "assistant_n4"
+      }
+    ]
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "网站图标"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo 图片"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 50,
+        "max": 300,
+        "step": 10,
+        "unit": "px",
+        "label": "Logo 宽度",
+        "default": 150
+      }
+    ]
+  },
+  {
+    "name": "社交媒体",
+    "settings": [
+      {
+        "type": "header",
+        "content": "社交账号"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "info": "https://www.facebook.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "https://www.instagram.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter/X",
+        "info": "https://twitter.com/shopify"
+      }
+    ]
+  }
+]
+

@@ -1,0 +1,45 @@
+# Node modules
+node_modules/
+package.json
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Source files (not needed in Shopify)
+src/
+
+# Build configuration
+vite.config.js
+tailwind.config.js
+postcss.config.js
+
+# Theme check
+.theme-check.yml
+.theme-check-cache
+
+# Git
+.git/
+.gitignore
+
+# CI/CD
+.github/
+
+# IDE
+.vscode/
+.idea/
+
+# Documentation
+README.md
+ARCHITECTURE.md
+CONTRIBUTING.md
+
+# Environment
+.env*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Specs
+specs/
+

@@ -1,0 +1,127 @@
+{% comment %}
+  页脚部分 - 链接、社交媒体、版权信息
+{% endcomment %}
+
+<footer class="site-footer bg-gray-100 border-t mt-16" data-section-id="{{ section.id }}" data-section-type="footer">
+  <div class="container-custom py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- About -->
+      <div class="footer-column">
+        <h3 class="font-bold mb-4">{{ section.settings.column_1_title }}</h3>
+        <div class="text-sm text-gray-600">
+          {{ section.settings.column_1_content }}
+        </div>
+      </div>
+      
+      <!-- Quick Links -->
+      <div class="footer-column">
+        <h3 class="font-bold mb-4">{{ section.settings.column_2_title }}</h3>
+        <ul class="space-y-2 text-sm">
+          {% for link in linklists[section.settings.footer_menu].links %}
+            <li>
+              <a href="{{ link.url }}" class="text-gray-600 hover:text-black">
+                {{ link.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      
+      <!-- Customer Service -->
+      <div class="footer-column">
+        <h3 class="font-bold mb-4">{{ section.settings.column_3_title }}</h3>
+        <ul class="space-y-2 text-sm">
+          {% for link in linklists[section.settings.footer_menu_2].links %}
+            <li>
+              <a href="{{ link.url }}" class="text-gray-600 hover:text-black">
+                {{ link.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      
+      <!-- Social Media -->
+      <div class="footer-column">
+        <h3 class="font-bold mb-4">{{ section.settings.column_4_title }}</h3>
+        <div class="flex space-x-4">
+          {% if settings.social_facebook_link != blank %}
+            <a href="{{ settings.social_facebook_link }}" class="text-gray-600 hover:text-black" target="_blank" rel="noopener">
+              {% render 'icon', name: 'facebook' %}
+            </a>
+          {% endif %}
+          {% if settings.social_instagram_link != blank %}
+            <a href="{{ settings.social_instagram_link }}" class="text-gray-600 hover:text-black" target="_blank" rel="noopener">
+              {% render 'icon', name: 'instagram' %}
+            </a>
+          {% endif %}
+          {% if settings.social_twitter_link != blank %}
+            <a href="{{ settings.social_twitter_link }}" class="text-gray-600 hover:text-black" target="_blank" rel="noopener">
+              {% render 'icon', name: 'twitter' %}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    
+    <!-- Copyright -->
+    <div class="footer-bottom mt-8 pt-8 border-t text-center text-sm text-gray-600">
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.copyright_text }}</p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "页脚",
+  "settings": [
+    {
+      "type": "text",
+      "id": "column_1_title",
+      "label": "第一栏标题",
+      "default": "关于我们"
+    },
+    {
+      "type": "richtext",
+      "id": "column_1_content",
+      "label": "第一栏内容"
+    },
+    {
+      "type": "text",
+      "id": "column_2_title",
+      "label": "第二栏标题",
+      "default": "快速链接"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu",
+      "label": "第二栏菜单",
+      "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "column_3_title",
+      "label": "第三栏标题",
+      "default": "客户服务"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_2",
+      "label": "第三栏菜单"
+    },
+    {
+      "type": "text",
+      "id": "column_4_title",
+      "label": "第四栏标题",
+      "default": "关注我们"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "版权文本",
+      "default": "保留所有权利。"
+    }
+  ]
+}
+{% endschema %}
+

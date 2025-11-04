@@ -1,0 +1,19 @@
+extends: :recommended
+
+ignore:
+  - assets/theme.css
+  - assets/theme.js
+  - node_modules/
+
+rules:
+  TranslationKeyExists: error
+  DeprecatedTags: error
+  MissingTemplate: error
+  RequiredLayoutThemeObject: error
+  AssetSizeCSS:
+    enabled: true
+    threshold_in_bytes: 100000
+  AssetSizeJavaScript:
+    enabled: true
+    threshold_in_bytes: 50000
+

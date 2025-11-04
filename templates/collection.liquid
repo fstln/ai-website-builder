@@ -1,0 +1,49 @@
+{% comment %}
+  集合列表模板
+{% endcomment %}
+
+<div class="container-custom py-8">
+  {% render 'breadcrumbs' %}
+  
+  <div class="collection-header mt-8 mb-12 text-center">
+    <h1 class="text-4xl font-bold mb-4">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="prose mx-auto">
+        {{ collection.description }}
+      </div>
+    {% endif %}
+  </div>
+  
+  <div class="collection-products">
+    {% if collection.products.size > 0 %}
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for product in collection.products %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      </div>
+      
+      {% if paginate.pages > 1 %}
+        <div class="pagination mt-12 flex justify-center gap-2">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}" class="btn btn-secondary">{{ 'general.pagination.previous' | t | default: '上一页' }}</a>
+          {% endif %}
+          
+          <span class="px-4 py-2">{{ 'general.pagination.page' | t | default: '第' }} {{ paginate.current_page }} / {{ paginate.pages }} {{ 'general.pagination.of' | t | default: '页' }}</span>
+          
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}" class="btn btn-secondary">{{ 'general.pagination.next' | t | default: '下一页' }}</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="text-center py-12">
+        <p class="text-gray-600">{{ 'collections.general.no_matches' | t }}</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% paginate collection.products by 12 %}
+  {% comment %} Pagination logic handled above {% endcomment %}
+{% endpaginate %}
+

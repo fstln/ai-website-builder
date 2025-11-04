@@ -1,0 +1,29 @@
+{% comment %}
+  响应式图片包装器
+  
+  用法:
+    {% render 'image', image: product.featured_image, alt: product.title, class: 'custom-class' %}
+{% endcomment %}
+
+{% if image %}
+  <img
+    src="{{ image | image_url: width: 800 }}"
+    srcset="
+      {{ image | image_url: width: 400 }} 400w,
+      {{ image | image_url: width: 800 }} 800w,
+      {{ image | image_url: width: 1200 }} 1200w,
+      {{ image | image_url: width: 1600 }} 1600w
+    "
+    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+    alt="{{ alt | default: '' | escape }}"
+    {% if class %}class="{{ class }}"{% endif %}
+    loading="lazy"
+    width="{{ image.width }}"
+    height="{{ image.height }}"
+  >
+{% else %}
+  <div class="placeholder-image bg-gray-200 flex items-center justify-center {{ class }}">
+    {% render 'icon', name: 'placeholder' %}
+  </div>
+{% endif %}
+

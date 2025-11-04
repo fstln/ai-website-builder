@@ -1,0 +1,85 @@
+{% comment %}
+  博客文章模板
+{% endcomment %}
+
+<div class="container-custom py-8">
+  {% render 'breadcrumbs' %}
+  
+  <article class="article-content mt-8 max-w-3xl mx-auto">
+    <header class="article-header mb-8">
+      <h1 class="text-4xl font-bold mb-4">{{ article.title }}</h1>
+      
+      <div class="article-meta text-sm text-gray-600 mb-6">
+        <span>{{ article.published_at | date: format: 'month_day_year' }}</span>
+        {% if article.author %}
+          <span class="mx-2">·</span>
+          <span>{{ article.author }}</span>
+        {% endif %}
+      </div>
+      
+      {% if article.image %}
+        <img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.title }}" class="w-full rounded-lg mb-8">
+      {% endif %}
+    </header>
+    
+    <div class="article-body prose max-w-none">
+      {{ article.content }}
+    </div>
+    
+    {% if article.tags.size > 0 %}
+      <div class="article-tags mt-8 pt-8 border-t">
+        <h3 class="text-sm font-medium mb-2">{{ 'blogs.article.tags' | t | default: '标签' }}</h3>
+        <div class="flex flex-wrap gap-2">
+          {% for tag in article.tags %}
+            <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-gray-200">
+              {{ tag }}
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if blog.comments_enabled? %}
+      <div class="article-comments mt-12 pt-12 border-t">
+        <h2 class="text-2xl font-bold mb-6">{{ 'blogs.article.comments' | t | default: '评论' }} ({{ article.comments_count }})</h2>
+        
+        {% paginate article.comments by 50 %}
+          {% for comment in article.comments %}
+            <div class="comment mb-6 p-4 bg-gray-50 rounded">
+              <div class="comment-meta text-sm text-gray-600 mb-2">
+                <strong>{{ comment.author }}</strong> · {{ comment.created_at | date: format: 'month_day_year' }}
+              </div>
+              <div class="comment-content">
+                {{ comment.content }}
+              </div>
+            </div>
+          {% endfor %}
+        {% endpaginate %}
+        
+        {% form 'new_comment', article %}
+          <h3 class="text-xl font-bold mb-4">{{ 'blogs.article.comment_form_title' | t | default: '发表评论' }}</h3>
+          
+          <div class="space-y-4">
+            <div>
+              <label for="CommentAuthor" class="block text-sm font-medium mb-1">{{ 'blogs.article.name' | t | default: '姓名' }}</label>
+              <input type="text" name="comment[author]" id="CommentAuthor" class="w-full border rounded-md px-4 py-2" required>
+            </div>
+            
+            <div>
+              <label for="CommentEmail" class="block text-sm font-medium mb-1">{{ 'blogs.article.email' | t | default: '邮箱' }}</label>
+              <input type="email" name="comment[email]" id="CommentEmail" class="w-full border rounded-md px-4 py-2" required>
+            </div>
+            
+            <div>
+              <label for="CommentBody" class="block text-sm font-medium mb-1">{{ 'blogs.article.message' | t | default: '内容' }}</label>
+              <textarea name="comment[body]" id="CommentBody" rows="5" class="w-full border rounded-md px-4 py-2" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">{{ 'blogs.article.post' | t | default: '发表评论' }}</button>
+          </div>
+        {% endform %}
+      </div>
+    {% endif %}
+  </article>
+</div>
+

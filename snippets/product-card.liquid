@@ -1,0 +1,39 @@
+{% comment %}
+  产品卡片代码片段
+  
+  用法:
+    {% render 'product-card', product: product %}
+{% endcomment %}
+
+<div class="product-card group">
+  <a href="{{ product.url }}" class="block">
+    <div class="product-card-image relative overflow-hidden rounded-lg bg-gray-100 mb-4">
+      {% if product.featured_image %}
+        {% render 'image', 
+          image: product.featured_image, 
+          alt: product.featured_image.alt | default: product.title,
+          class: 'w-full h-auto group-hover:scale-105 transition-transform duration-300'
+        %}
+      {% else %}
+        <div class="aspect-square flex items-center justify-center text-gray-400">
+          {% render 'icon', name: 'placeholder' %}
+        </div>
+      {% endif %}
+      
+      {% unless product.available %}
+        <div class="absolute top-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded">
+          {{ 'products.product.sold_out' | t }}
+        </div>
+      {% endunless %}
+    </div>
+    
+    <div class="product-card-info">
+      <h3 class="font-medium text-sm mb-2 line-clamp-2 group-hover:underline">
+        {{ product.title }}
+      </h3>
+      
+      {% render 'price', product: product %}
+    </div>
+  </a>
+</div>
+

@@ -1,0 +1,29 @@
+# ai-website-from-scratch Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2025-11-04
+
+## Active Technologies
+
+- Liquid templating (Shopify), JavaScript ES6+, CSS3 (001-minimal-shopify-theme)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+npm test && npm run lint
+
+## Code Style
+
+Liquid templating (Shopify), JavaScript ES6+, CSS3: Follow standard conventions
+
+## Recent Changes
+
+- 001-minimal-shopify-theme: Added Liquid templating (Shopify), JavaScript ES6+, CSS3
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->

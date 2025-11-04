@@ -1,0 +1,75 @@
+{% comment %}
+  搜索结果模板
+{% endcomment %}
+
+<div class="container-custom py-8">
+  <div class="search-header mb-8">
+    <h1 class="text-4xl font-bold mb-4">{{ 'general.search.title' | t }}</h1>
+    
+    <form action="/search" method="get" class="search-form">
+      <div class="flex gap-2">
+        <input 
+          type="search" 
+          name="q" 
+          value="{{ search.terms }}" 
+          placeholder="{{ 'general.search.placeholder' | t }}"
+          class="flex-grow border rounded-md px-4 py-2"
+        >
+        <button type="submit" class="btn btn-primary">{{ 'general.search.submit' | t | default: '搜索' }}</button>
+      </div>
+    </form>
+  </div>
+  
+  {% paginate search.results by 12 %}
+    <div class="search-results">
+      {% if search.performed %}
+        <p class="text-gray-600 mb-6">
+          {{ 'general.search.results_with_count' | t: count: search.results_count | default: '找到' }} {{ search.results_count }} {{ 'general.search.results' | t | default: '个结果' }}
+        </p>
+        
+        {% if search.results.size > 0 %}
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for item in search.results %}
+              {% case item.object_type %}
+                {% when 'product' %}
+                  {% render 'product-card', product: item %}
+                {% when 'article' %}
+                  <article class="border rounded-lg p-4">
+                    <h3 class="font-bold mb-2">
+                      <a href="{{ item.url }}" class="hover:underline">{{ item.title }}</a>
+                    </h3>
+                    <p class="text-sm text-gray-600 mb-2">{{ item.published_at | date: format: 'month_day_year' }}</p>
+                    <p class="text-gray-700">{{ item.excerpt | strip_html | truncate: 120 }}</p>
+                  </article>
+                {% when 'page' %}
+                  <div class="border rounded-lg p-4">
+                    <h3 class="font-bold mb-2">
+                      <a href="{{ item.url }}" class="hover:underline">{{ item.title }}</a>
+                    </h3>
+                    <p class="text-gray-700">{{ item.content | strip_html | truncate: 120 }}</p>
+                  </div>
+              {% endcase %}
+            {% endfor %}
+          </div>
+          
+          {% if paginate.pages > 1 %}
+            <div class="pagination mt-12 flex justify-center gap-2">
+              {% if paginate.previous %}
+                <a href="{{ paginate.previous.url }}" class="btn btn-secondary">{{ 'general.pagination.previous' | t | default: '上一页' }}</a>
+              {% endif %}
+              
+              <span class="px-4 py-2">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+              
+              {% if paginate.next %}
+                <a href="{{ paginate.next.url }}" class="btn btn-secondary">{{ 'general.pagination.next' | t | default: '下一页' }}</a>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% else %}
+          <p class="text-center py-12 text-gray-600">{{ 'general.search.no_results' | t | default: '未找到匹配的结果' }}</p>
+        {% endif %}
+      {% endif %}
+    </div>
+  {% endpaginate %}
+</div>
+

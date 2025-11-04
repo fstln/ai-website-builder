@@ -1,0 +1,76 @@
+{% comment %}
+  购物车模板
+{% endcomment %}
+
+<div class="container-custom py-8">
+  <h1 class="text-4xl font-bold mb-8">{{ 'general.cart.title' | t }}</h1>
+  
+  {% if cart.item_count > 0 %}
+    <form action="/cart" method="post" class="cart-form" data-cart-form>
+      <div class="cart-items space-y-4 mb-8">
+        {% for item in cart.items %}
+          <div class="cart-item flex gap-4 p-4 border rounded-lg" data-cart-item>
+            {% if item.image %}
+              <a href="{{ item.url }}" class="flex-shrink-0">
+                <img src="{{ item.image | image_url: width: 120 }}" alt="{{ item.title }}" class="w-24 h-24 object-cover rounded">
+              </a>
+            {% endif %}
+            
+            <div class="flex-grow">
+              <h3 class="font-medium">
+                <a href="{{ item.url }}">{{ item.product.title }}</a>
+              </h3>
+              
+              {% unless item.variant.title contains 'Default' %}
+                <p class="text-sm text-gray-600">{{ item.variant.title }}</p>
+              {% endunless %}
+              
+              <div class="flex items-center gap-4 mt-2">
+                <div class="quantity-selector">
+                  <label for="quantity-{{ item.key }}" class="sr-only">{{ 'general.cart.quantity' | t }}</label>
+                  <input 
+                    type="number" 
+                    id="quantity-{{ item.key }}"
+                    name="updates[{{ item.key }}]" 
+                    value="{{ item.quantity }}" 
+                    min="0"
+                    class="w-20 border rounded px-2 py-1"
+                    data-quantity-input
+                  >
+                </div>
+                
+                <span class="font-medium">{{ item.final_line_price | money }}</span>
+              </div>
+            </div>
+            
+            <button type="button" class="text-gray-400 hover:text-red-600" data-cart-remove="{{ item.key }}">
+              {{ 'general.cart.remove' | t }}
+            </button>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <div class="cart-footer border-t pt-8">
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-xl font-medium">{{ 'general.cart.subtotal' | t }}</span>
+          <span class="text-2xl font-bold">{{ cart.total_price | money }}</span>
+        </div>
+        
+        <div class="flex gap-4">
+          <button type="submit" name="update" class="btn btn-secondary flex-1">
+            {{ 'general.cart.update' | t }}
+          </button>
+          <button type="submit" name="checkout" class="btn btn-primary flex-1">
+            {{ 'general.cart.checkout' | t }}
+          </button>
+        </div>
+      </div>
+    </form>
+  {% else %}
+    <div class="text-center py-12">
+      <p class="text-gray-600 mb-4">{{ 'general.cart.empty' | t }}</p>
+      <a href="/collections/all" class="btn btn-primary">{{ 'general.continue_shopping' | t | default: '继续购物' }}</a>
+    </div>
+  {% endif %}
+</div>
+

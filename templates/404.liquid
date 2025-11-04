@@ -1,0 +1,33 @@
+{% comment %}
+  404 错误页面模板
+{% endcomment %}
+
+<div class="container-custom">
+  <div class="error-404 min-h-screen flex items-center justify-center text-center py-12">
+    <div>
+      <h1 class="text-6xl font-bold mb-4">404</h1>
+      <h2 class="text-2xl font-medium mb-4">{{ 'general.404.title' | t }}</h2>
+      <p class="text-gray-600 mb-8">{{ 'general.404.subtext' | t }}</p>
+      
+      <div class="space-x-4">
+        <a href="/" class="btn btn-primary">{{ 'general.404.link' | t | default: '返回首页' }}</a>
+        <a href="/collections/all" class="btn btn-secondary">{{ 'general.continue_shopping' | t | default: '继续购物' }}</a>
+      </div>
+      
+      <div class="mt-12">
+        <form action="/search" method="get" class="search-form max-w-md mx-auto">
+          <div class="flex gap-2">
+            <input 
+              type="search" 
+              name="q" 
+              placeholder="{{ 'general.search.placeholder' | t }}"
+              class="flex-grow border rounded-md px-4 py-2"
+            >
+            <button type="submit" class="btn btn-primary">{{ 'general.search.submit' | t | default: '搜索' }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

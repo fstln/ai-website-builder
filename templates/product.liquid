@@ -1,0 +1,64 @@
+{% comment %}
+  产品页面模板
+{% endcomment %}
+
+<div class="container-custom py-8">
+  {% render 'breadcrumbs' %}
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+    <div class="product-images">
+      {% if product.featured_image %}
+        {% render 'image', 
+          image: product.featured_image, 
+          alt: product.featured_image.alt | default: product.title,
+          class: 'w-full rounded-lg'
+        %}
+      {% endif %}
+    </div>
+    
+    <div class="product-info">
+      <h1 class="text-3xl font-bold mb-4">{{ product.title }}</h1>
+      
+      {% render 'price', product: product %}
+      
+      {% if product.description != blank %}
+        <div class="product-description prose mt-6">
+          {{ product.description }}
+        </div>
+      {% endif %}
+      
+      <form action="/cart/add" method="post" class="product-form mt-8" data-product-form>
+        {% unless product.has_only_default_variant %}
+          <div class="product-variants mb-4">
+            {% for option in product.options_with_values %}
+              <div class="variant-option mb-4">
+                <label class="block text-sm font-medium mb-2">{{ option.name }}</label>
+                <select name="options[{{ option.name }}]" class="w-full border rounded-md px-4 py-2">
+                  {% for value in option.values %}
+                    <option value="{{ value }}">{{ value }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endfor %}
+          </div>
+        {% endunless %}
+        
+        <div class="product-quantity mb-4">
+          <label class="block text-sm font-medium mb-2">{{ 'products.product.quantity' | t }}</label>
+          <input type="number" name="quantity" value="1" min="1" class="w-24 border rounded-md px-4 py-2">
+        </div>
+        
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        
+        <button type="submit" class="btn btn-primary w-full" {% unless product.available %}disabled{% endunless %}>
+          {% if product.available %}
+            {{ 'products.product.add_to_cart' | t }}
+          {% else %}
+            {{ 'products.product.sold_out' | t }}
+          {% endif %}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+

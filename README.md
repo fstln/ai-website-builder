@@ -1,0 +1,220 @@
+# 最小化 Shopify 主题
+
+一个"最小化"的 Shopify 主题模板框架，用于快速启动新项目。该代码包可直接通过 GitHub 连接到 Shopify 主题。
+
+## 特性
+
+- ✅ **Shopify Theme 1.0 架构** - 使用经典的 Liquid 模板系统
+- 🎨 **Tailwind CSS** - 实用优先的 CSS 框架，优化的性能
+- 🚀 **Vite 构建工具** - 快速的开发和生产构建
+- 📱 **响应式设计** - 移动端、平板和桌面端完全支持
+- 🔧 **原生 JavaScript** - 零依赖，使用 ES6+ 模块和 Web Components
+- 🔄 **GitHub Actions** - 自动构建和部署流程
+- 🎯 **最小化体积** - CSS < 15KB, JS < 5KB (gzipped)
+
+## 快速开始
+
+### 前置要求
+
+- Node.js 18+ 
+- npm 或 yarn
+- Shopify CLI
+- Git
+
+### 安装步骤
+
+1. **克隆仓库**
+
+```bash
+git clone <your-repo-url>
+cd minimal-shopify-theme
+```
+
+2. **安装依赖**
+
+```bash
+npm install
+```
+
+3. **构建资源**
+
+```bash
+npm run build
+```
+
+4. **连接到 Shopify**
+
+```bash
+shopify theme dev
+```
+
+这将启动本地开发服务器，并将主题连接到您的 Shopify 开发商店。
+
+### 通过 GitHub 连接到 Shopify
+
+1. **推送代码到 GitHub**
+
+```bash
+git remote add origin <your-github-repo>
+git push -u origin main
+```
+
+2. **在 Shopify 管理后台连接 GitHub**
+
+- 进入 **在线商店 > 主题**
+- 点击 **添加主题 > 连接到 GitHub**
+- 选择您的仓库和分支
+- Shopify 将自动同步主题文件
+
+3. **GitHub Actions 自动构建**
+
+每次推送到 main 或 develop 分支时，GitHub Actions 将自动：
+- 安装依赖
+- 构建 CSS 和 JavaScript
+- 运行主题检查
+- 提交构建的资源文件
+
+## 开发
+
+### 可用脚本
+
+- `npm run build` - 构建生产资源
+- `npm run dev` - 监视模式构建（开发时使用）
+- `npm run lint` - 运行 Shopify 主题检查
+
+### 项目结构
+
+```
+minimal-shopify-theme/
+├── assets/              # 编译的 CSS、JS 和静态资源
+├── config/              # 主题配置和设置
+├── layout/              # 布局模板
+├── locales/             # 翻译文件
+├── sections/            # 可重用的主题部分
+├── snippets/            # 可重用的代码片段
+├── templates/           # 页面模板
+├── src/
+│   ├── css/            # Tailwind CSS 源文件
+│   └── js/             # JavaScript 模块
+├── .github/
+│   └── workflows/      # GitHub Actions 工作流
+├── package.json
+├── vite.config.js
+└── tailwind.config.js
+```
+
+## 定制
+
+### 修改颜色和样式
+
+1. 编辑 `tailwind.config.js` 来自定义主题颜色
+2. 在 Shopify 管理后台的主题设置中修改颜色
+3. 编辑 `src/css/tailwind.css` 来添加自定义样式
+
+### 添加 JavaScript 功能
+
+优先使用原生 JavaScript Web Components：
+
+```javascript
+// src/js/modules/my-component.js
+class MyComponent extends HTMLElement {
+  connectedCallback() {
+    this.render();
+    this.attachEventListeners();
+  }
+  
+  render() {
+    // 渲染逻辑
+  }
+  
+  attachEventListeners() {
+    // 事件监听
+  }
+}
+
+customElements.define('my-component', MyComponent);
+```
+
+### 添加新模板或部分
+
+1. 在相应目录创建新的 `.liquid` 文件
+2. 在主题编辑器中使用您的新部分
+3. 运行 `npm run build` 重新构建资源
+
+## 部署
+
+### 方法 1: GitHub 集成（推荐）
+
+推送到 GitHub，Shopify 将自动同步更改：
+
+```bash
+git add .
+git commit -m "Update theme"
+git push
+```
+
+### 方法 2: Shopify CLI
+
+```bash
+shopify theme push
+```
+
+## 架构说明
+
+### Shopify Theme 1.0
+
+本主题使用经典的 Theme 1.0 架构：
+- 模板文件位于 `/templates/` 目录（如 `templates/index.liquid`）
+- 支持所有标准 Shopify 模板类型
+
+### 构建流程
+
+1. **源文件** → Tailwind CSS (`src/css/`) 和 JavaScript (`src/js/`)
+2. **Vite 构建** → 编译、压缩、优化
+3. **输出** → `assets/theme.css` 和 `assets/main.js`
+4. **Shopify** → 通过 `{{ 'theme.css' | asset_url | stylesheet_tag }}` 引用
+
+### JavaScript 模块
+
+主题使用模块化的 JavaScript 架构：
+- `src/js/main.js` - 主入口文件
+- `src/js/modules/cart.js` - 购物车功能
+- `src/js/modules/product.js` - 产品表单和变体选择（包含 Web Component 示例）
+- `src/js/modules/navigation.js` - 导航和移动菜单
+
+### Web Components 优先
+
+本主题优先使用原生 JavaScript Web Components 来创建可重用组件：
+- 零框架开销
+- 原生浏览器支持
+- 完全封装
+- 易于维护
+
+## 性能
+
+- **CSS**: ~13KB (gzipped: ~3.4KB)
+- **JavaScript**: ~5KB (gzipped: ~1.8KB)
+- **Tailwind CSS** 使用 JIT 模式和积极的 purge 配置
+- 所有图片使用响应式加载和 lazy loading
+- 关键 CSS 内联在 `<head>` 中
+
+## 浏览器支持
+
+- Chrome (最新)
+- Firefox (最新)
+- Safari (最新)
+- Edge (最新)
+- 移动浏览器 (iOS Safari, Chrome Mobile)
+
+## 贡献
+
+欢迎提交 Pull Requests！对于重大更改，请先开 issue 讨论您想要更改的内容。
+
+## 许可证
+
+MIT
+
+## 支持
+
+如有问题或需要帮助，请在 GitHub 上开 issue。
+

@@ -1,0 +1,249 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Vite Build Configuration Contract",
+  "description": "Defines the expected Vite configuration for Shopify theme build process",
+  "type": "object",
+  "properties": {
+    "vite_config": {
+      "type": "object",
+      "description": "Vite configuration structure for theme building",
+      "properties": {
+        "build": {
+          "type": "object",
+          "required": ["outDir", "emptyOutDir", "rollupOptions"],
+          "properties": {
+            "outDir": {
+              "type": "string",
+              "const": "assets",
+              "description": "Must output to 'assets' directory for Shopify"
+            },
+            "emptyOutDir": {
+              "type": "boolean",
+              "const": false,
+              "description": "Must be false to preserve existing assets"
+            },
+            "rollupOptions": {
+              "type": "object",
+              "required": ["input", "output"],
+              "properties": {
+                "input": {
+                  "type": "object",
+                  "description": "Entry points for build",
+                  "properties": {
+                    "theme": {
+                      "type": "string",
+                      "const": "src/css/tailwind.css"
+                    },
+                    "main": {
+                      "type": "string",
+                      "const": "src/js/main.js"
+                    }
+                  }
+                },
+                "output": {
+                  "type": "object",
+                  "properties": {
+                    "entryFileNames": {
+                      "type": "string",
+                      "const": "[name].js",
+                      "description": "Fixed naming for Shopify asset_url filter"
+                    },
+                    "assetFileNames": {
+                      "type": "string",
+                      "const": "[name].[ext]",
+                      "description": "Fixed naming for Shopify asset_url filter"
+                    }
+                  }
+                }
+              }
+            },
+            "minify": {
+              "type": "string",
+              "enum": ["terser", "esbuild"],
+              "default": "esbuild"
+            },
+            "cssMinify": {
+              "type": "boolean",
+              "default": true
+            },
+            "sourcemap": {
+              "type": "boolean",
+              "default": false,
+              "description": "Set to false for production to reduce size"
+            }
+          }
+        }
+      }
+    },
+    "tailwind_config": {
+      "type": "object",
+      "description": "Tailwind CSS configuration requirements",
+      "properties": {
+        "content": {
+          "type": "array",
+          "description": "Files to scan for class usage",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 4,
+          "examples": [
+            [
+              "./layout/**/*.liquid",
+              "./sections/**/*.liquid",
+              "./snippets/**/*.liquid",
+              "./templates/**/*.liquid"
+            ]
+          ]
+        },
+        "theme": {
+          "type": "object",
+          "description": "Custom theme configuration",
+          "properties": {
+            "extend": {
+              "type": "object",
+              "description": "Extended theme values"
+            }
+          }
+        }
+      }
+    },
+    "package_json": {
+      "type": "object",
+      "description": "Required npm scripts and dependencies",
+      "properties": {
+        "scripts": {
+          "type": "object",
+          "required": ["build", "dev"],
+          "properties": {
+            "build": {
+              "type": "string",
+              "const": "vite build",
+              "description": "Production build command"
+            },
+            "dev": {
+              "type": "string",
+              "const": "vite build --watch",
+              "description": "Development watch mode"
+            },
+            "lint": {
+              "type": "string",
+              "description": "Theme validation command"
+            }
+          }
+        },
+        "dependencies": {
+          "type": "object",
+          "description": "Runtime dependencies (should be empty for themes)"
+        },
+        "devDependencies": {
+          "type": "object",
+          "required": ["vite", "tailwindcss", "autoprefixer"],
+          "properties": {
+            "vite": {
+              "type": "string",
+              "pattern": "^\\^5\\.",
+              "description": "Vite 5.x"
+            },
+            "tailwindcss": {
+              "type": "string",
+              "pattern": "^\\^3\\.",
+              "description": "Tailwind CSS 3.x"
+            },
+            "autoprefixer": {
+              "type": "string",
+              "description": "PostCSS autoprefixer"
+            },
+            "@shopify/theme-check": {
+              "type": "string",
+              "description": "Shopify theme validation"
+            }
+          }
+        }
+      }
+    },
+    "github_actions": {
+      "type": "object",
+      "description": "GitHub Actions workflow structure",
+      "properties": {
+        "workflow_file": {
+          "type": "string",
+          "const": ".github/workflows/build-deploy.yml"
+        },
+        "triggers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["push", "pull_request"]
+          }
+        },
+        "node_version": {
+          "type": "string",
+          "pattern": "^1[68]$",
+          "description": "Node.js 16 or 18"
+        },
+        "steps": {
+          "type": "array",
+          "description": "Required build steps",
+          "items": {
+            "type": "string",
+            "enum": [
+              "checkout",
+              "setup-node",
+              "install-dependencies",
+              "build-assets",
+              "run-theme-check",
+              "commit-assets"
+            ]
+          }
+        }
+      }
+    },
+    "performance_budgets": {
+      "type": "object",
+      "description": "File size constraints",
+      "properties": {
+        "css_max_size_kb": {
+          "type": "integer",
+          "maximum": 100,
+          "default": 20,
+          "description": "Maximum CSS file size (KB)"
+        },
+        "js_max_size_kb": {
+          "type": "integer",
+          "maximum": 50,
+          "default": 15,
+          "description": "Maximum JS file size (KB)"
+        },
+        "total_assets_mb": {
+          "type": "integer",
+          "maximum": 5,
+          "description": "Maximum total theme size (MB)"
+        }
+      }
+    }
+  },
+  "example": {
+    "vite_config": {
+      "build": {
+        "outDir": "assets",
+        "emptyOutDir": false,
+        "rollupOptions": {
+          "input": {
+            "theme": "src/css/tailwind.css",
+            "main": "src/js/main.js"
+          },
+          "output": {
+            "entryFileNames": "[name].js",
+            "assetFileNames": "[name].[ext]"
+          }
+        }
+      }
+    },
+    "performance_budgets": {
+      "css_max_size_kb": 20,
+      "js_max_size_kb": 15,
+      "total_assets_mb": 5
+    }
+  }
+}
+

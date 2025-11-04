@@ -1,0 +1,111 @@
+{% comment %}
+  首页英雄横幅部分
+{% endcomment %}
+
+<section class="hero-section" data-section-id="{{ section.id }}" data-section-type="hero">
+  <div class="hero-content relative bg-gray-200 overflow-hidden">
+    {% if section.settings.image %}
+      <div class="hero-image absolute inset-0">
+        <img 
+          src="{{ section.settings.image | image_url: width: 1920 }}" 
+          alt="{{ section.settings.heading }}"
+          class="w-full h-full object-cover"
+          loading="lazy"
+        >
+      </div>
+    {% endif %}
+    
+    <div class="hero-text relative z-10 container-custom py-24 md:py-32 text-center">
+      {% if section.settings.heading != blank %}
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 {{ section.settings.text_color }}">
+          {{ section.settings.heading }}
+        </h1>
+      {% endif %}
+      
+      {% if section.settings.subheading != blank %}
+        <p class="text-lg md:text-xl mb-8 {{ section.settings.text_color }} max-w-2xl mx-auto">
+          {{ section.settings.subheading }}
+        </p>
+      {% endif %}
+      
+      {% if section.settings.button_label != blank %}
+        <a href="{{ section.settings.button_link }}" class="btn btn-primary inline-block">
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
+    </div>
+    
+    {% if section.settings.image %}
+      <div class="absolute inset-0 bg-black opacity-{{ section.settings.overlay_opacity }}"></div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "英雄横幅",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "背景图片"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 10,
+      "unit": "%",
+      "label": "图片覆盖层不透明度",
+      "default": 30
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "标题",
+      "default": "欢迎来到我们的商店"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "副标题",
+      "default": "发现我们最新的产品系列"
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "文本颜色",
+      "options": [
+        {
+          "value": "text-white",
+          "label": "白色"
+        },
+        {
+          "value": "text-black",
+          "label": "黑色"
+        }
+      ],
+      "default": "text-white"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "按钮文本",
+      "default": "立即购物"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "按钮链接",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "英雄横幅"
+    }
+  ]
+}
+{% endschema %}
+

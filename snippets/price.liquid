@@ -1,0 +1,30 @@
+{% comment %}
+  价格格式化组件
+  
+  用法:
+    {% render 'price', product: product %}
+{% endcomment %}
+
+<div class="price-wrapper">
+  {% if product.compare_at_price > product.price %}
+    <div class="price-on-sale flex items-center gap-2">
+      <span class="price-item price-sale font-bold text-red-600">
+        {{ product.price | money }}
+      </span>
+      <span class="price-item price-compare text-gray-500 line-through text-sm">
+        {{ product.compare_at_price | money }}
+      </span>
+    </div>
+  {% else %}
+    <span class="price-item font-bold">
+      {{ product.price | money }}
+    </span>
+  {% endif %}
+  
+  {% if product.price_varies %}
+    <span class="price-varies text-sm text-gray-600">
+      {{ 'products.product.from' | t | default: '起' }}
+    </span>
+  {% endif %}
+</div>
+
