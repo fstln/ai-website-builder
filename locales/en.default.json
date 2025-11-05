@@ -9,11 +9,23 @@
     },
     "404": {
       "title": "Page not found",
-      "subtext": "The page you requested does not exist."
+      "subtext": "The page you requested does not exist.",
+      "link": "Back to Home"
     },
+    "breadcrumbs": {
+      "home": "Home"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "continue_shopping": "Continue Shopping",
     "search": {
       "title": "Search",
-      "placeholder": "Search our store"
+      "placeholder": "Search our store",
+      "submit": "Search",
+      "results": "result",
+      "no_results": "No matching results found"
     },
     "cart": {
       "title": "Cart",
@@ -21,7 +33,8 @@
       "subtotal": "Subtotal",
       "checkout": "Checkout",
       "update": "Update",
-      "remove": "Remove"
+      "remove": "Remove",
+      "quantity": "Quantity"
     },
     "newsletter": {
       "label": "Email",
@@ -35,12 +48,28 @@
       "quantity": "Quantity",
       "price": "Price",
       "sold_out": "Sold Out",
-      "unavailable": "Unavailable"
+      "unavailable": "Unavailable",
+      "from": "from"
     }
   },
   "collections": {
     "general": {
       "no_matches": "No products match your search."
+    }
+  },
+  "blogs": {
+    "article": {
+      "tags": "Tags",
+      "comments": "Comments",
+      "comment_form_title": "Post a Comment",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "post": "Post Comment",
+      "read_more": "Read More"
+    },
+    "general": {
+      "no_articles": "No articles found"
     }
   }
 }
