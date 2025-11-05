@@ -89,6 +89,83 @@
       --shadow-lg: {{ settings.shadow_lg | default: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)' }};
       --shadow-xl: {{ settings.shadow_xl | default: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }};
       --shadow-2xl: {{ settings.shadow_2xl | default: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }};
+      
+      /* Brand Personality Tokens */
+      {% assign brand_density = settings.brand_density | default: 'normal' %}
+      {% assign brand_scale = settings.brand_scale | default: 'medium' %}
+      {% assign brand_boldness = settings.brand_boldness | default: 50 %}
+      
+      {% comment %} Calculate density multiplier {% endcomment %}
+      {% if brand_density == 'compact' %}
+        {% assign density_multiplier = 0.75 %}
+      {% elsif brand_density == 'spacious' %}
+        {% assign density_multiplier = 1.25 %}
+      {% else %}
+        {% assign density_multiplier = 1.0 %}
+      {% endif %}
+      
+      {% comment %} Calculate scale multiplier {% endcomment %}
+      {% if brand_scale == 'small' %}
+        {% assign scale_multiplier = 0.85 %}
+      {% elsif brand_scale == 'large' %}
+        {% assign scale_multiplier = 1.15 %}
+      {% else %}
+        {% assign scale_multiplier = 1.0 %}
+      {% endif %}
+      
+      --brand-density: {{ brand_density }};
+      --brand-scale: {{ brand_scale }};
+      --brand-boldness: {{ brand_boldness }};
+      --density-multiplier: {{ density_multiplier }};
+      --scale-multiplier: {{ scale_multiplier }};
+      
+      /* Component Size Tokens */
+      {% assign button_padding_x_base = settings.button_padding_x | default: 24 %}
+      {% assign button_padding_y_base = settings.button_padding_y | default: 12 %}
+      {% assign button_min_height_base = settings.button_min_height | default: 44 %}
+      {% assign button_font_size_base = settings.button_font_size | default: 16 %}
+      
+      --button-padding-x: calc({{ button_padding_x_base }}px * var(--scale-multiplier));
+      --button-padding-y: calc({{ button_padding_y_base }}px * var(--scale-multiplier));
+      --button-min-height: calc({{ button_min_height_base }}px * var(--scale-multiplier));
+      --button-font-size: {{ button_font_size_base }}px;
+      
+      {% assign card_padding_base = settings.card_padding | default: 24 %}
+      {% assign card_gap_base = settings.card_gap | default: 16 %}
+      
+      --card-padding: calc({{ card_padding_base }}px * var(--density-multiplier));
+      --card-gap: calc({{ card_gap_base }}px * var(--density-multiplier));
+      
+      {% assign input_padding_x_base = settings.input_padding_x | default: 16 %}
+      {% assign input_padding_y_base = settings.input_padding_y | default: 12 %}
+      {% assign input_min_height_base = settings.input_min_height | default: 44 %}
+      
+      --input-padding-x: calc({{ input_padding_x_base }}px * var(--scale-multiplier));
+      --input-padding-y: calc({{ input_padding_y_base }}px * var(--scale-multiplier));
+      --input-min-height: calc({{ input_min_height_base }}px * var(--scale-multiplier));
+      
+      {% assign nav_item_padding_base = settings.nav_item_padding | default: 12 %}
+      {% assign nav_item_spacing_base = settings.nav_item_spacing | default: 16 %}
+      
+      --nav-item-padding: calc({{ nav_item_padding_base }}px * var(--density-multiplier));
+      --nav-item-spacing: calc({{ nav_item_spacing_base }}px * var(--density-multiplier));
+      
+      /* Interaction Tokens */
+      --transition-duration: {{ settings.transition_duration | default: 200 }}ms;
+      --hover-opacity: {{ settings.hover_opacity | default: 0.9 }};
+      --hover-scale: {{ settings.hover_scale | default: 1.0 }};
+      --active-opacity: {{ settings.active_opacity | default: 0.8 }};
+      
+      /* Layout Tokens */
+      {% assign section_spacing_base = settings.section_spacing | default: 64 %}
+      {% assign content_padding_base = settings.content_padding | default: 24 %}
+      {% assign grid_gap_base = settings.grid_gap | default: 24 %}
+      {% assign container_max_width_base = settings.container_max_width | default: 1280 %}
+      
+      --section-spacing: calc({{ section_spacing_base }}px * var(--density-multiplier));
+      --content-padding: calc({{ content_padding_base }}px * var(--density-multiplier));
+      --grid-gap: calc({{ grid_gap_base }}px * var(--density-multiplier));
+      --container-max-width: {{ container_max_width_base }}px;
     }
   </style>
 </head>

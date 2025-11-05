@@ -393,6 +393,299 @@
     ]
   },
   {
+    "name": "Component Sizes",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Buttons"
+      },
+      {
+        "type": "range",
+        "id": "button_padding_x",
+        "label": "Button Horizontal Padding",
+        "min": 12,
+        "max": 48,
+        "step": 2,
+        "unit": "px",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "button_padding_y",
+        "label": "Button Vertical Padding",
+        "min": 8,
+        "max": 24,
+        "step": 2,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "button_min_height",
+        "label": "Button Minimum Height",
+        "min": 32,
+        "max": 64,
+        "step": 2,
+        "unit": "px",
+        "default": 44
+      },
+      {
+        "type": "range",
+        "id": "button_font_size",
+        "label": "Button Font Size",
+        "min": 12,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "header",
+        "content": "Cards"
+      },
+      {
+        "type": "range",
+        "id": "card_padding",
+        "label": "Card Padding",
+        "min": 12,
+        "max": 48,
+        "step": 4,
+        "unit": "px",
+        "default": 24
+      },
+      {
+        "type": "range",
+        "id": "card_gap",
+        "label": "Card Gap",
+        "min": 8,
+        "max": 32,
+        "step": 4,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "header",
+        "content": "Input Fields"
+      },
+      {
+        "type": "range",
+        "id": "input_padding_x",
+        "label": "Input Horizontal Padding",
+        "min": 12,
+        "max": 24,
+        "step": 2,
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "input_padding_y",
+        "label": "Input Vertical Padding",
+        "min": 8,
+        "max": 20,
+        "step": 2,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "input_min_height",
+        "label": "Input Minimum Height",
+        "min": 32,
+        "max": 56,
+        "step": 2,
+        "unit": "px",
+        "default": 44
+      },
+      {
+        "type": "header",
+        "content": "Navigation"
+      },
+      {
+        "type": "range",
+        "id": "nav_item_padding",
+        "label": "Navigation Item Padding",
+        "min": 8,
+        "max": 24,
+        "step": 2,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "nav_item_spacing",
+        "label": "Navigation Item Spacing",
+        "min": 8,
+        "max": 32,
+        "step": 4,
+        "unit": "px",
+        "default": 16
+      }
+    ]
+  },
+  {
+    "name": "Brand Personality",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Style Characteristics"
+      },
+      {
+        "type": "select",
+        "id": "brand_density",
+        "label": "Layout Density",
+        "options": [
+          { "value": "compact", "label": "Compact" },
+          { "value": "normal", "label": "Normal" },
+          { "value": "spacious", "label": "Spacious" }
+        ],
+        "default": "normal",
+        "info": "Affects spacing, padding, and gaps throughout the site"
+      },
+      {
+        "type": "select",
+        "id": "brand_scale",
+        "label": "Component Scale",
+        "options": [
+          { "value": "small", "label": "Small" },
+          { "value": "medium", "label": "Medium" },
+          { "value": "large", "label": "Large" }
+        ],
+        "default": "medium",
+        "info": "Affects the size of buttons, cards, and other components"
+      },
+      {
+        "type": "range",
+        "id": "brand_boldness",
+        "label": "Visual Boldness",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "default": 50,
+        "info": "Affects shadows, borders, and font weights (0 = subtle, 100 = bold)"
+      }
+    ]
+  },
+  {
+    "name": "Interactions",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Animation & Transitions"
+      },
+      {
+        "type": "range",
+        "id": "transition_duration",
+        "label": "Transition Duration",
+        "min": 100,
+        "max": 500,
+        "step": 50,
+        "unit": "ms",
+        "default": 200,
+        "info": "Duration for all CSS transitions"
+      },
+      {
+        "type": "header",
+        "content": "Hover Effects"
+      },
+      {
+        "type": "range",
+        "id": "hover_opacity",
+        "label": "Hover Opacity",
+        "min": 0.5,
+        "max": 1.0,
+        "step": 0.05,
+        "unit": "",
+        "default": 0.9,
+        "info": "Opacity when hovering over interactive elements (0-1)"
+      },
+      {
+        "type": "range",
+        "id": "hover_scale",
+        "label": "Hover Scale",
+        "min": 1.0,
+        "max": 1.2,
+        "step": 0.02,
+        "unit": "",
+        "default": 1.0,
+        "info": "Scale transform on hover (1.0 = no scale, 1.2 = 20% larger)"
+      },
+      {
+        "type": "header",
+        "content": "Active States"
+      },
+      {
+        "type": "range",
+        "id": "active_opacity",
+        "label": "Active Opacity",
+        "min": 0.5,
+        "max": 1.0,
+        "step": 0.05,
+        "unit": "",
+        "default": 0.8,
+        "info": "Opacity when clicking/activating elements (0-1)"
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Page Spacing"
+      },
+      {
+        "type": "range",
+        "id": "section_spacing",
+        "label": "Section Spacing",
+        "min": 32,
+        "max": 128,
+        "step": 8,
+        "unit": "px",
+        "default": 64,
+        "info": "Vertical spacing between page sections"
+      },
+      {
+        "type": "range",
+        "id": "content_padding",
+        "label": "Content Padding",
+        "min": 16,
+        "max": 64,
+        "step": 4,
+        "unit": "px",
+        "default": 24,
+        "info": "Horizontal padding for content areas"
+      },
+      {
+        "type": "header",
+        "content": "Grid & Layout"
+      },
+      {
+        "type": "range",
+        "id": "grid_gap",
+        "label": "Grid Gap",
+        "min": 8,
+        "max": 48,
+        "step": 4,
+        "unit": "px",
+        "default": 24,
+        "info": "Gap between grid items"
+      },
+      {
+        "type": "range",
+        "id": "container_max_width",
+        "label": "Container Max Width",
+        "min": 1024,
+        "max": 1920,
+        "step": 64,
+        "unit": "px",
+        "default": 1280,
+        "info": "Maximum width of container elements"
+      }
+    ]
+  },
+  {
     "name": "Logo",
     "settings": [
       {
