@@ -1,12 +1,4 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
+
 {
   "current": {
     "color_primary": "#5BC0DE",
@@ -14,8 +6,8 @@
     "color_accent": "#FF6B6B",
     "color_background": "#FFFFFF",
     "color_text": "#1A202C",
-    "color_text_secondary": "#6B7280",
-    "color_border": "#E5E7EB",
+    "color_text_secondary": "#4A5568",
+    "color_border": "#E2E8F0",
     "color_error": "#EF4444",
     "color_success": "#10B981",
     "color_warning": "#F59E0B",
@@ -32,17 +24,17 @@
     "line_height_normal": "1.6",
     "line_height_relaxed": "1.75",
     "spacing_base": 4,
-    "border_radius_sm": 6,
-    "border_radius_md": 12,
-    "border_radius_lg": 16,
-    "border_radius_xl": 24,
+    "border_radius_sm": 8,
+    "border_radius_md": 16,
+    "border_radius_lg": 20,
+    "border_radius_xl": 28,
     "border_radius_full": 9999,
     "border_width": 1,
     "shadow_sm": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-    "shadow_md": "0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
-    "shadow_lg": "0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04)",
-    "shadow_xl": "0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03)",
-    "shadow_2xl": "0 25px 50px -12px rgba(0, 0, 0, 0.2)",
+    "shadow_md": "0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04)",
+    "shadow_lg": "0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.04)",
+    "shadow_xl": "0 20px 25px -5px rgba(0, 0, 0, 0.07), 0 10px 10px -5px rgba(0, 0, 0, 0.03)",
+    "shadow_2xl": "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
     "button_padding_x": 30,
     "button_padding_y": 14,
     "sections": {
@@ -73,16 +65,16 @@
       "color_accent": "#FF6B6B",
       "color_background": "#FFFFFF",
       "color_text": "#1A202C",
-      "color_text_secondary": "#6B7280",
-      "color_border": "#E5E7EB",
+      "color_text_secondary": "#4A5568",
+      "color_border": "#E2E8F0",
       "font_heading": "nunito_n7",
       "font_body": "lato_n4",
       "line_height_normal": "1.6",
       "spacing_base": 4,
-      "border_radius_md": 12,
-      "border_radius_lg": 16,
-      "border_radius_xl": 24,
-      "shadow_md": "0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04)"
+      "border_radius_md": 16,
+      "border_radius_lg": 20,
+      "border_radius_xl": 28,
+      "shadow_md": "0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04)"
     }
   }
 }
