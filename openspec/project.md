@@ -117,13 +117,13 @@ Minimal Shopify theme template framework for quick project starts. Provides a cl
 ### Git Workflow
 
 #### Branch Strategy
-- `main` - Production-ready code
+- `master` - Production-ready code
 - `develop` - Development branch (triggers CI/CD)
 - Feature branches: `feature/description`
 - Use conventional commit messages
 
 #### CI/CD Pipeline (GitHub Actions)
-- Triggered on push to `main` or `develop`
+- Triggered on push to `master` or `develop`
 - Installs dependencies
 - Builds assets (CSS/JS)
 - Runs theme validation

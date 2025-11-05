@@ -376,6 +376,43 @@ Component Classes (Tailwind utilities)
 
 ## Important Notes for AI Assistants
 
+### 🚨 CRITICAL: Styling Approach
+
+**When creating new pages or components, you MUST:**
+
+1. **Use Tailwind classes + BEM naming** for layout and structure
+2. **Put custom styles in `<style>` tags** for special effects
+3. **Understand the separation**:
+   - `settings_data.json` = Brand style (colors, sizes, fonts)
+   - Tailwind + Custom CSS = Page layout and structure
+   - Both are needed for complete design
+
+**Example: Correct approach**
+```liquid
+<style>
+  .product-hero {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  }
+</style>
+
+<section class="product-hero py-16">
+  <div class="product-hero__container container-custom">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="product-hero__image">
+        <img src="..." class="w-full h-96 object-cover rounded-lg">
+      </div>
+      <div class="product-hero__content">
+        <h1 class="text-3xl font-bold text-text mb-4">Title</h1>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+**After creating, ALWAYS run:** `npm run build`
+
+📖 **See**: `docs/design-tokens-guide.md` (Tailwind CSS Usage Guide section) for detailed guidelines
+
 ### When Making Changes
 
 1. **Always check**: `config/settings_schema.json` for available settings

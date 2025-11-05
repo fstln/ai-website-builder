@@ -68,11 +68,13 @@ git push -u origin main
 
 3. **GitHub Actions 自动构建**
 
-每次推送到 main 或 develop 分支时，GitHub Actions 将自动：
+每次推送到 master 或 develop 分支时，GitHub Actions 将自动：
 - 安装依赖
-- 构建 CSS 和 JavaScript
-- 运行主题检查
-- 提交构建的资源文件
+- 构建 CSS 和 JavaScript（`npm run build`）
+- 运行主题检查（`npm run lint`）
+- 自动提交编译后的 `assets/theme.css` 和 `assets/main.js`
+
+**工作流文件**: `.github/workflows/build.yml`
 
 ## 开发
 

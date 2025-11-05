@@ -459,3 +459,359 @@ When asked to create or modify a visual style for a DTC website:
 
 Remember: The design token system enables style changes without modifying component code. All visual customization happens through configuration files.
 
+---
+
+## Tailwind CSS Usage Guide for AI Assistants
+
+### 核心原则
+
+创建新页面或组件时，必须遵循以下原则：
+
+1. **使用 Tailwind 类名 + BEM 命名**
+2. **自定义样式放在 `<style>` 标签中**
+3. **设计令牌修改在 `settings_data.json`**
+4. **构建是必需的**：使用 Tailwind 类后需要运行 `npm run build`
+
+### 样式层次结构
+
+#### 第一层：设计令牌（Brand Style）
+**文件**: `config/settings_data.json`  
+**用途**: 修改品牌风格（颜色、字体、间距、尺寸等）  
+**无需构建**: 修改后直接生效
+
+```json
+{
+  "current": {
+    "color_primary": "#3B82F6",
+    "button_padding_x": 24,
+    "brand_scale": "medium"
+  }
+}
+```
+
+#### 第二层：页面布局和结构
+**文件**: `sections/*.liquid`, `snippets/*.liquid`  
+**用途**: 定义页面布局、组件结构  
+**需要构建**: 使用 Tailwind 类后需要 `npm run build`
+
+**方式 1: Tailwind 工具类（推荐用于标准布局）**
+```liquid
+<section class="product-hero bg-background py-16">
+  <div class="product-hero__container container-custom">
+    <div class="product-hero__grid grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="product-hero__image">
+        <!-- 图片 -->
+      </div>
+      <div class="product-hero__content">
+        <h1 class="text-3xl font-bold text-text mb-4">{{ product.title }}</h1>
+        <p class="text-text-secondary">{{ product.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+**方式 2: 自定义样式（用于特殊设计）**
+```liquid
+<style>
+  .product-hero {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  }
+  
+  .product-hero__image {
+    position: relative;
+    transform: perspective(1000px) rotateY(-5deg);
+  }
+  
+  .product-hero__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+</style>
+
+<section class="product-hero py-16">
+  <div class="product-hero__container container-custom">
+    <div class="product-hero__grid grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="product-hero__image">
+        <!-- 图片 -->
+      </div>
+      <div class="product-hero__content">
+        <h1 class="text-3xl font-bold text-text mb-4">{{ product.title }}</h1>
+        <p class="text-text-secondary">{{ product.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+### Tailwind + BEM 最佳实践
+
+#### 命名约定
+
+**BEM 用于语义化命名，Tailwind 用于标准样式**
+
+```liquid
+<!-- Block: 组件根元素 -->
+<div class="product-card bg-background rounded-lg shadow-md p-6">
+  
+  <!-- Element: 组件子元素 -->
+  <div class="product-card__image relative overflow-hidden rounded-md mb-4">
+    <img src="..." class="w-full h-64 object-cover">
+  </div>
+  
+  <div class="product-card__content">
+    <h3 class="product-card__title text-xl font-bold text-text mb-2">
+      Product Name
+    </h3>
+    <p class="product-card__price text-primary font-bold">$99.00</p>
+  </div>
+  
+  <!-- Modifier: 组件变体 -->
+  <button class="product-card__button product-card__button--primary btn btn-primary w-full">
+    Add to Cart
+  </button>
+</div>
+```
+
+#### 何时使用 Tailwind vs 自定义样式
+
+**使用 Tailwind 类（优先）**
+- 标准布局：`flex`, `grid`, `container-custom`
+- 间距：`p-4`, `mb-6`, `gap-8`
+- 响应式：`md:grid-cols-2`, `lg:px-8`
+- 使用设计令牌的样式：`bg-primary`, `text-text`, `rounded-md`
+
+**使用自定义样式（`<style>` 标签）**
+- 复杂动画和过渡
+- 渐变背景
+- 特殊视觉效果（3D、变换、滤镜）
+- Grid 复杂布局
+- 伪元素样式（`::before`, `::after`）
+
+#### 完整示例
+
+```liquid
+{% comment %}
+  产品卡片组件
+  使用 Tailwind + BEM + 自定义样式
+{% endcomment %}
+
+<style>
+  .featured-product {
+    background: linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-secondary)
+    );
+  }
+  
+  .featured-product__badge {
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  
+  .featured-product__image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+  }
+</style>
+
+<section class="featured-product py-16">
+  <div class="featured-product__container container-custom">
+    <div class="featured-product__grid grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      
+      <!-- 图片区域 -->
+      <div class="featured-product__image-wrapper relative">
+        <div class="featured-product__badge absolute top-4 left-4 bg-accent text-white px-4 py-2 rounded-full text-sm font-bold z-10">
+          New Arrival
+        </div>
+        <div class="featured-product__image relative overflow-hidden rounded-lg">
+          <img 
+            src="{{ product.featured_image | image_url: width: 800 }}" 
+            alt="{{ product.title }}"
+            class="w-full h-96 object-cover"
+          >
+        </div>
+      </div>
+      
+      <!-- 内容区域 -->
+      <div class="featured-product__content space-y-6">
+        <div class="featured-product__header">
+          <span class="text-accent text-sm font-semibold uppercase tracking-wide">
+            Featured Product
+          </span>
+          <h2 class="featured-product__title text-4xl font-bold text-white mt-2">
+            {{ product.title }}
+          </h2>
+        </div>
+        
+        <p class="featured-product__description text-lg text-white/90 leading-relaxed">
+          {{ product.description | truncate: 200 }}
+        </p>
+        
+        <div class="featured-product__price-wrapper flex items-center gap-4">
+          <span class="featured-product__price text-3xl font-bold text-white">
+            {{ product.price | money }}
+          </span>
+          {% if product.compare_at_price %}
+            <span class="featured-product__compare-price text-xl text-white/60 line-through">
+              {{ product.compare_at_price | money }}
+            </span>
+          {% endif %}
+        </div>
+        
+        <div class="featured-product__actions flex gap-4">
+          <button class="featured-product__cta btn btn-primary flex-1">
+            Add to Cart
+          </button>
+          <button class="featured-product__wishlist bg-white/20 text-white px-6 rounded-md hover:bg-white/30 transition-colors">
+            ♡
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+```
+
+### 常用 Tailwind 类组合
+
+#### 容器和布局
+```liquid
+<div class="container-custom py-16">
+<div class="flex items-center justify-between">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="flex flex-col space-y-4">
+```
+
+#### 使用设计令牌的类
+```liquid
+<!-- 颜色 -->
+<div class="bg-primary text-background">
+<div class="bg-background text-text">
+<div class="text-text hover:text-primary">
+<div class="border border-border">
+
+<!-- 间距 -->
+<div class="p-4 md:p-8">
+<div class="mb-6 mt-12 space-y-4">
+<div class="px-6 py-4">
+
+<!-- 圆角 -->
+<div class="rounded-md">
+<div class="rounded-lg">
+<div class="rounded-full">
+
+<!-- 阴影 -->
+<div class="shadow-md">
+<div class="shadow-lg hover:shadow-xl">
+```
+
+#### 响应式设计
+```liquid
+<div class="text-sm md:text-base lg:text-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+<div class="hidden md:block">
+<div class="flex-col md:flex-row">
+```
+
+### 构建流程
+
+#### 开发时
+```bash
+# 1. 监视模式（自动构建）
+npm run dev
+
+# 2. 创建新页面，使用 Tailwind 类
+# 3. 保存文件，Vite 自动编译
+```
+
+#### 部署前
+```bash
+# 1. 生产构建
+npm run build
+
+# 2. 验证主题
+npm run lint
+
+# 3. 提交代码（GitHub Actions 会自动构建）
+git add .
+git commit -m "feat: add new section"
+git push
+```
+
+#### GitHub Actions 自动构建
+- 推送代码后，GitHub Actions 自动运行 `npm run build`
+- 编译后的 `assets/theme.css` 自动提交
+- Shopify 通过 GitHub 集成自动同步
+
+### 设计令牌 vs 页面样式
+
+#### 设计令牌（`settings_data.json`）
+**用途**: 定义品牌视觉风格  
+**包含**: 颜色、字体、间距、尺寸、圆角、阴影等  
+**修改后**: 无需构建，直接生效  
+
+**示例**:
+```json
+{
+  "color_primary": "#FF0000",      // 改变所有 bg-primary 的颜色
+  "button_padding_x": 32,          // 改变所有按钮的水平内边距
+  "brand_scale": "large",          // 改变整体组件尺寸
+  "border_radius_md": 12           // 改变所有 rounded-md 的圆角
+}
+```
+
+#### 页面样式（`.liquid` 文件）
+**用途**: 定义页面布局、组件结构、特殊样式  
+**包含**: HTML 结构、Tailwind 类、自定义 CSS  
+**修改后**: 需要构建 `npm run build`
+
+**示例**:
+```liquid
+<style>
+  /* 自定义渐变背景 */
+  .hero-gradient {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  }
+</style>
+
+<section class="hero-gradient py-24">
+  <div class="container-custom">
+    <!-- 使用 Tailwind 类定义布局 -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <!-- 内容 -->
+    </div>
+  </div>
+</section>
+```
+
+### 总结：Tailwind CSS 使用规范
+
+✅ **DO（推荐做法）**:
+- 使用 Tailwind 类 + BEM 命名
+- 自定义样式放 `<style>` 标签
+- 优先使用设计令牌类（`bg-primary`, `text-text`）
+- 复杂样式使用自定义 CSS
+- 修改品牌风格用 `settings_data.json`
+- 新增页面/组件后运行 `npm run build`
+
+❌ **DON'T（避免做法）**:
+- 不要只使用内联样式 `style="..."`
+- 不要硬编码颜色 `bg-red-500`（应用 `bg-primary`）
+- 不要认为使用 Tailwind 类是"多余的"
+- 不要期望只改 `settings_data.json` 就能改变页面布局
+
+🎯 **关键理解**:
+- `settings_data.json` = 品牌风格（颜色、尺寸）
+- Tailwind 类 + 自定义样式 = 页面布局和结构
+- 两者结合 = 完整的视觉设计
+

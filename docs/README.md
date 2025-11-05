@@ -19,19 +19,27 @@ This directory contains documentation to help AI assistants understand and work 
 - Development guidelines
 - Quick file lookup table
 
-### 2. [Design Tokens Guide](./design-tokens-guide.md)
-**Purpose**: How to modify design tokens for custom visual styles  
+### 2. [Design Tokens Guide](./design-tokens-guide.md) 🎨 **MUST READ**
+**Purpose**: How to modify design tokens for custom visual styles and use Tailwind CSS correctly  
 **Use when**:
 - Creating custom visual styles for DTC websites
 - Modifying theme colors, fonts, spacing
 - Understanding design token system
 - Creating theme presets
+- Creating new pages or components
+- Understanding styling approach (Tailwind + BEM + custom styles)
+- Combining Tailwind with custom CSS
+- Deciding when to use design tokens vs custom styles
 
 **Key Sections**:
-- Design token categories
+- Design token categories (colors, typography, spacing, borders, shadows, component sizes, brand personality, interactions, layout)
 - Step-by-step customization guide
 - Brand pattern examples
 - Token naming conventions
+- Tailwind CSS + BEM best practices
+- Custom styles in `<style>` tags
+- Design tokens vs page styles
+- Complete examples with build workflow
 
 ## 🚀 Quick Start for AI Assistants
 
