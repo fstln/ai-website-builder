@@ -9,11 +9,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
     
     steps:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
       
       - name: Check for package-lock.json
         id: check-lockfile
@@ -63,8 +67,6 @@ jobs:
       
       - name: Push changes
         if: github.event_name == 'push'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+        run: |
+          git push origin HEAD:${{ github.ref_name }}
 
