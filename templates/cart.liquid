@@ -22,7 +22,7 @@
               </h3>
               
               {% unless item.variant.title contains 'Default' %}
-                <p class="text-sm text-gray-600">{{ item.variant.title }}</p>
+                <p class="text-sm text-text-secondary">{{ item.variant.title }}</p>
               {% endunless %}
               
               <div class="flex items-center gap-4 mt-2">
@@ -43,7 +43,7 @@
               </div>
             </div>
             
-            <button type="button" class="text-gray-400 hover:text-red-600" data-cart-remove="{{ item.key }}">
+            <button type="button" class="text-text-secondary hover:text-error" data-cart-remove="{{ item.key }}">
               {{ 'general.cart.remove' | t }}
             </button>
           </div>
@@ -68,7 +68,7 @@
     </form>
   {% else %}
     <div class="text-center py-12">
-      <p class="text-gray-600 mb-4">{{ 'general.cart.empty' | t }}</p>
+      <p class="text-text-secondary mb-4">{{ 'general.cart.empty' | t }}</p>
       <a href="/collections/all" class="btn btn-primary">{{ 'general.continue_shopping' | t | default: 'Continue Shopping' }}</a>
     </div>
   {% endif %}

@@ -2,7 +2,7 @@
   Header Section - Navigation, Brand, Cart Icon
 {% endcomment %}
 
-<header class="site-header bg-white border-b sticky top-0 z-50" data-section-id="{{ section.id }}" data-section-type="header">
+<header class="site-header bg-background border-b sticky top-0 z-50" data-section-id="{{ section.id }}" data-section-type="header">
   <div class="container-custom">
     <div class="flex items-center justify-between py-4">
       <!-- Logo -->
@@ -21,7 +21,7 @@
         <ul class="flex space-x-6">
           {% for link in linklists.main-menu.links %}
             <li>
-              <a href="{{ link.url }}" class="text-gray-700 hover:text-black font-medium">
+              <a href="{{ link.url }}" class="text-text hover:text-primary font-medium">
                 {{ link.title }}
               </a>
             </li>
@@ -32,20 +32,20 @@
       <!-- Actions -->
       <div class="header-actions flex items-center space-x-4">
         <!-- Search Icon -->
-        <a href="/search" class="text-gray-700 hover:text-black">
+        <a href="/search" class="text-text hover:text-primary">
           {% render 'icon', name: 'search' %}
         </a>
         
         <!-- Cart -->
-        <a href="/cart" class="text-gray-700 hover:text-black relative" data-cart-icon>
+        <a href="/cart" class="text-text hover:text-primary relative" data-cart-icon>
           {% render 'icon', name: 'cart' %}
-          <span class="cart-count absolute -top-2 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center" data-cart-count>
+          <span class="cart-count absolute -top-2 -right-2 bg-primary text-background text-xs rounded-full w-5 h-5 flex items-center justify-center" data-cart-count>
             {{ cart.item_count }}
           </span>
         </a>
         
         <!-- Mobile Menu Toggle -->
-        <button class="md:hidden text-gray-700 hover:text-black" data-mobile-menu-toggle>
+        <button class="md:hidden text-text hover:text-primary" data-mobile-menu-toggle>
           {% render 'icon', name: 'menu' %}
         </button>
       </div>

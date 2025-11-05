@@ -27,6 +27,70 @@
   {{ 'theme.css' | asset_url | stylesheet_tag }}
   
   <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+  
+  {% comment %} Dynamic Design Token Injection {% endcomment %}
+  <style>
+    :root {
+      /* Color Tokens */
+      --color-primary: {{ settings.color_primary | default: '#000000' }};
+      --color-secondary: {{ settings.color_secondary | default: '#666666' }};
+      --color-accent: {{ settings.color_accent | default: '#3B82F6' }};
+      --color-background: {{ settings.color_background | default: '#FFFFFF' }};
+      --color-text: {{ settings.color_text | default: '#111827' }};
+      --color-text-secondary: {{ settings.color_text_secondary | default: '#6B7280' }};
+      --color-border: {{ settings.color_border | default: '#E5E7EB' }};
+      --color-error: {{ settings.color_error | default: '#EF4444' }};
+      --color-success: {{ settings.color_success | default: '#10B981' }};
+      --color-warning: {{ settings.color_warning | default: '#F59E0B' }};
+      
+      /* Typography Tokens */
+      {% if settings.font_heading %}
+        --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+      {% endif %}
+      {% if settings.font_body %}
+        --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+      {% endif %}
+      --text-size-xs: {{ settings.text_size_xs | default: 12 }}px;
+      --text-size-sm: {{ settings.text_size_sm | default: 14 }}px;
+      --text-size-base: {{ settings.text_size_base | default: 16 }}px;
+      --text-size-lg: {{ settings.text_size_lg | default: 18 }}px;
+      --text-size-xl: {{ settings.text_size_xl | default: 20 }}px;
+      --font-weight-normal: {{ settings.font_weight_normal | default: '400' }};
+      --font-weight-bold: {{ settings.font_weight_bold | default: '700' }};
+      --line-height-tight: {{ settings.line_height_tight | default: '1.25' }};
+      --line-height-normal: {{ settings.line_height_normal | default: '1.5' }};
+      --line-height-relaxed: {{ settings.line_height_relaxed | default: '1.75' }};
+      
+      /* Spacing Tokens */
+      --spacing-base: {{ settings.spacing_base | default: 4 }}px;
+      --spacing-0: 0;
+      --spacing-1: calc(var(--spacing-base) * 0.5);
+      --spacing-2: calc(var(--spacing-base) * 1);
+      --spacing-3: calc(var(--spacing-base) * 1.5);
+      --spacing-4: calc(var(--spacing-base) * 2);
+      --spacing-6: calc(var(--spacing-base) * 3);
+      --spacing-8: calc(var(--spacing-base) * 4);
+      --spacing-12: calc(var(--spacing-base) * 6);
+      --spacing-16: calc(var(--spacing-base) * 8);
+      
+      /* Border Tokens */
+      --radius-none: {{ settings.border_radius_none | default: '0' }}px;
+      --radius-sm: {{ settings.border_radius_sm | default: 4 }}px;
+      --radius-md: {{ settings.border_radius_md | default: 6 }}px;
+      --radius-lg: {{ settings.border_radius_lg | default: 8 }}px;
+      --radius-xl: {{ settings.border_radius_xl | default: 12 }}px;
+      --radius-full: {{ settings.border_radius_full | default: 9999 }}px;
+      --border-width: {{ settings.border_width | default: 1 }}px;
+      
+      /* Shadow Tokens */
+      --shadow-none: {{ settings.shadow_none | default: 'none' }};
+      --shadow-sm: {{ settings.shadow_sm | default: '0 1px 2px 0 rgba(0, 0, 0, 0.05)' }};
+      --shadow-md: {{ settings.shadow_md | default: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }};
+      --shadow-lg: {{ settings.shadow_lg | default: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)' }};
+      --shadow-xl: {{ settings.shadow_xl | default: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }};
+      --shadow-2xl: {{ settings.shadow_2xl | default: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }};
+    }
+  </style>
 </head>
 
 <body class="template-{{ template.name }}">

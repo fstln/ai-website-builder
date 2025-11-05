@@ -2,13 +2,13 @@
   Footer Section - Links, Social Media, Copyright
 {% endcomment %}
 
-<footer class="site-footer bg-gray-100 border-t mt-16" data-section-id="{{ section.id }}" data-section-type="footer">
+<footer class="site-footer bg-border border-t mt-16" data-section-id="{{ section.id }}" data-section-type="footer">
   <div class="container-custom py-12">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
       <!-- About -->
       <div class="footer-column">
         <h3 class="font-bold mb-4">{{ section.settings.column_1_title }}</h3>
-        <div class="text-sm text-gray-600">
+        <div class="text-sm text-text-secondary">
           {{ section.settings.column_1_content }}
         </div>
       </div>
@@ -19,7 +19,7 @@
         <ul class="space-y-2 text-sm">
           {% for link in linklists[section.settings.footer_menu].links %}
             <li>
-              <a href="{{ link.url }}" class="text-gray-600 hover:text-black">
+              <a href="{{ link.url }}" class="text-text-secondary hover:text-primary">
                 {{ link.title }}
               </a>
             </li>
@@ -33,7 +33,7 @@
         <ul class="space-y-2 text-sm">
           {% for link in linklists[section.settings.footer_menu_2].links %}
             <li>
-              <a href="{{ link.url }}" class="text-gray-600 hover:text-black">
+              <a href="{{ link.url }}" class="text-text-secondary hover:text-primary">
                 {{ link.title }}
               </a>
             </li>
@@ -46,17 +46,17 @@
         <h3 class="font-bold mb-4">{{ section.settings.column_4_title }}</h3>
         <div class="flex space-x-4">
           {% if settings.social_facebook_link != blank %}
-            <a href="{{ settings.social_facebook_link }}" class="text-gray-600 hover:text-black" target="_blank" rel="noopener">
+            <a href="{{ settings.social_facebook_link }}" class="text-text-secondary hover:text-primary" target="_blank" rel="noopener">
               {% render 'icon', name: 'facebook' %}
             </a>
           {% endif %}
           {% if settings.social_instagram_link != blank %}
-            <a href="{{ settings.social_instagram_link }}" class="text-gray-600 hover:text-black" target="_blank" rel="noopener">
+            <a href="{{ settings.social_instagram_link }}" class="text-text-secondary hover:text-primary" target="_blank" rel="noopener">
               {% render 'icon', name: 'instagram' %}
             </a>
           {% endif %}
           {% if settings.social_twitter_link != blank %}
-            <a href="{{ settings.social_twitter_link }}" class="text-gray-600 hover:text-black" target="_blank" rel="noopener">
+            <a href="{{ settings.social_twitter_link }}" class="text-text-secondary hover:text-primary" target="_blank" rel="noopener">
               {% render 'icon', name: 'twitter' %}
             </a>
           {% endif %}
@@ -65,7 +65,7 @@
     </div>
     
     <!-- Copyright -->
-    <div class="footer-bottom mt-8 pt-8 border-t text-center text-sm text-gray-600">
+    <div class="footer-bottom mt-8 pt-8 border-t text-center text-sm text-text-secondary">
       <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.copyright_text }}</p>
     </div>
   </div>

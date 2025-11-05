@@ -23,7 +23,7 @@
   {% paginate search.results by 12 %}
     <div class="search-results">
       {% if search.performed %}
-        <p class="text-gray-600 mb-6">
+        <p class="text-text-secondary mb-6">
           Found {{ search.results_count }} {{ 'general.search.results' | t | default: 'result' }}{{ search.results_count | pluralize: '', 's' }}
         </p>
         
@@ -38,15 +38,15 @@
                     <h3 class="font-bold mb-2">
                       <a href="{{ item.url }}" class="hover:underline">{{ item.title }}</a>
                     </h3>
-                    <p class="text-sm text-gray-600 mb-2">{{ item.published_at | date: format: 'month_day_year' }}</p>
-                    <p class="text-gray-700">{{ item.excerpt | strip_html | truncate: 120 }}</p>
+                    <p class="text-sm text-text-secondary mb-2">{{ item.published_at | date: format: 'month_day_year' }}</p>
+                    <p class="text-text">{{ item.excerpt | strip_html | truncate: 120 }}</p>
                   </article>
                 {% when 'page' %}
                   <div class="border rounded-lg p-4">
                     <h3 class="font-bold mb-2">
                       <a href="{{ item.url }}" class="hover:underline">{{ item.title }}</a>
                     </h3>
-                    <p class="text-gray-700">{{ item.content | strip_html | truncate: 120 }}</p>
+                    <p class="text-text">{{ item.content | strip_html | truncate: 120 }}</p>
                   </div>
               {% endcase %}
             {% endfor %}
@@ -66,7 +66,7 @@
             </div>
           {% endif %}
         {% else %}
-          <p class="text-center py-12 text-gray-600">{{ 'general.search.no_results' | t | default: 'No matching results found' }}</p>
+          <p class="text-center py-12 text-text-secondary">{{ 'general.search.no_results' | t | default: 'No matching results found' }}</p>
         {% endif %}
       {% endif %}
     </div>

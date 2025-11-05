@@ -3,7 +3,7 @@
 {% endcomment %}
 
 <section class="hero-section" data-section-id="{{ section.id }}" data-section-type="hero">
-  <div class="hero-content relative bg-gray-200 overflow-hidden">
+  <div class="hero-content relative bg-border overflow-hidden">
     {% if section.settings.image %}
       <div class="hero-image absolute inset-0">
         <img 
@@ -36,7 +36,7 @@
     </div>
     
     {% if section.settings.image %}
-      <div class="absolute inset-0 bg-black opacity-{{ section.settings.overlay_opacity }}"></div>
+      <div class="absolute inset-0 opacity-{{ section.settings.overlay_opacity }}" style="background-color: var(--color-primary);"></div>
     {% endif %}
   </div>
 </section>

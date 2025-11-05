@@ -7,9 +7,9 @@
 
 {% unless template == 'index' or template == 'cart' %}
   <nav class="breadcrumbs text-sm" aria-label="breadcrumb">
-    <ol class="flex flex-wrap items-center gap-2 text-gray-600">
+    <ol class="flex flex-wrap items-center gap-2 text-text-secondary">
       <li>
-        <a href="/" class="hover:text-black">{{ 'general.breadcrumbs.home' | t | default: 'Home' }}</a>
+        <a href="/" class="hover:text-primary">{{ 'general.breadcrumbs.home' | t | default: 'Home' }}</a>
       </li>
       
       {% case template %}
@@ -17,46 +17,46 @@
           {% if collection %}
             <li>
               <span class="mx-2">/</span>
-              <a href="{{ collection.url }}" class="hover:text-black">{{ collection.title }}</a>
+              <a href="{{ collection.url }}" class="hover:text-primary">{{ collection.title }}</a>
             </li>
           {% endif %}
           <li>
             <span class="mx-2">/</span>
-            <span class="text-black">{{ product.title }}</span>
+            <span class="text-primary">{{ product.title }}</span>
           </li>
         
         {% when 'collection' %}
           <li>
             <span class="mx-2">/</span>
-            <span class="text-black">{{ collection.title }}</span>
+            <span class="text-primary">{{ collection.title }}</span>
           </li>
         
         {% when 'blog' %}
           <li>
             <span class="mx-2">/</span>
-            <span class="text-black">{{ blog.title }}</span>
+            <span class="text-primary">{{ blog.title }}</span>
           </li>
         
         {% when 'article' %}
           <li>
             <span class="mx-2">/</span>
-            <a href="{{ blog.url }}" class="hover:text-black">{{ blog.title }}</a>
+            <a href="{{ blog.url }}" class="hover:text-primary">{{ blog.title }}</a>
           </li>
           <li>
             <span class="mx-2">/</span>
-            <span class="text-black">{{ article.title }}</span>
+            <span class="text-primary">{{ article.title }}</span>
           </li>
         
         {% when 'page' %}
           <li>
             <span class="mx-2">/</span>
-            <span class="text-black">{{ page.title }}</span>
+            <span class="text-primary">{{ page.title }}</span>
           </li>
         
         {% when 'search' %}
           <li>
             <span class="mx-2">/</span>
-            <span class="text-black">{{ 'general.search.title' | t }}</span>
+            <span class="text-primary">{{ 'general.search.title' | t }}</span>
           </li>
       {% endcase %}
     </ol>

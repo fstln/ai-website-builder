@@ -26,12 +26,12 @@
                   <a href="{{ article.url }}" class="hover:underline">{{ article.title }}</a>
                 </h2>
                 
-                <p class="text-sm text-gray-600 mb-4">
+                <p class="text-sm text-text-secondary mb-4">
                   {{ article.published_at | date: format: 'month_day_year' }}
                 </p>
                 
                 {% if article.excerpt != blank %}
-                  <p class="text-gray-700 mb-4">{{ article.excerpt | strip_html | truncate: 150 }}</p>
+                  <p class="text-text mb-4">{{ article.excerpt | strip_html | truncate: 150 }}</p>
                 {% endif %}
                 
                 <a href="{{ article.url }}" class="text-primary font-medium hover:underline">
@@ -56,7 +56,7 @@
           </div>
         {% endif %}
       {% else %}
-        <p class="text-center text-gray-600">{{ 'blogs.general.no_articles' | t | default: 'No articles found' }}</p>
+        <p class="text-center text-text-secondary">{{ 'blogs.general.no_articles' | t | default: 'No articles found' }}</p>
       {% endif %}
     </div>
   {% endpaginate %}
