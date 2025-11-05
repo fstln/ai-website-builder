@@ -4,7 +4,7 @@
 
 ## 特性
 
-- ✅ **Shopify Theme 1.0 架构** - 使用经典的 Liquid 模板系统
+- ✅ **Shopify Theme 2.0 架构** - 使用 JSON 模板和 Sections Everywhere
 - 🎨 **Tailwind CSS** - 实用优先的 CSS 框架，优化的性能
 - 🚀 **Vite 构建工具** - 快速的开发和生产构建
 - 📱 **响应式设计** - 移动端、平板和桌面端完全支持
@@ -105,11 +105,24 @@ minimal-shopify-theme/
 
 ## 定制
 
+### 设计令牌系统
+
+本主题使用全面的设计令牌系统，将设计决策与 HTML 结构分离，使视觉样式可以通过配置更改，而无需修改组件代码。
+
+**AI 助手指南**: 查看 `docs/design-tokens-guide.md` 了解如何修改设计令牌为 DTC 网站创建自定义视觉风格。
+
+**开发者指南**:
+- 修改 `config/settings_schema.json` 更改默认令牌值
+- 更新 `config/settings_data.json` 更改当前主题值
+- 使用 `config/themes/` 中的预设文件快速切换样式
+- 查看 `config/themes/README.md` 了解预设使用说明
+
 ### 修改颜色和样式
 
-1. 编辑 `tailwind.config.js` 来自定义主题颜色
-2. 在 Shopify 管理后台的主题设置中修改颜色
-3. 编辑 `src/css/tailwind.css` 来添加自定义样式
+1. 通过 Shopify 主题编辑器修改设计令牌（推荐）
+2. 编辑 `config/settings_schema.json` 更改默认值
+3. 编辑 `config/settings_data.json` 直接更改当前值
+4. 使用预设文件（`config/themes/*.json`）快速应用完整样式
 
 ### 添加 JavaScript 功能
 
@@ -161,11 +174,13 @@ shopify theme push
 
 ## 架构说明
 
-### Shopify Theme 1.0
+### Shopify Theme 2.0 (Online Store 2.0)
 
-本主题使用经典的 Theme 1.0 架构：
-- 模板文件位于 `/templates/` 目录（如 `templates/index.liquid`）
-- 支持所有标准 Shopify 模板类型
+本主题使用 Shopify Theme 2.0 架构（Online Store 2.0）：
+- 模板文件使用 JSON 格式（如 `templates/index.json`）
+- 支持 Sections Everywhere - 所有页面都可以添加和配置 sections
+- 支持 App Blocks - 可以嵌入应用功能
+- 更灵活的页面定制能力
 
 ### 构建流程
 

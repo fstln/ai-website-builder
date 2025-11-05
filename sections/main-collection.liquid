@@ -1,5 +1,6 @@
 {% comment %}
-  Collection List Template
+  Main Collection Section
+  Theme 2.0 - Sections Everywhere
 {% endcomment %}
 
 <div class="container-custom py-8">
@@ -46,4 +47,13 @@
 {% paginate collection.products by 12 %}
   {% comment %} Pagination logic handled above {% endcomment %}
 {% endpaginate %}
+
+{% schema %}
+{
+  "name": "Main Collection",
+  "tag": "section",
+  "class": "section-main-collection",
+  "settings": []
+}
+{% endschema %}
 

@@ -6,7 +6,7 @@ Minimal Shopify theme template framework for quick project starts. Provides a cl
 ## Tech Stack
 
 ### Core Technologies
-- **Shopify Theme 1.0 Architecture** - Classic Liquid templating system
+- **Shopify Theme 2.0 Architecture** - Online Store 2.0 with JSON templates and Sections Everywhere
 - **Liquid** - Shopify's template language for dynamic content
 - **Tailwind CSS 3.3+** - Utility-first CSS framework with JIT compilation
 - **Vite 5+** - Fast build tool for development and production
@@ -31,7 +31,7 @@ Minimal Shopify theme template framework for quick project starts. Provides a cl
 ### Code Style
 
 #### Liquid Templates
-- Use Shopify Theme 1.0 architecture (`templates/index.liquid` pattern)
+- Use Shopify Theme 2.0 architecture (`templates/index.json` pattern with Sections Everywhere)
 - Follow Shopify Liquid best practices
 - Use semantic HTML5 elements
 - Prefer `{% render %}` over `{% include %}` for snippets
@@ -65,7 +65,7 @@ Minimal Shopify theme template framework for quick project starts. Provides a cl
 ```
 /
 ├── layout/          # Layout templates (theme.liquid, password.liquid)
-├── templates/       # Page templates (Theme 1.0 architecture)
+├── templates/       # Page templates (Theme 2.0 JSON format)
 ├── sections/       # Reusable theme sections
 ├── snippets/        # Reusable code fragments
 ├── assets/          # Compiled CSS/JS (generated)
@@ -137,7 +137,7 @@ Minimal Shopify theme template framework for quick project starts. Provides a cl
 ## Domain Context
 
 ### Shopify Theme Development
-- **Theme 1.0**: Classic architecture with templates in `/templates/`
+- **Theme 2.0**: Online Store 2.0 architecture with JSON templates and Sections Everywhere
 - **Sections**: Reusable blocks configurable in theme editor
 - **Snippets**: Reusable Liquid fragments
 - **Assets**: Static files (CSS, JS, images) served via CDN
@@ -173,7 +173,7 @@ Minimal Shopify theme template framework for quick project starts. Provides a cl
 - Must support Shopify Theme Editor customization
 - Settings must be configurable without code changes
 - Theme switching should not require HTML structure changes
-- Must maintain backward compatibility with Theme 1.0
+- Must support Theme 2.0 features (Sections Everywhere, App Blocks)
 
 ### Business Constraints
 - Quick setup time (< 15 minutes for new projects)
