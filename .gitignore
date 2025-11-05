@@ -5,9 +5,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
+# package-lock.json - Keep this file for dependency version consistency
+# yarn.lock - Keep this file for dependency version consistency
+# pnpm-lock.yaml - Keep this file for dependency version consistency
 
 # Build outputs
 dist/

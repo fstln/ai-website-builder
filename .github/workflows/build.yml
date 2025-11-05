@@ -15,14 +15,36 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Setup Node.js
+      - name: Check for package-lock.json
+        id: check-lockfile
+        run: |
+          if [ -f package-lock.json ]; then
+            echo "lockfile_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "lockfile_exists=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Setup Node.js (with cache)
+        if: steps.check-lockfile.outputs.lockfile_exists == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
       
+      - name: Setup Node.js (without cache)
+        if: steps.check-lockfile.outputs.lockfile_exists == 'false'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
       - name: Install dependencies
-        run: npm ci
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            echo "⚠️ package-lock.json not found, running npm install..."
+            npm install
+          fi
       
       - name: Build assets
         run: npm run build
