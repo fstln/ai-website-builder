@@ -1,26 +1,40 @@
 {% comment %}
   Header Section - Modern DTC Design
-  High-conversion header with clean, professional layout
+  Apple-inspired header with glassmorphism, smooth animations, and scroll behavior
 {% endcomment %}
 
 {% liquid
   assign menu_linklist = section.settings.main_menu | default: 'main-menu'
   assign enable_sticky = section.settings.enable_sticky_header
+  assign scroll_behavior = section.settings.scroll_behavior | default: 'show-on-scroll-up'
+  assign enable_blur = section.settings.enable_backdrop_blur
+  assign nav_position = section.settings.nav_position | default: 'left'
   assign header_bg = section.settings.header_background | default: '#ffffff'
-  assign header_opacity = section.settings.header_background_opacity | default: 100
+  assign header_opacity = section.settings.header_background_opacity | default: 95
   
   assign sticky_class = ''
   if enable_sticky
     assign sticky_class = 'header--sticky'
   endif
+  
+  assign blur_class = ''
+  if enable_blur
+    assign blur_class = 'header--blur'
+  endif
+  
+  assign nav_position_class = 'header__nav--' | append: nav_position
 %}
 
 <header 
-  class="header {{ sticky_class }}" 
+  class="header {{ sticky_class }} {{ blur_class }}" 
   data-header
-  style="--header-bg-color: {{ header_bg }}; --header-opacity: {{ header_opacity | divided_by: 100.0 }};"
+  data-scroll-behavior="{{ scroll_behavior }}"
+  style="
+    --header-bg-color: {{ header_bg }}; 
+    --header-opacity: {{ header_opacity | divided_by: 100.0 }};
+  "
 >
-  <div class="header__container">
+  <div class="header__container container-custom">
     <div class="header__inner">
       
       {%comment%} Mobile Menu Toggle {%endcomment%}
@@ -32,11 +46,11 @@
         aria-label="{{ 'header.menu' | t }}"
         aria-controls="mobile-nav"
       >
-        <svg class="header__menu-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
+        <span class="header__menu-icon">
+          <span class="header__menu-icon-line"></span>
+          <span class="header__menu-icon-line"></span>
+          <span class="header__menu-icon-line"></span>
+        </span>
       </button>
 
       {%comment%} Logo {%endcomment%}
@@ -60,7 +74,7 @@
       </div>
 
       {%comment%} Desktop Navigation {%endcomment%}
-      <nav class="header__nav" aria-label="{{ 'header.menu' | t }}">
+      <nav class="header__nav {{ nav_position_class }}" aria-label="{{ 'header.menu' | t }}">
         {% if linklists[menu_linklist].links.size > 0 %}
           <ul class="header__nav-list">
             {% for link in linklists[menu_linklist].links %}
@@ -68,7 +82,6 @@
                 <a 
                   href="{{ link.url }}" 
                   class="header__nav-link"
-                  {% if link.active %}aria-current="page"{% endif %}
                 >
                   {{ link.title }}
                 </a>
@@ -83,16 +96,18 @@
         {%comment%} Cart {%endcomment%}
         <a 
           href="{{ routes.cart_url }}" 
-          class="header__cart-link"
+          class="header__action-link header__cart-link"
           aria-label="{{ 'header.cart' | t }} ({{ cart.item_count }} {{ 'header.items' | t }})"
         >
-          <svg class="header__cart-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <svg class="header__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="9" cy="21" r="1"></circle>
             <circle cx="20" cy="21" r="1"></circle>
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
           </svg>
           {% if cart.item_count > 0 %}
-            <span class="header__cart-count">{{ cart.item_count }}</span>
+            <span class="header__cart-count" data-cart-count>{{ cart.item_count }}</span>
+          {% else %}
+            <span class="header__cart-count" data-cart-count hidden>0</span>
           {% endif %}
         </a>
 
@@ -100,10 +115,10 @@
         {% if shop.customer_accounts_enabled %}
           <a 
             href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" 
-            class="header__account-link"
+            class="header__action-link header__account-link"
             aria-label="{% if customer %}{{ 'header.account' | t }}{% else %}{{ 'header.log_in' | t }}{% endif %}"
           >
-            <svg class="header__account-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <svg class="header__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
@@ -118,7 +133,7 @@
     id="mobile-nav"
     class="header__mobile-drawer" 
     data-mobile-drawer
-    hidden
+    aria-hidden="true"
   >
     <div class="header__mobile-backdrop" data-mobile-backdrop></div>
     <div class="header__mobile-panel">
@@ -143,7 +158,7 @@
           data-mobile-close
           aria-label="{{ 'header.close_menu' | t }}"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
@@ -172,15 +187,17 @@
                   href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" 
                   class="header__mobile-nav-link header__mobile-nav-link--highlighted"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                   </svg>
-                  {% if customer %}
-                    {{ customer.first_name | default: 'Account' }}
-                  {% else %}
-                    {{ 'header.log_in' | t }}
-                  {% endif %}
+                  <span>
+                    {% if customer %}
+                      {{ customer.first_name | default: 'Account' }}
+                    {% else %}
+                      {{ 'header.log_in' | t }}
+                    {% endif %}
+                  </span>
                 </a>
               </li>
             {% endif %}
@@ -190,6 +207,543 @@
     </div>
   </div>
 </header>
+
+{% stylesheet %}
+/* Header Base Styles */
+.header {
+  position: relative;
+  width: 100%;
+  z-index: 100;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sticky Header */
+.header--sticky {
+  position: sticky;
+  top: 0;
+}
+
+/* Backdrop Blur Effect */
+.header--blur {
+  background-color: rgba(255, 255, 255, calc(var(--header-opacity) * 0.8));
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Header Container */
+.header__container {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s ease;
+}
+
+.header--scrolled .header__container {
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.header__inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--spacing-8);
+  padding: var(--spacing-4) 0;
+  min-height: 64px;
+}
+
+/* Logo */
+.header__logo {
+  display: flex;
+  align-items: center;
+  order: 2;
+}
+
+.header__logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.header__logo-link:hover {
+  opacity: 0.8;
+}
+
+.header__logo-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.header__logo-text {
+  font-size: var(--text-size-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+}
+
+/* Desktop Navigation */
+.header__nav {
+  display: none;
+  order: 3;
+}
+
+/* Navigation Position: Left (near logo) */
+.header__nav--left {
+  justify-self: start;
+  margin-left: var(--spacing-8);
+}
+
+/* Navigation Position: Center */
+.header__nav--center {
+  justify-self: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header__nav-list {
+  display: flex;
+  gap: var(--spacing-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header__nav-link {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-4);
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: var(--text-size-sm);
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header__nav-link:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: var(--color-primary);
+}
+
+/* Header Actions */
+.header__menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  order: 1;
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s ease;
+}
+
+.header__menu-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.header__menu-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 20px;
+}
+
+.header__menu-icon-line {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  border-radius: 2px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header__menu-toggle[aria-expanded="true"] .header__menu-icon-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.header__menu-toggle[aria-expanded="true"] .header__menu-icon-line:nth-child(2) {
+  opacity: 0;
+}
+
+.header__menu-toggle[aria-expanded="true"] .header__menu-icon-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  order: 4;
+}
+
+.header__action-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--color-text);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.header__action-link:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: var(--color-primary);
+}
+
+.header__icon {
+  width: 22px;
+  height: 22px;
+}
+
+.header__cart-count {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  line-height: 1;
+}
+
+/* Mobile Drawer - Slide from Left */
+.header__mobile-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s ease, opacity 0.3s ease;
+}
+
+.header__mobile-drawer[aria-hidden="false"] {
+  visibility: visible;
+  opacity: 1;
+}
+
+.header__mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.header__mobile-drawer[aria-hidden="false"] .header__mobile-backdrop {
+  opacity: 1;
+}
+
+.header__mobile-panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 85%;
+  max-width: 380px;
+  height: 100vh;
+  height: 100dvh;
+  background-color: var(--color-background);
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  z-index: 1001;
+}
+
+.header__mobile-drawer[aria-hidden="false"] .header__mobile-panel {
+  transform: translateX(0);
+}
+
+.header__mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header__mobile-logo-text {
+  font-size: var(--text-size-lg);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.header__mobile-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s ease;
+}
+
+.header__mobile-close:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.header__mobile-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-4);
+}
+
+.header__mobile-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header__mobile-nav-list > li {
+  margin-bottom: var(--spacing-1);
+}
+
+.header__mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: var(--text-size-base);
+  font-weight: 500;
+  border-radius: var(--radius-lg);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header__mobile-nav-link:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+
+.header__mobile-divider {
+  margin-top: var(--spacing-6);
+  padding-top: var(--spacing-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.header__mobile-nav-link--highlighted {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* Scroll Behavior */
+.header--hidden {
+  transform: translateY(-100%);
+}
+
+/* Desktop Breakpoint */
+@media screen and (min-width: 990px) {
+  .header__menu-toggle {
+    display: none;
+  }
+  
+  .header__logo {
+    order: 1;
+  }
+  
+  .header__nav {
+    display: block;
+    order: 2;
+  }
+  
+  .header__nav--left {
+    margin-left: var(--spacing-12);
+  }
+  
+  .header__nav--center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+  }
+  
+  .header__actions {
+    order: 3;
+    margin-left: auto;
+  }
+  
+  .header__inner {
+    padding: var(--spacing-2) 0;
+    position: relative;
+  }
+}
+
+/* Tablet Breakpoint */
+@media screen and (min-width: 750px) {
+  .header__inner {
+    gap: var(--spacing-12);
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .header__nav-link,
+  .header__action-link,
+  .header__mobile-panel,
+  .header__mobile-backdrop {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+{% endstylesheet %}
+
+{% javascript %}
+class HeaderComponent {
+  constructor() {
+    this.header = document.querySelector('[data-header]');
+    this.mobileToggle = document.querySelector('[data-mobile-menu-toggle]');
+    this.mobileDrawer = document.querySelector('[data-mobile-drawer]');
+    this.mobileBackdrop = document.querySelector('[data-mobile-backdrop]');
+    this.mobileClose = document.querySelector('[data-mobile-close]');
+    this.scrollBehavior = this.header?.dataset.scrollBehavior;
+    
+    this.lastScrollY = window.scrollY;
+    this.isScrollingUp = false;
+    
+    this.init();
+  }
+  
+  init() {
+    if (this.mobileToggle) {
+      this.mobileToggle.addEventListener('click', () => this.toggleMobileMenu());
+    }
+    
+    if (this.mobileClose) {
+      this.mobileClose.addEventListener('click', () => this.closeMobileMenu());
+    }
+    
+    if (this.mobileBackdrop) {
+      this.mobileBackdrop.addEventListener('click', () => this.closeMobileMenu());
+    }
+    
+    if (this.scrollBehavior === 'show-on-scroll-up') {
+      window.addEventListener('scroll', () => this.handleScroll(), { passive: true });
+    }
+    
+    // Handle escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.mobileDrawer?.getAttribute('aria-hidden') === 'false') {
+        this.closeMobileMenu();
+      }
+    });
+    
+    // Prevent body scroll when mobile menu is open
+    if (this.mobileDrawer) {
+      const observer = new MutationObserver(() => {
+        const isOpen = this.mobileDrawer.getAttribute('aria-hidden') === 'false';
+        if (isOpen) {
+          document.body.style.overflow = 'hidden';
+          document.documentElement.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+          document.documentElement.style.overflow = '';
+        }
+      });
+      
+      observer.observe(this.mobileDrawer, {
+        attributes: true,
+        attributeFilter: ['aria-hidden']
+      });
+    }
+  }
+  
+  toggleMobileMenu() {
+    const isExpanded = this.mobileToggle.getAttribute('aria-expanded') === 'true';
+    
+    if (isExpanded) {
+      this.closeMobileMenu();
+    } else {
+      this.openMobileMenu();
+    }
+  }
+  
+  openMobileMenu() {
+    if (!this.mobileDrawer) return;
+    
+    this.mobileToggle.setAttribute('aria-expanded', 'true');
+    this.mobileDrawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  }
+  
+  closeMobileMenu() {
+    if (!this.mobileDrawer) return;
+    
+    this.mobileToggle.setAttribute('aria-expanded', 'false');
+    this.mobileDrawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+  }
+  
+  handleScroll() {
+    const currentScrollY = window.scrollY;
+    
+    // Add scrolled class
+    if (currentScrollY > 10) {
+      this.header.classList.add('header--scrolled');
+    } else {
+      this.header.classList.remove('header--scrolled');
+    }
+    
+    // Hide/show header based on scroll direction
+    if (currentScrollY > this.lastScrollY && currentScrollY > 100) {
+      // Scrolling down
+      this.header.classList.add('header--hidden');
+    } else {
+      // Scrolling up
+      this.header.classList.remove('header--hidden');
+    }
+    
+    this.lastScrollY = currentScrollY;
+  }
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => new HeaderComponent());
+} else {
+  new HeaderComponent();
+}
+{% endjavascript %}
 
 {% schema %}
 {
@@ -226,14 +780,60 @@
       "default": "main-menu"
     },
     {
+      "type": "select",
+      "id": "nav_position",
+      "label": "Navigation position (Desktop)",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left (near logo)"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left",
+      "info": "Choose navigation menu position on desktop"
+    },
+    {
       "type": "header",
-      "content": "Header Settings"
+      "content": "Header Behavior"
     },
     {
       "type": "checkbox",
       "id": "enable_sticky_header",
       "label": "Enable sticky header",
-      "default": true
+      "default": true,
+      "info": "Header will stay at the top when scrolling"
+    },
+    {
+      "type": "select",
+      "id": "scroll_behavior",
+      "label": "Scroll behavior",
+      "options": [
+        {
+          "value": "always-visible",
+          "label": "Always visible"
+        },
+        {
+          "value": "show-on-scroll-up",
+          "label": "Show on scroll up"
+        }
+      ],
+      "default": "show-on-scroll-up",
+      "info": "Choose how header appears when scrolling"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_backdrop_blur",
+      "label": "Enable backdrop blur",
+      "default": true,
+      "info": "Modern glassmorphism effect (iOS/Safari style)"
+    },
+    {
+      "type": "header",
+      "content": "Header Appearance"
     },
     {
       "type": "color",
@@ -244,12 +844,13 @@
     {
       "type": "range",
       "id": "header_background_opacity",
-      "min": 0,
+      "min": 50,
       "max": 100,
       "step": 5,
       "unit": "%",
       "label": "Background opacity",
-      "default": 100
+      "default": 95,
+      "info": "Works best with backdrop blur enabled"
     }
   ]
 }

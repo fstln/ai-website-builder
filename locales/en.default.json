@@ -40,7 +40,8 @@
       "label": "Email",
       "success": "Thanks for subscribing",
       "button_label": "Subscribe"
-    },
+    }
+  },
   "header": {
     "menu": "Menu",
     "close_menu": "Close menu",
@@ -48,7 +49,9 @@
     "items": "items",
     "account": "Account",
     "log_in": "Log in"
-  }
+  },
+  "footer": {
+    "newsletter_placeholder": "Enter your email"
   },
   "products": {
     "product": {

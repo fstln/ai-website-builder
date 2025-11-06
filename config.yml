@@ -1,6 +1,6 @@
 development:
   password: shptka_347e2a1a668ba1888e21c24cdf4d2733
-  theme_id: "181742993724"
+  theme_id: "181791195452"
   store: jessie-demo.myshopify.com
   ignore_files:
     # 避免覆盖生产环境中的配置
