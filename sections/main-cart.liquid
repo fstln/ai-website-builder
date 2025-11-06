@@ -3,84 +3,267 @@
   Theme 2.0 - Sections Everywhere
 {% endcomment %}
 
-<div class="container-custom py-8">
-  <h1 class="text-4xl font-bold mb-8">{{ 'general.cart.title' | t }}</h1>
-  
-  {% if cart.item_count > 0 %}
-    <form action="/cart" method="post" class="cart-form" data-cart-form>
-      <div class="cart-items space-y-4 mb-8">
-        {% for item in cart.items %}
-          <div class="cart-item flex gap-4 p-4 border rounded-lg" data-cart-item>
-            {% if item.image %}
-              <a href="{{ item.url }}" class="flex-shrink-0">
-                <img src="{{ item.image | image_url: width: 120 }}" alt="{{ item.title }}" class="w-24 h-24 object-cover rounded">
-              </a>
-            {% endif %}
-            
-            <div class="flex-grow">
-              <h3 class="font-medium">
-                <a href="{{ item.url }}">{{ item.product.title }}</a>
-              </h3>
-              
-              {% unless item.variant.title contains 'Default' %}
-                <p class="text-sm text-text-secondary">{{ item.variant.title }}</p>
-              {% endunless %}
-              
-              <div class="flex items-center gap-4 mt-2">
-                <div class="quantity-selector">
-                  <label for="quantity-{{ item.key }}" class="sr-only">{{ 'general.cart.quantity' | t }}</label>
-                  <input 
-                    type="number" 
-                    id="quantity-{{ item.key }}"
-                    name="updates[{{ item.key }}]" 
-                    value="{{ item.quantity }}" 
-                    min="0"
-                    class="w-20 border rounded px-2 py-1"
-                    data-quantity-input
+<cart-items-component 
+  class="cart-items-wrapper" 
+  data-section-id="{{ section.id }}"
+>
+  <div class="container-custom py-8">
+    <div class="cart-header mb-8">
+      <h1 class="text-4xl font-bold">{{ 'general.cart.title' | t }}</h1>
+      {% if cart.item_count > 0 %}
+        <p class="text-text-secondary mt-2">
+          {% if cart.item_count == 1 %}
+            {{ 'general.cart.item_count.one' | t: count: cart.item_count }}
+          {% else %}
+            {{ 'general.cart.item_count.other' | t: count: cart.item_count }}
+          {% endif %}
+        </p>
+      {% endif %}
+    </div>
+    
+    {% if cart.item_count > 0 %}
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {%- comment -%} Cart Items - Left Column {%- endcomment -%}
+        <div class="lg:col-span-2">
+          {%- comment -%} Error container {%- endcomment -%}
+          <div data-cart-error class="hidden"></div>
+          
+              {%- comment -%} Cart Items List {%- endcomment -%}
+              <div class="cart-items space-y-4">
+                {% for item in cart.items %}
+                  {%- assign line_index = forloop.index0 -%}
+                  <div
+                    class="cart-item flex gap-4 p-4 border border-border rounded-lg transition-opacity"
+                    data-cart-item="{{ item.key }}"
+                    data-item-key="{{ item.key }}"
+                    ref="cartItemRows[]"
                   >
+                {%- comment -%} Product Image {%- endcomment -%}
+                {% if item.image %}
+                  <a href="{{ item.url }}" class="flex-shrink-0">
+                    <img 
+                      src="{{ item.image | image_url: width: 160 }}" 
+                      alt="{{ item.title }}" 
+                      class="w-24 h-24 md:w-32 md:h-32 object-cover rounded"
+                      loading="lazy"
+                    >
+                  </a>
+                {% endif %}
+                
+                {%- comment -%} Product Info {%- endcomment -%}
+                <div class="flex-grow min-w-0">
+                  <h3 class="font-medium text-lg mb-1 truncate">
+                    <a href="{{ item.url }}" class="hover:underline">
+                      {{ item.product.title }}
+                    </a>
+                  </h3>
+                  
+                  {%- comment -%} Variant Title {%- endcomment -%}
+                  {% unless item.variant.title contains 'Default' %}
+                    <p class="text-sm text-text-secondary mb-2">
+                      {{ item.variant.title }}
+                    </p>
+                  {% endunless %}
+                  
+                  {%- comment -%} Line Item Properties {%- endcomment -%}
+                  {% if item.properties.size > 0 %}
+                    <div class="item-properties text-sm text-text-secondary mb-2">
+                      {% for property in item.properties %}
+                        {% unless property.first contains '_' %}
+                          <div>
+                            <span class="font-medium">{{ property.first }}:</span>
+                            {{ property.last }}
+                          </div>
+                        {% endunless %}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                  
+                  {%- comment -%} Price and Quantity {%- endcomment -%}
+                  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-3">
+                    {%- comment -%} Quantity Selector {%- endcomment -%}
+                    <div class="quantity-wrapper flex items-center border border-border rounded-md" ref="quantitySelectors[]">
+                      {% render 'quantity-input',
+                        id: 'Quantity-' | append: item.key,
+                        name: 'updates[' | append: item.key | append: ']',
+                        value: item.quantity,
+                        min: 0,
+                        max: item.variant.inventory_quantity,
+                        label: item.product.title,
+                        line_index: line_index,
+                        variant_id: item.variant.id,
+                        class: 'w-auto'
+                      %}
+                    </div>
+                    
+                    {%- comment -%} Price Display {%- endcomment -%}
+                    <div class="item-price-wrapper text-right">
+                      {%- comment -%} Show compare price if on sale {%- endcomment -%}
+                      {% if item.original_line_price > item.final_line_price %}
+                        <div class="flex items-center gap-2 justify-end">
+                          <span class="text-red-600 font-bold" data-item-price>
+                            {{ item.final_line_price | money }}
+                          </span>
+                          <span class="text-sm text-text-secondary line-through">
+                            {{ item.original_line_price | money }}
+                          </span>
+                        </div>
+                      {% else %}
+                        <span class="font-bold" data-item-price>
+                          {{ item.final_line_price | money }}
+                        </span>
+                      {% endif %}
+                      
+                      {%- comment -%} Unit Price {%- endcomment -%}
+                      {% if item.unit_price_measurement %}
+                        <div class="text-xs text-text-secondary mt-1">
+                          {{ item.unit_price | money }}/{{ item.unit_price_measurement.reference_unit }}
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  
+                  {%- comment -%} Discounts {%- endcomment -%}
+                  {% if item.line_level_discount_allocations.size > 0 %}
+                    <div class="item-discounts mt-2">
+                      {% for discount in item.line_level_discount_allocations %}
+                        <div class="text-sm text-green-600">
+                          <svg class="inline-block w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                          </svg>
+                          {{ discount.discount_application.title }} (-{{ discount.amount | money }})
+                        </div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
                 </div>
                 
-                <span class="font-medium">{{ item.final_line_price | money }}</span>
+                {%- comment -%} Remove Button {%- endcomment -%}
+                <button 
+                  type="button" 
+                  class="flex-shrink-0 text-text-secondary hover:text-red-600 transition-colors p-2"
+                  data-cart-remove="{{ item.key }}"
+                  data-item-name="{{ item.product.title }}"
+                  aria-label="{{ 'general.cart.remove' | t }}: {{ item.product.title }}"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
               </div>
-            </div>
-            
-            <button type="button" class="text-text-secondary hover:text-error" data-cart-remove="{{ item.key }}">
-              {{ 'general.cart.remove' | t }}
-            </button>
+            {% endfor %}
           </div>
-        {% endfor %}
-      </div>
-      
-      <div class="cart-footer border-t pt-8">
-        <div class="flex justify-between items-center mb-4">
-          <span class="text-xl font-medium">{{ 'general.cart.subtotal' | t }}</span>
-          <span class="text-2xl font-bold">{{ cart.total_price | money }}</span>
+          
+          {%- comment -%} Cart Note {%- endcomment -%}
+          {% if section.settings.enable_cart_note %}
+            <div class="cart-note mt-6">
+              <label for="cart-note" class="block text-sm font-medium mb-2">
+                {{ 'general.cart.note' | t }}
+              </label>
+              <textarea
+                id="cart-note"
+                name="note"
+                class="w-full border border-border rounded-md px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary"
+                rows="3"
+                placeholder="{{ 'general.cart.note_placeholder' | t }}"
+              >{{ cart.note }}</textarea>
+            </div>
+          {% endif %}
         </div>
         
-        <div class="flex gap-4">
-          <button type="submit" name="update" class="btn btn-secondary flex-1">
-            {{ 'general.cart.update' | t }}
-          </button>
-          <button type="submit" name="checkout" class="btn btn-primary flex-1">
-            {{ 'general.cart.checkout' | t }}
-          </button>
+        {%- comment -%} Cart Summary - Right Column {%- endcomment -%}
+        <div class="lg:col-span-1">
+          <div class="cart-summary bg-background-secondary p-6 rounded-lg sticky top-4">
+            <h2 class="text-xl font-bold mb-4">{{ 'general.cart.subtotal' | t }}</h2>
+            
+            {%- comment -%} Subtotal {%- endcomment -%}
+            <div class="flex justify-between items-center text-2xl font-bold mb-6">
+              <span>{{ 'general.cart.subtotal' | t }}</span>
+              <span data-cart-subtotal>{{ cart.total_price | money }}</span>
+            </div>
+            
+            {%- comment -%} Cart Discounts {%- endcomment -%}
+            {% if cart.cart_level_discount_applications.size > 0 %}
+              <div class="cart-discounts mb-4 pb-4 border-b border-border">
+                {% for discount in cart.cart_level_discount_applications %}
+                  <div class="flex justify-between text-sm text-green-600">
+                    <span>{{ discount.title }}</span>
+                    <span>-{{ discount.total_allocated_amount | money }}</span>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+            
+            {%- comment -%} Shipping Note {%- endcomment -%}
+            <p class="text-sm text-text-secondary mb-6">
+              {{ 'general.cart.taxes_and_shipping_at_checkout' | t }}
+            </p>
+            
+            {%- comment -%} Checkout Button {%- endcomment -%}
+            <a 
+              href="/checkout" 
+              class="btn btn-primary w-full text-center block mb-3"
+            >
+              {{ 'general.cart.checkout' | t }}
+            </a>
+            
+            {%- comment -%} Continue Shopping {%- endcomment -%}
+            <a 
+              href="{{ routes.all_products_collection_url }}" 
+              class="btn btn-secondary w-full text-center block"
+            >
+              {{ 'general.continue_shopping' | t }}
+            </a>
+            
+            {%- comment -%} Payment Icons {%- endcomment -%}
+            {% if section.settings.show_payment_icons %}
+              <div class="payment-icons mt-6 pt-6 border-t border-border">
+                <div class="flex flex-wrap gap-2 justify-center">
+                  {% for type in shop.enabled_payment_types %}
+                    {{ type | payment_type_svg_tag: class: 'w-10 h-6' }}
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+          </div>
         </div>
       </div>
-    </form>
-  {% else %}
-    <div class="text-center py-12">
-      <p class="text-text-secondary mb-4">{{ 'general.cart.empty' | t }}</p>
-      <a href="/collections/all" class="btn btn-primary">{{ 'general.continue_shopping' | t | default: 'Continue Shopping' }}</a>
-    </div>
-  {% endif %}
-</div>
+    {% else %}
+      {%- comment -%} Empty Cart State {%- endcomment -%}
+      <div class="empty-cart text-center py-16">
+      <svg class="w-24 h-24 mx-auto mb-6 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+      </svg>
+        <h2 class="text-2xl font-bold mb-4">{{ 'general.cart.empty' | t }}</h2>
+        <p class="text-text-secondary mb-6">{{ 'general.cart.add_more' | t | default: 'Add some items to get started' }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary">
+          {{ 'general.continue_shopping' | t }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</cart-items-component>
 
 {% schema %}
 {
   "name": "Main Cart",
   "tag": "section",
   "class": "section-main-cart",
-  "settings": []
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_cart_note",
+      "label": "Enable cart note",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    }
+  ]
 }
 {% endschema %}
 

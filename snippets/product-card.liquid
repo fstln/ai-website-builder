@@ -21,9 +21,9 @@
       {% endif %}
       
       {% unless product.available %}
-        <div class="absolute top-2 right-2 bg-primary text-background text-xs px-2 py-1 rounded">
-          {{ 'products.product.sold_out' | t }}
-        </div>
+        {% render 'product-badge', text: 'products.product.sold_out' | t, type: 'custom', position: 'top-right' %}
+      {% else %}
+        {% render 'product-badge', product: product, type: 'sale', position: 'top-right' %}
       {% endunless %}
     </div>
     

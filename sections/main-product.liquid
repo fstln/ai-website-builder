@@ -7,58 +7,289 @@
   {% render 'breadcrumbs' %}
   
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+    {%- comment -%} Product Images / Gallery {%- endcomment -%}
     <div class="product-images">
-      {% if product.featured_image %}
-        {% render 'image', 
-          image: product.featured_image, 
-          alt: product.featured_image.alt | default: product.title,
-          class: 'w-full rounded-lg'
-        %}
+      {% if product.media.size > 0 %}
+        <product-gallery-component 
+          class="product-gallery space-y-4"
+          data-enable-zoom="{{ section.settings.enable_zoom }}"
+        >
+          {%- comment -%} Main Image {%- endcomment -%}
+          <div class="main-image relative cursor-pointer" ref="mainImage">
+            {% assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media %}
+            
+            <img
+              src="{{ featured_media | image_url: width: 1200 }}"
+              alt="{{ featured_media.alt | default: product.title }}"
+              width="1200"
+              height="1200"
+              loading="eager"
+              class="w-full rounded-lg transition-opacity duration-150"
+            >
+            
+            {% render 'product-badge', product: product, type: 'sale', position: 'top-right' %}
+            
+            {%- comment -%} Zoom hint {%- endcomment -%}
+            {% if section.settings.enable_zoom %}
+              <div class="absolute bottom-4 right-4 bg-black/50 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-sm">
+                <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                </svg>
+                Click to zoom
+              </div>
+            {% endif %}
+          </div>
+          
+          {%- comment -%} Thumbnails {%- endcomment -%}
+          {% if product.media.size > 1 %}
+            <div class="product-thumbnails grid grid-cols-4 md:grid-cols-5 gap-2">
+              {% for media in product.media %}
+                <button 
+                  type="button"
+                  class="thumbnail border-2 border-border rounded-md overflow-hidden hover:border-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+                  ref="thumbnails[]"
+                  on:click="/selectSlide/{{ forloop.index0 }}"
+                  data-media-id="{{ media.id }}"
+                  aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}"
+                  {% if forloop.first %}aria-current="true"{% endif %}
+                >
+                  {% if media.media_type == 'video' or media.media_type == 'external_video' %}
+                    <div class="relative">
+                      <img
+                        src="{{ media.preview_image | image_url: width: 200 }}"
+                        alt="{{ media.alt | default: product.title }}"
+                        loading="lazy"
+                        class="w-full h-auto"
+                      >
+                      <div class="absolute inset-0 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  {% else %}
+                    <img
+                      src="{{ media.preview_image | image_url: width: 200 }}"
+                      alt="{{ media.alt | default: product.title }}"
+                      loading="lazy"
+                      class="w-full h-auto"
+                    >
+                  {% endif %}
+                </button>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </product-gallery-component>
       {% endif %}
     </div>
     
+    {%- comment -%} Product Info {%- endcomment -%}
     <div class="product-info">
+      {%- comment -%} Title {%- endcomment -%}
       <h1 class="text-3xl font-bold mb-4">{{ product.title }}</h1>
       
-      {% render 'price', product: product %}
+      {%- comment -%} Vendor {%- endcomment -%}
+      {% if product.vendor != blank %}
+        <div class="product-vendor text-sm text-text-secondary mb-2">
+          {{ 'products.product.vendor' | t }}: 
+          <a href="{{ product.vendor | url_for_vendor }}" class="hover:underline">{{ product.vendor }}</a>
+        </div>
+      {% endif %}
       
+      {%- comment -%} Price {%- endcomment -%}
+      <div class="product-price mb-6">
+        {% render 'price', product: product %}
+      </div>
+      
+      {%- comment -%} Description {%- endcomment -%}
       {% if product.description != blank %}
-        <div class="product-description prose mt-6">
+        <div class="product-description prose prose-sm max-w-none mb-6">
           {{ product.description }}
         </div>
       {% endif %}
       
-      <form action="/cart/add" method="post" class="product-form mt-8" data-product-form>
-        {% unless product.has_only_default_variant %}
-          <div class="product-variants mb-4">
-            {% for option in product.options_with_values %}
-              <div class="variant-option mb-4">
-                <label class="block text-sm font-medium mb-2">{{ option.name }}</label>
-                <select name="options[{{ option.name }}]" class="w-full border rounded-md px-4 py-2">
-                  {% for value in option.values %}
-                    <option value="{{ value }}">{{ value }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-            {% endfor %}
+      {%- comment -%} Product JSON Data {%- endcomment -%}
+      <script type="application/json" data-product-json>
+        {{ product | json }}
+      </script>
+
+      {%- comment -%} Product Form with Add to Cart {%- endcomment -%}
+      <product-form-component
+        class="product-form-wrapper"
+        data-product-id="{{ product.id }}"
+        data-section-id="{{ section.id }}"
+      >
+        <form 
+          action="/cart/add" 
+          method="post" 
+          class="product-form space-y-6"
+          on:submit="/handleSubmit"
+        >
+          {%- comment -%} Product JSON Data for JS {%- endcomment -%}
+          <script type="application/json">
+            {{ product | json }}
+          </script>
+
+          {%- comment -%} Variant Selectors {%- endcomment -%}
+          {% unless product.has_only_default_variant %}
+            <variant-selector-component 
+              class="product-variants space-y-4"
+              data-product-id="{{ product.id }}"
+              data-product-url="{{ product.url }}"
+              data-section-id="{{ section.id }}"
+              data-product-page="true"
+            >
+                {% for option in product.options_with_values %}
+                  <div class="variant-option">
+                    <label for="Option-{{ option.name | handle }}" class="block text-sm font-medium mb-2">
+                      {{ option.name }}
+                    </label>
+                    
+                    {% if option.name == 'Color' or option.name == 'Colour' %}
+                      {%- comment -%} Color swatches {%- endcomment -%}
+                      <div class="variant-color-swatches flex flex-wrap gap-2" role="radiogroup">
+                        {% for value in option.values %}
+                          {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
+                          {%- if option.position == 2 -%}
+                            {%- assign variant_for_value = product.variants | where: "option2", value | first -%}
+                          {%- elsif option.position == 3 -%}
+                            {%- assign variant_for_value = product.variants | where: "option3", value | first -%}
+                          {%- endif -%}
+                          
+                          <div class="color-swatch-wrapper">
+                            <input
+                              type="radio"
+                              id="Color-{{ value | handle }}"
+                              name="options[{{ option.name }}]"
+                              value="{{ value }}"
+                              class="sr-only"
+                              data-variant-id="{{ variant_for_value.id }}"
+                              data-option-value-id="{{ value | handle }}"
+                              {% if option.selected_value == value %}checked{% endif %}
+                            >
+                            <label
+                              for="Color-{{ value | handle }}"
+                              class="color-swatch block w-10 h-10 rounded-full border-2 border-border hover:border-primary cursor-pointer transition-colors"
+                              style="background-color: {{ value | handle }}"
+                              title="{{ value }}"
+                            >
+                              <span class="sr-only">{{ value }}</span>
+                            </label>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    {% else %}
+                      {%- comment -%} Dropdown selector {%- endcomment -%}
+                      <select 
+                        id="Option-{{ option.name | handle }}"
+                        name="options[{{ option.name }}]" 
+                        class="w-full border border-border rounded-md px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary"
+                      >
+                        {% for value in option.values %}
+                          {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
+                          {%- if option.position == 2 -%}
+                            {%- assign variant_for_value = product.variants | where: "option2", value | first -%}
+                          {%- elsif option.position == 3 -%}
+                            {%- assign variant_for_value = product.variants | where: "option3", value | first -%}
+                          {%- endif -%}
+                          
+                          <option 
+                            value="{{ value }}"
+                            data-variant-id="{{ variant_for_value.id }}"
+                            data-option-value-id="{{ value | handle }}"
+                            {% if option.selected_value == value %}selected{% endif %}
+                          >
+                            {{ value }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              
+              {%- comment -%} Variant error message {%- endcomment -%}
+              <div data-variant-error class="hidden text-red-600 text-sm p-2 bg-red-50 rounded"></div>
+            </variant-selector-component>
+          {% endunless %}
+          
+          {%- comment -%} Quantity Selector {%- endcomment -%}
+          <div class="product-quantity">
+            <label class="block text-sm font-medium mb-2">
+              {{ 'products.product.quantity' | t }}
+              <span class="quantity-label hidden text-xs text-text-secondary ml-2"></span>
+            </label>
+            {% assign current_variant = product.selected_or_first_available_variant %}
+            {% render 'quantity-input', 
+              id: 'Quantity-' | append: product.id,
+              name: 'quantity',
+              value: 1,
+              min: 1,
+              max: current_variant.inventory_quantity,
+              variant_id: current_variant.id,
+              label: product.title
+            %}
           </div>
-        {% endunless %}
-        
-        <div class="product-quantity mb-4">
-          <label class="block text-sm font-medium mb-2">{{ 'products.product.quantity' | t }}</label>
-          <input type="number" name="quantity" value="1" min="1" class="w-24 border rounded-md px-4 py-2">
-        </div>
-        
-        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-        
-        <button type="submit" class="btn btn-primary w-full" {% unless product.available %}disabled{% endunless %}>
-          {% if product.available %}
-            {{ 'products.product.add_to_cart' | t }}
-          {% else %}
-            {{ 'products.product.sold_out' | t }}
+          
+          {%- comment -%} Hidden variant ID input {%- endcomment -%}
+          <input 
+            type="hidden" 
+            name="id" 
+            value="{{ product.selected_or_first_available_variant.id }}"
+            ref="variantId"
+          >
+          
+          {%- comment -%} Add to Cart Button {%- endcomment -%}
+          {% render 'add-to-cart-button',
+            can_add_to_cart: product.selected_or_first_available_variant.available,
+            product: product,
+            class: 'w-full text-lg py-3',
+            id: 'AddToCart-' | append: section.id
+          %}
+          
+          {%- comment -%} Error message container {%- endcomment -%}
+          <div ref="addToCartTextError" class="hidden text-red-600 text-sm p-3 bg-red-50 rounded-md" role="alert"></div>
+          
+          {%- comment -%} Live region for screen readers {%- endcomment -%}
+          <div ref="liveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+        </form>
+      </product-form-component>
+      
+      {%- comment -%} Product Meta {%- endcomment -%}
+      {% if product.sku != blank or product.type != blank %}
+        <div class="product-meta mt-6 pt-6 border-t border-border text-sm text-text-secondary space-y-2">
+          {% if product.sku != blank %}
+            <div>
+              <span class="font-medium">{{ 'products.product.sku' | t }}:</span>
+              {{ product.selected_or_first_available_variant.sku }}
+            </div>
           {% endif %}
-        </button>
-      </form>
+          
+          {% if product.type != blank %}
+            <div>
+              <span class="font-medium">{{ 'products.product.product_type' | t }}:</span>
+              <a href="{{ product.type | url_for_type }}" class="hover:underline">{{ product.type }}</a>
+            </div>
+          {% endif %}
+          
+          {% if product.available %}
+            <div class="text-green-600 font-medium">
+              {{ 'products.product.in_stock' | t }}
+            </div>
+          {% else %}
+            <div class="text-red-600 font-medium">
+              {{ 'products.product.out_of_stock' | t }}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+      
+      {%- comment -%} Share Buttons {%- endcomment -%}
+      {% if section.settings.enable_share %}
+        <div class="product-share mt-6 pt-6 border-t border-border">
+          <span class="text-sm font-medium mr-4">{{ 'blogs.article.share' | t }}</span>
+          {%- comment -%} Share buttons will be added via JavaScript or using Shopify's share snippet {%- endcomment -%}
+        </div>
+      {% endif %}
     </div>
   </div>
 </div>
@@ -68,7 +299,30 @@
   "name": "Main Product",
   "tag": "section",
   "class": "section-main-product",
-  "settings": []
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_share",
+      "label": "Enable product sharing",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Gallery Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_zoom",
+      "label": "Enable image zoom",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": "Enable video looping",
+      "default": false
+    }
+  ]
 }
 {% endschema %}
 

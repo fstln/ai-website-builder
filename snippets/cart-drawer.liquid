@@ -1,0 +1,154 @@
+{% comment %}
+  Cart Drawer / Mini Cart Component
+  Sliding drawer that shows cart contents
+  
+  Usage:
+    {% render 'cart-drawer' %}
+  
+  Include this snippet in theme.liquid
+{% endcomment %}
+
+<cart-drawer-component 
+  class="cart-drawer fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-background shadow-2xl transform translate-x-full transition-transform duration-300"
+  aria-hidden="true"
+  aria-label="{{ 'general.cart.title' | t }}"
+>
+  {%- comment -%} Backdrop {%- endcomment -%}
+  <div 
+    class="cart-drawer-backdrop fixed inset-0 bg-black/50 opacity-0 transition-opacity duration-300 pointer-events-none"
+    data-drawer-backdrop
+    aria-hidden="true"
+  ></div>
+
+  {%- comment -%} Drawer Content {%- endcomment -%}
+  <div class="cart-drawer-container h-full flex flex-col bg-background relative">
+    {%- comment -%} Header {%- endcomment -%}
+    <div class="cart-drawer-header flex items-center justify-between p-4 border-b border-border">
+      <h2 class="text-lg font-bold">
+        {{ 'general.cart.title' | t }}
+        <span class="text-sm font-normal text-text-secondary ml-2">
+          (<span data-drawer-count>0</span>)
+        </span>
+      </h2>
+      
+      <button
+        type="button"
+        class="text-text-secondary hover:text-text transition-colors"
+        data-drawer-close
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    {%- comment -%} Empty State {%- endcomment -%}
+    <div 
+      class="cart-drawer-empty flex-grow flex flex-col items-center justify-center p-8 text-center hidden"
+      data-drawer-empty
+    >
+      <svg class="w-16 h-16 text-text-secondary mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+      </svg>
+      <p class="text-text-secondary mb-4">{{ 'general.cart.empty' | t }}</p>
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-drawer-close
+      >
+        {{ 'general.continue_shopping' | t }}
+      </button>
+    </div>
+
+    {%- comment -%} Cart Items {%- endcomment -%}
+    <div class="cart-drawer-content flex-grow overflow-y-auto hidden" data-drawer-content>
+      <div class="p-4" data-drawer-items>
+        {%- comment -%} Items will be rendered here by JavaScript {%- endcomment -%}
+      </div>
+    </div>
+
+    {%- comment -%} Footer {%- endcomment -%}
+    <div class="cart-drawer-footer border-t border-border p-4 bg-background" data-drawer-content-footer>
+      {%- comment -%} Subtotal {%- endcomment -%}
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-lg font-medium">{{ 'general.cart.subtotal' | t }}</span>
+        <span class="text-xl font-bold" data-drawer-subtotal>$0.00</span>
+      </div>
+
+      {%- comment -%} Shipping Note {%- endcomment -%}
+      <p class="text-xs text-text-secondary mb-4 text-center">
+        {{ 'general.cart.taxes_and_shipping_at_checkout' | t }}
+      </p>
+
+      {%- comment -%} Actions {%- endcomment -%}
+      <div class="space-y-2">
+        <a 
+          href="/checkout" 
+          class="btn btn-primary w-full text-center block"
+        >
+          {{ 'general.cart.checkout' | t }}
+        </a>
+        
+        <a 
+          href="/cart" 
+          class="btn btn-secondary w-full text-center block"
+        >
+          {{ 'general.cart.view_cart' | t }}
+        </a>
+      </div>
+    </div>
+  </div>
+</cart-drawer-component>
+
+<style>
+  /* Cart Drawer Styles */
+  .cart-drawer.active {
+    transform: translateX(0);
+  }
+
+  .cart-drawer.active .cart-drawer-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Smooth transitions */
+  .cart-drawer-item {
+    transition: opacity 0.2s ease;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .cart-drawer-content::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .cart-drawer-content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .cart-drawer-content::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+
+  .cart-drawer-content::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-secondary);
+  }
+</style>
+
+<script>
+  // Helper to open cart drawer from anywhere
+  window.openCartDrawer = function() {
+    document.dispatchEvent(new CustomEvent('cart:open-drawer'));
+  };
+
+  // Open drawer on cart icon click
+  document.addEventListener('click', (e) => {
+    const cartTrigger = e.target.closest('[data-cart-trigger]');
+    if (cartTrigger) {
+      e.preventDefault();
+      window.openCartDrawer();
+    }
+  });
+</script>
+

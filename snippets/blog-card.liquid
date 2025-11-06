@@ -1,0 +1,139 @@
+{% comment %}
+  Blog/Article Card Component
+  Displays a blog article in card format
+  
+  Usage:
+    {% render 'blog-card', article: article %}
+    {% render 'blog-card', article: article, show_excerpt: true, image_ratio: '16:9' %}
+  
+  Parameters:
+    - article: Article object (required)
+    - show_excerpt: Show article excerpt (default: true)
+    - show_author: Show article author (default: true)
+    - show_date: Show publish date (default: true)
+    - show_tags: Show article tags (default: false)
+    - image_ratio: Image aspect ratio - '1:1', '4:3', '16:9' (default: '16:9')
+    - class: Additional CSS classes
+{% endcomment %}
+
+{%- liquid
+  assign display_excerpt = show_excerpt | default: true
+  assign display_author = show_author | default: true
+  assign display_date = show_date | default: true
+  assign display_tags = show_tags | default: false
+  assign img_ratio = image_ratio | default: '16:9'
+
+  case img_ratio
+    when '1:1'
+      assign aspect_class = 'aspect-square'
+    when '4:3'
+      assign aspect_class = 'aspect-[4/3]'
+    when '16:9'
+      assign aspect_class = 'aspect-video'
+    else
+      assign aspect_class = 'aspect-video'
+  endcase
+-%}
+
+<article class="blog-card group {{ class }}">
+  <a href="{{ article.url }}" class="block">
+    {%- comment -%} Article Image {%- endcomment -%}
+    {% if article.image %}
+      <div class="blog-card-image relative overflow-hidden rounded-lg bg-border mb-4 {{ aspect_class }}">
+        {% render 'image', 
+          image: article.image, 
+          alt: article.image.alt | default: article.title,
+          class: 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
+        %}
+        
+        {%- comment -%} Reading time badge (optional) {%- endcomment -%}
+        {% if article.content != blank %}
+          {%- assign word_count = article.content | strip_html | split: ' ' | size -%}
+          {%- assign reading_time = word_count | divided_by: 200 | at_least: 1 -%}
+          <div class="absolute bottom-2 right-2 bg-background/90 backdrop-blur-sm text-text text-xs px-2 py-1 rounded">
+            {{ 'blogs.article.read_time' | t: time: reading_time }}
+          </div>
+        {% endif %}
+      </div>
+    {% else %}
+      {%- comment -%} Placeholder if no image {%- endcomment -%}
+      <div class="blog-card-image {{ aspect_class }} flex items-center justify-center bg-border rounded-lg mb-4">
+        <svg class="w-12 h-12 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+        </svg>
+      </div>
+    {% endif %}
+    
+    {%- comment -%} Article Info {%- endcomment -%}
+    <div class="blog-card-info">
+      {%- comment -%} Tags {%- endcomment -%}
+      {% if display_tags and article.tags.size > 0 %}
+        <div class="blog-card-tags flex flex-wrap gap-2 mb-2">
+          {% for tag in article.tags limit: 2 %}
+            <span class="text-xs px-2 py-1 bg-border rounded-full text-text-secondary">
+              {{ tag }}
+            </span>
+          {% endfor %}
+        </div>
+      {% endif %}
+      
+      {%- comment -%} Title {%- endcomment -%}
+      <h3 class="blog-card-title font-bold text-lg mb-2 line-clamp-2 group-hover:underline">
+        {{ article.title }}
+      </h3>
+      
+      {%- comment -%} Meta (Author & Date) {%- endcomment -%}
+      {% if display_author or display_date %}
+        <div class="blog-card-meta text-sm text-text-secondary mb-3 flex items-center gap-2">
+          {% if display_author and article.author != blank %}
+            <span>{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+          {% endif %}
+          
+          {% if display_author and display_date and article.author != blank %}
+            <span>·</span>
+          {% endif %}
+          
+          {% if display_date %}
+            <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+              {{ article.published_at | date: format: 'month_day_year' }}
+            </time>
+          {% endif %}
+        </div>
+      {% endif %}
+      
+      {%- comment -%} Excerpt {%- endcomment -%}
+      {% if display_excerpt %}
+        {% if article.excerpt != blank %}
+          <p class="blog-card-excerpt text-text-secondary text-sm mb-4 line-clamp-3">
+            {{ article.excerpt | strip_html }}
+          </p>
+        {% elsif article.content != blank %}
+          <p class="blog-card-excerpt text-text-secondary text-sm mb-4 line-clamp-3">
+            {{ article.content | strip_html | truncate: 150 }}
+          </p>
+        {% endif %}
+      {% endif %}
+      
+      {%- comment -%} Read More Link {%- endcomment -%}
+      <span class="blog-card-link text-primary font-medium hover:underline inline-flex items-center gap-1">
+        {{ 'blogs.article.read_more' | t }}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </span>
+    </div>
+  </a>
+  
+  {%- comment -%} Comment Count (outside link for better UX) {%- endcomment -%}
+  {% if article.comments_enabled? and article.comments_count > 0 %}
+    <div class="blog-card-comments mt-3 pt-3 border-t border-border">
+      <a href="{{ article.url }}#comments" class="text-sm text-text-secondary hover:text-primary flex items-center gap-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+        </svg>
+        {{ 'blogs.article.comments_count' | t: count: article.comments_count }}
+      </a>
+    </div>
+  {% endif %}
+</article>
+

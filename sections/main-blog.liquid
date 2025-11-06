@@ -6,58 +6,117 @@
 <div class="container-custom py-8">
   {% render 'breadcrumbs' %}
   
-  <div class="blog-header mt-8 mb-12 text-center">
+  {%- comment -%} Blog Header {%- endcomment -%}
+  <div class="blog-header mt-8 mb-12 {% if section.settings.header_alignment == 'center' %}text-center{% endif %}">
     <h1 class="text-4xl font-bold mb-4">{{ blog.title }}</h1>
+    {% if blog.description != blank %}
+      <p class="text-text-secondary text-lg max-w-2xl {% if section.settings.header_alignment == 'center' %}mx-auto{% endif %}">
+        {{ blog.description }}
+      </p>
+    {% endif %}
   </div>
   
-  {% paginate blog.articles by 9 %}
-    <div class="blog-articles">
+  {% paginate blog.articles by section.settings.articles_per_page %}
+    <div class="blog-content">
+      {%- comment -%} Filter by tag {%- endcomment -%}
+      {% if blog.all_tags.size > 0 and section.settings.show_tag_filter %}
+        <div class="blog-tags-filter mb-8 pb-8 border-b border-border">
+          <div class="flex flex-wrap gap-2">
+            <a 
+              href="{{ blog.url }}" 
+              class="tag-filter-btn px-4 py-2 rounded-full border transition-colors {% if current_tags == blank %}bg-primary text-background border-primary{% else %}border-border hover:border-primary{% endif %}"
+            >
+              {{ 'blogs.general.view_all' | t }}
+            </a>
+            {% for tag in blog.all_tags %}
+              <a 
+                href="{{ blog.url }}/tagged/{{ tag | handle }}" 
+                class="tag-filter-btn px-4 py-2 rounded-full border transition-colors {% if current_tags contains tag %}bg-primary text-background border-primary{% else %}border-border hover:border-primary{% endif %}"
+              >
+                {{ tag }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+      
+      {%- comment -%} Articles Grid {%- endcomment -%}
       {% if blog.articles.size > 0 %}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="blog-articles grid grid-cols-1 md:grid-cols-2 lg:grid-cols-{{ section.settings.articles_per_row }} gap-8">
           {% for article in blog.articles %}
-            <article class="article-card border rounded-lg overflow-hidden">
-              {% if article.image %}
-                <a href="{{ article.url }}">
-                  <img src="{{ article.image | image_url: width: 600 }}" alt="{{ article.title }}" class="w-full h-48 object-cover">
-                </a>
-              {% endif %}
-              
-              <div class="p-6">
-                <h2 class="text-xl font-bold mb-2">
-                  <a href="{{ article.url }}" class="hover:underline">{{ article.title }}</a>
-                </h2>
-                
-                <p class="text-sm text-text-secondary mb-4">
-                  {{ article.published_at | date: format: 'month_day_year' }}
-                </p>
-                
-                {% if article.excerpt != blank %}
-                  <p class="text-text mb-4">{{ article.excerpt | strip_html | truncate: 150 }}</p>
-                {% endif %}
-                
-                <a href="{{ article.url }}" class="text-primary font-medium hover:underline">
-                  {{ 'blogs.article.read_more' | t | default: 'Read More' }} →
-                </a>
-              </div>
-            </article>
+            {% render 'blog-card', 
+              article: article,
+              show_excerpt: section.settings.show_excerpt,
+              show_author: section.settings.show_author,
+              show_date: section.settings.show_date,
+              show_tags: section.settings.show_tags,
+              image_ratio: section.settings.image_ratio
+            %}
           {% endfor %}
         </div>
         
+        {%- comment -%} Pagination {%- endcomment -%}
         {% if paginate.pages > 1 %}
-          <div class="pagination mt-12 flex justify-center gap-2">
+          <nav class="pagination mt-12 flex justify-center items-center gap-2" role="navigation" aria-label="{{ 'general.pagination' | t }}">
             {% if paginate.previous %}
-              <a href="{{ paginate.previous.url }}" class="btn btn-secondary">{{ 'general.pagination.previous' | t | default: 'Previous' }}</a>
+              <a 
+                href="{{ paginate.previous.url }}" 
+                class="btn btn-secondary flex items-center gap-2"
+                aria-label="{{ 'general.pagination.previous' | t }}"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                {{ 'general.pagination.previous' | t }}
+              </a>
+            {% else %}
+              <span class="btn btn-secondary opacity-50 cursor-not-allowed flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                {{ 'general.pagination.previous' | t }}
+              </span>
             {% endif %}
             
-            <span class="px-4 py-2">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+            <span class="px-4 py-2 text-sm">
+              <span class="font-medium">{{ paginate.current_page }}</span>
+              <span class="mx-1">/</span>
+              <span>{{ paginate.pages }}</span>
+            </span>
             
             {% if paginate.next %}
-              <a href="{{ paginate.next.url }}" class="btn btn-secondary">{{ 'general.pagination.next' | t | default: 'Next' }}</a>
+              <a 
+                href="{{ paginate.next.url }}" 
+                class="btn btn-secondary flex items-center gap-2"
+                aria-label="{{ 'general.pagination.next' | t }}"
+              >
+                {{ 'general.pagination.next' | t }}
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            {% else %}
+              <span class="btn btn-secondary opacity-50 cursor-not-allowed flex items-center gap-2">
+                {{ 'general.pagination.next' | t }}
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </span>
             {% endif %}
-          </div>
+          </nav>
         {% endif %}
       {% else %}
-        <p class="text-center text-text-secondary">{{ 'blogs.general.no_articles' | t | default: 'No articles found' }}</p>
+        {%- comment -%} No Articles State {%- endcomment -%}
+        <div class="text-center py-16">
+          <svg class="w-24 h-24 mx-auto mb-6 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+          </svg>
+          <h2 class="text-2xl font-bold mb-4">{{ 'blogs.general.no_articles' | t }}</h2>
+          {% if current_tags != blank %}
+            <p class="text-text-secondary mb-6">No articles found with the selected tag.</p>
+            <a href="{{ blog.url }}" class="btn btn-primary">View all articles</a>
+          {% endif %}
+        </div>
       {% endif %}
     </div>
   {% endpaginate %}
@@ -68,7 +127,92 @@
   "name": "Main Blog",
   "tag": "section",
   "class": "section-main-blog",
-  "settings": []
+  "settings": [
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "min": 6,
+      "max": 24,
+      "step": 3,
+      "default": 9,
+      "label": "Articles per page"
+    },
+    {
+      "type": "range",
+      "id": "articles_per_row",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "Articles per row (desktop)"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        {
+          "value": "1:1",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "4:3",
+          "label": "Landscape (4:3)"
+        },
+        {
+          "value": "16:9",
+          "label": "Widescreen (16:9)"
+        }
+      ],
+      "default": "16:9"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tag_filter",
+      "label": "Show tag filter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show article excerpt",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show article author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show publish date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show article tags",
+      "default": false
+    }
+  ]
 }
 {% endschema %}
 

@@ -1,0 +1,71 @@
+{% comment %}
+  Product Badge Component
+  Displays sale, new, or custom badges on product cards/images
+  
+  Usage:
+    {% render 'product-badge', product: product, type: 'sale' %}
+    {% render 'product-badge', product: product, type: 'new' %}
+    {% render 'product-badge', text: 'Custom Badge', class: 'custom-badge' %}
+  
+  Parameters:
+    - product: Product object (required if using automatic badge detection)
+    - type: 'sale', 'new', or 'custom'
+    - text: Custom badge text (for custom type)
+    - class: Additional CSS classes
+    - position: 'top-left', 'top-right', 'bottom-left', 'bottom-right' (default: 'top-right')
+{% endcomment %}
+
+{%- liquid
+  assign badge_type = type | default: 'auto'
+  assign badge_position = position | default: 'top-right'
+  assign show_badge = false
+  assign badge_text = ''
+  assign badge_class = ''
+
+  if badge_type == 'auto' or badge_type == 'sale'
+    if product.compare_at_price > product.price
+      assign show_badge = true
+      assign badge_text = 'products.product.sale' | t
+      assign badge_class = 'badge-sale bg-red-600 text-white'
+      
+      if product.compare_at_price > 0
+        assign discount_percent = product.price | minus: product.compare_at_price | times: 100 | divided_by: product.compare_at_price | abs
+        if discount_percent > 0
+          assign badge_text = 'products.product.save_percent' | t: percent: discount_percent
+        endif
+      endif
+    endif
+  endif
+
+  if badge_type == 'new'
+    assign show_badge = true
+    assign badge_text = 'products.product.new' | t
+    assign badge_class = 'badge-new bg-primary text-background'
+  endif
+
+  if badge_type == 'custom' and text != blank
+    assign show_badge = true
+    assign badge_text = text
+    assign badge_class = 'badge-custom bg-text text-background'
+  endif
+
+  case badge_position
+    when 'top-left'
+      assign position_class = 'top-2 left-2'
+    when 'top-right'
+      assign position_class = 'top-2 right-2'
+    when 'bottom-left'
+      assign position_class = 'bottom-2 left-2'
+    when 'bottom-right'
+      assign position_class = 'bottom-2 right-2'
+    else
+      assign position_class = 'top-2 right-2'
+  endcase
+-%}
+
+{% if show_badge %}
+  <div class="product-badge absolute {{ position_class }} {{ badge_class }} {{ class }} text-xs font-medium px-2 py-1 rounded z-10">
+    {{ badge_text }}
+  </div>
+{% endif %}
+

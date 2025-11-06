@@ -1,0 +1,94 @@
+{% comment %}
+  Quantity Input Component
+  A reusable quantity selector with increment/decrement buttons
+  
+  Usage:
+    {% render 'quantity-input', 
+      id: 'Quantity-' | append: line_item.key,
+      name: 'updates[' | append: line_item.key | append: ']',
+      value: line_item.quantity,
+      min: 0,
+      max: line_item.variant.inventory_quantity,
+      label: 'Quantity'
+    %}
+  
+  Parameters:
+    - id: Input ID (required for accessibility)
+    - name: Input name attribute (e.g., 'updates[line_key]' for cart items)
+    - value: Current quantity value (default: 1)
+    - min: Minimum quantity (default: 1)
+    - max: Maximum quantity (optional)
+    - label: Label text for screen readers
+    - disabled: Boolean to disable the input
+    - class: Additional CSS classes for the wrapper
+{% endcomment %}
+
+{%- liquid
+  assign qty_id = id | default: 'Quantity'
+  assign qty_name = name | default: 'quantity'
+  assign qty_value = value | default: 1
+  assign qty_min = min | default: 1
+  assign qty_label = label | default: 'Quantity'
+  assign is_disabled = disabled | default: false
+  assign component_name = 'quantity-selector-component'
+  if line_index != null
+    assign component_name = 'cart-quantity-selector-component'
+  endif
+-%}
+
+<{{ component_name }} 
+  class="quantity-selector {{ class }}"
+  data-variant-id="{{ variant_id }}"
+>
+  <button
+    type="button"
+    class="button quantity-minus button-unstyled flex items-center justify-center w-10 h-10 text-text hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+    on:click="/decreaseQuantity"
+    ref="minusButton"
+    {% if is_disabled %}disabled{% endif %}
+    {% if qty_value <= qty_min %}disabled{% endif %}
+  >
+    <span class="sr-only">{{ 'products.product.quantity_decrease' | t: product: qty_label }}</span>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+    </svg>
+  </button>
+  
+  <input
+    type="number"
+    id="{{ qty_id }}"
+    name="{{ qty_name }}"
+    value="{{ qty_value }}"
+    min="{{ qty_min }}"
+    {% if max %}max="{{ max }}"{% endif %}
+    {% if line_index %}
+      data-cart-line="{{ line_index | plus: 1 }}"
+    {% endif %}
+    step="1"
+    on:blur="/validateQuantity"
+    on:focus="/selectInputValue"
+    ref="quantityInput"
+    aria-label="{{ 'products.product.quantity_input' | t: product: qty_label }}"
+    class="quantity-input w-16 h-10 text-center border-0 border-x border-border focus:ring-0 focus:outline-none text-text"
+    {% if is_disabled %}disabled{% endif %}
+  >
+  
+  <button
+    type="button"
+    class="button quantity-plus button-unstyled flex items-center justify-center w-10 h-10 text-text hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+    on:click="/increaseQuantity"
+    ref="plusButton"
+    {% if is_disabled %}disabled{% endif %}
+    {% if max and qty_value >= max %}disabled{% endif %}
+  >
+    <span class="sr-only">{{ 'products.product.quantity_increase' | t: product: qty_label }}</span>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+    </svg>
+  </button>
+</{{ component_name }}>
+
+{%- comment -%}
+  Note: The JavaScript for this component is now in src/js/components/quantity-input.js
+  and compiled into assets/main.js by Vite.
+{%- endcomment -%}

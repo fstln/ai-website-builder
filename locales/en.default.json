@@ -32,9 +32,33 @@
       "empty": "Your cart is currently empty.",
       "subtotal": "Subtotal",
       "checkout": "Checkout",
-      "update": "Update",
+      "update": "Update Cart",
+      "updating": "Updating...",
+      "updated": "Cart updated",
       "remove": "Remove",
-      "quantity": "Quantity"
+      "quantity": "Quantity",
+      "item_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      },
+      "note": "Add a note to your order",
+      "note_placeholder": "Special instructions for your order",
+      "view_cart": "View Cart",
+      "add_more": "Add more items",
+      "taxes_and_shipping_at_checkout": "Taxes and shipping calculated at checkout",
+      "taxes_included_but_shipping_at_checkout": "Tax included and shipping calculated at checkout",
+      "taxes_included_and_shipping_at_checkout": "Tax included and shipping calculated at checkout",
+      "headings": {
+        "product": "Product",
+        "price": "Price",
+        "quantity": "Quantity",
+        "total": "Total"
+      },
+      "errors": {
+        "cart_error": "There was an error updating your cart. Please try again.",
+        "item_unavailable": "This item is no longer available",
+        "quantity_error": "Unable to update quantity"
+      }
     },
     "newsletter": {
       "label": "Email",
@@ -56,11 +80,42 @@
   "products": {
     "product": {
       "add_to_cart": "Add to Cart",
+      "adding_to_cart": "Adding...",
+      "added_to_cart": "Added to Cart",
       "quantity": "Quantity",
       "price": "Price",
       "sold_out": "Sold Out",
       "unavailable": "Unavailable",
-      "from": "from"
+      "from": "from",
+      "unit_price_label": "Unit price",
+      "select_options": "Select options",
+      "view_full_details": "View full details",
+      "vendor": "Vendor",
+      "sku": "SKU",
+      "product_type": "Type",
+      "sale": "Sale",
+      "new": "New",
+      "save_amount": "Save {{ amount }}",
+      "save_percent": "Save {{ percent }}%",
+      "in_stock": "In stock",
+      "low_stock": "Low stock",
+      "out_of_stock": "Out of stock",
+      "quantity_minimum": "Minimum of {{ quantity }}",
+      "quantity_maximum": "Maximum of {{ quantity }}",
+      "quantity_increase": "Increase quantity for {{ product }}",
+      "quantity_decrease": "Decrease quantity for {{ product }}",
+      "quantity_input": "Quantity for {{ product }}",
+      "variant_sold_out_or_unavailable": "Variant sold out or unavailable",
+      "media": {
+        "open_featured_media": "Open featured media in gallery view",
+        "open_media": "Open media {{ index }} in gallery view",
+        "play_model": "Play 3D Model",
+        "play_video": "Play video",
+        "gallery_viewer": "Gallery Viewer",
+        "load_image": "Load image {{ index }} in gallery view",
+        "load_model": "Load 3D model in gallery view",
+        "load_video": "Play video in gallery view"
+      }
     }
   },
   "collections": {
@@ -73,15 +128,133 @@
       "tags": "Tags",
       "comments": "Comments",
       "comment_form_title": "Post a Comment",
+      "comment_form_description": "All comments are moderated before being published",
+      "comment_success": "Your comment was posted successfully! It will be visible once approved.",
+      "comment_error": "There was an error posting your comment. Please try again.",
       "name": "Name",
       "email": "Email",
       "message": "Message",
       "post": "Post Comment",
-      "read_more": "Read More"
+      "read_more": "Read More",
+      "back_to_blog": "Back to {{ blog_title }}",
+      "view_all": "View all articles",
+      "by_author": "By {{ author }}",
+      "on_date": "on {{ date }}",
+      "read_time": "{{ time }} min read",
+      "share": "Share this article",
+      "share_on_facebook": "Share on Facebook",
+      "share_on_twitter": "Share on Twitter",
+      "share_on_pinterest": "Share on Pinterest",
+      "copy_link": "Copy link",
+      "link_copied": "Link copied!",
+      "no_comments": "No comments yet. Be the first to comment!",
+      "comments_count": {
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
+      }
     },
     "general": {
-      "no_articles": "No articles found"
+      "no_articles": "No articles found",
+      "view_all": "View all"
     }
+  },
+  "customer": {
+    "account": {
+      "title": "Account",
+      "details": "Account Details",
+      "view_addresses": "View Addresses",
+      "return": "Return to Account Details"
+    },
+    "log_in": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "forgot_password": "Forgot your password?",
+      "sign_in": "Sign In",
+      "cancel": "Cancel",
+      "guest_title": "Continue as a guest",
+      "guest_continue": "Continue"
+    },
+    "orders": {
+      "title": "Order History",
+      "order_number": "Order",
+      "date": "Date",
+      "payment_status": "Payment Status",
+      "fulfillment_status": "Fulfillment Status",
+      "total": "Total",
+      "none": "You haven't placed any orders yet."
+    },
+    "addresses": {
+      "title": "Addresses",
+      "default": "Default",
+      "add_new": "Add a New Address",
+      "edit_address": "Edit address",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "company": "Company",
+      "address1": "Address 1",
+      "address2": "Address 2",
+      "city": "City",
+      "country": "Country",
+      "province": "Province",
+      "zip": "Postal/Zip Code",
+      "phone": "Phone",
+      "set_default": "Set as default address",
+      "add": "Add Address",
+      "update": "Update Address",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "delete_confirm": "Are you sure you wish to delete this address?"
+    },
+    "reset_password": {
+      "title": "Reset account password",
+      "subtext": "We will send you an email to reset your password.",
+      "submit": "Submit"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Here's your {{ value }} gift card for {{ shop }}!",
+      "subtext": "Your gift card",
+      "gift_card_code": "Gift card code",
+      "shop_link": "Start shopping",
+      "remaining_html": "Remaining {{ balance }}",
+      "add_to_apple_wallet": "Add to Apple Wallet",
+      "qr_image_alt": "QR code — scan to redeem gift card",
+      "copy_code": "Copy code",
+      "expired": "Expired",
+      "copy_code_success": "Code copied successfully",
+      "how_to_use_gift_card": "Use the gift card code online or QR code in-store",
+      "expiration_date": "Expires {{ expires_on }}"
+    }
+  },
+  "contact": {
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "comment": "Message",
+      "send": "Send",
+      "post_success": "Thanks for contacting us. We'll get back to you as soon as possible."
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "skip_to_product_info": "Skip to product information",
+    "close": "Close",
+    "link_messages": {
+      "new_window": "Opens in a new window.",
+      "external": "Opens external website."
+    },
+    "loading": "Loading...",
+    "selection_help": "Press the space key then arrow keys to make a selection.",
+    "error": "Error",
+    "refresh_page": "Choosing a selection results in a full page refresh.",
+    "next_slide": "Slide right",
+    "previous_slide": "Slide left",
+    "of": "of",
+    "star_reviews_info": "{{ rating_value }} out of {{ rating_max }} stars"
   }
 }
 

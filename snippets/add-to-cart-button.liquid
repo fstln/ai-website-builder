@@ -1,0 +1,116 @@
+{% comment %}
+  Add to Cart Button Component
+  Following Horizon pattern with ref and on:click attributes
+
+  Usage:
+    {% render 'add-to-cart-button',
+      can_add_to_cart: true,
+      product: product,
+      class: 'btn-primary',
+      id: 'AddToCart'
+    %}
+
+  Parameters:
+    - can_add_to_cart: Boolean - Whether the product can be added to cart
+    - product: Product object
+    - class: String - Additional CSS classes
+    - id: String - Button ID
+    - icon_only_on_mobile: Boolean - Show only icon on mobile
+{% endcomment %}
+
+{%- liquid
+  assign default_add_to_cart_text = 'products.product.add_to_cart' | t
+  assign button_text = default_add_to_cart_text
+  
+  assign product_variant_media = product.selected_or_first_available_variant.featured_media.preview_image | image_url: width: 100
+  if product.selected_or_first_available_variant.featured_media.preview_image == blank
+    assign product_variant_media = product.featured_media.preview_image | image_url: width: 100
+  endif
+-%}
+
+<add-to-cart-component
+  ref="addToCartButtonContainer"
+  data-product-variant-media="{{ product_variant_media }}"
+  data-add-to-cart-animation="true"
+>
+  <button
+    id="{{ id | default: 'AddToCart' }}"
+    type="submit"
+    name="add"
+    ref="addToCartButton"
+    on:click="/handleClick"
+    class="btn {{ class | default: 'btn-primary' }} add-to-cart-button relative overflow-hidden"
+    {% unless can_add_to_cart %}
+      disabled
+    {% endunless %}
+    aria-label="{{ button_text }}"
+  >
+    {%- comment -%} Default state {%- endcomment -%}
+    <span class="add-to-cart-text flex items-center justify-center gap-2 transition-opacity">
+      {% if can_add_to_cart %}
+        <svg class="w-5 h-5 add-to-cart-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+        </svg>
+      {% endif %}
+      <span class="add-to-cart-text__content{% if icon_only_on_mobile %} hidden sm:inline{% endif %}">
+        {{ button_text }}
+      </span>
+    </span>
+
+    {%- comment -%} Added state {%- endcomment -%}
+    <span
+      aria-hidden="true"
+      class="add-to-cart-text--added absolute inset-0 flex items-center justify-center gap-2 opacity-0 transition-opacity"
+    >
+      <svg class="w-5 h-5 add-to-cart-icon--added" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+      <span class="{% if icon_only_on_mobile %}hidden sm:inline{% endif %}">
+        {{ 'products.product.added' | t | default: 'Added!' }}
+      </span>
+    </span>
+  </button>
+</add-to-cart-component>
+
+{% style %}
+  .add-to-cart-button.adding-to-cart .add-to-cart-text {
+    opacity: 0.5;
+  }
+  
+  .add-to-cart-button.added-to-cart .add-to-cart-text {
+    opacity: 0;
+  }
+  
+  .add-to-cart-button.added-to-cart .add-to-cart-text--added {
+    opacity: 1;
+  }
+
+  .flying-product-image {
+    animation: fly-to-cart 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  @keyframes fly-to-cart {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.2);
+    }
+  }
+
+  .cart-pulse {
+    animation: cart-pulse 0.6s ease-in-out;
+  }
+
+  @keyframes cart-pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
+{% endstyle %}
+
