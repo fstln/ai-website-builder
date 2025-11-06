@@ -39,7 +39,7 @@
                     <h3 class="font-bold mb-2">
                       <a href="{{ item.url }}" class="hover:underline">{{ item.title }}</a>
                     </h3>
-                    <p class="text-sm text-text-secondary mb-2">{{ item.published_at | date: format: 'month_day_year' }}</p>
+                    <p class="text-sm text-text-secondary mb-2">{{ item.published_at | date: '%B %d, %Y' }}</p>
                     <p class="text-text">{{ item.excerpt | strip_html | truncate: 120 }}</p>
                   </article>
                 {% when 'page' %}

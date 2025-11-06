@@ -1,38 +1,17 @@
 {% comment %}
   Header Section - Modern DTC Design
-  Apple-inspired header with glassmorphism, smooth animations, and scroll behavior
+  Sticky header with show-on-scroll-up behavior
 {% endcomment %}
 
 {% liquid
   assign menu_linklist = section.settings.main_menu | default: 'main-menu'
-  assign enable_sticky = section.settings.enable_sticky_header
-  assign scroll_behavior = section.settings.scroll_behavior | default: 'show-on-scroll-up'
-  assign enable_blur = section.settings.enable_backdrop_blur
   assign nav_position = section.settings.nav_position | default: 'left'
-  assign header_bg = section.settings.header_background | default: '#ffffff'
-  assign header_opacity = section.settings.header_background_opacity | default: 95
-  
-  assign sticky_class = ''
-  if enable_sticky
-    assign sticky_class = 'header--sticky'
-  endif
-  
-  assign blur_class = ''
-  if enable_blur
-    assign blur_class = 'header--blur'
-  endif
-  
   assign nav_position_class = 'header__nav--' | append: nav_position
 %}
 
 <header 
-  class="header {{ sticky_class }} {{ blur_class }}" 
+  class="header header--sticky header--blur" 
   data-header
-  data-scroll-behavior="{{ scroll_behavior }}"
-  style="
-    --header-bg-color: {{ header_bg }}; 
-    --header-opacity: {{ header_opacity | divided_by: 100.0 }};
-  "
 >
   <div class="header__container container-custom">
     <div class="header__inner">
@@ -61,9 +40,9 @@
               section.settings.logo
               | image_url: width: 600
               | image_tag:
-                class: 'header__logo-image',
+                class: 'header__logo-image w-auto',
                 alt: shop.name,
-                width: section.settings.logo_width,
+                width: '80px',
                 height: 'auto',
                 loading: 'eager'
             }}
@@ -215,19 +194,17 @@
   width: 100%;
   z-index: 100;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Sticky Header */
+/* Sticky Header with Blur Effect */
 .header--sticky {
   position: sticky;
   top: 0;
 }
 
-/* Backdrop Blur Effect */
 .header--blur {
-  background-color: rgba(255, 255, 255, calc(var(--header-opacity) * 0.8));
+  background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
@@ -244,8 +221,8 @@
 }
 
 .header__inner {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  position: relative;
+  display: flex;
   align-items: center;
   gap: var(--spacing-8);
   padding: var(--spacing-4) 0;
@@ -256,7 +233,6 @@
 .header__logo {
   display: flex;
   align-items: center;
-  order: 2;
 }
 
 .header__logo-link {
@@ -286,20 +262,13 @@
 /* Desktop Navigation */
 .header__nav {
   display: none;
-  order: 3;
-}
-
-/* Navigation Position: Left (near logo) */
-.header__nav--left {
-  justify-self: start;
-  margin-left: var(--spacing-8);
 }
 
 /* Navigation Position: Center */
 .header__nav--center {
-  justify-self: center;
-  margin-left: auto;
-  margin-right: auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .header__nav-list {
@@ -339,7 +308,6 @@
   border: none;
   cursor: pointer;
   color: var(--color-text);
-  order: 1;
   border-radius: var(--radius-md);
   transition: background-color 0.2s ease;
 }
@@ -381,7 +349,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
-  order: 4;
+  margin-left: auto;
 }
 
 .header__action-link {
@@ -575,34 +543,12 @@
     display: none;
   }
   
-  .header__logo {
-    order: 1;
-  }
-  
   .header__nav {
-    display: block;
-    order: 2;
-  }
-  
-  .header__nav--left {
-    margin-left: var(--spacing-12);
-  }
-  
-  .header__nav--center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
-  }
-  
-  .header__actions {
-    order: 3;
-    margin-left: auto;
+    display: flex;
   }
   
   .header__inner {
     padding: var(--spacing-2) 0;
-    position: relative;
   }
 }
 
@@ -634,15 +580,14 @@ class HeaderComponent {
     this.mobileDrawer = document.querySelector('[data-mobile-drawer]');
     this.mobileBackdrop = document.querySelector('[data-mobile-backdrop]');
     this.mobileClose = document.querySelector('[data-mobile-close]');
-    this.scrollBehavior = this.header?.dataset.scrollBehavior;
     
     this.lastScrollY = window.scrollY;
-    this.isScrollingUp = false;
     
     this.init();
   }
   
   init() {
+    // Mobile menu handlers
     if (this.mobileToggle) {
       this.mobileToggle.addEventListener('click', () => this.toggleMobileMenu());
     }
@@ -655,11 +600,7 @@ class HeaderComponent {
       this.mobileBackdrop.addEventListener('click', () => this.closeMobileMenu());
     }
     
-    if (this.scrollBehavior === 'show-on-scroll-up') {
-      window.addEventListener('scroll', () => this.handleScroll(), { passive: true });
-    }
-    
-    // Handle escape key
+    // Escape key handler
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && this.mobileDrawer?.getAttribute('aria-hidden') === 'false') {
         this.closeMobileMenu();
@@ -670,13 +611,8 @@ class HeaderComponent {
     if (this.mobileDrawer) {
       const observer = new MutationObserver(() => {
         const isOpen = this.mobileDrawer.getAttribute('aria-hidden') === 'false';
-        if (isOpen) {
-          document.body.style.overflow = 'hidden';
-          document.documentElement.style.overflow = 'hidden';
-        } else {
-          document.body.style.overflow = '';
-          document.documentElement.style.overflow = '';
-        }
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+        document.documentElement.style.overflow = isOpen ? 'hidden' : '';
       });
       
       observer.observe(this.mobileDrawer, {
@@ -684,6 +620,9 @@ class HeaderComponent {
         attributeFilter: ['aria-hidden']
       });
     }
+    
+    // Scroll handler - always show on scroll up, hide on scroll down
+    window.addEventListener('scroll', () => this.handleScroll(), { passive: true });
   }
   
   toggleMobileMenu() {
@@ -701,8 +640,6 @@ class HeaderComponent {
     
     this.mobileToggle.setAttribute('aria-expanded', 'true');
     this.mobileDrawer.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
   }
   
   closeMobileMenu() {
@@ -710,26 +647,24 @@ class HeaderComponent {
     
     this.mobileToggle.setAttribute('aria-expanded', 'false');
     this.mobileDrawer.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
   }
   
   handleScroll() {
     const currentScrollY = window.scrollY;
     
-    // Add scrolled class
+    // Add scrolled class for styling
     if (currentScrollY > 10) {
       this.header.classList.add('header--scrolled');
     } else {
       this.header.classList.remove('header--scrolled');
     }
     
-    // Hide/show header based on scroll direction
+    // Show on scroll up, hide on scroll down (when scrolled past 100px)
     if (currentScrollY > this.lastScrollY && currentScrollY > 100) {
-      // Scrolling down
+      // Scrolling down - hide header
       this.header.classList.add('header--hidden');
     } else {
-      // Scrolling up
+      // Scrolling up - show header
       this.header.classList.remove('header--hidden');
     }
     
@@ -760,16 +695,6 @@ if (document.readyState === 'loading') {
       "label": "Logo image"
     },
     {
-      "type": "range",
-      "id": "logo_width",
-      "min": 80,
-      "max": 300,
-      "step": 10,
-      "unit": "px",
-      "label": "Logo width",
-      "default": 150
-    },
-    {
       "type": "header",
       "content": "Navigation"
     },
@@ -795,62 +720,6 @@ if (document.readyState === 'loading') {
       ],
       "default": "left",
       "info": "Choose navigation menu position on desktop"
-    },
-    {
-      "type": "header",
-      "content": "Header Behavior"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_sticky_header",
-      "label": "Enable sticky header",
-      "default": true,
-      "info": "Header will stay at the top when scrolling"
-    },
-    {
-      "type": "select",
-      "id": "scroll_behavior",
-      "label": "Scroll behavior",
-      "options": [
-        {
-          "value": "always-visible",
-          "label": "Always visible"
-        },
-        {
-          "value": "show-on-scroll-up",
-          "label": "Show on scroll up"
-        }
-      ],
-      "default": "show-on-scroll-up",
-      "info": "Choose how header appears when scrolling"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_backdrop_blur",
-      "label": "Enable backdrop blur",
-      "default": true,
-      "info": "Modern glassmorphism effect (iOS/Safari style)"
-    },
-    {
-      "type": "header",
-      "content": "Header Appearance"
-    },
-    {
-      "type": "color",
-      "id": "header_background",
-      "label": "Background color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "range",
-      "id": "header_background_opacity",
-      "min": 50,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "label": "Background opacity",
-      "default": 95,
-      "info": "Works best with backdrop blur enabled"
     }
   ]
 }

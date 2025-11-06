@@ -95,7 +95,7 @@
           
           {% if display_date %}
             <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
-              {{ article.published_at | date: format: 'month_day_year' }}
+              {{ article.published_at | date: '%B %d, %Y' }}
             </time>
           {% endif %}
         </div>

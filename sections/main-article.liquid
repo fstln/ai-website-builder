@@ -11,7 +11,7 @@
       <h1 class="text-4xl font-bold mb-4">{{ article.title }}</h1>
       
       <div class="article-meta text-sm text-text-secondary mb-6">
-        <span>{{ article.published_at | date: format: 'month_day_year' }}</span>
+        <span>{{ article.published_at | date: '%B %d, %Y' }}</span>
         {% if article.author %}
           <span class="mx-2">·</span>
           <span>{{ article.author }}</span>
@@ -48,7 +48,7 @@
           {% for comment in article.comments %}
             <div class="comment mb-6 p-4 bg-border rounded">
               <div class="comment-meta text-sm text-text-secondary mb-2">
-                <strong>{{ comment.author }}</strong> · {{ comment.created_at | date: format: 'month_day_year' }}
+                <strong>{{ comment.author }}</strong> · {{ comment.created_at | date: '%B %d, %Y' }}
               </div>
               <div class="comment-content">
                 {{ comment.content }}
