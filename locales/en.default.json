@@ -40,7 +40,15 @@
       "label": "Email",
       "success": "Thanks for subscribing",
       "button_label": "Subscribe"
-    }
+    },
+  "header": {
+    "menu": "Menu",
+    "close_menu": "Close menu",
+    "cart": "Cart",
+    "items": "items",
+    "account": "Account",
+    "log_in": "Log in"
+  }
   },
   "products": {
     "product": {

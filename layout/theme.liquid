@@ -25,6 +25,7 @@
   {{ content_for_header }}
   
   {{ 'theme.css' | asset_url | stylesheet_tag }}
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
   
   <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
   
@@ -152,9 +153,12 @@
       
       /* Interaction Tokens */
       --transition-duration: {{ settings.transition_duration | default: 200 }}ms;
-      --hover-opacity: {{ settings.hover_opacity | default: 0.9 }};
-      --hover-scale: {{ settings.hover_scale | default: 1.0 }};
-      --active-opacity: {{ settings.active_opacity | default: 0.8 }};
+      {% comment %} Convert percentage to decimal for opacity (50% = 0.5, 100% = 1.0) {% endcomment %}
+      --hover-opacity: calc({{ settings.hover_opacity | default: 90 }} / 100);
+      {% comment %} Convert percentage to decimal for scale (100% = 1.0, 120% = 1.2) {% endcomment %}
+      --hover-scale: calc({{ settings.hover_scale | default: 100 }} / 100);
+      {% comment %} Convert percentage to decimal for opacity (50% = 0.5, 100% = 1.0) {% endcomment %}
+      --active-opacity: calc({{ settings.active_opacity | default: 80 }} / 100);
       
       /* Layout Tokens */
       {% assign section_spacing_base = settings.section_spacing | default: 64 %}

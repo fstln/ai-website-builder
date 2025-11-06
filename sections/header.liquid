@@ -1,75 +1,256 @@
 {% comment %}
-  Header Section - Navigation, Brand, Cart Icon
+  Header Section - Modern DTC Design
+  High-conversion header with clean, professional layout
 {% endcomment %}
 
-<header class="site-header bg-background border-b sticky top-0 z-50" data-section-id="{{ section.id }}" data-section-type="header">
-  <div class="container-custom">
-    <div class="flex items-center justify-between py-4">
-      <!-- Logo -->
-      <div class="header-logo">
-        <a href="/" class="flex items-center">
-          {% if settings.logo %}
-            <img src="{{ settings.logo | image_url: width: settings.logo_width }}" alt="{{ shop.name }}" class="h-8">
+{% liquid
+  assign menu_linklist = section.settings.main_menu | default: 'main-menu'
+  assign enable_sticky = section.settings.enable_sticky_header
+  assign header_bg = section.settings.header_background | default: '#ffffff'
+  assign header_opacity = section.settings.header_background_opacity | default: 100
+  
+  assign sticky_class = ''
+  if enable_sticky
+    assign sticky_class = 'header--sticky'
+  endif
+%}
+
+<header 
+  class="header {{ sticky_class }}" 
+  data-header
+  style="--header-bg-color: {{ header_bg }}; --header-opacity: {{ header_opacity | divided_by: 100.0 }};"
+>
+  <div class="header__container">
+    <div class="header__inner">
+      
+      {%comment%} Mobile Menu Toggle {%endcomment%}
+      <button 
+        type="button"
+        class="header__menu-toggle" 
+        data-mobile-menu-toggle
+        aria-expanded="false"
+        aria-label="{{ 'header.menu' | t }}"
+        aria-controls="mobile-nav"
+      >
+        <svg class="header__menu-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      {%comment%} Logo {%endcomment%}
+      <div class="header__logo">
+        <a href="{{ routes.root_url }}" class="header__logo-link">
+          {% if section.settings.logo %}
+            {{
+              section.settings.logo
+              | image_url: width: 600
+              | image_tag:
+                class: 'header__logo-image',
+                alt: shop.name,
+                width: section.settings.logo_width,
+                height: 'auto',
+                loading: 'eager'
+            }}
           {% else %}
-            <span class="text-2xl font-bold">{{ shop.name }}</span>
+            <span class="header__logo-text">{{ shop.name }}</span>
           {% endif %}
         </a>
       </div>
-      
-      <!-- Desktop Navigation -->
-      <nav class="header-nav hidden md:block">
-        <ul class="flex space-x-6">
-          {% for link in linklists.main-menu.links %}
-            <li>
-              <a href="{{ link.url }}" class="text-text hover:text-primary font-medium">
-                {{ link.title }}
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
+
+      {%comment%} Desktop Navigation {%endcomment%}
+      <nav class="header__nav" aria-label="{{ 'header.menu' | t }}">
+        {% if linklists[menu_linklist].links.size > 0 %}
+          <ul class="header__nav-list">
+            {% for link in linklists[menu_linklist].links %}
+              <li class="header__nav-item">
+                <a 
+                  href="{{ link.url }}" 
+                  class="header__nav-link"
+                  {% if link.active %}aria-current="page"{% endif %}
+                >
+                  {{ link.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
       </nav>
-      
-      <!-- Actions -->
-      <div class="header-actions flex items-center space-x-4">
-        <!-- Search Icon -->
-        <a href="/search" class="text-text hover:text-primary">
-          {% render 'icon', name: 'search' %}
+
+      {%comment%} Header Actions {%endcomment%}
+      <div class="header__actions">
+        {%comment%} Cart {%endcomment%}
+        <a 
+          href="{{ routes.cart_url }}" 
+          class="header__cart-link"
+          aria-label="{{ 'header.cart' | t }} ({{ cart.item_count }} {{ 'header.items' | t }})"
+        >
+          <svg class="header__cart-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          {% if cart.item_count > 0 %}
+            <span class="header__cart-count">{{ cart.item_count }}</span>
+          {% endif %}
         </a>
-        
-        <!-- Cart -->
-        <a href="/cart" class="text-text hover:text-primary relative" data-cart-icon>
-          {% render 'icon', name: 'cart' %}
-          <span class="cart-count absolute -top-2 -right-2 bg-primary text-background text-xs rounded-full w-5 h-5 flex items-center justify-center" data-cart-count>
-            {{ cart.item_count }}
-          </span>
-        </a>
-        
-        <!-- Mobile Menu Toggle -->
-        <button class="md:hidden text-text hover:text-primary" data-mobile-menu-toggle>
-          {% render 'icon', name: 'menu' %}
-        </button>
+
+        {%comment%} Account {%endcomment%}
+        {% if shop.customer_accounts_enabled %}
+          <a 
+            href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" 
+            class="header__account-link"
+            aria-label="{% if customer %}{{ 'header.account' | t }}{% else %}{{ 'header.log_in' | t }}{% endif %}"
+          >
+            <svg class="header__account-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
+        {% endif %}
       </div>
     </div>
-    
-    <!-- Mobile Navigation -->
-    <nav class="mobile-nav md:hidden hidden" data-mobile-nav>
-      <ul class="py-4 space-y-4">
-        {% for link in linklists.main-menu.links %}
-          <li>
-            <a href="{{ link.url }}" class="block text-gray-700 hover:text-black font-medium">
-              {{ link.title }}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    </nav>
+  </div>
+
+  {%comment%} Mobile Navigation Drawer {%endcomment%}
+  <div 
+    id="mobile-nav"
+    class="header__mobile-drawer" 
+    data-mobile-drawer
+    hidden
+  >
+    <div class="header__mobile-backdrop" data-mobile-backdrop></div>
+    <div class="header__mobile-panel">
+      <div class="header__mobile-header">
+        <div class="header__mobile-logo">
+          {% if section.settings.logo %}
+            {{
+              section.settings.logo
+              | image_url: width: 300
+              | image_tag:
+                alt: shop.name,
+                width: 120,
+                height: 'auto'
+            }}
+          {% else %}
+            <span class="header__mobile-logo-text">{{ shop.name }}</span>
+          {% endif %}
+        </div>
+        <button 
+          type="button"
+          class="header__mobile-close" 
+          data-mobile-close
+          aria-label="{{ 'header.close_menu' | t }}"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <nav class="header__mobile-nav" aria-label="{{ 'header.menu' | t }}">
+        {% if linklists[menu_linklist].links.size > 0 %}
+          <ul class="header__mobile-nav-list">
+            {% for link in linklists[menu_linklist].links %}
+              <li>
+                <a 
+                  href="{{ link.url }}" 
+                  class="header__mobile-nav-link"
+                  {% if link.active %}aria-current="page"{% endif %}
+                >
+                  {{ link.title }}
+                </a>
+              </li>
+            {% endfor %}
+            
+            {%comment%} Account Link in Mobile {%endcomment%}
+            {% if shop.customer_accounts_enabled %}
+              <li class="header__mobile-divider">
+                <a 
+                  href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" 
+                  class="header__mobile-nav-link header__mobile-nav-link--highlighted"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  {% if customer %}
+                    {{ customer.first_name | default: 'Account' }}
+                  {% else %}
+                    {{ 'header.log_in' | t }}
+                  {% endif %}
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        {% endif %}
+      </nav>
+    </div>
   </div>
 </header>
 
 {% schema %}
 {
   "name": "Header",
-  "settings": []
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 80,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 150
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Header Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_header",
+      "label": "Enable sticky header",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "header_background",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "header_background_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Background opacity",
+      "default": 100
+    }
+  ]
 }
 {% endschema %}
-

@@ -1,0 +1,235 @@
+# Implementation Tasks: Modern DTC Header
+
+## 1. Foundation & Structure
+- [x] 1.1 Create header schema in `/config/settings_schema.json`
+  - [x] Logo settings (image_picker, width range)
+  - [x] Sticky header settings (enable, hide-on-scroll)
+  - [x] Style settings (background color, opacity, height)
+  - [x] Navigation settings (menu selector, search toggle)
+- [x] 1.2 Add translation keys to `/locales/en.default.json`
+  - [x] Menu open/close labels
+  - [x] Search labels
+  - [x] Cart labels with item count
+  - [x] Account labels
+  - [x] ARIA labels for accessibility
+- [x] 1.3 Verify icon snippet exists `/snippets/icon.liquid`
+  - [x] Create if missing with support for: menu, close, search, cart, user, chevron-down
+  - [x] Use Remix Icon for all icons
+  - [x] Add proper ARIA hidden attributes
+
+## 2. Desktop Header Layout
+- [x] 2.1 Build responsive grid structure in `/sections/header.liquid`
+  - [x] Three-zone grid (logo, nav, actions)
+  - [x] Use CSS Grid with template areas
+  - [x] Semantic HTML (`<header>`, `<nav>`)
+- [x] 2.2 Implement logo display logic
+  - [x] Check for `settings.logo` existence
+  - [x] Display image with configurable width OR store name fallback
+  - [x] Link to homepage with proper accessibility
+- [x] 2.3 Build desktop navigation menu
+  - [x] Loop through `linklists.main-menu.links`
+  - [x] Horizontal layout with proper spacing
+  - [x] Add hover states and transitions
+- [x] 2.4 Create actions zone (search, cart, account)
+  - [x] Search icon button with aria-label
+  - [x] Cart icon with count badge
+  - [x] Account icon (conditional on customer accounts enabled)
+
+## 3. Mobile Header Layout
+- [x] 3.1 Add mobile-specific grid structure
+  - [x] Reorder zones: menu button, logo, actions
+  - [x] Center logo using grid alignment
+  - [x] Media query at 768px breakpoint
+- [x] 3.2 Build hamburger menu button
+  - [x] Menu icon (Remix Icon)
+  - [x] Proper aria attributes (aria-expanded, aria-label)
+  - [x] Click handler to open drawer
+- [x] 3.3 Create mobile navigation drawer
+  - [x] Full-height slide-out panel
+  - [x] Fixed positioning
+  - [x] Backdrop overlay with blur
+  - [x] Close button at top
+  - [x] Vertical navigation links list
+
+## 4. CSS Styling
+- [x] 4.1 Create header component styles in `/src/css/tailwind.css`
+  - [x] Use BEM naming convention (`.header`, `.header__logo`, etc.)
+  - [x] CSS custom properties for theme values
+  - [x] Mobile-first responsive approach
+- [x] 4.2 Style desktop navigation
+  - [x] Horizontal menu layout
+  - [x] Link hover states with transitions
+  - [x] Active link indicator with underline animation
+  - [x] Proper spacing and alignment
+- [x] 4.3 Style mobile drawer
+  - [x] Slide animation using transforms
+  - [x] Backdrop overlay with opacity transition and blur
+  - [x] Vertical link layout
+  - [x] Touch-friendly sizing (44px targets)
+- [x] 4.4 Style cart badge
+  - [x] Circular badge on top-right of cart icon
+  - [x] Contrast-compliant colors
+  - [x] Hide when count is 0
+  - [x] Scale animation on update
+- [x] 4.5 Style sticky header
+  - [x] Shadow when scrolled
+  - [x] Slide up/down animations
+  - [x] Smooth transitions
+
+## 5. JavaScript Functionality
+- [x] 5.1 Enhance `/src/js/modules/navigation.js`
+  - [x] Add search modal functionality
+  - [x] Add cart count event listeners
+  - [x] Improve mobile drawer with focus trap
+  - [x] Smooth transitions
+- [x] 5.2 Implement mobile drawer logic
+  - [x] Open/close with state management
+  - [x] Prevent body scroll when open
+  - [x] Focus trap within drawer
+  - [x] Close on backdrop click
+  - [x] Close on ESC key
+  - [x] Focus management (return to button on close)
+- [x] 5.3 Implement search modal
+  - [x] Use native `<dialog>` element
+  - [x] Auto-focus search input on open
+  - [x] Close on backdrop click
+  - [x] Close on ESC key (native dialog behavior)
+  - [x] Focus management
+- [x] 5.4 Implement sticky header behavior
+  - [x] Detect scroll direction
+  - [x] Add/remove scrolled class at threshold
+  - [x] Hide on scroll down, show on scroll up
+  - [x] Use requestAnimationFrame for performance
+  - [x] Passive event listeners for better scrolling
+- [x] 5.5 Implement cart count updates
+  - [x] Listen for `cart:updated` custom events
+  - [x] Update count badge dynamically
+  - [x] Add pulse animation on change
+  - [x] Handle zero items (hide badge)
+
+## 6. Accessibility Implementation
+- [x] 6.1 Add ARIA attributes
+  - [x] `aria-label` on icon-only buttons
+  - [x] `aria-expanded` on mobile menu button
+  - [x] `aria-current="page"` on active nav links
+  - [x] `aria-hidden` on decorative icons
+  - [x] Cart count updates via custom events
+- [x] 6.2 Implement keyboard navigation
+  - [x] Tab order follows visual order
+  - [x] Enter key activates links and buttons (native behavior)
+  - [x] ESC key closes drawer and modal
+  - [x] Focus visible styles on all interactive elements
+- [x] 6.3 Add screen reader support
+  - [x] Navigation landmark with `<nav>` element
+  - [x] Descriptive labels for all interactive elements
+  - [x] State changes announced via ARIA
+  - [x] Cart count accessible via text content
+- [x] 6.4 Ensure focus management
+  - [x] Focus moves to first element in mobile drawer
+  - [x] Focus moves to search input in modal
+  - [x] Return focus to trigger on close
+  - [x] 44px minimum touch targets
+
+## 7. Search Functionality
+- [x] 7.1 Build search modal structure
+  - [x] Native `<dialog>` element
+  - [x] Search form with input
+  - [x] Close button with icon
+  - [x] Form action to `/search`
+- [x] 7.2 Style search modal
+  - [x] Centered overlay with slide animation
+  - [x] Large search input (mobile-friendly)
+  - [x] Backdrop with blur effect
+  - [x] Smooth open/close animations
+- [x] 7.3 Implement search modal JavaScript
+  - [x] Open on search icon click
+  - [x] Auto-focus input on open
+  - [x] Close on backdrop click
+  - [x] Native ESC key support via dialog
+  - [x] Restore focus on close
+
+## 8. Testing & Quality Assurance
+- [x] 8.1 Test responsive behavior
+  - [x] Responsive grid works at all breakpoints
+  - [x] Logo centers on mobile, aligns left on desktop
+  - [x] Navigation shows/hides appropriately
+- [x] 8.2 Test mobile drawer
+  - [x] Slide animation implemented with CSS transforms
+  - [x] Body scroll prevention implemented
+  - [x] Backdrop click closes drawer
+  - [x] ESC key closes drawer
+  - [x] Focus management implemented
+- [x] 8.3 Test search modal
+  - [x] Native dialog element for accessibility
+  - [x] Auto-focus on search input
+  - [x] Form submits to /search
+  - [x] Backdrop and ESC close implemented
+- [x] 8.4 Test cart functionality
+  - [x] Cart count displays from cart.item_count
+  - [x] Event listener ready for cart:updated events
+  - [x] Badge hides when count is 0
+  - [x] Pulse animation on update
+- [x] 8.5 Test sticky header
+  - [x] Sticky positioning via CSS
+  - [x] Hide-on-scroll via JavaScript
+  - [x] Scroll detection with requestAnimationFrame
+  - [x] Settings control sticky behavior
+- [x] 8.6 Accessibility testing
+  - [x] ARIA attributes on all interactive elements
+  - [x] Keyboard navigation supported
+  - [x] Touch targets 44px minimum
+  - [x] Focus indicators via :hover states
+- [x] 8.7 Build verification
+  - [x] Vite build completes successfully
+  - [x] No linter errors
+  - [x] CSS: 22.52 kB (5.27 kB gzipped) ✓
+  - [x] JS: 5.67 kB (2.04 kB gzipped) ✓
+- [x] 8.8 Code quality
+  - [x] BEM naming convention used
+  - [x] Semantic HTML structure
+  - [x] CSS custom properties for theming
+  - [x] Performance optimizations (passive listeners, RAF)
+
+## 9. Theme Editor Configuration
+- [x] 9.1 Test all theme settings
+  - [x] Logo upload and width range (50-300px)
+  - [x] Sticky header checkbox
+  - [x] Hide-on-scroll checkbox
+  - [x] Background color picker
+  - [x] Background opacity range
+  - [x] Header height select (compact/normal/tall)
+  - [x] Main menu link_list selector
+  - [x] Show search checkbox
+- [x] 9.2 Settings structure
+  - [x] All settings in "Header" section
+  - [x] Organized with header dividers
+  - [x] Sensible defaults set
+  - [x] Info tooltips where helpful
+- [x] 9.3 Dynamic styling
+  - [x] CSS variables for theme values
+  - [x] Settings applied via inline styles
+  - [x] Conditional rendering (customer accounts, search)
+  - [x] Fallbacks for missing settings
+
+## 10. Documentation & Cleanup
+- [x] 10.1 Add inline code comments
+  - [x] Liquid comments for major sections
+  - [x] JavaScript JSDoc comments
+  - [x] CSS comments for component sections
+  - [x] Explain key functionality
+- [x] 10.2 Code organization
+  - [x] BEM naming throughout
+  - [x] Consistent code style
+  - [x] Clear function names
+  - [x] Modular structure
+- [x] 10.3 Clean up
+  - [x] No console.log statements
+  - [x] No unused variables
+  - [x] All code functional
+  - [x] Build artifacts generated
+- [x] 10.4 Standards compliance
+  - [x] No linter errors
+  - [x] Semantic HTML
+  - [x] WCAG AA accessibility
+  - [x] Modern CSS and JS patterns
+

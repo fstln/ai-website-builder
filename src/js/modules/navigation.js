@@ -1,169 +1,157 @@
 /**
  * Navigation Module
- * Handles mobile menu and dropdown menu interactions
+ * Handles mobile menu drawer and sticky header
  */
 
 export function initNavigation() {
-  // Mobile menu toggle
-  const mobileMenuToggle = document.querySelector('[data-mobile-menu-toggle]');
-  const mobileNav = document.querySelector('[data-mobile-nav]');
+  initMobileDrawer();
+  initStickyHeader();
+  initCartCountListener();
+}
+
+/**
+ * Initialize Mobile Drawer
+ */
+function initMobileDrawer() {
+  const toggleBtn = document.querySelector('[data-mobile-menu-toggle]');
+  const closeBtn = document.querySelector('[data-mobile-close]');
+  const drawer = document.querySelector('[data-mobile-drawer]');
+  const backdrop = document.querySelector('[data-mobile-backdrop]');
+
+  if (!toggleBtn || !drawer) return;
+
+  // Open drawer
+  const openDrawer = () => {
+    drawer.hidden = false;
+    toggleBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    
+    // Focus close button
+    setTimeout(() => {
+      if (closeBtn) closeBtn.focus();
+    }, 100);
+  };
+
+  // Close drawer
+  const closeDrawer = () => {
+    drawer.hidden = true;
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    toggleBtn.focus();
+  };
+
+  // Event listeners
+  toggleBtn.addEventListener('click', openDrawer);
   
-  if (mobileMenuToggle && mobileNav) {
-    mobileMenuToggle.addEventListener('click', () => {
-      toggleMobileMenu(mobileNav);
-    });
-    
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('[data-mobile-menu-toggle]') && 
-          !e.target.closest('[data-mobile-nav]')) {
-        closeMobileMenu(mobileNav);
-      }
-    });
-    
-    // Close mobile menu with ESC key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeMobileMenu(mobileNav);
-      }
-    });
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeDrawer);
   }
-  
-  // Dropdown menus (if any)
-  setupDropdowns();
-  
-  // Sticky header on scroll
-  setupStickyHeader();
-}
 
-/**
- * Toggle mobile menu
- */
-function toggleMobileMenu(nav) {
-  const isHidden = nav.classList.contains('hidden');
-  
-  if (isHidden) {
-    openMobileMenu(nav);
-  } else {
-    closeMobileMenu(nav);
+  if (backdrop) {
+    backdrop.addEventListener('click', closeDrawer);
   }
-}
 
-/**
- * Open mobile menu
- */
-function openMobileMenu(nav) {
-  nav.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-  
-  // Add animation
-  requestAnimationFrame(() => {
-    nav.classList.add('active');
-  });
-}
-
-/**
- * Close mobile menu
- */
-function closeMobileMenu(nav) {
-  nav.classList.remove('active');
-  nav.classList.add('hidden');
-  document.body.style.overflow = '';
-}
-
-/**
- * Setup dropdown menus
- */
-function setupDropdowns() {
-  const dropdownTriggers = document.querySelectorAll('[data-dropdown-trigger]');
-  
-  dropdownTriggers.forEach(trigger => {
-    const dropdown = trigger.nextElementSibling;
-    
-    if (!dropdown) return;
-    
-    // Show dropdown on hover (desktop)
-    if (window.matchMedia('(min-width: 768px)').matches) {
-      trigger.addEventListener('mouseenter', () => {
-        showDropdown(dropdown);
-      });
-      
-      trigger.parentElement.addEventListener('mouseleave', () => {
-        hideDropdown(dropdown);
-      });
-    } else {
-      // Toggle on click for mobile devices
-      trigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        toggleDropdown(dropdown);
-      });
+  // Close on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !drawer.hidden) {
+      closeDrawer();
     }
   });
+
+  // Close drawer on link click (mobile navigation)
+  const navLinks = drawer.querySelectorAll('a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      setTimeout(closeDrawer, 150);
+    });
+  });
 }
 
 /**
- * Show dropdown menu
+ * Initialize Sticky Header with Scroll Detection
  */
-function showDropdown(dropdown) {
-  dropdown.classList.remove('hidden');
-  dropdown.classList.add('active');
-}
-
-/**
- * Hide dropdown menu
- */
-function hideDropdown(dropdown) {
-  dropdown.classList.remove('active');
-  dropdown.classList.add('hidden');
-}
-
-/**
- * Toggle dropdown menu
- */
-function toggleDropdown(dropdown) {
-  if (dropdown.classList.contains('hidden')) {
-    showDropdown(dropdown);
-  } else {
-    hideDropdown(dropdown);
-  }
-}
-
-/**
- * Setup sticky header
- */
-function setupStickyHeader() {
-  const header = document.querySelector('.site-header');
+function initStickyHeader() {
+  const header = document.querySelector('[data-header]');
   
   if (!header) return;
-  
+
   let lastScrollY = window.scrollY;
   let ticking = false;
-  
+
   const updateHeader = () => {
     const scrollY = window.scrollY;
-    
-    if (scrollY > 100) {
-      header.classList.add('scrolled');
+
+    // Add scrolled class for elevated shadow
+    if (scrollY > 50) {
+      header.classList.add('is-scrolled');
     } else {
-      header.classList.remove('scrolled');
+      header.classList.remove('is-scrolled');
     }
-    
-    // Hide on scroll down, show on scroll up
-    if (scrollY > lastScrollY && scrollY > 200) {
-      header.classList.add('header-hidden');
-    } else {
-      header.classList.remove('header-hidden');
-    }
-    
+
     lastScrollY = scrollY;
     ticking = false;
   };
-  
+
+  // Throttle scroll events using requestAnimationFrame
   window.addEventListener('scroll', () => {
     if (!ticking) {
       window.requestAnimationFrame(updateHeader);
       ticking = true;
     }
+  }, { passive: true });
+
+  // Initial check
+  updateHeader();
+}
+
+/**
+ * Initialize Cart Count Listener
+ * Listens for custom cart:updated events
+ */
+function initCartCountListener() {
+  const cartCountElement = document.querySelector('[data-cart-count]');
+  
+  if (!cartCountElement) return;
+
+  // Listen for cart update events
+  document.addEventListener('cart:updated', (e) => {
+    const { itemCount } = e.detail;
+    updateCartCount(itemCount);
   });
 }
 
+/**
+ * Update cart count display
+ * @param {number} count - Number of items in cart
+ */
+function updateCartCount(count) {
+  const cartCountElements = document.querySelectorAll('[data-cart-count]');
+  
+  cartCountElements.forEach(element => {
+    element.textContent = count;
+    
+    // Toggle visibility
+    element.style.display = count > 0 ? 'flex' : 'none';
+
+    // Add scale animation
+    if (count > 0) {
+      element.style.animation = 'none';
+      setTimeout(() => {
+        element.style.animation = 'cartCountPulse 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+      }, 10);
+    }
+  });
+}
+
+// Add CSS animation for cart count pulse
+if (typeof document !== 'undefined' && !document.querySelector('#cart-count-animation')) {
+  const style = document.createElement('style');
+  style.id = 'cart-count-animation';
+  style.textContent = `
+    @keyframes cartCountPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+  `;
+  document.head.appendChild(style);
+}

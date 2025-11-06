@@ -595,21 +595,21 @@
         "label": "Hover Opacity",
         "min": 50,
         "max": 100,
-        "step": 1,
+        "step": 5,
         "unit": "%",
         "default": 90,
-        "info": "Opacity when hovering over interactive elements (0-1)"
+        "info": "Opacity when hovering over interactive elements"
       },
       {
         "type": "range",
         "id": "hover_scale",
         "label": "Hover Scale",
         "min": 100,
-        "max": 120,
+        "max": 110,
         "step": 1,
         "unit": "%",
         "default": 100,
-        "info": "Scale transform on hover (1.0 = no scale, 1.2 = 20% larger)"
+        "info": "Scale transform on hover (100% = no scale)"
       },
       {
         "type": "header",
@@ -621,10 +621,10 @@
         "label": "Active Opacity",
         "min": 50,
         "max": 100,
-        "step": 1,
+        "step": 5,
         "unit": "%",
         "default": 80,
-        "info": "Opacity when clicking/activating elements (0-1)"
+        "info": "Opacity when clicking/activating elements"
       }
     ]
   },
@@ -686,8 +686,12 @@
     ]
   },
   {
-    "name": "Logo",
+    "name": "Header",
     "settings": [
+      {
+        "type": "header",
+        "content": "Logo Settings"
+      },
       {
         "type": "image_picker",
         "id": "favicon",
@@ -707,6 +711,70 @@
         "unit": "px",
         "label": "Logo Width",
         "default": 150
+      },
+      {
+        "type": "header",
+        "content": "Sticky Header"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_sticky_header",
+        "label": "Enable Sticky Header",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_header_on_scroll",
+        "label": "Hide on Scroll Down",
+        "default": true,
+        "info": "Header will hide when scrolling down and show when scrolling up"
+      },
+      {
+        "type": "header",
+        "content": "Header Style"
+      },
+      {
+        "type": "color",
+        "id": "header_background",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "range",
+        "id": "header_background_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "Background Opacity",
+        "default": 100
+      },
+      {
+        "type": "select",
+        "id": "header_height",
+        "label": "Header Height",
+        "options": [
+          { "value": "compact", "label": "Compact" },
+          { "value": "normal", "label": "Normal" },
+          { "value": "tall", "label": "Tall" }
+        ],
+        "default": "normal"
+      },
+      {
+        "type": "header",
+        "content": "Navigation"
+      },
+      {
+        "type": "link_list",
+        "id": "main_menu",
+        "label": "Main Menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_search",
+        "label": "Show Search",
+        "default": true
       }
     ]
   },
