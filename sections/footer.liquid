@@ -23,7 +23,7 @@
     {%comment%} Newsletter Section - Full Width {%endcomment%}
     {% if section.settings.show_newsletter %}
       <div class="footer__newsletter-section">
-        <h3 class="footer__newsletter-title">{{ section.settings.newsletter_title | default: 'Stay Updated' }}</h3>
+        <h3 class="footer__newsletter-title">{{ section.settings.newsletter_title | default: 'Get new tech guides & exclusive deals.' }}</h3>
         {% if section.settings.newsletter_text != blank %}
           <p class="footer__newsletter-text">{{ section.settings.newsletter_text }}</p>
         {% endif %}
@@ -219,20 +219,21 @@
   padding-bottom: var(--spacing-8);
 }
 
-/* Newsletter Section - Full Width */
+/* Newsletter Section - Full Width - Material Design Elevation */
 .footer__newsletter-section {
   text-align: center;
-  padding-bottom: clamp(32px, 6vw, 48px);
+  padding-bottom: 48px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  margin-bottom: clamp(32px, 6vw, 48px);
+  margin-bottom: 48px;
 }
 
 .footer__newsletter-title {
-  font-size: clamp(var(--text-size-lg), 4vw, var(--text-size-xl));
-  font-weight: 600;
-  margin: 0 0 var(--spacing-3);
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 700;
+  margin: 0 0 var(--spacing-6);
   color: var(--footer-text);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .footer__newsletter-text {
@@ -249,25 +250,25 @@
 
 .footer__newsletter-input-wrapper {
   display: flex;
-  gap: var(--spacing-2);
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-1);
-  transition: all 0.2s ease;
+  gap: 8px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: var(--radius-md);
+  padding: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .footer__newsletter-input-wrapper:focus-within {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
 .footer__newsletter-input {
   flex: 1;
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: 12px 16px;
   border: none;
   background: transparent;
-  font-size: var(--text-size-sm);
+  font-size: 14px;
   color: var(--footer-text);
   outline: none;
 }
@@ -642,7 +643,7 @@ if (document.readyState === 'loading') {
       "type": "text",
       "id": "newsletter_title",
       "label": "Newsletter title",
-      "default": "Stay Updated"
+      "default": "Get new tech guides & exclusive deals."
     },
     {
       "type": "text",

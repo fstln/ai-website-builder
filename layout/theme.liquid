@@ -24,6 +24,11 @@
   
   {{ content_for_header }}
   
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
   {{ 'theme.css' | asset_url | stylesheet_tag }}
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
   
@@ -32,24 +37,28 @@
   {% comment %} Dynamic Design Token Injection {% endcomment %}
   <style>
     :root {
-      /* Color Tokens */
-      --color-primary: {{ settings.color_primary | default: '#000000' }};
-      --color-secondary: {{ settings.color_secondary | default: '#666666' }};
-      --color-accent: {{ settings.color_accent | default: '#3B82F6' }};
-      --color-background: {{ settings.color_background | default: '#FFFFFF' }};
-      --color-text: {{ settings.color_text | default: '#111827' }};
-      --color-text-secondary: {{ settings.color_text_secondary | default: '#6B7280' }};
-      --color-border: {{ settings.color_border | default: '#E5E7EB' }};
+      /* Color Tokens - 基于 visual_spec.md Tailwind 色板 */
+      --color-primary: {{ settings.color_primary | default: '#2563eb' }};  /* blue-600 */
+      --color-secondary: {{ settings.color_secondary | default: '#1d4ed8' }};  /* blue-700 */
+      --color-accent: {{ settings.color_accent | default: '#2563eb' }};  /* blue-600 */
+      --color-background: {{ settings.color_background | default: '#f9fafb' }};  /* gray-50 */
+      --color-text: {{ settings.color_text | default: '#111827' }};  /* gray-900 */
+      --color-text-secondary: {{ settings.color_text_secondary | default: '#374151' }};  /* gray-700 */
+      --color-border: {{ settings.color_border | default: '#e5e7eb' }};  /* gray-200 */
       --color-error: {{ settings.color_error | default: '#EF4444' }};
       --color-success: {{ settings.color_success | default: '#10B981' }};
       --color-warning: {{ settings.color_warning | default: '#F59E0B' }};
       
-      /* Typography Tokens */
+      /* Typography Tokens - 基于 visual_spec.md */
       {% if settings.font_heading %}
         --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+      {% else %}
+        --font-heading: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       {% endif %}
       {% if settings.font_body %}
         --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+      {% else %}
+        --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       {% endif %}
       --text-size-xs: {{ settings.text_size_xs | default: 12 }}px;
       --text-size-sm: {{ settings.text_size_sm | default: 14 }}px;
@@ -74,13 +83,13 @@
       --spacing-12: calc(var(--spacing-base) * 6);
       --spacing-16: calc(var(--spacing-base) * 8);
       
-      /* Border Tokens */
+      /* Border Tokens - 基于 visual_spec.md */
       --radius-none: {{ settings.border_radius_none | default: '0' }}px;
-      --radius-sm: {{ settings.border_radius_sm | default: 4 }}px;
-      --radius-md: {{ settings.border_radius_md | default: 6 }}px;
-      --radius-lg: {{ settings.border_radius_lg | default: 8 }}px;
-      --radius-xl: {{ settings.border_radius_xl | default: 12 }}px;
-      --radius-full: {{ settings.border_radius_full | default: 9999 }}px;
+      --radius-sm: {{ settings.border_radius_sm | default: 2 }}px;  /* rounded-sm */
+      --radius-md: {{ settings.border_radius_md | default: 6 }}px;  /* rounded-md */
+      --radius-lg: {{ settings.border_radius_lg | default: 8 }}px;  /* rounded-lg */
+      --radius-xl: {{ settings.border_radius_xl | default: 12 }}px;  /* rounded-xl */
+      --radius-full: {{ settings.border_radius_full | default: 9999 }}px;  /* rounded-full */
       --border-width: {{ settings.border_width | default: 1 }}px;
       
       /* Shadow Tokens */

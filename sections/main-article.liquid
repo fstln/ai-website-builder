@@ -1,38 +1,49 @@
 {% comment %}
   Main Article Section
   Theme 2.0 - Sections Everywhere
+  视觉规范: visual_spec.md
 {% endcomment %}
 
-<div class="container-custom py-8">
+<div class="w-full min-h-screen bg-background">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
   {% render 'breadcrumbs' %}
   
-  <article class="article-content mt-8 max-w-3xl mx-auto">
-    <header class="article-header mb-8">
-      <h1 class="text-4xl font-bold mb-4">{{ article.title }}</h1>
+    <article class="article-content mt-8 max-w-4xl mx-auto">
+      <header class="article-header mb-12">
+        {%- comment -%} Title - 基于 visual_spec.md {%- endcomment -%}
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight text-gray-900 mb-6">{{ article.title }}</h1>
       
-      <div class="article-meta text-sm text-text-secondary mb-6">
-        <span>{{ article.published_at | date: '%B %d, %Y' }}</span>
+        {%- comment -%} Meta - 基于 visual_spec.md {%- endcomment -%}
+        <div class="article-meta flex flex-wrap items-center gap-3 text-base text-gray-700 mb-8">
+          <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}" class="font-medium text-gray-900">
+            {{ article.published_at | date: '%B %d, %Y' }}
+          </time>
         {% if article.author %}
-          <span class="mx-2">·</span>
-          <span>{{ article.author }}</span>
+            <span class="text-gray-400">·</span>
+            <span class="font-medium">{{ article.author }}</span>
         {% endif %}
       </div>
       
+        {%- comment -%} Featured Image {%- endcomment -%}
       {% if article.image %}
-        <img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.title }}" class="w-full rounded-lg mb-8">
+          <div class="article-image relative overflow-hidden rounded-lg shadow-md mb-8 bg-gray-100">
+            <img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.title }}" class="w-full h-auto" loading="eager">
+          </div>
       {% endif %}
     </header>
     
-    <div class="article-body prose max-w-none">
+      {%- comment -%} Article Body - 基于 visual_spec.md 排版规范，样式定义在 src/css/tailwind.css {%- endcomment -%}
+      <div class="article-body max-w-none mb-12">
       {{ article.content }}
     </div>
     
+      {%- comment -%} Tags - 基于 visual_spec.md Category Chips 规范 {%- endcomment -%}
     {% if article.tags.size > 0 %}
-      <div class="article-tags mt-8 pt-8 border-t">
-        <h3 class="text-sm font-medium mb-2">{{ 'blogs.article.tags' | t | default: 'Tags' }}</h3>
+        <div class="article-tags mt-16 pt-8 border-t border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ 'blogs.article.tags' | t | default: 'Tags' }}</h3>
         <div class="flex flex-wrap gap-2">
           {% for tag in article.tags %}
-            <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="px-3 py-1 bg-border rounded-full text-sm hover:bg-text-secondary">
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors duration-200">
               {{ tag }}
             </a>
           {% endfor %}
@@ -40,48 +51,91 @@
       </div>
     {% endif %}
     
+      {%- comment -%} Comments - 基于 visual_spec.md {%- endcomment -%}
     {% if blog.comments_enabled? %}
-      <div class="article-comments mt-12 pt-12 border-t">
-        <h2 class="text-2xl font-bold mb-6">{{ 'blogs.article.comments' | t | default: 'Comments' }} ({{ article.comments_count }})</h2>
+        <div class="article-comments mt-16 pt-12 border-t border-gray-200">
+          <h2 class="text-3xl font-bold text-gray-900 mb-8">
+            {{ 'blogs.article.comments' | t | default: 'Comments' }}
+            <span class="text-2xl font-medium text-gray-600">({{ article.comments_count }})</span>
+          </h2>
         
         {% paginate article.comments by 50 %}
+          <div class="space-y-6 mb-12">
           {% for comment in article.comments %}
-            <div class="comment mb-6 p-4 bg-border rounded">
-              <div class="comment-meta text-sm text-text-secondary mb-2">
-                <strong>{{ comment.author }}</strong> · {{ comment.created_at | date: '%B %d, %Y' }}
+              <div class="comment p-6 bg-white border border-gray-200 rounded-lg">
+                <div class="comment-meta text-sm font-medium text-gray-600 mb-3 flex items-center gap-1.5">
+                  <span class="font-semibold text-gray-900">{{ comment.author }}</span>
+                  <span class="text-gray-400">·</span>
+                  <time datetime="{{ comment.created_at | date: '%Y-%m-%d' }}">
+                    {{ comment.created_at | date: '%B %d, %Y' }}
+                  </time>
               </div>
-              <div class="comment-content">
+                <div class="comment-content text-base text-gray-900 leading-relaxed">
                 {{ comment.content }}
               </div>
             </div>
           {% endfor %}
+          </div>
         {% endpaginate %}
         
+          {%- comment -%} Comment Form - 基于 visual_spec.md 表单规范 {%- endcomment -%}
         {% form 'new_comment', article %}
-          <h3 class="text-xl font-bold mb-4">{{ 'blogs.article.comment_form_title' | t | default: 'Post a Comment' }}</h3>
+            <div class="pt-8 border-t border-gray-200">
+              <h3 class="text-2xl font-bold text-gray-900 mb-6">{{ 'blogs.article.comment_form_title' | t | default: 'Post a Comment' }}</h3>
           
-          <div class="space-y-4">
+              <div class="space-y-6">
             <div>
-              <label for="CommentAuthor" class="block text-sm font-medium mb-1">{{ 'blogs.article.name' | t | default: 'Name' }}</label>
-              <input type="text" name="comment[author]" id="CommentAuthor" class="w-full border rounded-md px-4 py-2" required>
+                  <label for="CommentAuthor" class="block text-sm font-medium text-gray-900 mb-2">
+                    {{ 'blogs.article.name' | t | default: 'Name' }} <span class="text-red-500">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    name="comment[author]" 
+                    id="CommentAuthor" 
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors" 
+                    required
+                  >
             </div>
             
             <div>
-              <label for="CommentEmail" class="block text-sm font-medium mb-1">{{ 'blogs.article.email' | t | default: 'Email' }}</label>
-              <input type="email" name="comment[email]" id="CommentEmail" class="w-full border rounded-md px-4 py-2" required>
+                  <label for="CommentEmail" class="block text-sm font-medium text-gray-900 mb-2">
+                    {{ 'blogs.article.email' | t | default: 'Email' }} <span class="text-red-500">*</span>
+                  </label>
+                  <input 
+                    type="email" 
+                    name="comment[email]" 
+                    id="CommentEmail" 
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors" 
+                    required
+                  >
             </div>
             
             <div>
-              <label for="CommentBody" class="block text-sm font-medium mb-1">{{ 'blogs.article.message' | t | default: 'Message' }}</label>
-              <textarea name="comment[body]" id="CommentBody" rows="5" class="w-full border rounded-md px-4 py-2" required></textarea>
+                  <label for="CommentBody" class="block text-sm font-medium text-gray-900 mb-2">
+                    {{ 'blogs.article.message' | t | default: 'Message' }} <span class="text-red-500">*</span>
+                  </label>
+                  <textarea 
+                    name="comment[body]" 
+                    id="CommentBody" 
+                    rows="6" 
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-base text-gray-900 leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors resize-vertical" 
+                    required
+                  ></textarea>
             </div>
             
-            <button type="submit" class="btn btn-primary">{{ 'blogs.article.post' | t | default: 'Post Comment' }}</button>
+                <button 
+                  type="submit" 
+                  class="inline-flex items-center px-6 py-3 bg-blue-600 text-white text-base font-medium rounded-lg shadow hover:bg-blue-700 hover:shadow-lg transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+                >
+                  {{ 'blogs.article.post' | t | default: 'Post Comment' }}
+                </button>
+              </div>
           </div>
         {% endform %}
       </div>
     {% endif %}
   </article>
+  </div>
 </div>
 
 {% schema %}

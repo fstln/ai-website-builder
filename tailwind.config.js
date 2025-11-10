@@ -10,6 +10,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // 语义化颜色，映射到 CSS 变量
         primary: 'var(--color-primary)',
         secondary: 'var(--color-secondary)',
         accent: 'var(--color-accent)',
@@ -22,55 +23,13 @@ module.exports = {
         warning: 'var(--color-warning)'
       },
       fontFamily: {
+        // 字体家族
         heading: 'var(--font-heading)',
-        body: 'var(--font-body)'
-      },
-      fontSize: {
-        xs: 'var(--text-size-xs)',
-        sm: 'var(--text-size-sm)',
-        base: 'var(--text-size-base)',
-        lg: 'var(--text-size-lg)',
-        xl: 'var(--text-size-xl)'
-      },
-      fontWeight: {
-        normal: 'var(--font-weight-normal)',
-        bold: 'var(--font-weight-bold)'
-      },
-      lineHeight: {
-        tight: 'var(--line-height-tight)',
-        normal: 'var(--line-height-normal)',
-        relaxed: 'var(--line-height-relaxed)'
-      },
-      spacing: {
-        'base': 'var(--spacing-base)',
-        '1': 'var(--spacing-1)',
-        '2': 'var(--spacing-2)',
-        '3': 'var(--spacing-3)',
-        '4': 'var(--spacing-4)',
-        '6': 'var(--spacing-6)',
-        '8': 'var(--spacing-8)',
-        '12': 'var(--spacing-12)',
-        '16': 'var(--spacing-16)'
-      },
-      borderRadius: {
-        'none': 'var(--radius-none)',
-        'sm': 'var(--radius-sm)',
-        'md': 'var(--radius-md)',
-        'lg': 'var(--radius-lg)',
-        'xl': 'var(--radius-xl)',
-        'full': 'var(--radius-full)'
-      },
-      borderWidth: {
-        'DEFAULT': 'var(--border-width)'
-      },
-      boxShadow: {
-        'none': 'var(--shadow-none)',
-        'sm': 'var(--shadow-sm)',
-        'md': 'var(--shadow-md)',
-        'lg': 'var(--shadow-lg)',
-        'xl': 'var(--shadow-xl)',
-        '2xl': 'var(--shadow-2xl)'
+        body: 'var(--font-body)',
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif']
       }
+      // 使用 Tailwind 原生 fontSize, fontWeight, lineHeight 等
+      // 通过 visual_spec.md 规范使用规则，无需自定义类
     }
   },
   plugins: []

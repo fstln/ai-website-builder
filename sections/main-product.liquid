@@ -1,153 +1,232 @@
 {% comment %}
-  Main Product Section
-  Theme 2.0 - Sections Everywhere
+  Main Product Section - High-Converting DTC Design
+  Based on visual_spec.md and DTC best practices
 {% endcomment %}
 
-<div class="container-custom py-8">
-  {% render 'breadcrumbs' %}
-  
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-    {%- comment -%} Product Images / Gallery {%- endcomment -%}
-    <div class="product-images">
-      {% if product.media.size > 0 %}
-        <product-gallery-component 
-          class="product-gallery space-y-4"
-          data-enable-zoom="{{ section.settings.enable_zoom }}"
-        >
-          {%- comment -%} Main Image {%- endcomment -%}
-          <div class="main-image relative cursor-pointer" ref="mainImage">
-            {% assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media %}
+<div class="w-full min-h-screen bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    {% render 'breadcrumbs' %}
+    
+    {%- comment -%} Product Grid - Image left, Info right, stacked on mobile {%- endcomment -%}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mt-6">
+      
+      {%- comment -%} Left: Product Image Gallery {%- endcomment -%}
+      <div class="product-images">
+        {% if product.media.size > 0 %}
+          <product-gallery-component 
+            class="product-gallery space-y-4"
+            data-enable-zoom="{{ section.settings.enable_zoom }}"
+          >
+            {%- comment -%} Main Image - rounded-lg 8px {%- endcomment -%}
+            <div class="main-image relative cursor-pointer bg-white rounded-lg overflow-hidden shadow-sm" ref="mainImage" data-product-gallery-main>
+              {% assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media %}
+              
+              <img
+                src="{{ featured_media | image_url: width: 1200 }}"
+                alt="{{ featured_media.alt | default: product.title }}"
+                width="1200"
+                height="1200"
+                loading="eager"
+                class="w-full aspect-square object-cover transition-transform duration-300 hover:scale-105"
+                data-main-image
+              >
+              
+              {%- comment -%} Sale Badge - top right {%- endcomment -%}
+              {% if product.compare_at_price > product.price %}
+                <div class="absolute top-4 right-4 bg-red-600 text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-lg">
+                  {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+                  -{{ discount }}%
+                </div>
+              {% endif %}
+              
+              {%- comment -%} Low Stock Badge {%- endcomment -%}
+              {% assign current_variant = product.selected_or_first_available_variant %}
+              {% if current_variant.inventory_quantity <= 10 and current_variant.inventory_quantity > 0 %}
+                <div class="absolute top-4 left-4 bg-orange-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg">
+                  {{ 'products.product.low_stock' | t }} - {{ current_variant.inventory_quantity }} {{ 'general.cart.item_count.other' | t: count: current_variant.inventory_quantity }}
+                </div>
+              {% endif %}
+              
+              {%- comment -%} Zoom Hint {%- endcomment -%}
+              {% if section.settings.enable_zoom %}
+                <div class="absolute bottom-4 right-4 bg-black/75 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-sm opacity-0 hover:opacity-100 transition-opacity">
+                  <svg class="inline-block w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                  </svg>
+                  Click to zoom
+                </div>
+              {% endif %}
+            </div>
             
-            <img
-              src="{{ featured_media | image_url: width: 1200 }}"
-              alt="{{ featured_media.alt | default: product.title }}"
-              width="1200"
-              height="1200"
-              loading="eager"
-              class="w-full rounded-lg transition-opacity duration-150"
-            >
-            
-            {% render 'product-badge', product: product, type: 'sale', position: 'top-right' %}
-            
-            {%- comment -%} Zoom hint {%- endcomment -%}
-            {% if section.settings.enable_zoom %}
-              <div class="absolute bottom-4 right-4 bg-black/50 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-sm">
-                <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
-                </svg>
-                Click to zoom
-              </div>
-            {% endif %}
-          </div>
-          
-          {%- comment -%} Thumbnails {%- endcomment -%}
-          {% if product.media.size > 1 %}
-            <div class="product-thumbnails grid grid-cols-4 md:grid-cols-5 gap-2">
-              {% for media in product.media %}
-                <button 
-                  type="button"
-                  class="thumbnail border-2 border-border rounded-md overflow-hidden hover:border-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
-                  ref="thumbnails[]"
-                  on:click="/selectSlide/{{ forloop.index0 }}"
-                  data-media-id="{{ media.id }}"
-                  aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}"
-                  {% if forloop.first %}aria-current="true"{% endif %}
-                >
-                  {% if media.media_type == 'video' or media.media_type == 'external_video' %}
-                    <div class="relative">
+            {%- comment -%} Thumbnails - rounded-lg 8px {%- endcomment -%}
+            {% if product.media.size > 1 %}
+              <div class="product-thumbnails grid grid-cols-4 gap-3">
+                {% for media in product.media limit: 4 %}
+                  <button 
+                    type="button"
+                    class="thumbnail relative bg-white border-2 rounded-lg overflow-hidden transition-all duration-200
+                           {% if forloop.first %}border-blue-600 ring-2 ring-blue-600 ring-offset-2{% else %}border-gray-200 hover:border-blue-600{% endif %}"
+                    ref="thumbnails[]"
+                    on:click="/selectSlide/{{ forloop.index0 }}"
+                    data-media-id="{{ media.id }}"
+                    aria-label="Switch to image {{ forloop.index }}"
+                    {% if forloop.first %}aria-current="true"{% endif %}
+                  >
+                    {% if media.media_type == 'video' or media.media_type == 'external_video' %}
                       <img
                         src="{{ media.preview_image | image_url: width: 200 }}"
                         alt="{{ media.alt | default: product.title }}"
                         loading="lazy"
-                        class="w-full h-auto"
+                        class="w-full aspect-square object-cover"
                       >
-                      <div class="absolute inset-0 flex items-center justify-center">
+                      <div class="absolute inset-0 flex items-center justify-center bg-black/20">
                         <svg class="w-8 h-8 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path>
                         </svg>
                       </div>
-                    </div>
-                  {% else %}
-                    <img
-                      src="{{ media.preview_image | image_url: width: 200 }}"
-                      alt="{{ media.alt | default: product.title }}"
-                      loading="lazy"
-                      class="w-full h-auto"
-                    >
-                  {% endif %}
-                </button>
-              {% endfor %}
+                    {% else %}
+                      <img
+                        src="{{ media.preview_image | image_url: width: 200 }}"
+                        alt="{{ media.alt | default: product.title }}"
+                        loading="lazy"
+                        class="w-full aspect-square object-cover"
+                      >
+                    {% endif %}
+                  </button>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </product-gallery-component>
+        {% endif %}
+        
+        {%- comment -%} Trust Badges {%- endcomment -%}
+        <div class="trust-badges mt-6 p-6 bg-white rounded-lg border border-gray-200">
+          <div class="grid grid-cols-3 gap-4 text-center">
+            <div>
+              <svg class="w-8 h-8 mx-auto mb-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+              </svg>
+              <p class="text-xs font-medium text-gray-900">Quality Guarantee</p>
             </div>
-          {% endif %}
-        </product-gallery-component>
-      {% endif %}
-    </div>
-    
-    {%- comment -%} Product Info {%- endcomment -%}
-    <div class="product-info">
-      {%- comment -%} Title {%- endcomment -%}
-      <h1 class="text-3xl font-bold mb-4">{{ product.title }}</h1>
-      
-      {%- comment -%} Vendor {%- endcomment -%}
-      {% if product.vendor != blank %}
-        <div class="product-vendor text-sm text-text-secondary mb-2">
-          {{ 'products.product.vendor' | t }}: 
-          <a href="{{ product.vendor | url_for_vendor }}" class="hover:underline">{{ product.vendor }}</a>
+            <div>
+              <svg class="w-8 h-8 mx-auto mb-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+              </svg>
+              <p class="text-xs font-medium text-gray-900">Secure Payment</p>
+            </div>
+            <div>
+              <svg class="w-8 h-8 mx-auto mb-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
+              </svg>
+              <p class="text-xs font-medium text-gray-900">Free Returns</p>
+            </div>
+          </div>
         </div>
-      {% endif %}
-      
-      {%- comment -%} Price {%- endcomment -%}
-      <div class="product-price mb-6">
-        {% render 'price', product: product %}
       </div>
       
-      {%- comment -%} Description {%- endcomment -%}
-      {% if product.description != blank %}
-        <div class="product-description prose prose-sm max-w-none mb-6">
-          {{ product.description }}
+      {%- comment -%} Right: Product Info & Buy Area {%- endcomment -%}
+      <div class="product-info">
+        {%- comment -%} Vendor - Small Label {%- endcomment -%}
+        {% if product.vendor != blank %}
+          <a href="{{ product.vendor | url_for_vendor }}" class="inline-flex items-center text-xs font-medium text-blue-600 hover:text-blue-700 mb-3 transition-colors">
+            {{ product.vendor }}
+            <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </a>
+        {% endif %}
+        
+        {%- comment -%} Product Title - Headline Large {%- endcomment -%}
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 mb-6 leading-tight">
+          {{ product.title }}
+        </h1>
+        
+        {%- comment -%} Price Area - Highlighted {%- endcomment -%}
+        <div class="product-price bg-blue-50 border-2 border-blue-100 rounded-lg p-6 mb-6">
+          <div class="flex items-baseline gap-3 mb-2">
+            {% if product.compare_at_price > product.price %}
+              <span class="text-4xl font-extrabold text-gray-900">
+                {{ product.price | money }}
+              </span>
+              <span class="text-2xl font-medium text-gray-500 line-through">
+                {{ product.compare_at_price | money }}
+              </span>
+              <span class="inline-flex items-center px-3 py-1 bg-red-600 text-white text-sm font-bold rounded-full">
+                {{ 'products.product.save_amount' | t: amount: product.compare_at_price | minus: product.price | money }}
+              </span>
+            {% else %}
+              <span class="text-4xl font-extrabold text-gray-900">
+                {{ product.price | money }}
+              </span>
+            {% endif %}
+          </div>
+          
+          {%- comment -%} Price Description {%- endcomment -%}
+          <div class="flex items-center gap-2 text-sm text-gray-700">
+            <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="font-medium">Tax included · Free shipping over $50</span>
+          </div>
         </div>
-      {% endif %}
-      
-      {%- comment -%} Product JSON Data {%- endcomment -%}
-      <script type="application/json" data-product-json>
-        {{ product | json }}
-      </script>
-
-      {%- comment -%} Product Form with Add to Cart {%- endcomment -%}
-      <product-form-component
-        class="product-form-wrapper"
-        data-product-id="{{ product.id }}"
-        data-section-id="{{ section.id }}"
-      >
-        <form 
-          action="/cart/add" 
-          method="post" 
-          class="product-form space-y-6"
+        
+        {%- comment -%} Short Description {%- endcomment -%}
+        {% if product.description != blank %}
+          <div class="product-short-description text-base leading-relaxed text-gray-700 mb-6 pb-6 border-b border-gray-200">
+            {{ product.description | strip_html | truncate: 200 }}
+          </div>
+        {% endif %}
+        
+        {%- comment -%} Product Form {%- endcomment -%}
+        <product-form-component
+          class="product-form-wrapper"
+          data-product-id="{{ product.id }}"
+          data-section-id="{{ section.id }}"
+          data-product-url="{{ product.url }}"
           on:submit="/handleSubmit"
         >
-          {%- comment -%} Product JSON Data for JS {%- endcomment -%}
-          <script type="application/json">
-            {{ product | json }}
-          </script>
-
-          {%- comment -%} Variant Selectors {%- endcomment -%}
-          {% unless product.has_only_default_variant %}
-            <variant-selector-component 
-              class="product-variants space-y-4"
-              data-product-id="{{ product.id }}"
-              data-product-url="{{ product.url }}"
-              data-section-id="{{ section.id }}"
-              data-product-page="true"
-            >
+          <div
+            class="visually-hidden"
+            aria-live="assertive"
+            role="status"
+            aria-atomic="true"
+            ref="liveRegion"
+          ></div>
+          
+          <form 
+            action="/cart/add" 
+            method="post" 
+            class="product-form space-y-6"
+            data-type="add-to-cart-form"
+          >
+            {%- comment -%} Variant Selector {%- endcomment -%}
+            {% unless product.has_only_default_variant %}
+              <variant-selector-component 
+                class="product-variants space-y-5"
+                data-product-id="{{ product.id }}"
+                data-product-url="{{ product.url }}"
+                data-section-id="{{ section.id }}"
+                data-product-page="true"
+              >
+                {%- comment -%} Product JSON {%- endcomment -%}
+                <script type="application/json">
+                  {{ product | json }}
+                </script>
+                
                 {% for option in product.options_with_values %}
                   <div class="variant-option">
-                    <label for="Option-{{ option.name | handle }}" class="block text-sm font-medium mb-2">
+                    <label class="block text-sm font-semibold text-gray-900 mb-3">
                       {{ option.name }}
+                      <span class="font-normal text-gray-600 ml-2" data-selected-value-{{ option.name | handle }}>
+                        {% if option.selected_value %}
+                          - {{ option.selected_value }}
+                        {% endif %}
+                      </span>
                     </label>
                     
                     {% if option.name == 'Color' or option.name == 'Colour' %}
-                      {%- comment -%} Color swatches {%- endcomment -%}
-                      <div class="variant-color-swatches flex flex-wrap gap-2" role="radiogroup">
+                      {%- comment -%} Color Swatches - Large size, clear border {%- endcomment -%}
+                      <div class="variant-color-swatches flex flex-wrap gap-3" role="radiogroup">
                         {% for value in option.values %}
                           {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
                           {%- if option.position == 2 -%}
@@ -162,29 +241,31 @@
                               id="Color-{{ value | handle }}"
                               name="options[{{ option.name }}]"
                               value="{{ value }}"
-                              class="sr-only"
+                              class="sr-only peer"
                               data-variant-id="{{ variant_for_value.id }}"
-                              data-option-value-id="{{ value | handle }}"
+                              data-variant-image="{{ variant_for_value.featured_image | image_url: width: 1200 }}"
                               {% if option.selected_value == value %}checked{% endif %}
                             >
                             <label
                               for="Color-{{ value | handle }}"
-                              class="color-swatch block w-10 h-10 rounded-full border-2 border-border hover:border-primary cursor-pointer transition-colors"
+                              class="group relative block w-12 h-12 rounded-lg border-2 cursor-pointer transition-all duration-200
+                                     border-gray-300 hover:border-gray-400 hover:shadow-md
+                                     peer-checked:border-blue-600 peer-checked:ring-2 peer-checked:ring-blue-600 peer-checked:ring-offset-2 peer-checked:shadow-lg"
                               style="background-color: {{ value | handle }}"
                               title="{{ value }}"
                             >
                               <span class="sr-only">{{ value }}</span>
+                              {%- comment -%} Checkmark for selected {%- endcomment -%}
+                              <svg class="absolute inset-0 m-auto w-6 h-6 text-white drop-shadow-lg opacity-0 peer-checked:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                              </svg>
                             </label>
                           </div>
                         {% endfor %}
                       </div>
                     {% else %}
-                      {%- comment -%} Dropdown selector {%- endcomment -%}
-                      <select 
-                        id="Option-{{ option.name | handle }}"
-                        name="options[{{ option.name }}]" 
-                        class="w-full border border-border rounded-md px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary"
-                      >
+                      {%- comment -%} Button Style Selector (Size, etc.) {%- endcomment -%}
+                      <div class="variant-buttons flex flex-wrap gap-2" role="radiogroup">
                         {% for value in option.values %}
                           {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
                           {%- if option.position == 2 -%}
@@ -193,106 +274,281 @@
                             {%- assign variant_for_value = product.variants | where: "option3", value | first -%}
                           {%- endif -%}
                           
-                          <option 
-                            value="{{ value }}"
-                            data-variant-id="{{ variant_for_value.id }}"
-                            data-option-value-id="{{ value | handle }}"
-                            {% if option.selected_value == value %}selected{% endif %}
-                          >
-                            {{ value }}
-                          </option>
+                          <div class="variant-button-wrapper">
+                            <input
+                              type="radio"
+                              id="Option-{{ option.name | handle }}-{{ value | handle }}"
+                              name="options[{{ option.name }}]"
+                              value="{{ value }}"
+                              class="sr-only peer"
+                              data-variant-id="{{ variant_for_value.id }}"
+                              data-variant-image="{{ variant_for_value.featured_image | image_url: width: 1200 }}"
+                              {% if option.selected_value == value %}checked{% endif %}
+                              {% unless variant_for_value.available %}disabled{% endunless %}
+                            >
+                            <label
+                              for="Option-{{ option.name | handle }}-{{ value | handle }}"
+                              class="inline-flex items-center justify-center min-w-[60px] px-4 py-2.5 text-sm font-medium rounded-lg border-2 cursor-pointer transition-all duration-200
+                                     {% if variant_for_value.available %}
+                                       border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow-sm
+                                       peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white peer-checked:shadow-md
+                                     {% else %}
+                                       border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed line-through
+                                     {% endif %}"
+                            >
+                              {{ value }}
+                            </label>
+                          </div>
                         {% endfor %}
-                      </select>
+                      </div>
                     {% endif %}
                   </div>
                 {% endfor %}
+                
+                {%- comment -%} Variant Error Message {%- endcomment -%}
+                <div data-variant-error class="hidden text-sm font-medium text-red-600 p-3 bg-red-50 border border-red-200 rounded-lg"></div>
+              </variant-selector-component>
+            {% endunless %}
+            
+            {%- comment -%} Hidden variant ID {%- endcomment -%}
+            <input 
+              type="hidden" 
+              name="id" 
+              value="{{ product.selected_or_first_available_variant.id }}"
+              ref="variantId"
+            >
+            
+            {%- comment -%} Product Form Buttons Container {%- endcomment -%}
+            <div class="product-form-buttons grid space-y-4" ref="productFormButtons">              {%- comment -%} Quantity & Stock Row {%- endcomment -%}
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0">
+                  <label class="block text-sm font-semibold text-gray-900 mb-3">
+                    {{ 'products.product.quantity' | t }}
+                  </label>
+                  {% assign current_variant = product.selected_or_first_available_variant %}
+                  {% render 'quantity-input', 
+                    variant_id: current_variant.id,
+                    value: 1,
+                    min: 1,
+                    label: product.title
+                  %}
+                </div>
+              </div>
               
-              {%- comment -%} Variant error message {%- endcomment -%}
-              <div data-variant-error class="hidden text-red-600 text-sm p-2 bg-red-50 rounded"></div>
-            </variant-selector-component>
-          {% endunless %}
-          
-          {%- comment -%} Quantity Selector {%- endcomment -%}
-          <div class="product-quantity">
-            <label class="block text-sm font-medium mb-2">
-              {{ 'products.product.quantity' | t }}
-              <span class="quantity-label hidden text-xs text-text-secondary ml-2"></span>
-            </label>
-            {% assign current_variant = product.selected_or_first_available_variant %}
-            {% render 'quantity-input', 
-              id: 'Quantity-' | append: product.id,
-              name: 'quantity',
-              value: 1,
-              min: 1,
-              max: current_variant.inventory_quantity,
-              variant_id: current_variant.id,
-              label: product.title
-            %}
+              {%- comment -%} Error Message {%- endcomment -%}
+              <span class="hidden w-full text-sm font-medium text-red-600 p-4 bg-red-50 border border-red-200 rounded-lg" ref="addToCartTextError" role="alert"></span>
+              
+              {%- comment -%} Add to Cart Button - Full Width, High Converting {%- endcomment -%}
+              {% if current_variant.available %}
+                {% assign product_variant_media = current_variant.featured_media.preview_image | image_url: width: 100 %}
+                {% if product_variant_media == blank %}
+                  {% assign product_variant_media = product.featured_media.preview_image | image_url: width: 100 %}
+                {% endif %}
+                
+                <add-to-cart-component
+                  ref="addToCartButtonContainer"
+                  data-product-variant-media="{{ product_variant_media }}"
+                  data-add-to-cart-animation="false"
+                  class="block"
+                >
+                  <button 
+                    type="submit"
+                    name="add"
+                    ref="addToCartButton"
+                    on:click="/handleClick"
+                    class="relative w-full inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-bold text-white bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+                  >
+                    <span class="add-to-cart-text flex items-center justify-center gap-3">
+                      <svg class="w-6 h-6 add-to-cart-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                      </svg>
+                      <span class="add-to-cart-text__content">{{ 'products.product.add_to_cart' | t }}</span>
+                    </span>
+                    <span aria-hidden="true" class="add-to-cart-text--added absolute inset-0 flex items-center justify-center gap-2 opacity-0">
+                      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                      </svg>
+                      <span>{{ 'products.product.added' | t }}</span>
+                    </span>
+                  </button>
+                </add-to-cart-component>
+                
+                {%- comment -%} Buy Now Button (Secondary Action) {%- endcomment -%}
+                <button 
+                  type="button"
+                  class="w-full inline-flex items-center justify-center gap-3 px-8 py-3.5 text-base font-semibold text-gray-900 bg-white border-2 border-gray-300 rounded-lg hover:border-gray-400 hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                  Buy it now
+                </button>
+              {% else %}
+                <button 
+                  type="button"
+                  disabled
+                  class="w-full px-8 py-4 text-lg font-bold text-white bg-gray-400 rounded-lg cursor-not-allowed opacity-60"
+                >
+                  {{ 'products.product.sold_out' | t }}
+                </button>
+              {% endif %}
+            </div>
+          </form>
+        </product-form-component>
+        
+        {%- comment -%} Shipping & Service Info {%- endcomment -%}
+        <div class="mt-8 p-6 bg-gradient-to-br from-blue-50 to-white border border-blue-100 rounded-lg space-y-4">
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+            </svg>
+            <div>
+              <p class="text-sm font-semibold text-gray-900 mb-1">Free Shipping</p>
+              <p class="text-sm text-gray-600">On orders over $50</p>
+            </div>
           </div>
           
-          {%- comment -%} Hidden variant ID input {%- endcomment -%}
-          <input 
-            type="hidden" 
-            name="id" 
-            value="{{ product.selected_or_first_available_variant.id }}"
-            ref="variantId"
-          >
-          
-          {%- comment -%} Add to Cart Button {%- endcomment -%}
-          {% render 'add-to-cart-button',
-            can_add_to_cart: product.selected_or_first_available_variant.available,
-            product: product,
-            class: 'w-full text-lg py-3',
-            id: 'AddToCart-' | append: section.id
-          %}
-          
-          {%- comment -%} Error message container {%- endcomment -%}
-          <div ref="addToCartTextError" class="hidden text-red-600 text-sm p-3 bg-red-50 rounded-md" role="alert"></div>
-          
-          {%- comment -%} Live region for screen readers {%- endcomment -%}
-          <div ref="liveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-        </form>
-      </product-form-component>
-      
-      {%- comment -%} Product Meta {%- endcomment -%}
-      {% if product.sku != blank or product.type != blank %}
-        <div class="product-meta mt-6 pt-6 border-t border-border text-sm text-text-secondary space-y-2">
-          {% if product.sku != blank %}
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
             <div>
-              <span class="font-medium">{{ 'products.product.sku' | t }}:</span>
-              {{ product.selected_or_first_available_variant.sku }}
+              <p class="text-sm font-semibold text-gray-900 mb-1">30-Day Returns</p>
+              <p class="text-sm text-gray-600">Not satisfied? Return within 30 days</p>
             </div>
-          {% endif %}
+          </div>
           
-          {% if product.type != blank %}
+          <div class="flex items-start gap-3">
+            <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
             <div>
-              <span class="font-medium">{{ 'products.product.product_type' | t }}:</span>
-              <a href="{{ product.type | url_for_type }}" class="hover:underline">{{ product.type }}</a>
+              <p class="text-sm font-semibold text-gray-900 mb-1">Fast Shipping</p>
+              <p class="text-sm text-gray-600">Delivered in 3-5 business days</p>
             </div>
-          {% endif %}
-          
-          {% if product.available %}
-            <div class="text-green-600 font-medium">
-              {{ 'products.product.in_stock' | t }}
-            </div>
-          {% else %}
-            <div class="text-red-600 font-medium">
-              {{ 'products.product.out_of_stock' | t }}
-            </div>
-          {% endif %}
+          </div>
         </div>
-      {% endif %}
-      
-      {%- comment -%} Share Buttons {%- endcomment -%}
-      {% if section.settings.enable_share %}
-        <div class="product-share mt-6 pt-6 border-t border-border">
-          <span class="text-sm font-medium mr-4">{{ 'blogs.article.share' | t }}</span>
-          {%- comment -%} Share buttons will be added via JavaScript or using Shopify's share snippet {%- endcomment -%}
-        </div>
-      {% endif %}
+        
+        {%- comment -%} Product Meta Info {%- endcomment -%}
+        {% if product.sku != blank or product.type != blank %}
+          <div class="product-meta mt-8 pt-8 border-t border-gray-200 text-sm text-gray-600 space-y-2">
+            {% if product.sku != blank %}
+              <div class="flex items-center justify-between">
+                <span class="font-medium text-gray-900">{{ 'products.product.sku' | t }}:</span>
+                <span class="font-mono">{{ product.selected_or_first_available_variant.sku }}</span>
+              </div>
+            {% endif %}
+            
+            {% if product.type != blank %}
+              <div class="flex items-center justify-between">
+                <span class="font-medium text-gray-900">{{ 'products.product.product_type' | t }}:</span>
+                <a href="{{ product.type | url_for_type }}" class="text-blue-600 hover:text-blue-700 hover:underline transition-colors">
+                  {{ product.type }}
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
     </div>
   </div>
 </div>
+
+{%- comment -%} Sticky Add to Cart Bar (Mobile) {%- endcomment -%}
+<div class="lg:hidden fixed bottom-0 inset-x-0 bg-white border-t-2 border-gray-200 shadow-2xl z-40 transform translate-y-full transition-transform duration-300" id="stickyCartBar">
+  <div class="px-4 py-3 flex items-center gap-3">
+    <div class="flex-1 min-w-0">
+      <p class="text-xs text-gray-600 truncate">{{ product.title }}</p>
+      <p class="text-lg font-bold text-gray-900">{{ product.price | money }}</p>
+    </div>
+    <button 
+      type="button"
+      onclick="document.querySelector('form.product-form').requestSubmit()"
+      class="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 text-base font-bold text-white bg-blue-600 rounded-lg shadow-lg active:scale-95 transition-transform"
+      data-sticky-add-to-cart
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+      </svg>
+      <span data-sticky-cart-text>{{ 'products.product.add_to_cart' | t }}</span>
+    </button>
+  </div>
+</div>
+
+{%- comment -%} JavaScript for Sticky Bar and Variant Image Switch {%- endcomment -%}
+<script>
+(function() {
+  // Sticky cart bar on scroll (mobile only)
+  if (window.innerWidth < 1024) {
+    let lastScroll = 0;
+    const stickyBar = document.getElementById('stickyCartBar');
+    const productForm = document.querySelector('.product-form-wrapper');
+    
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      const formRect = productForm.getBoundingClientRect();
+      const isFormVisible = formRect.top < window.innerHeight && formRect.bottom > 0;
+      
+      if (!isFormVisible && currentScroll > lastScroll) {
+        // Scrolling down and form is not visible
+        stickyBar.style.transform = 'translateY(0)';
+      } else {
+        // Scrolling up or form is visible
+        stickyBar.style.transform = 'translateY(100%)';
+      }
+      
+      lastScroll = currentScroll;
+    });
+  }
+  
+  // Update main image when variant changes
+  document.addEventListener('change', function(e) {
+    const target = e.target;
+    
+    // Check if it's a variant input with image data
+    if (target.matches('input[name^="options"][data-variant-image]')) {
+      const variantImage = target.getAttribute('data-variant-image');
+      const mainImage = document.querySelector('[data-main-image]');
+      
+      if (variantImage && variantImage !== '' && mainImage) {
+        mainImage.src = variantImage;
+      }
+    }
+  });
+  
+  // Update sold out button text in sticky bar
+  const addToCartButton = document.querySelector('[data-add-to-cart-button]');
+  const stickyCartButton = document.querySelector('[data-sticky-add-to-cart]');
+  const stickyCartText = document.querySelector('[data-sticky-cart-text]');
+  
+  if (addToCartButton && stickyCartButton) {
+    // Sync disabled state
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
+          if (addToCartButton.disabled) {
+            stickyCartButton.disabled = true;
+            stickyCartButton.classList.add('opacity-60', 'cursor-not-allowed', 'bg-gray-400');
+            stickyCartButton.classList.remove('bg-blue-600');
+            if (stickyCartText) {
+              stickyCartText.textContent = '{{ 'products.product.sold_out' | t }}';
+            }
+          } else {
+            stickyCartButton.disabled = false;
+            stickyCartButton.classList.remove('opacity-60', 'cursor-not-allowed', 'bg-gray-400');
+            stickyCartButton.classList.add('bg-blue-600');
+            if (stickyCartText) {
+              stickyCartText.textContent = '{{ 'products.product.add_to_cart' | t }}';
+            }
+          }
+        }
+      });
+    });
+    
+    observer.observe(addToCartButton, { attributes: true });
+  }
+})();
+</script>
 
 {% schema %}
 {
@@ -300,16 +556,6 @@
   "tag": "section",
   "class": "section-main-product",
   "settings": [
-    {
-      "type": "checkbox",
-      "id": "enable_share",
-      "label": "Enable product sharing",
-      "default": true
-    },
-    {
-      "type": "header",
-      "content": "Gallery Settings"
-    },
     {
       "type": "checkbox",
       "id": "enable_zoom",
@@ -325,4 +571,3 @@
   ]
 }
 {% endschema %}
-

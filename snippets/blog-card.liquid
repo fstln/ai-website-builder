@@ -1,6 +1,7 @@
 {% comment %}
   Blog/Article Card Component
   Displays a blog article in card format
+  视觉规范: visual_spec.md
   
   Usage:
     {% render 'blog-card', article: article %}
@@ -22,75 +23,65 @@
   assign display_date = show_date | default: true
   assign display_tags = show_tags | default: false
   assign img_ratio = image_ratio | default: '16:9'
-
-  case img_ratio
-    when '1:1'
-      assign aspect_class = 'aspect-square'
-    when '4:3'
-      assign aspect_class = 'aspect-[4/3]'
-    when '16:9'
-      assign aspect_class = 'aspect-video'
-    else
-      assign aspect_class = 'aspect-video'
-  endcase
 -%}
 
+{%- comment -%} DTC 设计：简洁无边框，3:2 图片比例，靠间距传达层级 {%- endcomment -%}
 <article class="blog-card group {{ class }}">
   <a href="{{ article.url }}" class="block">
-    {%- comment -%} Article Image {%- endcomment -%}
+    {%- comment -%} Article Image - DTC 设计：固定 3:2 比例，8px 圆角（清晰锐利）{%- endcomment -%}
     {% if article.image %}
-      <div class="blog-card-image relative overflow-hidden rounded-lg bg-border mb-4 {{ aspect_class }}">
+      <div class="blog-card-image relative overflow-hidden bg-gray-100 aspect-[3/2] rounded-lg mb-3">
         {% render 'image', 
           image: article.image, 
           alt: article.image.alt | default: article.title,
           class: 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
         %}
         
-        {%- comment -%} Reading time badge (optional) {%- endcomment -%}
+        {%- comment -%} Reading time badge (optional) - pill shape {%- endcomment -%}
         {% if article.content != blank %}
           {%- assign word_count = article.content | strip_html | split: ' ' | size -%}
           {%- assign reading_time = word_count | divided_by: 200 | at_least: 1 -%}
-          <div class="absolute bottom-2 right-2 bg-background/90 backdrop-blur-sm text-text text-xs px-2 py-1 rounded">
+          <div class="absolute bottom-2 right-2 bg-gray-900/75 backdrop-blur-sm text-white text-xs font-medium px-2.5 py-1 rounded-full">
             {{ 'blogs.article.read_time' | t: time: reading_time }}
           </div>
         {% endif %}
       </div>
     {% else %}
-      {%- comment -%} Placeholder if no image {%- endcomment -%}
-      <div class="blog-card-image {{ aspect_class }} flex items-center justify-center bg-border rounded-lg mb-4">
-        <svg class="w-12 h-12 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      {%- comment -%} Placeholder if no image - 匹配图片圆角 {%- endcomment -%}
+      <div class="blog-card-image aspect-[3/2] flex items-center justify-center bg-gray-100 rounded-lg mb-3">
+        <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
         </svg>
       </div>
     {% endif %}
     
-    {%- comment -%} Article Info {%- endcomment -%}
+    {%- comment -%} Article Info - DTC 设计：内容与图片对齐，无内边距 {%- endcomment -%}
     <div class="blog-card-info">
-      {%- comment -%} Tags {%- endcomment -%}
+      {%- comment -%} Tags - 如果有，最顶部 {%- endcomment -%}
       {% if display_tags and article.tags.size > 0 %}
-        <div class="blog-card-tags flex flex-wrap gap-2 mb-2">
+        <div class="blog-card-tags flex flex-wrap gap-1.5 mb-2">
           {% for tag in article.tags limit: 2 %}
-            <span class="text-xs px-2 py-1 bg-border rounded-full text-text-secondary">
+            <span class="inline-flex items-center text-xs font-medium px-2.5 py-1 bg-blue-100 text-blue-800 rounded-full">
               {{ tag }}
             </span>
           {% endfor %}
         </div>
       {% endif %}
       
-      {%- comment -%} Title {%- endcomment -%}
-      <h3 class="blog-card-title font-bold text-lg mb-2 line-clamp-2 group-hover:underline">
+      {%- comment -%} Title - Tailwind 原生：text-xl font-semibold {%- endcomment -%}
+      <h3 class="blog-card-title text-xl font-semibold mb-1.5 line-clamp-2 text-gray-900 group-hover:text-blue-600 transition-colors">
         {{ article.title }}
       </h3>
       
-      {%- comment -%} Meta (Author & Date) {%- endcomment -%}
+      {%- comment -%} Meta - Tailwind 原生：text-xs font-medium，与标题紧密关联 {%- endcomment -%}
       {% if display_author or display_date %}
-        <div class="blog-card-meta text-sm text-text-secondary mb-3 flex items-center gap-2">
+        <div class="blog-card-meta text-xs font-medium text-gray-600 mb-2 flex items-center gap-1.5">
           {% if display_author and article.author != blank %}
-            <span>{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+            <span>{{ article.author }}</span>
           {% endif %}
           
           {% if display_author and display_date and article.author != blank %}
-            <span>·</span>
+            <span class="text-gray-400">·</span>
           {% endif %}
           
           {% if display_date %}
@@ -101,37 +92,37 @@
         </div>
       {% endif %}
       
-      {%- comment -%} Excerpt {%- endcomment -%}
+      {%- comment -%} Excerpt - Tailwind 原生：text-sm leading-relaxed {%- endcomment -%}
       {% if display_excerpt %}
         {% if article.excerpt != blank %}
-          <p class="blog-card-excerpt text-text-secondary text-sm mb-4 line-clamp-3">
+          <p class="blog-card-excerpt text-sm leading-relaxed text-gray-700 mb-3 line-clamp-3">
             {{ article.excerpt | strip_html }}
           </p>
         {% elsif article.content != blank %}
-          <p class="blog-card-excerpt text-text-secondary text-sm mb-4 line-clamp-3">
+          <p class="blog-card-excerpt text-sm leading-relaxed text-gray-700 mb-3 line-clamp-3">
             {{ article.content | strip_html | truncate: 150 }}
           </p>
         {% endif %}
       {% endif %}
       
-      {%- comment -%} Read More Link {%- endcomment -%}
-      <span class="blog-card-link text-primary font-medium hover:underline inline-flex items-center gap-1">
-        {{ 'blogs.article.read_more' | t }}
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      {%- comment -%} Read More - Tailwind 原生：text-sm font-semibold {%- endcomment -%}
+      <span class="blog-card-link text-sm font-semibold text-blue-600 group-hover:text-blue-700 inline-flex items-center gap-1.5 transition-colors">
+        <span>{{ 'blogs.article.read_more' | t }}</span>
+        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
         </svg>
       </span>
     </div>
   </a>
   
-  {%- comment -%} Comment Count (outside link for better UX) {%- endcomment -%}
+  {%- comment -%} Comment Count (outside link for better UX) - 独立的元数据区 {%- endcomment -%}
   {% if article.comments_enabled? and article.comments_count > 0 %}
-    <div class="blog-card-comments mt-3 pt-3 border-t border-border">
-      <a href="{{ article.url }}#comments" class="text-sm text-text-secondary hover:text-primary flex items-center gap-1">
+    <div class="blog-card-comments pt-3 border-t border-gray-200">
+      <a href="{{ article.url }}#comments" class="text-xs font-medium text-gray-600 hover:text-blue-600 flex items-center gap-1.5 transition-colors">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
         </svg>
-        {{ 'blogs.article.comments_count' | t: count: article.comments_count }}
+        <span class="font-medium">{{ 'blogs.article.comments_count' | t: count: article.comments_count }}</span>
       </a>
     </div>
   {% endif %}
