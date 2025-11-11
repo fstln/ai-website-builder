@@ -2,7 +2,7 @@
   Featured Collection Section
 {% endcomment %}
 
-<section class="featured-collection py-16 bg-gray-50" data-section-id="{{ section.id }}" data-section-type="featured-collection">
+<section class="featured-collection py-16 bg-background" data-section-id="{{ section.id }}" data-section-type="featured-collection">
   <div class="container-custom">
     {% if section.settings.collection != blank %}
       {% assign collection = collections[section.settings.collection] %}
@@ -19,7 +19,7 @@
         {% endif %}
         
         {% if section.settings.show_description and collection.description != blank %}
-          <div class="text-gray-600 max-w-2xl mx-auto">
+        <div class="text-text-secondary max-w-2xl mx-auto">
             {{ collection.description }}
           </div>
         {% endif %}
@@ -37,7 +37,7 @@
         </a>
       </div>
     {% else %}
-      <div class="text-center py-12 text-gray-600">
+      <div class="text-center py-12 text-text-secondary">
         <p>Please select a collection in theme settings</p>
       </div>
     {% endif %}
@@ -88,4 +88,3 @@
   ]
 }
 {% endschema %}
-

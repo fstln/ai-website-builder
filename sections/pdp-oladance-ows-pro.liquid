@@ -15,12 +15,17 @@
     --pdp-text-primary: var(--color-text, #1A1A1A);
     --pdp-text-secondary: var(--color-text-secondary, #6B7280);
     --pdp-primary: var(--color-primary, #FF4D4D);
+    --pdp-warning: var(--color-warning, #F59E0B);
     --pdp-background: var(--color-background, #FFFFFF);
     --pdp-border: var(--color-border, #E5E7EB);
     --pdp-section-spacing: var(--section-spacing, 80px);
     --pdp-container-max-width: var(--container-max-width, 1280px);
     --pdp-border-radius: var(--border-radius-md, 8px);
     --pdp-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05));
+    --pdp-surface-muted: color-mix(in srgb, var(--pdp-background) 92%, var(--pdp-text-secondary) 8%);
+    --pdp-highlight: color-mix(in srgb, var(--pdp-background) 70%, var(--pdp-warning) 30%);
+    --pdp-contrast-surface: color-mix(in srgb, var(--pdp-text-primary) 85%, #000000 15%);
+    --pdp-contrast-text: var(--pdp-background, #ffffff);
   }
 
   /* BEM Blocks */
@@ -47,7 +52,7 @@
   /* Sticky Bar */
   .pdp-oladance-sticky-bar {
     background-color: var(--pdp-primary);
-    color: white;
+    color: var(--color-background, #ffffff);
     text-align: center;
     padding: 12px 24px;
     font-weight: 600;
@@ -100,7 +105,7 @@
   }
   .pdp-oladance-hero__cta-button {
     background-color: var(--pdp-primary);
-    color: white;
+    color: var(--color-background, #ffffff);
     width: 100%;
     padding: 16px;
     border-radius: var(--pdp-border-radius);
@@ -140,7 +145,7 @@
     opacity: 0.7;
   }
   .pdp-oladance-trust__badge {
-    background-color: #f3f4f6;
+    background-color: var(--pdp-surface-muted);
     border: 1px solid var(--pdp-border);
     padding: 16px 24px;
     border-radius: var(--pdp-border-radius);
@@ -179,23 +184,23 @@
     text-align: center;
   }
   .pdp-oladance-comparison__table th {
-    background-color: #f9fafb;
+    background-color: var(--pdp-surface-muted);
   }
   .pdp-oladance-comparison__table .highlight {
-    background-color: #fffbeb;
+    background-color: var(--pdp-highlight);
     font-weight: 700;
   }
 
   /* Final CTA */
   .pdp-oladance-final-cta {
-    background-color: #111827;
-    color: white;
+    background-color: var(--pdp-contrast-surface);
+    color: var(--pdp-contrast-text);
     text-align: center;
     border-radius: var(--pdp-border-radius);
   }
   .pdp-oladance-final-cta__button {
     background-color: var(--pdp-primary);
-    color: white;
+    color: var(--color-background, #ffffff);
     padding: 16px 32px;
     border-radius: var(--pdp-border-radius);
     font-weight: 700;
@@ -288,7 +293,7 @@
     </section>
 
     <!-- 3. Trust & Social Proof Section -->
-    <section class="pdp-oladance__section bg-gray-50">
+    <section class="pdp-oladance__section bg-border/10">
       <div class="pdp-oladance__container">
         <div class="pdp-oladance-trust__grid">
           <div class="pdp-oladance-trust__media animate-on-scroll">
@@ -321,7 +326,7 @@
     </section>
 
     <!-- 5. KSP Deep Dive -->
-    <section class="pdp-oladance__section bg-gray-50">
+    <section class="pdp-oladance__section bg-border/10">
       <div class="pdp-oladance__container">
         <!-- Block 1: Audio -->
         <div class="pdp-oladance-ksp__grid mb-20">
@@ -331,7 +336,7 @@
           <div class="pdp-oladance-ksp__content animate-on-scroll" style="transition-delay: 150ms;">
             <h2 class="font-heading text-3xl font-bold mb-4">HEAR THE BASS, NOT THE NOISE</h2>
             <p class="text-lg text-secondary mb-4">Tired of 'tinny' open-ear sound? Our patented tech delivers deep, rich bass you can feel. The independent amplifier chip and Dynamic EQ ensure every note is crystal clear.</p>
-            <div class="bg-blue-100 text-blue-800 p-4 rounded-lg">
+            <div class="bg-primary/10 text-primary p-4 rounded-lg">
               <strong>Focus Mode:</strong> Tune out ambient voices, stay in the zone. Perfect for WFH and office environments.
             </div>
           </div>
@@ -416,7 +421,7 @@
       <div class="pdp-oladance__container">
         <div class="pdp-oladance-final-cta py-16 px-8 animate-on-scroll">
           <h2 class="font-heading text-4xl font-extrabold mb-4">Get Your $229 OWS Pro for $129.</h2>
-          <p class="text-lg text-gray-300">Limited stock. Free Shipping. Final Sale.</p>
+          <p class="text-lg text-background/80">Limited stock. Free Shipping. Final Sale.</p>
           <a href="#" class="pdp-oladance-final-cta__button">YES, I WANT TO SAVE $100</a>
         </div>
       </div>

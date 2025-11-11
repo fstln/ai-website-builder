@@ -1,3 +1,12 @@
+const withOpacityValue = (variable) => {
+  return ({ opacityValue }) => {
+    if (opacityValue === undefined) {
+      return `rgb(var(${variable}) / 1)`;
+    }
+    return `rgb(var(${variable}) / ${opacityValue})`;
+  };
+};
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -10,17 +19,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // 语义化颜色，映射到 CSS 变量
-        primary: 'var(--color-primary)',
-        secondary: 'var(--color-secondary)',
-        accent: 'var(--color-accent)',
-        background: 'var(--color-background)',
-        text: 'var(--color-text)',
-        'text-secondary': 'var(--color-text-secondary)',
-        border: 'var(--color-border)',
-        error: 'var(--color-error)',
-        success: 'var(--color-success)',
-        warning: 'var(--color-warning)'
+        // 语义化颜色，映射到 CSS 变量，可响应透明度
+        primary: withOpacityValue('--color-primary-rgb'),
+        secondary: withOpacityValue('--color-secondary-rgb'),
+        accent: withOpacityValue('--color-accent-rgb'),
+        background: withOpacityValue('--color-background-rgb'),
+        text: withOpacityValue('--color-text-rgb'),
+        'text-secondary': withOpacityValue('--color-text-secondary-rgb'),
+        border: withOpacityValue('--color-border-rgb'),
+        error: withOpacityValue('--color-error-rgb'),
+        success: withOpacityValue('--color-success-rgb'),
+        warning: withOpacityValue('--color-warning-rgb')
       },
       fontFamily: {
         // 字体家族
@@ -34,4 +43,3 @@ module.exports = {
   },
   plugins: []
 };
-

@@ -25,14 +25,14 @@
           <div class="flex flex-wrap gap-2">
             <a 
               href="{{ blog.url }}" 
-              class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 {% if current_tags == blank %}bg-primary text-white{% else %}bg-gray-100 text-gray-800 hover:bg-gray-200{% endif %}"
+              class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 {% if current_tags == blank %}bg-primary text-background{% else %}bg-border/20 text-text hover:bg-border/40{% endif %}"
             >
               {{ 'blogs.general.view_all' | t }}
             </a>
             {% for tag in blog.all_tags %}
               <a 
                 href="{{ blog.url }}/tagged/{{ tag | handle }}" 
-                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 {% if current_tags contains tag %}bg-primary text-white{% else %}bg-gray-100 text-gray-800 hover:bg-gray-200{% endif %}"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 {% if current_tags contains tag %}bg-primary text-background{% else %}bg-border/20 text-text hover:bg-border/40{% endif %}"
               >
                 {{ tag }}
               </a>
@@ -62,7 +62,7 @@
             {% if paginate.previous %}
               <a 
                 href="{{ paginate.previous.url }}" 
-                class="inline-flex items-center gap-2 px-5 py-3 bg-white text-gray-900 rounded-lg border border-gray-200 shadow-sm hover:shadow transition-all duration-200"
+                class="inline-flex items-center gap-2 px-5 py-3 bg-background text-text rounded-lg border border-border shadow-sm hover:shadow transition-all duration-200"
                 aria-label="{{ 'general.pagination.previous' | t }}"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -71,7 +71,7 @@
                 <span class="text-sm font-medium">{{ 'general.pagination.previous' | t }}</span>
               </a>
             {% else %}
-              <span class="inline-flex items-center gap-2 px-5 py-3 bg-gray-100 text-gray-400 rounded-lg border border-gray-200 cursor-not-allowed">
+              <span class="inline-flex items-center gap-2 px-5 py-3 bg-border/20 text-text-secondary/60 rounded-lg border border-border cursor-not-allowed">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
@@ -79,16 +79,16 @@
               </span>
             {% endif %}
             
-            <span class="px-4 py-2 text-sm text-gray-700">
-              <span class="font-bold text-gray-900">{{ paginate.current_page }}</span>
-              <span class="mx-2 text-gray-400">/</span>
+            <span class="px-4 py-2 text-sm text-text-secondary">
+              <span class="font-bold text-text">{{ paginate.current_page }}</span>
+              <span class="mx-2 text-text-secondary/70">/</span>
               <span>{{ paginate.pages }}</span>
             </span>
             
             {% if paginate.next %}
               <a 
                 href="{{ paginate.next.url }}" 
-                class="inline-flex items-center gap-2 px-5 py-3 bg-white text-gray-900 rounded-lg border border-gray-200 shadow-sm hover:shadow transition-all duration-200"
+                class="inline-flex items-center gap-2 px-5 py-3 bg-background text-text rounded-lg border border-border shadow-sm hover:shadow transition-all duration-200"
                 aria-label="{{ 'general.pagination.next' | t }}"
               >
                 <span class="text-sm font-medium">{{ 'general.pagination.next' | t }}</span>
@@ -97,7 +97,7 @@
                 </svg>
               </a>
             {% else %}
-              <span class="inline-flex items-center gap-2 px-5 py-3 bg-gray-100 text-gray-400 rounded-lg border border-gray-200 cursor-not-allowed">
+              <span class="inline-flex items-center gap-2 px-5 py-3 bg-border/20 text-text-secondary/60 rounded-lg border border-border cursor-not-allowed">
                 <span class="text-sm font-medium">{{ 'general.pagination.next' | t }}</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -109,13 +109,13 @@
       {% else %}
         {%- comment -%} No Articles State - 基于 visual_spec.md {%- endcomment -%}
         <div class="text-center py-20">
-          <svg class="w-24 h-24 mx-auto mb-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-24 h-24 mx-auto mb-6 text-text-secondary/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
           </svg>
-          <h2 class="text-3xl font-extrabold text-gray-900 mb-4">{{ 'blogs.general.no_articles' | t }}</h2>
+          <h2 class="text-3xl font-extrabold text-text mb-4">{{ 'blogs.general.no_articles' | t }}</h2>
           {% if current_tags != blank %}
-            <p class="text-lg text-gray-700 mb-8 max-w-md mx-auto">No articles found with the selected tag.</p>
-            <a href="{{ blog.url }}" class="inline-flex items-center px-5 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-medium">
+            <p class="text-lg text-text-secondary mb-8 max-w-md mx-auto">No articles found with the selected tag.</p>
+            <a href="{{ blog.url }}" class="inline-flex items-center px-5 py-3 bg-primary text-background rounded-lg shadow hover:bg-secondary hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-medium">
               View all articles
             </a>
           {% endif %}
@@ -219,4 +219,3 @@
   ]
 }
 {% endschema %}
-

@@ -190,9 +190,9 @@ class VariantSelectorComponent extends Component {
       
       // Add/remove sale class
       if (compareAtPrice && compareAtPrice > price) {
-        el.classList.add('text-red-600', 'font-bold');
+        el.classList.add('text-error', 'font-bold');
       } else {
-        el.classList.remove('text-red-600', 'font-bold');
+        el.classList.remove('text-error', 'font-bold');
       }
     });
 
@@ -225,12 +225,12 @@ class VariantSelectorComponent extends Component {
     availabilityElements.forEach(el => {
       if (available) {
         el.textContent = el.dataset.availableText || 'In stock';
-        el.classList.remove('text-red-600');
-        el.classList.add('text-green-600');
+        el.classList.remove('text-error');
+        el.classList.add('text-success');
       } else {
         el.textContent = el.dataset.unavailableText || 'Out of stock';
-        el.classList.remove('text-green-600');
-        el.classList.add('text-red-600');
+        el.classList.remove('text-success');
+        el.classList.add('text-error');
       }
     });
   }
@@ -424,4 +424,3 @@ if (!customElements.get('variant-selector-component')) {
 }
 
 export { VariantSelectorComponent };
-

@@ -130,8 +130,8 @@ function showNotification(message, type = 'success') {
   // Simple notification implementation
   const notification = document.createElement('div');
   notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
-    type === 'error' ? 'bg-red-600' : 'bg-green-600'
-  } text-white`;
+    type === 'error' ? 'bg-error' : 'bg-success'
+  } text-background`;
   notification.textContent = message;
   
   document.body.appendChild(notification);
@@ -140,4 +140,3 @@ function showNotification(message, type = 'success') {
     notification.remove();
   }, 3000);
 }
-

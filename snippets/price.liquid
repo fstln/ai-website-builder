@@ -8,10 +8,10 @@
 <div class="price-wrapper">
   {% if product.compare_at_price > product.price %}
     <div class="price-on-sale flex items-center gap-2">
-      <span class="price-item price-sale font-bold text-red-600">
+      <span class="price-item price-sale font-bold text-error">
         {{ product.price | money }}
       </span>
-      <span class="price-item price-compare text-gray-500 line-through text-sm">
+      <span class="price-item price-compare text-text-secondary line-through text-sm">
         {{ product.compare_at_price | money }}
       </span>
     </div>
@@ -22,9 +22,8 @@
   {% endif %}
   
   {% if product.price_varies %}
-    <span class="price-varies text-sm text-gray-600">
+    <span class="price-varies text-sm text-text-secondary">
       {{ 'products.product.from' | t | default: 'from' }}
     </span>
   {% endif %}
 </div>
-

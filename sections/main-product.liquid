@@ -17,7 +17,7 @@
           <div class="lg:hidden mb-4">
             <div class="flex gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain overscroll-y-none snap-x snap-mandatory scroll-px-4 pb-2" data-thumbnail-track>
               {% if selected_media %}
-                <div class="relative rounded-2xl overflow-hidden snap-start shrink-0 bg-white mobile-gallery__item">
+                <div class="relative rounded-2xl overflow-hidden snap-start shrink-0 bg-background mobile-gallery__item">
                   <img
                     src="{{ selected_media.preview_image | image_url: width: 900 }}"
                     alt="{{ selected_media.alt | default: product.title }}"
@@ -32,7 +32,7 @@
                 {% if selected_media and media.id == selected_media_id %}
                   {% continue %}
                 {% endif %}
-                <div class="relative rounded-2xl overflow-hidden snap-start shrink-0 bg-white mobile-gallery__item">
+                <div class="relative rounded-2xl overflow-hidden snap-start shrink-0 bg-background mobile-gallery__item">
                   <img
                     src="{{ media.preview_image | image_url: width: 900 }}"
                     alt="{{ media.alt | default: product.title }}"
@@ -57,7 +57,7 @@
             class="product-gallery space-y-4 hidden lg:block"
           >
             {%- comment -%} Main Image - rounded-lg 8px {%- endcomment -%}
-            <div class="main-image relative cursor-pointer bg-white rounded-lg overflow-hidden" ref="mainImage" data-product-gallery-main>
+            <div class="main-image relative cursor-pointer bg-background rounded-lg overflow-hidden" ref="mainImage" data-product-gallery-main>
               {% assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media %}
               
               <img
@@ -72,7 +72,7 @@
               
               {%- comment -%} Sale Badge - top right {%- endcomment -%}
               {% if product.compare_at_price > product.price %}
-                <div class="absolute top-4 right-4 bg-red-600 text-white text-sm font-bold px-3 py-1.5 rounded-full">
+                <div class="absolute top-4 right-4 bg-error text-background text-sm font-bold px-3 py-1.5 rounded-full">
                   {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
                   -{{ discount }}%
                 </div>
@@ -81,7 +81,7 @@
               {%- comment -%} Low Stock Badge {%- endcomment -%}
               {% assign current_variant = product.selected_or_first_available_variant %}
               {% if current_variant.inventory_quantity <= 10 and current_variant.inventory_quantity > 0 %}
-                <div class="absolute top-4 left-4 bg-orange-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full">
+                <div class="absolute top-4 left-4 bg-warning text-background text-xs font-semibold px-3 py-1.5 rounded-full">
                   {{ 'products.product.low_stock' | t }} - {{ current_variant.inventory_quantity }} {{ 'general.cart.item_count.other' | t: count: current_variant.inventory_quantity }}
                 </div>
               {% endif %}
@@ -92,7 +92,7 @@
               <div class="product-thumbnails mt-4 grid grid-cols-2 gap-3">
                 {% for media in product.media limit: 4 %}
                   <div 
-                    class="thumbnail relative bg-white overflow-hidden transition-all duration-200"
+                    class="thumbnail relative bg-background overflow-hidden transition-all duration-200"
                     ref="thumbnails[]"
                     on:click="/selectSlide/{{ forloop.index0 }}"
                     data-media-id="{{ media.id }}"
@@ -133,7 +133,7 @@
       <div class="product-info">
         {%- comment -%} Vendor - Small Label {%- endcomment -%}
         {% if product.vendor != blank %}
-          <a href="{{ product.vendor | url_for_vendor }}" class="inline-flex items-center text-xs font-medium text-blue-600 hover:text-blue-700 mb-3 transition-colors">
+          <a href="{{ product.vendor | url_for_vendor }}" class="inline-flex items-center text-xs font-medium text-primary hover:text-secondary mb-3 transition-colors">
             {{ product.vendor }}
             <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -179,7 +179,7 @@
                       {{ product.title }}
                     </h1>
                   {% when 'product_price' %}
-                    <div class="product-price bg-white rounded-2xl mb-8" {{ block_attributes }}>
+                    <div class="product-price bg-background rounded-2xl mb-8" {{ block_attributes }}>
                       <div class="flex items-baseline gap-3 mb-6">
                         {% if product.compare_at_price > product.price %}
                           <span class="text-4xl text-text">
@@ -188,7 +188,7 @@
                           <span class="text-2xl font-medium text-text-secondary line-through">
                             {{ product.compare_at_price | money }}
                           </span>
-                          <span class="inline-flex items-center px-3 py-1 bg-red-600 text-white text-sm font-bold rounded-full">
+                          <span class="inline-flex items-center px-3 py-1 bg-error text-background text-sm font-bold rounded-full">
                             {{ 'products.product.save_amount' | t: amount: product.compare_at_price | minus: product.price | money }}
                           </span>
                         {% else %}
@@ -252,10 +252,10 @@
                                       for="Option-{{ option.name | handle }}-{{ value | handle }}"
                                       class="inline-flex items-center justify-center min-w-[60px] px-4 py-2.5 text-sm font-medium rounded-lg border cursor-pointer transition-all duration-200
                                              {% if variant_for_value.available %}
-                                               border-border/80 bg-white text-text hover:border-border
-                                               peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white
+                                               border-border/80 bg-background text-text hover:border-border
+                                               peer-checked:border-primary peer-checked:bg-primary peer-checked:text-background
                                              {% else %}
-                                               border-border/60 bg-gray-50 text-gray-400 cursor-not-allowed line-through
+                                               border-border/60 bg-border/15 text-text-secondary/60 cursor-not-allowed line-through
                                              {% endif %}"
                                     >
                                       {{ value }}
@@ -266,7 +266,7 @@
                             </div>
                           {% endfor %}
                           
-                          <div data-variant-error class="hidden text-sm font-medium text-red-600 p-3 bg-red-50 border border-red-200 rounded-lg"></div>
+                          <div data-variant-error class="hidden text-sm font-medium text-error p-3 bg-error/10 border border-error/30 rounded-lg"></div>
                         </variant-selector-component>
                       </div>
                     {% endunless %}
@@ -286,7 +286,7 @@
                     </div>
                   {% when 'buy_buttons' %}
                     <div class="space-y-4" {{ block_attributes }}>
-                      <span class="hidden w-full text-sm font-medium text-red-600 p-4 bg-red-50 border border-red-200 rounded-lg" ref="addToCartTextError" role="alert"></span>
+                      <span class="hidden w-full text-sm font-medium text-error p-4 bg-error/10 border border-error/30 rounded-lg" ref="addToCartTextError" role="alert"></span>
                       {% if current_variant.available %}
                         {% assign product_variant_media = current_variant.featured_media.preview_image | image_url: width: 100 %}
                         {% if product_variant_media == blank %}
@@ -304,7 +304,7 @@
                             ref="addToCartButton"
                             on:click="/handleClick"
                             data-add-to-cart-button
-                            class="relative w-full px-8 py-4 text-lg font-bold text-white rounded-xl shadow-lg bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 active:scale-[0.99]"
+                            class="relative w-full px-8 py-4 text-lg font-bold text-background rounded-xl shadow-lg bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary active:scale-[0.99]"
                           >
                             <span class="flex items-center justify-center gap-3">
                               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -312,7 +312,7 @@
                               </svg>
                               <span data-add-to-cart-text>{{ 'products.product.add_to_cart' | t }}</span>
                             </span>
-                            <span class="absolute inset-0 flex items-center justify-center gap-2 text-base font-semibold text-white transition-opacity duration-200 opacity-0 pointer-events-none" ref="addToCartSuccess">
+                            <span class="absolute inset-0 flex items-center justify-center gap-2 text-base font-semibold text-background transition-opacity duration-200 opacity-0 pointer-events-none" ref="addToCartSuccess">
                               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                               </svg>
@@ -327,7 +327,7 @@
                         <button 
                           type="button"
                           disabled
-                          class="w-full px-8 py-4 text-lg font-bold text-white bg-gray-400 rounded-lg cursor-not-allowed opacity-60"
+                          class="w-full px-8 py-4 text-lg font-bold text-background bg-text-secondary/40 rounded-lg cursor-not-allowed opacity-60"
                         >
                           {{ 'products.product.sold_out' | t }}
                         </button>
@@ -346,7 +346,7 @@
                       {{ product.title }}
                     </h1>
                   {% when 'product_price' %}
-                    <div class="product-price bg-white rounded-2xl mb-8">
+                    <div class="product-price bg-background rounded-2xl mb-8">
                       <div class="flex items-baseline gap-3 mb-6">
                         {% if product.compare_at_price > product.price %}
                           <span class="text-4xl text-text">
@@ -355,7 +355,7 @@
                           <span class="text-2xl font-medium text-text-secondary line-through">
                             {{ product.compare_at_price | money }}
                           </span>
-                          <span class="inline-flex items-center px-3 py-1 bg-red-600 text-white text-sm font-bold rounded-full">
+                          <span class="inline-flex items-center px-3 py-1 bg-error text-background text-sm font-bold rounded-full">
                             {{ 'products.product.save_amount' | t: amount: product.compare_at_price | minus: product.price | money }}
                           </span>
                         {% else %}
@@ -415,13 +415,13 @@
                                   >
                                   <label
                                     for="Option-{{ option.name | handle }}-{{ value | handle }}"
-                                    class="inline-flex items-center justify-center min-w-[60px] px-4 py-2.5 text-sm font-medium rounded-lg border cursor-pointer transition-all duration-200
-                                           {% if variant_for_value.available %}
-                                             border-border/80 bg-white text-text hover:border-border
-                                             peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white
-                                           {% else %}
-                                             border-border/60 bg-gray-50 text-gray-400 cursor-not-allowed line-through
-                                           {% endif %}"
+                                  class="inline-flex items-center justify-center min-w-[60px] px-4 py-2.5 text-sm font-medium rounded-lg border cursor-pointer transition-all duration-200
+                                         {% if variant_for_value.available %}
+                                           border-border/80 bg-background text-text hover:border-border
+                                           peer-checked:border-primary peer-checked:bg-primary peer-checked:text-background
+                                         {% else %}
+                                           border-border/60 bg-border/15 text-text-secondary/60 cursor-not-allowed line-through
+                                         {% endif %}"
                                   >
                                     {{ value }}
                                   </label>
@@ -431,7 +431,7 @@
                           </div>
                         {% endfor %}
                         
-                        <div data-variant-error class="hidden text-sm font-medium text-red-600 p-3 bg-red-50 border border-red-200 rounded-lg"></div>
+                        <div data-variant-error class="hidden text-sm font-medium text-error p-3 bg-error/10 border border-error/30 rounded-lg"></div>
                       </variant-selector-component>
                     {% endunless %}
                   {% when 'quantity_selector' %}
@@ -450,7 +450,7 @@
                     </div>
                   {% when 'buy_buttons' %}
                     <div class="space-y-4">
-                      <span class="hidden w-full text-sm font-medium text-red-600 p-4 bg-red-50 border border-red-200 rounded-lg" ref="addToCartTextError" role="alert"></span>
+                      <span class="hidden w-full text-sm font-medium text-error p-4 bg-error/10 border border-error/30 rounded-lg" ref="addToCartTextError" role="alert"></span>
                       {% if current_variant.available %}
                         {% assign product_variant_media = current_variant.featured_media.preview_image | image_url: width: 100 %}
                         {% if product_variant_media == blank %}
@@ -468,7 +468,7 @@
                             ref="addToCartButton"
                             on:click="/handleClick"
                             data-add-to-cart-button
-                            class="relative w-full px-8 py-4 text-lg font-bold text-white rounded-xl shadow-lg bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 active:scale-[0.99]"
+                            class="relative w-full px-8 py-4 text-lg font-bold text-background rounded-xl shadow-lg bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary active:scale-[0.99]"
                           >
                             <span class="flex items-center justify-center gap-3">
                               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -476,7 +476,7 @@
                               </svg>
                               <span data-add-to-cart-text>{{ 'products.product.add_to_cart' | t }}</span>
                             </span>
-                            <span class="absolute inset-0 flex items-center justify-center gap-2 text-base font-semibold text-white transition-opacity duration-200 opacity-0 pointer-events-none" ref="addToCartSuccess">
+                            <span class="absolute inset-0 flex items-center justify-center gap-2 text-base font-semibold text-background transition-opacity duration-200 opacity-0 pointer-events-none" ref="addToCartSuccess">
                               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                               </svg>
@@ -491,7 +491,7 @@
                         <button 
                           type="button"
                           disabled
-                          class="w-full px-8 py-4 text-lg font-bold text-white bg-gray-400 rounded-lg cursor-not-allowed opacity-60"
+                          class="w-full px-8 py-4 text-lg font-bold text-background bg-text-secondary/40 rounded-lg cursor-not-allowed opacity-60"
                         >
                           {{ 'products.product.sold_out' | t }}
                         </button>
@@ -508,7 +508,7 @@
 </div>
 
 {%- comment -%} Sticky Add to Cart Bar (Mobile) {%- endcomment -%}
-<div class="lg:hidden fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur z-40 transform translate-y-full transition-transform duration-300" id="stickyCartBar">
+<div class="lg:hidden fixed bottom-0 inset-x-0 bg-background/95 backdrop-blur z-40 transform translate-y-full transition-transform duration-300" id="stickyCartBar">
   <div class="px-4 py-3 flex items-center gap-3">
     <div class="flex-1 min-w-0">
       <p class="text-xs text-text-secondary truncate">{{ product.title }}</p>
@@ -517,7 +517,7 @@
     <button 
       type="button"
       onclick="document.querySelector('form.product-form').requestSubmit()"
-      class="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 text-base font-bold text-white bg-blue-600 rounded-lg active:scale-95 transition-transform"
+      class="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 text-base font-bold text-background bg-primary rounded-lg active:scale-95 transition-transform"
       data-sticky-add-to-cart
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -594,15 +594,15 @@
         if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
           if (addToCartButton.disabled) {
             stickyCartButton.disabled = true;
-            stickyCartButton.classList.add('opacity-60', 'cursor-not-allowed', 'bg-gray-400');
-            stickyCartButton.classList.remove('bg-blue-600');
+            stickyCartButton.classList.add('opacity-60', 'cursor-not-allowed', 'bg-text-secondary/40');
+            stickyCartButton.classList.remove('bg-primary');
             if (stickyCartText) {
               stickyCartText.textContent = '{{ 'products.product.sold_out' | t }}';
             }
           } else {
             stickyCartButton.disabled = false;
-            stickyCartButton.classList.remove('opacity-60', 'cursor-not-allowed', 'bg-gray-400');
-            stickyCartButton.classList.add('bg-blue-600');
+            stickyCartButton.classList.remove('opacity-60', 'cursor-not-allowed', 'bg-text-secondary/40');
+            stickyCartButton.classList.add('bg-primary');
             if (stickyCartText) {
               stickyCartText.textContent = '{{ 'products.product.add_to_cart' | t }}';
             }

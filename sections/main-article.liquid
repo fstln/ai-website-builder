@@ -11,22 +11,22 @@
     <article class="article-content mt-8 max-w-4xl mx-auto">
       <header class="article-header mb-12">
         {%- comment -%} Title - 基于 visual_spec.md {%- endcomment -%}
-        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight text-gray-900 mb-6">{{ article.title }}</h1>
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight text-text mb-6">{{ article.title }}</h1>
       
         {%- comment -%} Meta - 基于 visual_spec.md {%- endcomment -%}
-        <div class="article-meta flex flex-wrap items-center gap-3 text-base text-gray-700 mb-8">
-          <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}" class="font-medium text-gray-900">
+        <div class="article-meta flex flex-wrap items-center gap-3 text-base text-text-secondary mb-8">
+          <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}" class="font-medium text-text">
             {{ article.published_at | date: '%B %d, %Y' }}
           </time>
         {% if article.author %}
-            <span class="text-gray-400">·</span>
+            <span class="text-text-secondary/70">·</span>
             <span class="font-medium">{{ article.author }}</span>
         {% endif %}
       </div>
       
         {%- comment -%} Featured Image {%- endcomment -%}
       {% if article.image %}
-          <div class="article-image relative overflow-hidden rounded-lg shadow-md mb-8 bg-gray-100">
+          <div class="article-image relative overflow-hidden rounded-lg shadow-md mb-8 bg-border/20">
             <img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.title }}" class="w-full h-auto" loading="eager">
           </div>
       {% endif %}
@@ -39,11 +39,11 @@
     
       {%- comment -%} Tags - 基于 visual_spec.md Category Chips 规范 {%- endcomment -%}
     {% if article.tags.size > 0 %}
-        <div class="article-tags mt-16 pt-8 border-t border-gray-200">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ 'blogs.article.tags' | t | default: 'Tags' }}</h3>
+        <div class="article-tags mt-16 pt-8 border-t border-border">
+          <h3 class="text-lg font-semibold text-text mb-4">{{ 'blogs.article.tags' | t | default: 'Tags' }}</h3>
         <div class="flex flex-wrap gap-2">
           {% for tag in article.tags %}
-              <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors duration-200">
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="inline-flex items-center px-4 py-2 bg-border/20 text-text rounded-full text-sm font-medium hover:bg-border/40 transition-colors duration-200">
               {{ tag }}
             </a>
           {% endfor %}
@@ -53,24 +53,24 @@
     
       {%- comment -%} Comments - 基于 visual_spec.md {%- endcomment -%}
     {% if blog.comments_enabled? %}
-        <div class="article-comments mt-16 pt-12 border-t border-gray-200">
-          <h2 class="text-3xl font-bold text-gray-900 mb-8">
+        <div class="article-comments mt-16 pt-12 border-t border-border">
+          <h2 class="text-3xl font-bold text-text mb-8">
             {{ 'blogs.article.comments' | t | default: 'Comments' }}
-            <span class="text-2xl font-medium text-gray-600">({{ article.comments_count }})</span>
+            <span class="text-2xl font-medium text-text-secondary">({{ article.comments_count }})</span>
           </h2>
         
         {% paginate article.comments by 50 %}
           <div class="space-y-6 mb-12">
           {% for comment in article.comments %}
-              <div class="comment p-6 bg-white border border-gray-200 rounded-lg">
-                <div class="comment-meta text-sm font-medium text-gray-600 mb-3 flex items-center gap-1.5">
-                  <span class="font-semibold text-gray-900">{{ comment.author }}</span>
-                  <span class="text-gray-400">·</span>
+              <div class="comment p-6 bg-background border border-border rounded-lg">
+                <div class="comment-meta text-sm font-medium text-text-secondary mb-3 flex items-center gap-1.5">
+                  <span class="font-semibold text-text">{{ comment.author }}</span>
+                  <span class="text-text-secondary/70">·</span>
                   <time datetime="{{ comment.created_at | date: '%Y-%m-%d' }}">
                     {{ comment.created_at | date: '%B %d, %Y' }}
                   </time>
               </div>
-                <div class="comment-content text-base text-gray-900 leading-relaxed">
+                <div class="comment-content text-base text-text leading-relaxed">
                 {{ comment.content }}
               </div>
             </div>
@@ -80,52 +80,52 @@
         
           {%- comment -%} Comment Form - 基于 visual_spec.md 表单规范 {%- endcomment -%}
         {% form 'new_comment', article %}
-            <div class="pt-8 border-t border-gray-200">
-              <h3 class="text-2xl font-bold text-gray-900 mb-6">{{ 'blogs.article.comment_form_title' | t | default: 'Post a Comment' }}</h3>
+            <div class="pt-8 border-t border-border">
+              <h3 class="text-2xl font-bold text-text mb-6">{{ 'blogs.article.comment_form_title' | t | default: 'Post a Comment' }}</h3>
           
               <div class="space-y-6">
             <div>
-                  <label for="CommentAuthor" class="block text-sm font-medium text-gray-900 mb-2">
-                    {{ 'blogs.article.name' | t | default: 'Name' }} <span class="text-red-500">*</span>
+                  <label for="CommentAuthor" class="block text-sm font-medium text-text mb-2">
+                    {{ 'blogs.article.name' | t | default: 'Name' }} <span class="text-error">*</span>
                   </label>
                   <input 
                     type="text" 
                     name="comment[author]" 
                     id="CommentAuthor" 
-                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors" 
+                    class="w-full border border-border rounded-lg px-4 py-3 text-base text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" 
                     required
                   >
             </div>
             
             <div>
-                  <label for="CommentEmail" class="block text-sm font-medium text-gray-900 mb-2">
-                    {{ 'blogs.article.email' | t | default: 'Email' }} <span class="text-red-500">*</span>
+                  <label for="CommentEmail" class="block text-sm font-medium text-text mb-2">
+                    {{ 'blogs.article.email' | t | default: 'Email' }} <span class="text-error">*</span>
                   </label>
                   <input 
                     type="email" 
                     name="comment[email]" 
                     id="CommentEmail" 
-                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-base text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors" 
+                    class="w-full border border-border rounded-lg px-4 py-3 text-base text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" 
                     required
                   >
             </div>
             
             <div>
-                  <label for="CommentBody" class="block text-sm font-medium text-gray-900 mb-2">
-                    {{ 'blogs.article.message' | t | default: 'Message' }} <span class="text-red-500">*</span>
+                  <label for="CommentBody" class="block text-sm font-medium text-text mb-2">
+                    {{ 'blogs.article.message' | t | default: 'Message' }} <span class="text-error">*</span>
                   </label>
                   <textarea 
                     name="comment[body]" 
                     id="CommentBody" 
                     rows="6" 
-                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-base text-gray-900 leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-colors resize-vertical" 
+                    class="w-full border border-border rounded-lg px-4 py-3 text-base text-text leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-vertical" 
                     required
                   ></textarea>
             </div>
             
                 <button 
                   type="submit" 
-                  class="inline-flex items-center px-6 py-3 bg-blue-600 text-white text-base font-medium rounded-lg shadow hover:bg-blue-700 hover:shadow-lg transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+                  class="inline-flex items-center px-6 py-3 bg-primary text-background text-base font-medium rounded-lg shadow hover:bg-secondary hover:shadow-lg transform hover:scale-105 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                 >
                   {{ 'blogs.article.post' | t | default: 'Post Comment' }}
                 </button>
@@ -146,4 +146,3 @@
   "settings": []
 }
 {% endschema %}
-

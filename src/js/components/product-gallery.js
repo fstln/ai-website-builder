@@ -227,7 +227,7 @@ class ProductGalleryComponent extends Component {
     modal.innerHTML = `
       <button 
         type="button"
-        class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10"
+        class="absolute top-4 right-4 text-white hover:text-background/70 transition-colors z-10"
         data-close-zoom
         aria-label="Close zoom"
       >
@@ -238,7 +238,7 @@ class ProductGalleryComponent extends Component {
 
       <button 
         type="button"
-        class="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 transition-colors ${this.images.length <= 1 ? 'hidden' : ''}"
+        class="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-background/70 transition-colors ${this.images.length <= 1 ? 'hidden' : ''}"
         data-zoom-prev
         aria-label="Previous image"
       >
@@ -249,7 +249,7 @@ class ProductGalleryComponent extends Component {
 
       <button 
         type="button"
-        class="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 transition-colors ${this.images.length <= 1 ? 'hidden' : ''}"
+        class="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-background/70 transition-colors ${this.images.length <= 1 ? 'hidden' : ''}"
         data-zoom-next
         aria-label="Next image"
       >
@@ -447,4 +447,3 @@ if (!customElements.get('product-gallery-component')) {
 }
 
 export { ProductGalleryComponent };
-

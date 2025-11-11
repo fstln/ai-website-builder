@@ -19,27 +19,27 @@
   .article-body {
     /* Headings */
     & h1 {
-      @apply text-4xl font-extrabold text-gray-900 tracking-tight leading-tight mt-12 mb-6;
+      @apply text-4xl font-extrabold text-text tracking-tight leading-tight mt-12 mb-6;
     }
     
     & h2 {
-      @apply text-3xl font-bold text-gray-900 tracking-tight leading-tight mt-10 mb-4;
+      @apply text-3xl font-bold text-text tracking-tight leading-tight mt-10 mb-4;
     }
     
     & h3 {
-      @apply text-2xl font-semibold text-gray-900 mt-8 mb-3;
+      @apply text-2xl font-semibold text-text mt-8 mb-3;
     }
     
     & h4 {
-      @apply text-xl font-semibold text-gray-900 mt-6 mb-2;
+      @apply text-xl font-semibold text-text mt-6 mb-2;
     }
     
     & h5 {
-      @apply text-lg font-semibold text-gray-900 mt-4 mb-2;
+      @apply text-lg font-semibold text-text mt-4 mb-2;
     }
     
     & h6 {
-      @apply text-base font-semibold text-gray-900 mt-4 mb-2;
+      @apply text-base font-semibold text-text mt-4 mb-2;
     }
     
     /* First heading has no top margin */
@@ -49,29 +49,29 @@
     
     /* Paragraphs */
     & p {
-      @apply text-base leading-relaxed text-gray-900 mb-4;
+      @apply text-base leading-relaxed text-text mb-4;
     }
     
     /* Links */
     & a {
-      @apply text-blue-600 font-medium no-underline hover:text-blue-700 hover:underline transition-colors;
+      @apply text-primary font-medium no-underline hover:text-secondary hover:underline transition-colors;
     }
     
     /* Strong & Bold */
     & strong,
     & b {
-      @apply font-bold text-gray-900;
+      @apply font-bold text-text;
     }
     
     /* Emphasis & Italic */
     & em,
     & i {
-      @apply italic text-gray-900;
+      @apply italic text-text;
     }
     
     /* Inline Code */
     & code {
-      @apply text-sm font-mono bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded;
+      @apply text-sm font-mono bg-border/20 text-text px-1.5 py-0.5 rounded;
     }
     
     & code::before,
@@ -81,21 +81,21 @@
     
     /* Code Blocks */
     & pre {
-      @apply bg-gray-900 text-gray-100 p-4 rounded-lg my-6 overflow-x-auto;
+      @apply bg-text text-background p-4 rounded-lg my-6 overflow-x-auto;
     }
     
     & pre code {
-      @apply bg-transparent text-gray-100 p-0;
+      @apply bg-transparent text-background p-0;
     }
     
     /* Unordered Lists */
     & ul {
-      @apply list-disc pl-6 mb-4 text-gray-900;
+      @apply list-disc pl-6 mb-4 text-text;
     }
     
     /* Ordered Lists */
     & ol {
-      @apply list-decimal pl-6 mb-4 text-gray-900;
+      @apply list-decimal pl-6 mb-4 text-text;
     }
     
     /* List Items */
@@ -113,7 +113,7 @@
     
     /* Blockquote */
     & blockquote {
-      @apply border-l-4 border-blue-600 pl-6 pr-6 py-3 my-6 italic text-gray-700 bg-gray-50 rounded-r-lg;
+      @apply border-l-4 border-primary pl-6 pr-6 py-3 my-6 italic text-text-secondary bg-border/10 rounded-r-lg;
     }
     
     /* Images */
@@ -127,12 +127,12 @@
     }
     
     & figcaption {
-      @apply text-sm text-gray-600 text-center mt-3 italic;
+      @apply text-sm text-text-secondary text-center mt-3 italic;
     }
     
     /* Horizontal Rule */
     & hr {
-      @apply my-12 border-gray-200;
+      @apply my-12 border-border;
     }
     
     /* Tables */
@@ -141,15 +141,15 @@
     }
     
     & thead {
-      @apply bg-gray-50;
+      @apply bg-border/10;
     }
     
     & th {
-      @apply px-4 py-3 text-left text-sm font-semibold text-gray-900 border-b-2 border-gray-300;
+      @apply px-4 py-3 text-left text-sm font-semibold text-text border-b-2 border-border;
     }
     
     & td {
-      @apply px-4 py-3 text-sm text-gray-900 border-b border-gray-200;
+      @apply px-4 py-3 text-sm text-text border-b border-border;
     }
     
     & tbody tr:last-child td {
@@ -167,15 +167,25 @@
 :root {
   /* Color Tokens */
   --color-primary: #000000;
+  --color-primary-rgb: 0 0 0;
   --color-secondary: #666666;
+  --color-secondary-rgb: 102 102 102;
   --color-accent: #3B82F6;
+  --color-accent-rgb: 59 130 246;
   --color-background: #FFFFFF;
+  --color-background-rgb: 255 255 255;
   --color-text: #111827;
+  --color-text-rgb: 17 24 39;
   --color-text-secondary: #6B7280;
+  --color-text-secondary-rgb: 107 114 128;
   --color-border: #E5E7EB;
+  --color-border-rgb: 229 231 235;
   --color-error: #EF4444;
+  --color-error-rgb: 239 68 68;
   --color-success: #10B981;
+  --color-success-rgb: 16 185 129;
   --color-warning: #F59E0B;
+  --color-warning-rgb: 245 158 11;
   
   /* Typography - 使用 Tailwind 原生类，无需自定义变量 */
   --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

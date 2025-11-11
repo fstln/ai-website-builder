@@ -180,6 +180,8 @@
     --pdp-container-padding-x: 24px;
     font-family: var(--font-body);
     color: var(--color-text);
+    --pdp-surface-muted: color-mix(in srgb, var(--color-background) 92%, var(--color-text-secondary) 8%);
+    --pdp-surface-accent: color-mix(in srgb, var(--color-background) 80%, var(--color-primary) 20%);
   }
 
   @media (min-width: 768px) {
@@ -212,7 +214,7 @@
 
   /* Hero Section */
   .hero-section {
-    background-color: #f7faff;
+    background-color: var(--pdp-surface-muted);
     padding-top: 48px;
   }
   .hero-layout {
@@ -321,7 +323,7 @@
     height: 64px;
     border-radius: var(--border-radius-full);
     background-color: var(--color-primary);
-    color: white;
+    color: var(--color-background, #ffffff);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -340,7 +342,7 @@
 
   /* Features Section */
   .features-section {
-    background-color: #f7faff;
+    background-color: var(--pdp-surface-muted);
   }
   .features-grid {
     display: grid;
@@ -403,7 +405,7 @@
 
   /* Security Section */
   .security-section {
-    background-color: #f7faff;
+    background-color: var(--pdp-surface-muted);
   }
   .security-layout {
     display: grid;

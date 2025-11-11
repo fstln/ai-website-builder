@@ -19,14 +19,14 @@
         {%- comment -%} Cart Items - Left Column {%- endcomment -%}
         <div class="lg:col-span-2">
           {%- comment -%} Error container {%- endcomment -%}
-          <div data-cart-error class="hidden bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-4 text-sm"></div>
+          <div data-cart-error class="hidden bg-error/10 border border-error/30 text-error px-4 py-3 rounded-lg mb-4 text-sm"></div>
           
               {%- comment -%} Cart Items List {%- endcomment -%}
               <div class="cart-items space-y-5">
                 {% for item in cart.items %}
                   {%- assign line_index = forloop.index0 -%}
                   <div
-                    class="cart-item flex flex-col sm:flex-row gap-4 p-5 bg-white rounded-2xl"
+                    class="cart-item flex flex-col sm:flex-row gap-4 p-5 bg-background rounded-2xl"
                     data-cart-item="{{ item.key }}"
                     data-item-key="{{ item.key }}"
                     ref="cartItemRows[]"
@@ -46,7 +46,7 @@
                 {%- comment -%} Product Info {%- endcomment -%}
                 <div class="flex-grow min-w-0">
                   <h3 class="font-semibold text-lg sm:text-xl mb-2 text-text">
-                    <a href="{{ item.url }}" class="hover:text-blue-600 transition-colors">
+                    <a href="{{ item.url }}" class="hover:text-primary transition-colors">
                       {{ item.product.title }}
                     </a>
                   </h3>
@@ -94,7 +94,7 @@
                       <div class="text-sm text-text-secondary">
                         {% if item.original_price > item.final_price %}
                           <span class="line-through">{{ item.original_price | money }}</span>
-                          <span class="text-red-600 font-medium ml-1">{{ item.final_price | money }}</span>
+                          <span class="text-error font-medium ml-1">{{ item.final_price | money }}</span>
                         {% else %}
                           {{ item.final_price | money }}
                         {% endif %}
@@ -105,10 +105,10 @@
                       {%- comment -%} Line Total Price {%- endcomment -%}
                       {% if item.original_line_price > item.final_line_price %}
                         <div class="flex items-center gap-2 justify-end">
-                          <span class="text-red-600 font-bold text-xl" data-item-price>
+                          <span class="text-error font-bold text-xl" data-item-price>
                             {{ item.final_line_price | money }}
                           </span>
-                          <span class="text-sm text-gray-400 line-through">
+                          <span class="text-sm text-text-secondary/60 line-through">
                             {{ item.original_line_price | money }}
                           </span>
                         </div>
@@ -124,7 +124,7 @@
                   {% if item.line_level_discount_allocations.size > 0 %}
                     <div class="item-discounts mt-3 space-y-1">
                       {% for discount in item.line_level_discount_allocations %}
-                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-50 text-green-700 text-xs font-medium">
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success/10 text-success text-xs font-medium">
                           <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
                             <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
@@ -139,7 +139,7 @@
                 {%- comment -%} Remove Button {%- endcomment -%}
                 <button 
                   type="button" 
-                  class="flex-shrink-0 self-start w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                  class="flex-shrink-0 self-start w-8 h-8 flex items-center justify-center text-text-secondary/60 hover:text-error hover:bg-error/10 rounded-lg transition-all"
                   data-cart-remove="{{ item.key }}"
                   data-item-name="{{ item.product.title }}"
                   aria-label="{{ 'general.cart.remove' | t }}: {{ item.product.title }}"
@@ -155,7 +155,7 @@
         
         {%- comment -%} Cart Summary - Right Column {%- endcomment -%}
         <div class="lg:col-span-1">
-          <div class="cart-summary bg-white p-6 sm:p-8 rounded-2xl sticky top-4">
+          <div class="cart-summary bg-background p-6 sm:p-8 rounded-2xl sticky top-4">
             <h2 class="text-2xl font-bold text-text mb-6">{{ 'general.cart.subtotal' | t }}</h2>
             
             {%- comment -%} Subtotal {%- endcomment -%}
@@ -169,8 +169,8 @@
               <div class="cart-discounts mb-6 pb-6 space-y-2">
                 {% for discount in cart.cart_level_discount_applications %}
                   <div class="flex justify-between items-center text-sm">
-                    <span class="text-green-700 font-medium">{{ discount.title }}</span>
-                    <span class="text-green-600 font-semibold">-{{ discount.total_allocated_amount | money }}</span>
+                    <span class="text-success font-medium">{{ discount.title }}</span>
+                    <span class="text-success font-semibold">-{{ discount.total_allocated_amount | money }}</span>
                   </div>
                 {% endfor %}
               </div>
@@ -184,7 +184,7 @@
             {%- comment -%} Checkout Button {%- endcomment -%}
             <a 
               href="/checkout" 
-              class="w-full text-center block px-6 py-4 bg-blue-600 text-white text-base font-semibold rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 mb-3"
+              class="w-full text-center block px-6 py-4 bg-primary text-background text-base font-semibold rounded-lg hover:bg-secondary transform hover:scale-105 transition-all duration-200 mb-3"
             >
               {{ 'general.cart.checkout' | t }}
             </a>
@@ -192,7 +192,7 @@
             {%- comment -%} Continue Shopping {%- endcomment -%}
             <a 
               href="{{ routes.all_products_collection_url }}" 
-              class="w-full text-center block px-6 py-3 bg-gray-100 text-text text-sm font-medium rounded-lg hover:bg-gray-200 transition-all duration-200"
+              class="w-full text-center block px-6 py-3 bg-border/20 text-text text-sm font-medium rounded-lg hover:bg-border/40 transition-all duration-200"
             >
               {{ 'general.continue_shopping' | t }}
             </a>
@@ -202,16 +202,16 @@
     {% else %}
       {%- comment -%} Empty Cart State {%- endcomment -%}
       <div class="empty-cart text-center py-16 sm:py-24">
-        <div class="max-w-md mx-auto bg-white rounded-2xl p-10">
-          <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-gray-100 flex items-center justify-center">
-            <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="max-w-md mx-auto bg-background rounded-2xl p-10">
+          <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-border/20 flex items-center justify-center">
+            <svg class="w-16 h-16 text-text-secondary/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
             </svg>
           </div>
           <h2 class="text-3xl font-bold text-text mb-4">{{ 'general.cart.empty' | t }}</h2>
           <a 
             href="{{ routes.all_products_collection_url }}" 
-            class="inline-block px-8 py-4 bg-blue-600 text-white text-base font-semibold rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-200"
+            class="inline-block px-8 py-4 bg-primary text-background text-base font-semibold rounded-lg hover:bg-secondary transform hover:scale-105 transition-all duration-200"
           >
             {{ 'general.continue_shopping' | t }}
           </a>

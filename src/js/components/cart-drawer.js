@@ -195,7 +195,7 @@ class CartDrawerComponent extends Component {
     const formatMoney = window.Shopify?.formatMoney || ((cents) => `$${(cents / 100).toFixed(2)}`);
     
     return `
-      <div class="cart-drawer-item flex gap-3 p-4 bg-white rounded-lg border border-gray-200 shadow-sm transition-all" data-cart-item="${item.key}">
+      <div class="cart-drawer-item flex gap-3 p-4 bg-background rounded-lg border border-border shadow-sm transition-all" data-cart-item="${item.key}">
         ${item.image ? `
           <a href="${item.url}" class="flex-shrink-0 group">
             <img 
@@ -208,19 +208,19 @@ class CartDrawerComponent extends Component {
         ` : ''}
         
         <div class="flex-grow min-w-0">
-          <h4 class="font-semibold text-sm mb-1 text-gray-900">
-            <a href="${item.url}" class="hover:text-blue-600 transition-colors line-clamp-2">${item.product_title}</a>
+          <h4 class="font-semibold text-sm mb-1 text-text">
+            <a href="${item.url}" class="hover:text-primary transition-colors line-clamp-2">${item.product_title}</a>
           </h4>
           
           ${!item.variant_title.includes('Default') ? `
-            <p class="text-xs text-gray-600 mb-2">${item.variant_title}</p>
+            <p class="text-xs text-text-secondary mb-2">${item.variant_title}</p>
           ` : ''}
           
           <div class="flex items-center justify-between gap-2 mt-3">
-            <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+            <div class="flex items-center border border-border rounded-lg overflow-hidden">
               <button
                 type="button"
-                class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-gray-600 transition-colors"
+                class="w-8 h-8 flex items-center justify-center hover:bg-border/20 text-text-secondary transition-colors"
                 data-drawer-quantity-minus="${item.key}"
                 aria-label="Decrease quantity"
               >
@@ -231,7 +231,7 @@ class CartDrawerComponent extends Component {
               
               <input
                 type="number"
-                class="w-10 h-8 text-center border-0 border-x border-gray-300 text-sm font-medium text-gray-900 bg-white"
+                class="w-10 h-8 text-center border-0 border-x border-border text-sm font-medium text-text bg-background"
                 value="${item.quantity}"
                 min="0"
                 data-drawer-quantity-input="${item.key}"
@@ -240,7 +240,7 @@ class CartDrawerComponent extends Component {
               
               <button
                 type="button"
-                class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 text-gray-600 transition-colors"
+                class="w-8 h-8 flex items-center justify-center hover:bg-border/20 text-text-secondary transition-colors"
                 data-drawer-quantity-plus="${item.key}"
                 aria-label="Increase quantity"
               >
@@ -250,13 +250,13 @@ class CartDrawerComponent extends Component {
               </button>
             </div>
             
-            <span class="font-bold text-sm text-gray-900">${formatMoney(item.final_line_price)}</span>
+            <span class="font-bold text-sm text-text">${formatMoney(item.final_line_price)}</span>
           </div>
         </div>
         
         <button
           type="button"
-          class="flex-shrink-0 w-7 h-7 flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+          class="flex-shrink-0 w-7 h-7 flex items-center justify-center text-text-secondary/60 hover:text-error hover:bg-error/10 rounded-lg transition-all"
           data-drawer-remove="${item.key}"
           aria-label="Remove ${item.product_title}"
         >
@@ -412,4 +412,3 @@ if (!customElements.get('cart-drawer-component')) {
 }
 
 export { CartDrawerComponent };
-
