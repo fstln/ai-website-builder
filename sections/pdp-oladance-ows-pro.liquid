@@ -1,0 +1,466 @@
+{%- comment -%}
+  This is the main section file for the Oladance OWS Pro Product Detail Page (PDP).
+  It follows the project's architecture guidelines:
+  - Semantic HTML structure.
+  - BEM naming convention for custom classes.
+  - Scoped CSS within the <style> tag.
+  - Scoped JS within the <script> tag.
+  - All images are placeholders from placehold.co.
+{%- endcomment -%}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<style>
+  .pdp-oladance {
+    --pdp-text-primary: var(--color-text, #1A1A1A);
+    --pdp-text-secondary: var(--color-text-secondary, #6B7280);
+    --pdp-primary: var(--color-primary, #FF4D4D);
+    --pdp-background: var(--color-background, #FFFFFF);
+    --pdp-border: var(--color-border, #E5E7EB);
+    --pdp-section-spacing: var(--section-spacing, 80px);
+    --pdp-container-max-width: var(--container-max-width, 1280px);
+    --pdp-border-radius: var(--border-radius-md, 8px);
+    --pdp-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05));
+  }
+
+  /* BEM Blocks */
+  .pdp-oladance__section {
+    padding-top: calc(var(--pdp-section-spacing) / 2);
+    padding-bottom: calc(var(--pdp-section-spacing) / 2);
+  }
+
+  @media (min-width: 768px) {
+    .pdp-oladance__section {
+      padding-top: var(--pdp-section-spacing);
+      padding-bottom: var(--pdp-section-spacing);
+    }
+  }
+
+  .pdp-oladance__container {
+    max-width: var(--pdp-container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  /* Sticky Bar */
+  .pdp-oladance-sticky-bar {
+    background-color: var(--pdp-primary);
+    color: white;
+    text-align: center;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+
+  /* Hero Section */
+  .pdp-oladance-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .pdp-oladance-hero__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .pdp-oladance-hero__price-display {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .pdp-oladance-hero__price--strikethrough {
+    text-decoration: line-through;
+    font-size: 24px;
+    color: var(--pdp-text-secondary);
+  }
+  .pdp-oladance-hero__price--main {
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--pdp-primary);
+  }
+  .pdp-oladance-hero__usp-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .pdp-oladance-hero__usp-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .pdp-oladance-hero__cta-button {
+    background-color: var(--pdp-primary);
+    color: white;
+    width: 100%;
+    padding: 16px;
+    border-radius: var(--pdp-border-radius);
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 24px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .pdp-oladance-hero__cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--pdp-shadow);
+  }
+
+  /* Trust Section */
+  .pdp-oladance-trust__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  @media (min-width: 768px) {
+    .pdp-oladance-trust__grid {
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+    }
+  }
+  .pdp-oladance-trust__media-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+  }
+  .pdp-oladance-trust__media-logos img {
+    max-height: 30px;
+    opacity: 0.7;
+  }
+  .pdp-oladance-trust__badge {
+    background-color: #f3f4f6;
+    border: 1px solid var(--pdp-border);
+    padding: 16px 24px;
+    border-radius: var(--pdp-border-radius);
+    text-align: center;
+  }
+
+  /* KSP Deep Dive */
+  .pdp-oladance-ksp__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .pdp-oladance-ksp__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .pdp-oladance-ksp__grid--reverse .pdp-oladance-ksp__content {
+      order: -1;
+    }
+  }
+
+  /* Comparison Table */
+  .pdp-oladance-comparison {
+    overflow-x: auto;
+  }
+  .pdp-oladance-comparison__table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+  }
+  .pdp-oladance-comparison__table th,
+  .pdp-oladance-comparison__table td {
+    border: 1px solid var(--pdp-border);
+    padding: 16px;
+    text-align: center;
+  }
+  .pdp-oladance-comparison__table th {
+    background-color: #f9fafb;
+  }
+  .pdp-oladance-comparison__table .highlight {
+    background-color: #fffbeb;
+    font-weight: 700;
+  }
+
+  /* Final CTA */
+  .pdp-oladance-final-cta {
+    background-color: #111827;
+    color: white;
+    text-align: center;
+    border-radius: var(--pdp-border-radius);
+  }
+  .pdp-oladance-final-cta__button {
+    background-color: var(--pdp-primary);
+    color: white;
+    padding: 16px 32px;
+    border-radius: var(--pdp-border-radius);
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 24px;
+    display: inline-block;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+   .pdp-oladance-final-cta__button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--pdp-shadow);
+  }
+
+  /* General Utility */
+  .pdp-oladance .font-heading { font-family: var(--font-heading); }
+  .pdp-oladance .font-body { font-family: var(--font-body); }
+  .pdp-oladance .text-center { text-align: center; }
+  .pdp-oladance .mb-2 { margin-bottom: 8px; }
+  .pdp-oladance .mb-4 { margin-bottom: 16px; }
+  .pdp-oladance .mb-8 { margin-bottom: 32px; }
+  .pdp-oladance .mt-8 { margin-top: 32px; }
+  .pdp-oladance .py-16 { padding-top: 64px; padding-bottom: 64px; }
+  .pdp-oladance .py-20 { padding-top: 80px; padding-bottom: 80px; }
+  .pdp-oladance .rounded-lg { border-radius: var(--pdp-border-radius); }
+  .pdp-oladance .shadow-xl { box-shadow: var(--pdp-shadow); }
+  .pdp-oladance .text-sm { font-size: 14px; }
+  .pdp-oladance .text-lg { font-size: 18px; }
+  .pdp-oladance .text-2xl { font-size: 24px; }
+  .pdp-oladance .text-3xl { font-size: 30px; }
+  .pdp-oladance .text-4xl { font-size: 36px; }
+  .pdp-oladance .font-bold { font-weight: 700; }
+  .pdp-oladance .font-extrabold { font-weight: 800; }
+  .pdp-oladance .text-secondary { color: var(--pdp-text-secondary); }
+  .pdp-oladance .animate-on-scroll {
+    opacity: 0;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transform: translateY(20px);
+  }
+  .pdp-oladance .animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<div class="pdp-oladance font-body" data-section-id="{{ section.id }}">
+  <!-- 1. Sticky Bar -->
+  <div class="pdp-oladance-sticky-bar">
+    FINAL CLEARANCE: Oladance OWS Pro - Save $100 Today. While Stocks Last.
+  </div>
+
+  <main>
+    <!-- 2. Hero Section -->
+    <section class="pdp-oladance__section">
+      <div class="pdp-oladance__container">
+        <div class="pdp-oladance-hero__grid">
+          <div class="pdp-oladance-hero__gallery animate-on-scroll">
+            <img src="https://placehold.co/600x600/E5E7EB/1A1A1A?text=Oladance+OWS+Pro" alt="Oladance OWS Pro open-ear headphones" class="rounded-lg shadow-xl w-full">
+          </div>
+          <div class="pdp-oladance-hero__content animate-on-scroll" style="transition-delay: 150ms;">
+            <h1 class="font-heading text-3xl md:text-4xl font-extrabold text-primary mb-2">The Oladance OWS Pro.</h1>
+            <p class="text-lg text-secondary mb-4">Originally $229. Now (Final Clearance)</p>
+            
+            <div class="pdp-oladance-hero__price-display mb-4">
+              <span class="pdp-oladance-hero__price--strikethrough">$229.00</span>
+              <span class="pdp-oladance-hero__price--main">$129.00</span>
+            </div>
+            <div class="bg-yellow-100 text-yellow-800 font-bold p-2 rounded-md inline-block mb-4">You Save: $100 (43% OFF)</div>
+
+            <ul class="pdp-oladance-hero__usp-list">
+              <li class="pdp-oladance-hero__usp-item">
+                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path></svg>
+                <span><strong>Pro-Level Bass:</strong> Patented "Virtual Bass 2nd" Tech.</span>
+              </li>
+              <li class="pdp-oladance-hero__usp-item">
+                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l1.414 1.414-1.414-1.414zM12 21a9 9 0 100-18 9 9 0 000 18zM12 3v1m0 16v1m-6.364 1.636l-1.414-1.414m1.414 1.414l1.414-1.414M5.636 5.636l1.414 1.414m11.314 0l-1.414-1.414"></path></svg>
+                <span><strong>58-Hour Max Battery Life</strong> (with Case).</span>
+              </li>
+              <li class="pdp-oladance-hero__usp-item">
+                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+                <span><strong>Ex-Bose Engineer</strong> Design.</span>
+              </li>
+            </ul>
+            
+            <a href="#" class="pdp-oladance-hero__cta-button">GET MY $129 DEAL</a>
+            <p class="text-center text-secondary text-sm mt-4">Clearance Stock: Only 3000+ units available.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Trust & Social Proof Section -->
+    <section class="pdp-oladance__section bg-gray-50">
+      <div class="pdp-oladance__container">
+        <div class="pdp-oladance-trust__grid">
+          <div class="pdp-oladance-trust__media animate-on-scroll">
+            <h3 class="text-center font-heading text-lg text-secondary mb-4">AS SEEN ON</h3>
+            <div class="pdp-oladance-trust__media-logos">
+              <img src="https://placehold.co/100x30/CCCCCC/999999?text=Forbes" alt="Forbes logo">
+              <img src="https://placehold.co/100x30/CCCCCC/999999?text=CNET" alt="CNET logo">
+              <img src="https://placehold.co/100x30/CCCCCC/999999?text=TechRadar" alt="TechRadar logo">
+              <img src="https://placehold.co/100x30/CCCCCC/999999?text=Verge" alt="The Verge logo">
+            </div>
+          </div>
+          <div class="pdp-oladance-trust__heritage animate-on-scroll" style="transition-delay: 150ms;">
+             <div class="pdp-oladance-trust__badge">
+                <p class="font-heading font-bold text-lg">Founded by Ex-Bose Team</p>
+                <p class="text-secondary">Engineered for sound, designed for comfort.</p>
+             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. "Why This Deal?" Section -->
+    <section class="pdp-oladance__section">
+      <div class="pdp-oladance__container max-w-3xl mx-auto text-center animate-on-scroll">
+        <h2 class="font-heading text-3xl font-bold mb-4">Why The $100 Discount?</h2>
+        <p class="text-lg text-secondary">
+          We're clearing our final 2023 premium stock (OWS Pro) to make way for new models. This is your only chance to get a $229 Pro-grade Oladance for $129. When it's gone, it's gone forever. All sales final.
+        </p>
+      </div>
+    </section>
+
+    <!-- 5. KSP Deep Dive -->
+    <section class="pdp-oladance__section bg-gray-50">
+      <div class="pdp-oladance__container">
+        <!-- Block 1: Audio -->
+        <div class="pdp-oladance-ksp__grid mb-20">
+          <div class="pdp-oladance-ksp__image animate-on-scroll">
+            <img src="https://placehold.co/550x450/1A1A1A/FFFFFF?text=Deep+Bass+Visualization" alt="Visualization of deep bass audio waves" class="rounded-lg shadow-xl w-full">
+          </div>
+          <div class="pdp-oladance-ksp__content animate-on-scroll" style="transition-delay: 150ms;">
+            <h2 class="font-heading text-3xl font-bold mb-4">HEAR THE BASS, NOT THE NOISE</h2>
+            <p class="text-lg text-secondary mb-4">Tired of 'tinny' open-ear sound? Our patented tech delivers deep, rich bass you can feel. The independent amplifier chip and Dynamic EQ ensure every note is crystal clear.</p>
+            <div class="bg-blue-100 text-blue-800 p-4 rounded-lg">
+              <strong>Focus Mode:</strong> Tune out ambient voices, stay in the zone. Perfect for WFH and office environments.
+            </div>
+          </div>
+        </div>
+        <!-- Block 2: Battery -->
+        <div class="pdp-oladance-ksp__grid pdp-oladance-ksp__grid--reverse mb-20">
+          <div class="pdp-oladance-ksp__image animate-on-scroll">
+            <img src="https://placehold.co/550x450/E5E7EB/1A1A1A?text=Week-long+Battery+Life" alt="A calendar showing a full week, symbolizing long battery life" class="rounded-lg shadow-xl w-full">
+          </div>
+          <div class="pdp-oladance-ksp__content animate-on-scroll" style="transition-delay: 150ms;">
+            <h2 class="font-heading text-3xl font-bold mb-4">GO FOR WEEKS, NOT DAYS</h2>
+            <p class="text-lg text-secondary">Stop worrying about your battery. The OWS Pro offers a staggering 58 hours of total playtime with the charging case. That's enough for a full week of work, workouts, and calls.</p>
+          </div>
+        </div>
+        <!-- Block 3: Comfort -->
+        <div class="pdp-oladance-ksp__grid">
+          <div class="pdp-oladance-ksp__image animate-on-scroll">
+            <img src="https://placehold.co/550x450/CCCCCC/FFFFFF?text=All-Day+Comfort" alt="A person comfortably wearing the Oladance headphones while working" class="rounded-lg shadow-xl w-full">
+          </div>
+          <div class="pdp-oladance-ksp__content animate-on-scroll" style="transition-delay: 150ms;">
+            <h2 class="font-heading text-3xl font-bold mb-4">FORGET YOU'RE WEARING THEM</h2>
+            <p class="text-lg text-secondary">No buds in your ear, no pain, no pressure. Our patented OWS open-ear technology rests gently and securely on your ear for pure comfort and a wide, open soundstage.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Competitive Comparison -->
+    <section class="pdp-oladance__section">
+      <div class="pdp-oladance__container animate-on-scroll">
+        <h2 class="font-heading text-3xl font-bold text-center mb-2">The Pro Choice. The Smart Price.</h2>
+        <p class="text-lg text-secondary text-center mb-8">See how the Oladance OWS Pro stacks up.</p>
+        <div class="pdp-oladance-comparison shadow-xl rounded-lg">
+          <table class="pdp-oladance-comparison__table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th class="highlight">Oladance OWS Pro</th>
+                <th>Bose Ultra Open</th>
+                <th>Shokz OpenRun Pro 2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Price</strong></td>
+                <td class="highlight">$129 (Clearance)</td>
+                <td>$299</td>
+                <td>$179.95</td>
+              </tr>
+              <tr>
+                <td><strong>Total Battery</strong></td>
+                <td class="highlight">58 Hours</td>
+                <td>48 Hours</td>
+                <td>12 Hours</td>
+              </tr>
+              <tr>
+                <td><strong>Core Tech</strong></td>
+                <td class="highlight">Virtual Bass 2nd</td>
+                <td>Bose OpenAudio</td>
+                <td>Bone Conduction</td>
+              </tr>
+              <tr>
+                <td><strong>Unique Feature</strong></td>
+                <td class="highlight">Focus Mode</td>
+                <td>Immersive Audio</td>
+                <td>N/A</td>
+              </tr>
+              <tr>
+                <td><strong>Design</strong></td>
+                <td class="highlight">Open-Ear (Hook)</td>
+                <td>Open-Ear (Cuff)</td>
+                <td>Bone Conduction</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Final CTA -->
+    <section class="pdp-oladance__section">
+      <div class="pdp-oladance__container">
+        <div class="pdp-oladance-final-cta py-16 px-8 animate-on-scroll">
+          <h2 class="font-heading text-4xl font-extrabold mb-4">Get Your $229 OWS Pro for $129.</h2>
+          <p class="text-lg text-gray-300">Limited stock. Free Shipping. Final Sale.</p>
+          <a href="#" class="pdp-oladance-final-cta__button">YES, I WANT TO SAVE $100</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const section = document.querySelector('[data-section-id="{{ section.id }}"]');
+    if (!section) return;
+
+    // Animate on Scroll
+    const animateOnScrollElements = section.querySelectorAll('.animate-on-scroll');
+    if (animateOnScrollElements.length > 0) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+
+      animateOnScrollElements.forEach(el => {
+        observer.observe(el);
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "PDP Oladance OWS Pro",
+  "tag": "section",
+  "class": "pdp-oladance-section-wrapper",
+  "settings": [],
+  "presets": [
+    {
+      "name": "PDP Oladance OWS Pro"
+    }
+  ]
+}
+{% endschema %}
