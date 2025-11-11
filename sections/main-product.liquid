@@ -3,8 +3,8 @@
   Based on visual_spec.md and DTC best practices
 {% endcomment %}
 
-<div class="w-full min-h-screen bg-gray-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+<div class="w-full min-h-screen bg-background text-text">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
     {% render 'breadcrumbs' %}
     
     {%- comment -%} Product Grid - Image left, Info right, stacked on mobile {%- endcomment -%}
@@ -60,12 +60,11 @@
             
             {%- comment -%} Thumbnails - rounded-lg 8px {%- endcomment -%}
             {% if product.media.size > 1 %}
-              <div class="product-thumbnails grid grid-cols-4 gap-3">
+              <div class="product-thumbnails grid grid-cols-2 gap-3">
                 {% for media in product.media limit: 4 %}
-                  <button 
-                    type="button"
+                  <div 
                     class="thumbnail relative bg-white border-2 rounded-lg overflow-hidden transition-all duration-200
-                           {% if forloop.first %}border-blue-600 ring-2 ring-blue-600 ring-offset-2{% else %}border-gray-200 hover:border-blue-600{% endif %}"
+                           "
                     ref="thumbnails[]"
                     on:click="/selectSlide/{{ forloop.index0 }}"
                     data-media-id="{{ media.id }}"
@@ -92,7 +91,7 @@
                         class="w-full aspect-square object-cover"
                       >
                     {% endif %}
-                  </button>
+                  </div>
                 {% endfor %}
               </div>
             {% endif %}
@@ -100,8 +99,9 @@
         {% endif %}
         
         {%- comment -%} Trust Badges {%- endcomment -%}
-        <div class="trust-badges mt-6 p-6 bg-white rounded-lg border border-gray-200">
-          <div class="grid grid-cols-3 gap-4 text-center">
+        <div class="trust-badges"></div>
+        {% comment %} <div class="trust-badges mt-6 p-6 bg-white rounded-lg border border-gray-200"> {% endcomment %}
+          {% comment %} <div class="grid grid-cols-3 gap-4 text-center">
             <div>
               <svg class="w-8 h-8 mx-auto mb-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
@@ -120,8 +120,8 @@
               </svg>
               <p class="text-xs font-medium text-gray-900">Free Returns</p>
             </div>
-          </div>
-        </div>
+          </div> {% endcomment %}
+        {% comment %} </div> {% endcomment %}
       </div>
       
       {%- comment -%} Right: Product Info & Buy Area {%- endcomment -%}
@@ -137,32 +137,32 @@
         {% endif %}
         
         {%- comment -%} Product Title - Headline Large {%- endcomment -%}
-        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 mb-6 leading-tight">
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-text mb-6 leading-tight">
           {{ product.title }}
         </h1>
         
         {%- comment -%} Price Area - Highlighted {%- endcomment -%}
-        <div class="product-price bg-blue-50 border-2 border-blue-100 rounded-lg p-6 mb-6">
+        <div class="product-price bg-white rounded-2xl p-6 sm:p-8 mb-8 shadow-lg">
           <div class="flex items-baseline gap-3 mb-2">
             {% if product.compare_at_price > product.price %}
-              <span class="text-4xl font-extrabold text-gray-900">
+              <span class="text-4xl font-extrabold text-text">
                 {{ product.price | money }}
               </span>
-              <span class="text-2xl font-medium text-gray-500 line-through">
+              <span class="text-2xl font-medium text-text-secondary line-through">
                 {{ product.compare_at_price | money }}
               </span>
               <span class="inline-flex items-center px-3 py-1 bg-red-600 text-white text-sm font-bold rounded-full">
                 {{ 'products.product.save_amount' | t: amount: product.compare_at_price | minus: product.price | money }}
               </span>
             {% else %}
-              <span class="text-4xl font-extrabold text-gray-900">
+              <span class="text-4xl font-extrabold text-text">
                 {{ product.price | money }}
               </span>
             {% endif %}
           </div>
           
           {%- comment -%} Price Description {%- endcomment -%}
-          <div class="flex items-center gap-2 text-sm text-gray-700">
+          <div class="flex items-center gap-2 text-sm text-text-secondary">
             <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
             </svg>
@@ -172,7 +172,7 @@
         
         {%- comment -%} Short Description {%- endcomment -%}
         {% if product.description != blank %}
-          <div class="product-short-description text-base leading-relaxed text-gray-700 mb-6 pb-6 border-b border-gray-200">
+          <div class="product-short-description text-base leading-relaxed text-text-secondary mb-6 pb-6 border-b border-border/70">
             {{ product.description | strip_html | truncate: 200 }}
           </div>
         {% endif %}
@@ -193,12 +193,7 @@
             ref="liveRegion"
           ></div>
           
-          <form 
-            action="/cart/add" 
-            method="post" 
-            class="product-form space-y-6"
-            data-type="add-to-cart-form"
-          >
+          {% form 'product', product, class: 'product-form space-y-6', data-type: 'add-to-cart-form' %}
             {%- comment -%} Variant Selector {%- endcomment -%}
             {% unless product.has_only_default_variant %}
               <variant-selector-component 
@@ -215,93 +210,55 @@
                 
                 {% for option in product.options_with_values %}
                   <div class="variant-option">
-                    <label class="block text-sm font-semibold text-gray-900 mb-3">
+                    <label class="block text-sm font-semibold text-text mb-3">
                       {{ option.name }}
-                      <span class="font-normal text-gray-600 ml-2" data-selected-value-{{ option.name | handle }}>
+                      <span class="font-normal text-text-secondary ml-2" data-selected-value-{{ option.name | handle }}>
                         {% if option.selected_value %}
                           - {{ option.selected_value }}
                         {% endif %}
                       </span>
                     </label>
                     
-                    {% if option.name == 'Color' or option.name == 'Colour' %}
-                      {%- comment -%} Color Swatches - Large size, clear border {%- endcomment -%}
-                      <div class="variant-color-swatches flex flex-wrap gap-3" role="radiogroup">
-                        {% for value in option.values %}
-                          {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
-                          {%- if option.position == 2 -%}
-                            {%- assign variant_for_value = product.variants | where: "option2", value | first -%}
-                          {%- elsif option.position == 3 -%}
-                            {%- assign variant_for_value = product.variants | where: "option3", value | first -%}
-                          {%- endif -%}
-                          
-                          <div class="color-swatch-wrapper">
-                            <input
-                              type="radio"
-                              id="Color-{{ value | handle }}"
-                              name="options[{{ option.name }}]"
-                              value="{{ value }}"
-                              class="sr-only peer"
-                              data-variant-id="{{ variant_for_value.id }}"
-                              data-variant-image="{{ variant_for_value.featured_image | image_url: width: 1200 }}"
-                              {% if option.selected_value == value %}checked{% endif %}
-                            >
-                            <label
-                              for="Color-{{ value | handle }}"
-                              class="group relative block w-12 h-12 rounded-lg border-2 cursor-pointer transition-all duration-200
-                                     border-gray-300 hover:border-gray-400 hover:shadow-md
-                                     peer-checked:border-blue-600 peer-checked:ring-2 peer-checked:ring-blue-600 peer-checked:ring-offset-2 peer-checked:shadow-lg"
-                              style="background-color: {{ value | handle }}"
-                              title="{{ value }}"
-                            >
-                              <span class="sr-only">{{ value }}</span>
-                              {%- comment -%} Checkmark for selected {%- endcomment -%}
-                              <svg class="absolute inset-0 m-auto w-6 h-6 text-white drop-shadow-lg opacity-0 peer-checked:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                              </svg>
-                            </label>
-                          </div>
-                        {% endfor %}
-                      </div>
-                    {% else %}
-                      {%- comment -%} Button Style Selector (Size, etc.) {%- endcomment -%}
-                      <div class="variant-buttons flex flex-wrap gap-2" role="radiogroup">
-                        {% for value in option.values %}
-                          {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
-                          {%- if option.position == 2 -%}
-                            {%- assign variant_for_value = product.variants | where: "option2", value | first -%}
-                          {%- elsif option.position == 3 -%}
-                            {%- assign variant_for_value = product.variants | where: "option3", value | first -%}
-                          {%- endif -%}
-                          
-                          <div class="variant-button-wrapper">
-                            <input
-                              type="radio"
-                              id="Option-{{ option.name | handle }}-{{ value | handle }}"
-                              name="options[{{ option.name }}]"
-                              value="{{ value }}"
-                              class="sr-only peer"
-                              data-variant-id="{{ variant_for_value.id }}"
-                              data-variant-image="{{ variant_for_value.featured_image | image_url: width: 1200 }}"
-                              {% if option.selected_value == value %}checked{% endif %}
-                              {% unless variant_for_value.available %}disabled{% endunless %}
-                            >
-                            <label
-                              for="Option-{{ option.name | handle }}-{{ value | handle }}"
-                              class="inline-flex items-center justify-center min-w-[60px] px-4 py-2.5 text-sm font-medium rounded-lg border-2 cursor-pointer transition-all duration-200
-                                     {% if variant_for_value.available %}
-                                       border-gray-300 bg-white text-gray-900 hover:border-gray-400 hover:shadow-sm
-                                       peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white peer-checked:shadow-md
-                                     {% else %}
-                                       border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed line-through
-                                     {% endif %}"
-                            >
-                              {{ value }}
-                            </label>
-                          </div>
-                        {% endfor %}
-                      </div>
-                    {% endif %}
+                    {%- comment -%}
+                      All options use the same button-based UI so colors default to labeled buttons
+                      (swatches can be reintroduced later if needed).
+                    {%- endcomment -%}
+                    <div class="variant-buttons flex flex-wrap gap-2" role="radiogroup">
+                      {% for value in option.values %}
+                        {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
+                        {%- if option.position == 2 -%}
+                          {%- assign variant_for_value = product.variants | where: "option2", value | first -%}
+                        {%- elsif option.position == 3 -%}
+                          {%- assign variant_for_value = product.variants | where: "option3", value | first -%}
+                        {%- endif -%}
+                        
+                        <div class="variant-button-wrapper">
+                          <input
+                            type="radio"
+                            id="Option-{{ option.name | handle }}-{{ value | handle }}"
+                            name="options[{{ option.name }}]"
+                            value="{{ value }}"
+                            class="sr-only peer"
+                            data-variant-id="{{ variant_for_value.id }}"
+                            data-variant-image="{{ variant_for_value.featured_image | image_url: width: 1200 }}"
+                            {% if option.selected_value == value %}checked{% endif %}
+                            {% unless variant_for_value.available %}disabled{% endunless %}
+                          >
+                          <label
+                            for="Option-{{ option.name | handle }}-{{ value | handle }}"
+                            class="inline-flex items-center justify-center min-w-[60px] px-4 py-2.5 text-sm font-medium rounded-lg border cursor-pointer transition-all duration-200
+                                   {% if variant_for_value.available %}
+                                     border-border/80 bg-white text-text hover:border-border hover:shadow-sm
+                                     peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white peer-checked:shadow-md
+                                   {% else %}
+                                     border-border/60 bg-gray-50 text-gray-400 cursor-not-allowed line-through
+                                   {% endif %}"
+                          >
+                            {{ value }}
+                          </label>
+                        </div>
+                      {% endfor %}
+                    </div>
                   </div>
                 {% endfor %}
                 
@@ -322,7 +279,7 @@
             <div class="product-form-buttons grid space-y-4" ref="productFormButtons">              {%- comment -%} Quantity & Stock Row {%- endcomment -%}
               <div class="flex items-start gap-4">
                 <div class="flex-shrink-0">
-                  <label class="block text-sm font-semibold text-gray-900 mb-3">
+                  <label class="block text-sm font-semibold text-text mb-3">
                     {{ 'products.product.quantity' | t }}
                   </label>
                   {% assign current_variant = product.selected_or_first_available_variant %}
@@ -356,6 +313,7 @@
                     name="add"
                     ref="addToCartButton"
                     on:click="/handleClick"
+                    data-add-to-cart-button
                     class="relative w-full inline-flex items-center justify-center gap-3 px-8 py-4 text-lg font-bold text-white bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
                   >
                     <span class="add-to-cart-text flex items-center justify-center gap-3">
@@ -373,16 +331,10 @@
                   </button>
                 </add-to-cart-component>
                 
-                {%- comment -%} Buy Now Button (Secondary Action) {%- endcomment -%}
-                <button 
-                  type="button"
-                  class="w-full inline-flex items-center justify-center gap-3 px-8 py-3.5 text-base font-semibold text-gray-900 bg-white border-2 border-gray-300 rounded-lg hover:border-gray-400 hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
-                >
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                  </svg>
-                  Buy it now
-                </button>
+                {%- comment -%} Dynamic checkout uses Shopify payment button for accelerated purchase {%- endcomment -%}
+                <div class="dynamic-checkout-button w-full mt-3">
+                  {{ form | payment_button }}
+                </div>
               {% else %}
                 <button 
                   type="button"
@@ -393,18 +345,18 @@
                 </button>
               {% endif %}
             </div>
-          </form>
+          {% endform %}
         </product-form-component>
         
         {%- comment -%} Shipping & Service Info {%- endcomment -%}
-        <div class="mt-8 p-6 bg-gradient-to-br from-blue-50 to-white border border-blue-100 rounded-lg space-y-4">
+        <div class="mt-14 p-6 bg-white rounded-2xl shadow-lg space-y-4">
           <div class="flex items-start gap-3">
             <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
             </svg>
             <div>
-              <p class="text-sm font-semibold text-gray-900 mb-1">Free Shipping</p>
-              <p class="text-sm text-gray-600">On orders over $50</p>
+              <p class="text-sm font-semibold text-text mb-1">Free Shipping</p>
+              <p class="text-sm text-text-secondary">On orders over $50</p>
             </div>
           </div>
           
@@ -413,8 +365,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
             </svg>
             <div>
-              <p class="text-sm font-semibold text-gray-900 mb-1">30-Day Returns</p>
-              <p class="text-sm text-gray-600">Not satisfied? Return within 30 days</p>
+              <p class="text-sm font-semibold text-text mb-1">30-Day Returns</p>
+              <p class="text-sm text-text-secondary">Not satisfied? Return within 30 days</p>
             </div>
           </div>
           
@@ -423,25 +375,25 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             <div>
-              <p class="text-sm font-semibold text-gray-900 mb-1">Fast Shipping</p>
-              <p class="text-sm text-gray-600">Delivered in 3-5 business days</p>
+              <p class="text-sm font-semibold text-text mb-1">Fast Shipping</p>
+              <p class="text-sm text-text-secondary">Delivered in 3-5 business days</p>
             </div>
           </div>
         </div>
         
         {%- comment -%} Product Meta Info {%- endcomment -%}
         {% if product.sku != blank or product.type != blank %}
-          <div class="product-meta mt-8 pt-8 border-t border-gray-200 text-sm text-gray-600 space-y-2">
+          <div class="product-meta mt-10 pt-8 border-t border-border text-sm text-text-secondary space-y-2">
             {% if product.sku != blank %}
               <div class="flex items-center justify-between">
-                <span class="font-medium text-gray-900">{{ 'products.product.sku' | t }}:</span>
+                <span class="font-medium text-text">{{ 'products.product.sku' | t }}:</span>
                 <span class="font-mono">{{ product.selected_or_first_available_variant.sku }}</span>
               </div>
             {% endif %}
             
             {% if product.type != blank %}
               <div class="flex items-center justify-between">
-                <span class="font-medium text-gray-900">{{ 'products.product.product_type' | t }}:</span>
+                <span class="font-medium text-text">{{ 'products.product.product_type' | t }}:</span>
                 <a href="{{ product.type | url_for_type }}" class="text-blue-600 hover:text-blue-700 hover:underline transition-colors">
                   {{ product.type }}
                 </a>
@@ -455,11 +407,11 @@
 </div>
 
 {%- comment -%} Sticky Add to Cart Bar (Mobile) {%- endcomment -%}
-<div class="lg:hidden fixed bottom-0 inset-x-0 bg-white border-t-2 border-gray-200 shadow-2xl z-40 transform translate-y-full transition-transform duration-300" id="stickyCartBar">
+<div class="lg:hidden fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur border-t border-border shadow-2xl z-40 transform translate-y-full transition-transform duration-300" id="stickyCartBar">
   <div class="px-4 py-3 flex items-center gap-3">
     <div class="flex-1 min-w-0">
-      <p class="text-xs text-gray-600 truncate">{{ product.title }}</p>
-      <p class="text-lg font-bold text-gray-900">{{ product.price | money }}</p>
+      <p class="text-xs text-text-secondary truncate">{{ product.title }}</p>
+      <p class="text-lg font-bold text-text">{{ product.price | money }}</p>
     </div>
     <button 
       type="button"
