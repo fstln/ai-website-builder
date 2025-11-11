@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "pdp-oladance-ows-pro",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
