@@ -184,13 +184,16 @@
 </head>
 
 <body class="template-{{ template.name }}">
-  {% section 'header' %}
+  <div id="header-group">
+    {% sections 'header-group' %}
+  </div>
   
   <main id="MainContent" class="content-for-layout" role="main">
     {{ content_for_layout }}
   </main>
   
-  {% section 'footer' %}
+  <div id="footer-group">
+    {% sections 'footer-group' %}
+  </div>
 </body>
 </html>
-

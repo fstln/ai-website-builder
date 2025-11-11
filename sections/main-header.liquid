@@ -7,6 +7,25 @@
   assign menu_linklist = section.settings.main_menu | default: 'main-menu'
   assign nav_position = section.settings.nav_position | default: 'left'
   assign nav_position_class = 'header__nav--' | append: nav_position
+  assign header_logo = settings.logo
+  assign header_logo_width = settings.logo_width | default: 150
+  assign requested_logo_width = header_logo_width | times: 2
+
+  if requested_logo_width < 100
+    assign requested_logo_width = 100
+  endif
+
+  if requested_logo_width > 600
+    assign requested_logo_width = 600
+  endif
+
+  if header_logo != blank and header_logo.alt != blank
+    assign header_logo_alt = header_logo.alt
+  else
+    assign header_logo_alt = shop.name
+  endif
+
+  assign header_logo_style = 'max-width: ' | append: header_logo_width | append: 'px'
 %}
 
 <header 
@@ -35,14 +54,17 @@
       {%comment%} Logo {%endcomment%}
       <div class="header__logo">
         <a href="{{ routes.root_url }}" class="header__logo-link">
-          {% if section.settings.logo %}
+          {% if header_logo %}
             {{
-              section.settings.logo
-              | image_url: width: 600
+              header_logo
+              | image_url: width: requested_logo_width
               | image_tag:
                 class: 'header__logo-image',
-                alt: shop.name,
-                loading: 'eager'
+                alt: header_logo_alt,
+                loading: 'eager',
+                widths: '120,160,200,240,300,360,480,600',
+                width: header_logo_width,
+                style: header_logo_style
             }}
           {% else %}
             <span class="header__logo-text">{{ shop.name }}</span>
@@ -296,17 +318,12 @@ if (document.readyState === 'loading') {
 
 {% schema %}
 {
-  "name": "Header",
+  "name": "Main header",
   "class": "section-header",
   "settings": [
     {
-      "type": "header",
-      "content": "Logo"
-    },
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo image"
+      "type": "paragraph",
+      "content": "Logo is managed globally via Theme settings → Header."
     },
     {
       "type": "header",

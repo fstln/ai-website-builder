@@ -41,6 +41,19 @@ This directory contains documentation to help AI assistants understand and work 
 - Design tokens vs page styles
 - Complete examples with build workflow
 
+### 3. [AI 建站基础包优化方案](./framework-optimization-plan.md) 🧭
+**Purpose**: Shopify 最新技术栈对齐、购买核心功能与通用模块的可执行路线  
+**Use when**:
+- 规划主题架构升级或新增模块
+- 需要了解 Shopify Functions / Checkout UI Extensions / Theme App Extensions 的纳入方式
+- 协调自动化、测试与文档更新路径
+
+**Key Sections**:
+- 现状评估与技术栈对齐清单
+- 架构、购买流程、通用模块的具体策略
+- 执行路线图与风险应对
+- 文档同步与传播建议
+
 ## 🚀 Quick Start for AI Assistants
 
 1. **Read** `docs/architecture.md` to understand project structure
@@ -88,4 +101,3 @@ This directory contains documentation to help AI assistants understand and work 
 ---
 
 For detailed information, see the individual documentation files listed above.
-

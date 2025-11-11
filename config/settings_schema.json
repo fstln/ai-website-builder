@@ -787,21 +787,33 @@
       },
       {
         "type": "text",
-        "id": "social_facebook_link",
-        "label": "Facebook",
-        "info": "https://www.facebook.com/shopify"
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "https://www.instagram.com/yourbrand"
       },
       {
         "type": "text",
-        "id": "social_instagram_link",
-        "label": "Instagram",
-        "info": "https://www.instagram.com/shopify"
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "info": "https://www.facebook.com/yourbrand"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok",
+        "info": "https://www.tiktok.com/@yourbrand"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "info": "https://www.youtube.com/@yourbrand"
       },
       {
         "type": "text",
         "id": "social_twitter_link",
-        "label": "Twitter/X",
-        "info": "https://twitter.com/shopify"
+        "label": "Twitter / X",
+        "info": "https://twitter.com/yourbrand"
       }
     ]
   }
