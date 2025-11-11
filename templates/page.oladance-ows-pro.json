@@ -7,15 +7,15 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
+
 {
   "sections": {
-    "main-page": {
-      "type": "main-page",
+    "main": {
+      "type": "pdp-oladance-ows-pro",
       "settings": {}
     }
   },
   "order": [
-    "main-page"
+    "main"
   ]
 }
-
