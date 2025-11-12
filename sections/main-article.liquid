@@ -4,8 +4,11 @@
   视觉规范: visual_spec.md
 {% endcomment %}
 
-<div class="w-full min-h-screen bg-background">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+{% assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1' %}
+
+<section class="color-scheme color-{{ section_color_scheme }} section-main-article">
+  <div class="w-full min-h-screen bg-background">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
   {% render 'breadcrumbs' %}
   
     <article class="article-content mt-8 max-w-4xl mx-auto">
@@ -134,15 +137,23 @@
         {% endform %}
       </div>
     {% endif %}
-  </article>
+    </article>
+    </div>
   </div>
-</div>
+</section>
 
 {% schema %}
 {
   "name": "Main Article",
   "tag": "section",
   "class": "section-main-article",
-  "settings": []
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
 }
 {% endschema %}

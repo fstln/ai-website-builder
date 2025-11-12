@@ -26,10 +26,11 @@
   endif
 
   assign header_logo_style = 'max-width: ' | append: header_logo_width | append: 'px'
+  assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1'
 %}
 
 <header 
-  class="header header--sticky header--blur" 
+  class="color-scheme color-{{ section_color_scheme }} header header--sticky header--blur" 
   data-header
 >
   <div class="header__container container-custom">
@@ -207,6 +208,30 @@
   </div>
 </header>
 
+{% stylesheet %}
+.header {
+  color: var(--color-foreground);
+  background-color: rgb(var(--color-background-rgb) / 0.90);
+  border-bottom: 1px solid rgb(var(--color-border-rgb) / 0.4);
+  backdrop-filter: blur(8px);
+}
+.header__logo-text,
+.header__nav-link,
+.header__action-link {
+  color: rgb(var(--color-foreground-rgb) / 0.85);
+}
+.header__nav-link:hover,
+.header__action-link:hover {
+  color: var(--color-foreground);
+}
+.header__icon { color: rgb(var(--color-foreground-rgb) / 0.85); }
+.header__cart-count {
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+.header__mobile-drawer { background-color: var(--color-background); color: var(--color-foreground); }
+.header__mobile-backdrop { background-color: rgb(var(--color-foreground-rgb) / 0.2); }
+{% endstylesheet %}
 
 {% javascript %}
 class HeaderComponent {
@@ -324,6 +349,12 @@ if (document.readyState === 'loading') {
     {
       "type": "paragraph",
       "content": "Logo is managed globally via Theme settings → Header."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     },
     {
       "type": "header",

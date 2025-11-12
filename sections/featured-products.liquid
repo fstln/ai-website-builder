@@ -2,7 +2,9 @@
   Featured Products Section
 {% endcomment %}
 
-<section class="featured-products py-16" data-section-id="{{ section.id }}" data-section-type="featured-products">
+{% assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1' %}
+
+<section class="color-scheme color-{{ section_color_scheme }} featured-products py-16" data-section-id="{{ section.id }}" data-section-type="featured-products">
   <div class="container-custom">
     {% if section.settings.heading != blank %}
       <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
@@ -38,6 +40,12 @@
 {
   "name": "Featured Products",
   "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
     {
       "type": "text",
       "id": "heading",

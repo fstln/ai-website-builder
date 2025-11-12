@@ -3,7 +3,10 @@
   Theme 2.0 - Sections Everywhere
 {% endcomment %}
 
-<div class="container-custom py-8">
+{% assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1' %}
+
+<section class="color-scheme color-{{ section_color_scheme }} section-main-collection">
+  <div class="container-custom py-8">
   {% render 'breadcrumbs' %}
   
   <div class="collection-header mt-8 mb-12 text-center">
@@ -41,8 +44,9 @@
         <p class="text-text-secondary">{{ 'collections.general.no_matches' | t }}</p>
       </div>
     {% endif %}
+    </div>
   </div>
-</div>
+</section>
 
 {% paginate collection.products by 12 %}
   {% comment %} Pagination logic handled above {% endcomment %}
@@ -53,7 +57,13 @@
   "name": "Main Collection",
   "tag": "section",
   "class": "section-main-collection",
-  "settings": []
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
 }
 {% endschema %}
-

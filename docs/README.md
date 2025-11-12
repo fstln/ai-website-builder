@@ -19,7 +19,7 @@ This directory contains documentation to help AI assistants understand and work 
 - Development guidelines
 - Quick file lookup table
 
-### 2. [Design Tokens Guide](./design-tokens-guide.md) 🎨 **MUST READ**
+### 2. [Design Tokens Guide](./design_tokens_guide.md) 🎨 **MUST READ**
 **Purpose**: How to modify design tokens for custom visual styles and use Tailwind CSS correctly  
 **Use when**:
 - Creating custom visual styles for DTC websites
@@ -41,18 +41,37 @@ This directory contains documentation to help AI assistants understand and work 
 - Design tokens vs page styles
 - Complete examples with build workflow
 
-### 3. [AI 建站基础包优化方案](./framework-optimization-plan.md) 🧭
-**Purpose**: Shopify 最新技术栈对齐、购买核心功能与通用模块的可执行路线  
-**Use when**:
-- 规划主题架构升级或新增模块
-- 需要了解 Shopify Functions / Checkout UI Extensions / Theme App Extensions 的纳入方式
-- 协调自动化、测试与文档更新路径
+### 3. [AI 设计系统核心原则](./ai_design_principles.md)
+**Purpose**: 框架无关的视觉/交互守则（Material 灵感 + Shopify theme 约束）  
+**Use when**: 需要理解移动优先、海拔、语义色、排版、交互合约与可访问性总则。  
 
-**Key Sections**:
-- 现状评估与技术栈对齐清单
-- 架构、购买流程、通用模块的具体策略
-- 执行路线图与风险应对
-- 文档同步与传播建议
+### 4. [Visual Spec](./visual_spec.md)
+**Purpose**: Tailwind 语义类的具体使用规范（布局、色彩、排版、组件模式）  
+**Use when**: 在 Section/Block 中写类、确认按钮/卡片/表单等具体组合。
+
+### 5. [Liquid Development Playbook](./liquid_dev_playbook.md)
+**Purpose**: Section/Snippet 编写规则（schema、语义结构、color scheme、可访问性/SEO）  
+**Use when**: 需要创建或修改 Liquid 模板、Section/Block。
+
+### 6. [JavaScript & Web Component Guide](./js_component_guide.md)
+**Purpose**: 原生 JS 与 Web Component 的结构、渐进增强、懒加载与 Shopify 事件配合  
+**Use when**: 添加交互、监听 Section 事件、编写 Web Component。
+
+### 7. [Color Scheme Guide](./color_scheme.md)
+**Purpose**: Shopify `color_scheme_group` 的配置、注入、Section 使用方法  
+**Use when**: 需要新增/调整 Scheme 或确保 Section 继承正确。
+
+### 8. [Brand Color Playbook](./brand_color_playbook.md)
+**Purpose**: 选择/扩展品牌色板的决策流程，保持差异性与可访问性  
+**Use when**: 为新品牌生成 preset、调整主辅色或campaign色板。
+
+### 9. [Accessibility Playbook](./accessibility_playbook.md)
+**Purpose**: 汇总 WCAG / ADA / EU 指令与 Shopify 建议的可访问性清单  
+**Use when**: 设计/生成模块时需要确保 alt text、对比度、键盘可达等要求落地。
+
+### 10. [SEO Playbook](./seo_playbook.md)
+**Purpose**: 整合 Shopify SEO 能力、语义结构与性能要求的执行清单  
+**Use when**: 生成页面/模块时需要设置 meta、结构化数据、lazy loading、语义标签或评估性能。
 
 ## 🚀 Quick Start for AI Assistants
 
@@ -67,7 +86,14 @@ This directory contains documentation to help AI assistants understand and work 
 | Task | Documentation | Key Files |
 |------|--------------|-----------|
 | Add new section | `architecture.md` | `sections/*.liquid`, `templates/*.json` |
-| Modify design tokens | `design-tokens-guide.md` | `config/settings_schema.json` |
+| Modify design tokens | `design_tokens_guide.md` | `config/settings_schema.json` |
+| Plan principles | `ai_design_principles.md` | applies across theme |
+| Implement visual rules | `visual_spec.md` | Sections/Snippets |
+| Build Liquid sections | `liquid_dev_playbook.md`, `color_scheme.md` | `sections/*.liquid`, `snippets/*.liquid` |
+| Implement JS/Web Components | `js_component_guide.md` | `src/js/*.js` |
+| Build color schemes | `color_scheme.md`, `brand_color_playbook.md` | `config/settings_schema.json`, `snippets/color-schemes.liquid` |
+| Ensure accessibility | `accessibility_playbook.md` | Sections/Snippets |
+| Optimize SEO/performance | `seo_playbook.md` | layout/theme.liquid, snippets, sections |
 | Add JavaScript | `architecture.md` | `src/js/modules/*.js` |
 | Change styling | `architecture.md` | `src/css/tailwind.css` |
 | Add translation | `architecture.md` | `locales/en.default.json` |

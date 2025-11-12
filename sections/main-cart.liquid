@@ -4,8 +4,10 @@
   Updated with modern DTC visual design
 {% endcomment %}
 
+{% assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1' %}
+
 <cart-items-component 
-  class="cart-items-wrapper block bg-background text-text min-h-screen" 
+  class="color-scheme color-{{ section_color_scheme }} cart-items-wrapper block bg-background text-text min-h-screen" 
   data-section-id="{{ section.id }}"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
@@ -153,50 +155,39 @@
           </div>
         </div>
         
-        {%- comment -%} Cart Summary - Right Column {%- endcomment -%}
+        {%- comment -%} Cart Summary - Right Column via block {%- endcomment -%}
         <div class="lg:col-span-1">
-          <div class="cart-summary bg-background p-6 sm:p-8 rounded-2xl sticky top-4">
-            <h2 class="text-2xl font-bold text-text mb-6">{{ 'general.cart.subtotal' | t }}</h2>
-            
-            {%- comment -%} Subtotal {%- endcomment -%}
-            <div class="flex justify-between items-baseline pb-6 mb-6">
-              <span class="text-lg font-medium text-text-secondary">{{ 'general.cart.subtotal' | t }}</span>
-              <span class="text-3xl font-bold text-text" data-cart-subtotal>{{ cart.total_price | money }}</span>
-            </div>
-            
-            {%- comment -%} Cart Discounts {%- endcomment -%}
-            {% if cart.cart_level_discount_applications.size > 0 %}
-              <div class="cart-discounts mb-6 pb-6 space-y-2">
-                {% for discount in cart.cart_level_discount_applications %}
-                  <div class="flex justify-between items-center text-sm">
-                    <span class="text-success font-medium">{{ discount.title }}</span>
-                    <span class="text-success font-semibold">-{{ discount.total_allocated_amount | money }}</span>
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'cart_subtotal' %}
+                <div class="color-scheme color-{{ block.settings.color_scheme | default: 'scheme-1' }} cart-summary bg-background p-6 sm:p-8 rounded-2xl sticky top-4" {{ block.shopify_attributes }}>
+                  <h2 class="text-2xl font-bold text-text mb-6">{{ 'general.cart.subtotal' | t }}</h2>
+                  <div class="flex justify-between items-baseline pb-6 mb-6">
+                    <span class="text-lg font-medium text-text-secondary">{{ 'general.cart.subtotal' | t }}</span>
+                    <span class="text-3xl font-bold text-text" data-cart-subtotal>{{ cart.total_price | money }}</span>
                   </div>
-                {% endfor %}
-              </div>
-            {% endif %}
-            
-            {%- comment -%} Shipping Note {%- endcomment -%}
-            <p class="text-sm text-text-secondary mb-6 text-center">
-              {{ 'general.cart.taxes_and_shipping_at_checkout' | t }}
-            </p>
-            
-            {%- comment -%} Checkout Button {%- endcomment -%}
-            <a 
-              href="/checkout" 
-              class="w-full text-center block px-6 py-4 bg-primary text-background text-base font-semibold rounded-lg hover:bg-secondary transform hover:scale-105 transition-all duration-200 mb-3"
-            >
-              {{ 'general.cart.checkout' | t }}
-            </a>
-            
-            {%- comment -%} Continue Shopping {%- endcomment -%}
-            <a 
-              href="{{ routes.all_products_collection_url }}" 
-              class="w-full text-center block px-6 py-3 bg-border/20 text-text text-sm font-medium rounded-lg hover:bg-border/40 transition-all duration-200"
-            >
-              {{ 'general.continue_shopping' | t }}
-            </a>
-          </div>
+                  {% if cart.cart_level_discount_applications.size > 0 %}
+                    <div class="cart-discounts mb-6 pb-6 space-y-2">
+                      {% for discount in cart.cart_level_discount_applications %}
+                        <div class="flex justify-between items-center text-sm">
+                          <span class="text-success font-medium">{{ discount.title }}</span>
+                          <span class="text-success font-semibold">-{{ discount.total_allocated_amount | money }}</span>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                  <p class="text-sm text-text-secondary mb-6 text-center">
+                    {{ 'general.cart.taxes_and_shipping_at_checkout' | t }}
+                  </p>
+                  <a href="/checkout" class="w-full text-center block px-6 py-4 bg-primary text-background text-base font-semibold rounded-lg hover:bg-secondary transform hover:scale-105 transition-all duration-200 mb-3">
+                    {{ 'general.cart.checkout' | t }}
+                  </a>
+                  <a href="{{ routes.all_products_collection_url }}" class="w-full text-center block px-6 py-3 bg-border/20 text-text text-sm font-medium rounded-lg hover:bg-border/40 transition-all duration-200">
+                    {{ 'general.continue_shopping' | t }}
+                  </a>
+                </div>
+            {% endcase %}
+          {% endfor %}
         </div>
       </div>
     {% else %}
@@ -226,6 +217,36 @@
   "name": "Main Cart",
   "tag": "section",
   "class": "section-main-cart",
-  "settings": []
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "cart_subtotal",
+      "name": "Cart subtotal",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-1"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main Cart",
+      "blocks": [
+        { "type": "cart_subtotal" }
+      ]
+    }
+  ]
 }
 {% endschema %}

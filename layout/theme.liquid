@@ -46,31 +46,76 @@
     assign color_error = settings.color_error | default: '#EF4444'
     assign color_success = settings.color_success | default: '#10B981'
     assign color_warning = settings.color_warning | default: '#F59E0B'
+    assign fallback_surface = color_background | color_mix: color_text, 6
+    assign fallback_surface_muted = color_background | color_mix: color_text, 12
+    assign fallback_primary_soft = color_primary | color_mix: color_background, 70
   %}
+  {% if settings.color_schemes == blank %}
+    <style>
+      :root,
+      body {
+        --color-primary: {{ color_primary }};
+        --color-primary-rgb: {{ color_primary | color_extract: 'red' }} {{ color_primary | color_extract: 'green' }} {{ color_primary | color_extract: 'blue' }};
+        --color-primary-hover: {{ color_secondary }};
+        --color-primary-hover-rgb: {{ color_secondary | color_extract: 'red' }} {{ color_secondary | color_extract: 'green' }} {{ color_secondary | color_extract: 'blue' }};
+        --color-primary-foreground: #ffffff;
+        --color-primary-foreground-rgb: 255 255 255;
+        --color-primary-soft: {{ fallback_primary_soft }};
+        --color-primary-soft-rgb: {{ fallback_primary_soft | color_extract: 'red' }} {{ fallback_primary_soft | color_extract: 'green' }} {{ fallback_primary_soft | color_extract: 'blue' }};
+        --color-secondary: {{ color_secondary }};
+        --color-secondary-rgb: {{ color_secondary | color_extract: 'red' }} {{ color_secondary | color_extract: 'green' }} {{ color_secondary | color_extract: 'blue' }};
+        --color-secondary-foreground: {{ color_text }};
+        --color-secondary-foreground-rgb: {{ color_text | color_extract: 'red' }} {{ color_text | color_extract: 'green' }} {{ color_text | color_extract: 'blue' }};
+        --color-secondary-border: {{ color_border }};
+        --color-secondary-border-rgb: {{ color_border | color_extract: 'red' }} {{ color_border | color_extract: 'green' }} {{ color_border | color_extract: 'blue' }};
+        --color-accent: {{ color_accent }};
+        --color-accent-rgb: {{ color_accent | color_extract: 'red' }} {{ color_accent | color_extract: 'green' }} {{ color_accent | color_extract: 'blue' }};
+        --color-background: {{ color_background }};
+        --color-background-rgb: {{ color_background | color_extract: 'red' }} {{ color_background | color_extract: 'green' }} {{ color_background | color_extract: 'blue' }};
+        --color-surface: {{ fallback_surface }};
+        --color-surface-rgb: {{ fallback_surface | color_extract: 'red' }} {{ fallback_surface | color_extract: 'green' }} {{ fallback_surface | color_extract: 'blue' }};
+        --color-surface-muted: {{ fallback_surface_muted }};
+        --color-surface-muted-rgb: {{ fallback_surface_muted | color_extract: 'red' }} {{ fallback_surface_muted | color_extract: 'green' }} {{ fallback_surface_muted | color_extract: 'blue' }};
+        --color-foreground: {{ color_text }};
+        --color-foreground-rgb: {{ color_text | color_extract: 'red' }} {{ color_text | color_extract: 'green' }} {{ color_text | color_extract: 'blue' }};
+        --color-foreground-heading: {{ color_text }};
+        --color-foreground-heading-rgb: {{ color_text | color_extract: 'red' }} {{ color_text | color_extract: 'green' }} {{ color_text | color_extract: 'blue' }};
+        --color-muted: {{ color_text_secondary }};
+        --color-muted-rgb: {{ color_text_secondary | color_extract: 'red' }} {{ color_text_secondary | color_extract: 'green' }} {{ color_text_secondary | color_extract: 'blue' }};
+        --color-border: {{ color_border }};
+        --color-border-rgb: {{ color_border | color_extract: 'red' }} {{ color_border | color_extract: 'green' }} {{ color_border | color_extract: 'blue' }};
+        --color-decorative: {{ color_accent }};
+        --color-decorative-rgb: {{ color_accent | color_extract: 'red' }} {{ color_accent | color_extract: 'green' }} {{ color_accent | color_extract: 'blue' }};
+        --color-input-background: {{ color_background }};
+        --color-input-background-rgb: {{ color_background | color_extract: 'red' }} {{ color_background | color_extract: 'green' }} {{ color_background | color_extract: 'blue' }};
+        --color-input-foreground: {{ color_text }};
+        --color-input-foreground-rgb: {{ color_text | color_extract: 'red' }} {{ color_text | color_extract: 'green' }} {{ color_text | color_extract: 'blue' }};
+        --color-input-border: {{ color_border }};
+        --color-input-border-rgb: {{ color_border | color_extract: 'red' }} {{ color_border | color_extract: 'green' }} {{ color_border | color_extract: 'blue' }};
+        --color-inverse-background: {{ color_text }};
+        --color-inverse-background-rgb: {{ color_text | color_extract: 'red' }} {{ color_text | color_extract: 'green' }} {{ color_text | color_extract: 'blue' }};
+        --color-inverse-foreground: {{ color_background }};
+        --color-inverse-foreground-rgb: {{ color_background | color_extract: 'red' }} {{ color_background | color_extract: 'green' }} {{ color_background | color_extract: 'blue' }};
+        --color-inverse-surface: {{ color_text }};
+        --color-inverse-surface-rgb: {{ color_text | color_extract: 'red' }} {{ color_text | color_extract: 'green' }} {{ color_text | color_extract: 'blue' }};
+        --opacity-05: 0.05;
+        --opacity-10: 0.1;
+        --opacity-20: 0.2;
+        --opacity-40: 0.4;
+        --opacity-60: 0.6;
+      }
+    </style>
+  {% endif %}
+  {% render 'color-schemes' %}
   <style>
     :root {
-      /* Color Tokens - 基于 visual_spec.md Tailwind 色板 */
-      --color-primary: {{ color_primary }};  /* blue-600 */
-      --color-primary-rgb: {{ color_primary | color_extract: 'red' }} {{ color_primary | color_extract: 'green' }} {{ color_primary | color_extract: 'blue' }};
-      --color-secondary: {{ color_secondary }};  /* blue-700 */
-      --color-secondary-rgb: {{ color_secondary | color_extract: 'red' }} {{ color_secondary | color_extract: 'green' }} {{ color_secondary | color_extract: 'blue' }};
-      --color-accent: {{ color_accent }};  /* blue-600 */
-      --color-accent-rgb: {{ color_accent | color_extract: 'red' }} {{ color_accent | color_extract: 'green' }} {{ color_accent | color_extract: 'blue' }};
-      --color-background: {{ color_background }};  /* gray-50 */
-      --color-background-rgb: {{ color_background | color_extract: 'red' }} {{ color_background | color_extract: 'green' }} {{ color_background | color_extract: 'blue' }};
-      --color-text: {{ color_text }};  /* gray-900 */
-      --color-text-rgb: {{ color_text | color_extract: 'red' }} {{ color_text | color_extract: 'green' }} {{ color_text | color_extract: 'blue' }};
-      --color-text-secondary: {{ color_text_secondary }};  /* gray-700 */
-      --color-text-secondary-rgb: {{ color_text_secondary | color_extract: 'red' }} {{ color_text_secondary | color_extract: 'green' }} {{ color_text_secondary | color_extract: 'blue' }};
-      --color-border: {{ color_border }};  /* gray-200 */
-      --color-border-rgb: {{ color_border | color_extract: 'red' }} {{ color_border | color_extract: 'green' }} {{ color_border | color_extract: 'blue' }};
+      /* Status tokens (保持与旧 tokens 兼容) */
       --color-error: {{ color_error }};
       --color-error-rgb: {{ color_error | color_extract: 'red' }} {{ color_error | color_extract: 'green' }} {{ color_error | color_extract: 'blue' }};
       --color-success: {{ color_success }};
       --color-success-rgb: {{ color_success | color_extract: 'red' }} {{ color_success | color_extract: 'green' }} {{ color_success | color_extract: 'blue' }};
       --color-warning: {{ color_warning }};
       --color-warning-rgb: {{ color_warning | color_extract: 'red' }} {{ color_warning | color_extract: 'green' }} {{ color_warning | color_extract: 'blue' }};
-      
       /* Typography Tokens - 基于 visual_spec.md */
       {% if settings.font_heading %}
         --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};

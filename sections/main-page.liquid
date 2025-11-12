@@ -3,7 +3,10 @@
   Theme 2.0 - Sections Everywhere
 {% endcomment %}
 
-<div class="container-custom py-8">
+{% assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1' %}
+
+<section class="color-scheme color-{{ section_color_scheme }} section-main-page">
+  <div class="container-custom py-8">
   {% render 'breadcrumbs' %}
   
   <article class="page-content mt-8 {% if section.settings.narrow_layout %}max-w-3xl mx-auto{% else %}max-w-5xl mx-auto{% endif %}">
@@ -51,8 +54,9 @@
         </a>
       </div>
     {% endif %}
-  </article>
-</div>
+    </article>
+  </div>
+</section>
 
 {% schema %}
 {
@@ -60,6 +64,12 @@
   "tag": "section",
   "class": "section-main-page",
   "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
     {
       "type": "checkbox",
       "id": "narrow_layout",
@@ -107,4 +117,3 @@
   ]
 }
 {% endschema %}
-

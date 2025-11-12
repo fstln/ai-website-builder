@@ -43,7 +43,7 @@ ai-website-from-scratch/
 │   ├── search.json               # Search results
 │   └── 404.json                  # 404 error page
 │
-├── 📁 sections/                  # Reusable theme sections
+├── 📁 sections/                  # Reusable theme sections（详见 docs/liquid_dev_playbook.md）
 │   ├── header.liquid             # ⭐ Site header/navigation
 │   ├── footer.liquid             # ⭐ Site footer
 │   ├── hero.liquid               # Homepage hero banner
@@ -68,7 +68,7 @@ ai-website-from-scratch/
 ├── 📁 src/                       # Source files (not deployed to Shopify)
 │   ├── css/
 │   │   └── tailwind.css          # ⭐ Tailwind source + design tokens
-│   └── js/
+│   └── js/                       # 原生 JS + Web Components，详见 docs/js_component_guide.md
 │       ├── main.js               # ⭐ Main entry point
 │       └── modules/
 │           ├── cart.js           # Cart functionality
@@ -80,7 +80,7 @@ ai-website-from-scratch/
 │
 ├── 📁 docs/                      # Documentation
 │   ├── architecture.md           # This file
-│   └── design-tokens-guide.md    # Design token system guide
+│   └── design_tokens_guide.md    # Design token system guide
 │
 ├── 📁 .github/workflows/         # CI/CD
 │   └── build-deploy.yml          # GitHub Actions workflow
@@ -161,7 +161,7 @@ ai-website-from-scratch/
 - **Content sections**: `hero.liquid`, `featured-products.liquid` (homepage)
 - **Main sections**: `main-product.liquid`, `main-collection.liquid` (page-specific content)
 **When to modify**: Updating section content, adding settings, styling  
-**Requirements**: Must include `{% schema %}` block for Theme Editor
+**Requirements**: Must include `{% schema %}` block for Theme Editor，并遵循 `docs/liquid_dev_playbook.md` 的 color-scheme、语义结构、可访问性/SEO 规则
 
 #### `snippets/*.liquid`
 **Purpose**: Reusable Liquid fragments (components)  
@@ -180,7 +180,7 @@ ai-website-from-scratch/
 **Purpose**: Main entry point, initializes all modules  
 **Contains**: Module imports, DOMContentLoaded event handler  
 **When to modify**: Adding new modules, changing initialization order  
-**Pattern**: Imports modules, calls init functions on page load
+**Pattern**: Imports modules, calls init functions on page load，遵循 `docs/js_component_guide.md` 的渐进增强/懒加载策略
 
 #### `src/js/modules/*.js`
 **Purpose**: Modular JavaScript functionality  
@@ -189,7 +189,7 @@ ai-website-from-scratch/
 - `product.js` - Product form, variant selection, Web Component example
 - `navigation.js` - Mobile menu, dropdowns, sticky header
 **When to modify**: Adding functionality, fixing bugs, creating new modules  
-**Pattern**: ES6 modules with `export function initX()`
+**Pattern**: ES6 modules with `export function initX()`，并与 `docs/js_component_guide.md` 中的 Web Component 规则保持一致
 
 ### 🎨 Design Token System
 
@@ -296,7 +296,7 @@ Component Classes (Tailwind utilities)
 3. **Add injection**: `layout/theme.liquid` (runtime)
 4. **Map to Tailwind**: `tailwind.config.js` (if needed)
 5. **Update presets**: `config/themes/*.json` (if needed)
-6. **See**: `docs/design-tokens-guide.md` for details
+6. **See**: `docs/design_tokens_guide.md` for details
 
 ### Adding a New Page Template
 
@@ -411,7 +411,7 @@ Component Classes (Tailwind utilities)
 
 **After creating, ALWAYS run:** `npm run build`
 
-📖 **See**: `docs/design-tokens-guide.md` (Tailwind CSS Usage Guide section) for detailed guidelines
+📖 **See**: `docs/design_tokens_guide.md` (Tailwind CSS Usage Guide section) for detailed guidelines
 
 ### When Making Changes
 
@@ -443,7 +443,7 @@ Component Classes (Tailwind utilities)
 
 ## Related Documentation
 
-- **Design Tokens Guide**: `docs/design-tokens-guide.md` - How to modify design tokens
+- **Design Tokens Guide**: `docs/design_tokens_guide.md` - How to modify design tokens
 - **Theme 2.0 Migration**: `THEME_2.0_MIGRATION.md` - Migration details
 - **Project Context**: `openspec/project.md` - Detailed project context
 - **README**: `README.md` - Quick start and overview
@@ -462,7 +462,7 @@ Component Classes (Tailwind utilities)
 | Configure build | `vite.config.js` |
 | Configure Tailwind | `tailwind.config.js` |
 | Modify layout | `layout/theme.liquid` |
-| Use design tokens | See `docs/design-tokens-guide.md` |
+| Use design tokens | See `docs/design_tokens_guide.md` |
 
 ## AI Assistant Quick Reference
 
@@ -519,5 +519,4 @@ Before making changes, check these files:
 **Last Updated**: After Theme 2.0 migration and design token system implementation  
 **Theme Version**: 2.0 (Online Store 2.0)  
 **Build Status**: ✅ Validated (279 files, 0 offenses)  
-**Documentation**: See also `docs/design-tokens-guide.md` for design token details
-
+**Documentation**: See also `docs/design_tokens_guide.md` for design token details

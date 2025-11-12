@@ -4,62 +4,60 @@
 {% endcomment %}
 
 {% liquid
-  assign footer_bg = section.settings.footer_background | default: settings.color_background | default: '#f8f9fa'
-  assign footer_text = section.settings.footer_text_color | default: settings.color_text | default: '#1d1d1f'
   assign footer_menu = linklists[section.settings.footer_menu]
   assign menu_links = footer_menu.links
+  assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1'
 %}
 
 <footer 
-  class="site-footer" 
-  data-footer
-  style="
-    --footer-bg: {{ footer_bg }};
-    --footer-text: {{ footer_text }};
-  "
->
+  class="color-scheme color-{{ section_color_scheme }} site-footer" 
+  data-footer>
   <div class="footer__container container-custom">
-    
-    {%comment%} Newsletter Section - Full Width {%endcomment%}
-    {% if section.settings.show_newsletter %}
-      <div class="footer__newsletter-section">
-        <h3 class="footer__newsletter-title">{{ section.settings.newsletter_title | default: 'Get new tech guides & exclusive deals.' }}</h3>
-        {% if section.settings.newsletter_text != blank %}
-          <p class="footer__newsletter-text">{{ section.settings.newsletter_text }}</p>
-        {% endif %}
-        <form 
-          action="/contact#contact_form" 
-          method="post" 
-          class="footer__newsletter-form"
-          accept-charset="UTF-8"
-          data-newsletter-form
-        >
-          <input type="hidden" name="form_type" value="customer">
-          <input type="hidden" name="utf8" value="✓">
-          <input type="hidden" name="contact[tags]" value="newsletter">
-          <div class="footer__newsletter-input-wrapper">
-            <input 
-              type="email" 
-              name="contact[email]" 
-              placeholder="{{ 'footer.newsletter_placeholder' | t | default: 'Enter your email' }}"
-              class="footer__newsletter-input"
-              required
-              aria-label="Email address"
+
+    {% comment %} Blocks: Newsletter (with its own color scheme) {% endcomment %}
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'newsletter' %}
+          <div class="color-scheme color-{{ block.settings.color_scheme | default: 'scheme-1' }} footer__newsletter-section" {{ block.shopify_attributes }}>
+            <h3 class="footer__newsletter-title">{{ block.settings.title | default: section.settings.newsletter_title | default: 'Get new tech guides & exclusive deals.' }}</h3>
+            {% assign desc_text = block.settings.text | default: section.settings.newsletter_text %}
+            {% if desc_text != blank %}
+              <p class="footer__newsletter-text">{{ desc_text }}</p>
+            {% endif %}
+            <form 
+              action="/contact#contact_form" 
+              method="post" 
+              class="footer__newsletter-form"
+              accept-charset="UTF-8"
+              data-newsletter-form
             >
-            <button 
-              type="submit" 
-              class="footer__newsletter-button"
-              aria-label="Subscribe"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </button>
+              <input type="hidden" name="form_type" value="customer">
+              <input type="hidden" name="utf8" value="✓">
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <div class="footer__newsletter-input-wrapper">
+                <input 
+                  type="email" 
+                  name="contact[email]" 
+                  placeholder="{{ 'footer.newsletter_placeholder' | t | default: 'Enter your email' }}"
+                  class="footer__newsletter-input"
+                  required
+                  aria-label="Email address"
+                >
+                <button 
+                  type="submit" 
+                  class="footer__newsletter-button"
+                  aria-label="Subscribe"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-    {% endif %}
+      {% endcase %}
+    {% endfor %}
 
     {%comment%} Main Footer Content: Navigation + Contact {%endcomment%}
     <div class="footer__main">
@@ -234,9 +232,9 @@
 {% stylesheet %}
 /* Footer Base */
 .site-footer {
-  background-color: var(--footer-bg);
-  color: var(--footer-text);
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  border-top: 1px solid rgb(var(--color-border-rgb) / 0.4);
   margin-top: auto;
 }
 
@@ -249,7 +247,7 @@
 .footer__newsletter-section {
   text-align: center;
   padding-bottom: 48px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgb(var(--color-border-rgb) / 0.4);
   margin-bottom: 48px;
 }
 
@@ -257,14 +255,14 @@
   font-size: clamp(1.5rem, 5vw, 2rem);
   font-weight: 700;
   margin: 0 0 var(--spacing-6);
-  color: var(--footer-text);
+  color: var(--color-foreground);
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
 
 .footer__newsletter-text {
   font-size: var(--text-size-sm);
-  color: var(--footer-text);
+  color: var(--color-foreground);
   opacity: 0.7;
   margin: 0 0 var(--spacing-6);
 }
@@ -277,8 +275,8 @@
 .footer__newsletter-input-wrapper {
   display: flex;
   gap: 8px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  background-color: rgb(var(--color-background-rgb) / 0.9);
+  border: 1px solid rgb(var(--color-border-rgb) / 0.6);
   border-radius: var(--radius-md);
   padding: 6px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -286,7 +284,7 @@
 
 .footer__newsletter-input-wrapper:focus-within {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 4px rgb(var(--color-primary-rgb) / 0.2);
 }
 
 .footer__newsletter-input {
@@ -295,12 +293,12 @@
   border: none;
   background: transparent;
   font-size: 14px;
-  color: var(--footer-text);
+  color: var(--color-foreground);
   outline: none;
 }
 
 .footer__newsletter-input::placeholder {
-  color: var(--footer-text);
+  color: var(--color-foreground);
   opacity: 0.5;
 }
 
@@ -388,7 +386,7 @@
 .footer__nav-link {
   display: inline-block;
   font-size: var(--text-size-sm);
-  color: var(--footer-text);
+  color: var(--color-foreground);
   text-decoration: none;
   opacity: 0.7;
   transition: opacity 0.2s ease, transform 0.2s ease;
@@ -411,7 +409,7 @@
   align-items: center;
   gap: var(--spacing-3);
   font-size: var(--text-size-sm);
-  color: var(--footer-text);
+  color: var(--color-foreground);
   text-decoration: none;
   opacity: 0.7;
   transition: opacity 0.2s ease;
@@ -434,8 +432,8 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-full);
-  background-color: rgba(0, 0, 0, 0.04);
-  color: var(--footer-text);
+  background-color: rgb(var(--color-foreground-rgb) / 0.06);
+  color: var(--color-foreground);
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -451,7 +449,7 @@
   font-size: var(--text-size-base);
   font-weight: 600;
   margin: 0 0 var(--spacing-4);
-  color: var(--footer-text);
+  color: var(--color-foreground);
   letter-spacing: -0.01em;
 }
 
@@ -461,12 +459,12 @@
   flex-direction: column;
   gap: var(--spacing-6);
   padding-top: var(--spacing-8);
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1px solid rgb(var(--color-border-rgb) / 0.4);
 }
 
 .footer__copyright {
   font-size: var(--text-size-xs);
-  color: var(--footer-text);
+  color: var(--color-foreground);
   opacity: 0.6;
   margin: 0;
 }
@@ -660,6 +658,12 @@ if (document.readyState === 'loading') {
       "content": "Newsletter"
     },
     {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
       "type": "checkbox",
       "id": "show_newsletter",
       "label": "Show newsletter signup",
@@ -732,22 +736,40 @@ if (document.readyState === 'loading') {
       "id": "show_payment_icons",
       "label": "Show payment icons",
       "default": true
-    },
+    }
+  ],
+  "blocks": [
     {
-      "type": "header",
-      "content": "Appearance"
-    },
+      "type": "newsletter",
+      "name": "Newsletter subscribe",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-1"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Get new tech guides & exclusive deals."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
     {
-      "type": "color",
-      "id": "footer_background",
-      "label": "Background color",
-      "default": "#f8f9fa"
-    },
-    {
-      "type": "color",
-      "id": "footer_text_color",
-      "label": "Text color",
-      "default": "#1d1d1f"
+      "name": "Footer",
+      "blocks": [
+        { "type": "newsletter" }
+      ]
     }
   ]
 }

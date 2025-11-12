@@ -21,15 +21,30 @@ module.exports = {
       colors: {
         // 语义化颜色，映射到 CSS 变量，可响应透明度
         primary: withOpacityValue('--color-primary-rgb'),
+        'primary-foreground': withOpacityValue('--color-primary-foreground-rgb'),
+        'primary-soft': withOpacityValue('--color-primary-soft-rgb'),
         secondary: withOpacityValue('--color-secondary-rgb'),
+        'secondary-foreground': withOpacityValue('--color-secondary-foreground-rgb'),
+        'secondary-border': withOpacityValue('--color-secondary-border-rgb'),
         accent: withOpacityValue('--color-accent-rgb'),
         background: withOpacityValue('--color-background-rgb'),
+        surface: withOpacityValue('--color-surface-rgb'),
+        'surface-muted': withOpacityValue('--color-surface-muted-rgb'),
         text: withOpacityValue('--color-text-rgb'),
         'text-secondary': withOpacityValue('--color-text-secondary-rgb'),
+        foreground: withOpacityValue('--color-foreground-rgb'),
+        muted: withOpacityValue('--color-muted-rgb'),
         border: withOpacityValue('--color-border-rgb'),
+        inverse: withOpacityValue('--color-inverse-background-rgb'),
+        'inverse-foreground': withOpacityValue('--color-inverse-foreground-rgb'),
+        'inverse-surface': withOpacityValue('--color-inverse-surface-rgb'),
+        decorative: withOpacityValue('--color-decorative-rgb'),
         error: withOpacityValue('--color-error-rgb'),
         success: withOpacityValue('--color-success-rgb'),
-        warning: withOpacityValue('--color-warning-rgb')
+        warning: withOpacityValue('--color-warning-rgb'),
+        input: withOpacityValue('--color-input-background-rgb'),
+        'input-border': withOpacityValue('--color-input-border-rgb'),
+        'input-foreground': withOpacityValue('--color-input-foreground-rgb')
       },
       fontFamily: {
         // 字体家族

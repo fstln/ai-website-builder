@@ -3,7 +3,10 @@
   Theme 2.0 - Sections Everywhere
 {% endcomment %}
 
-<div class="container-custom py-8">
+{% assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1' %}
+
+<section class="color-scheme color-{{ section_color_scheme }} section-main-search">
+  <div class="container-custom py-8">
   <div class="search-header mb-8">
     <h1 class="text-4xl font-bold mb-4">{{ 'general.search.title' | t }}</h1>
     
@@ -71,15 +74,22 @@
         {% endif %}
       {% endif %}
     </div>
-  {% endpaginate %}
-</div>
+    {% endpaginate %}
+  </div>
+</section>
 
 {% schema %}
 {
   "name": "Main Search",
   "tag": "section",
   "class": "section-main-search",
-  "settings": []
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
 }
 {% endschema %}
-

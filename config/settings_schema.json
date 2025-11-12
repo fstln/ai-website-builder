@@ -107,6 +107,170 @@
     ]
   },
   {
+    "name": "Color Schemes",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Section & block color schemes"
+      },
+      {
+        "type": "paragraph",
+        "content": "Define reusable color schemes that sections and theme blocks can inherit. Each scheme exposes Shopify's required roles (background, text, actions, borders) while surfaces, inverse states, and soft tints are derived automatically for better theme-block compatibility."
+      },
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "color",
+            "id": "background",
+            "label": "Background",
+            "default": "#F9FAFB",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "foreground",
+            "label": "Body text",
+            "default": "#111827",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "foreground_heading",
+            "label": "Heading text",
+            "default": "#0F172A",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "muted",
+            "label": "Muted text",
+            "default": "#4B5563",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "accent",
+            "label": "Accent & links",
+            "default": "#1D4ED8",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "primary",
+            "label": "Primary action",
+            "default": "#2563EB",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "primary_foreground",
+            "label": "Primary action text",
+            "default": "#FFFFFF",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "primary_hover",
+            "label": "Primary action hover",
+            "default": "#1D4ED8",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "secondary",
+            "label": "Secondary action background",
+            "default": "#FFFFFF",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "secondary_foreground",
+            "label": "Secondary action text",
+            "default": "#111827",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "secondary_border",
+            "label": "Secondary action border",
+            "default": "#E5E7EB",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "border",
+            "label": "Borders & dividers",
+            "default": "#E5E7EB",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "decorative",
+            "label": "Decorative & badges",
+            "default": "#DBEAFE",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "input_background",
+            "label": "Input background",
+            "default": "#FFFFFF",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "input_foreground",
+            "label": "Input text",
+            "default": "#111827",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "input_border",
+            "label": "Input border",
+            "default": "#D1D5DB",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "inverse_background",
+            "label": "Inverse background",
+            "default": "#0F172A",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "inverse_foreground",
+            "label": "Inverse text",
+            "default": "#F8FAFC",
+            "alpha": true
+          },
+          {
+            "type": "color",
+            "id": "shadow",
+            "label": "Shadow color",
+            "default": "#000000",
+            "alpha": true
+          }
+        ],
+        "role": {
+          "text": "foreground",
+          "background": "background",
+          "links": "accent",
+          "icons": "foreground",
+          "primary_button": "primary",
+          "on_primary_button": "primary_foreground",
+          "primary_button_border": "primary",
+          "secondary_button": "secondary",
+          "on_secondary_button": "secondary_foreground",
+          "secondary_button_border": "secondary_border"
+        }
+      }
+    ]
+  },
+  {
     "name": "Typography",
     "settings": [
       {

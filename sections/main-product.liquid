@@ -3,8 +3,11 @@
   Based on visual_spec.md and DTC best practices
 {% endcomment %}
 
-<div class="w-full min-h-screen bg-background text-text">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">    
+{% assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1' %}
+
+<section class="color-scheme color-{{ section_color_scheme }} section-main-product">
+  <div class="w-full min-h-screen bg-background text-text">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">    
     {%- comment -%} Product Grid - Image left, Info right, stacked on mobile {%- endcomment -%}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mt-6">
       
@@ -169,6 +172,7 @@
             {% else %}
               {% assign has_purchase_blocks = false %}
             {% endif %}
+            {% assign has_purchase_blocks = section.blocks.size > 0 %}
             {% if has_purchase_blocks %}
               {% for block in section.blocks %}
                 {% assign block_type = block.type %}
@@ -503,9 +507,10 @@
           {% endform %}
         </product-form-component>
       </div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
 {%- comment -%} Sticky Add to Cart Bar (Mobile) {%- endcomment -%}
 <div class="lg:hidden fixed bottom-0 inset-x-0 bg-background/95 backdrop-blur z-40 transform translate-y-full transition-transform duration-300" id="stickyCartBar">
@@ -622,6 +627,12 @@
   "tag": "section",
   "class": "section-main-product",
   "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
   ],
   "blocks": [
     {

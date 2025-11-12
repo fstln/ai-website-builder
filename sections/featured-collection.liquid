@@ -2,7 +2,9 @@
   Featured Collection Section
 {% endcomment %}
 
-<section class="featured-collection py-16 bg-background" data-section-id="{{ section.id }}" data-section-type="featured-collection">
+{% assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1' %}
+
+<section class="color-scheme color-{{ section_color_scheme }} featured-collection py-16 bg-background" data-section-id="{{ section.id }}" data-section-type="featured-collection">
   <div class="container-custom">
     {% if section.settings.collection != blank %}
       {% assign collection = collections[section.settings.collection] %}
@@ -48,6 +50,12 @@
 {
   "name": "Featured Collection",
   "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
     {
       "type": "text",
       "id": "heading",

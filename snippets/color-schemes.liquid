@@ -1,0 +1,125 @@
+{% liquid
+  assign color_schemes = settings.color_schemes
+%}
+{% if color_schemes != blank %}
+  {% style %}
+    {% for scheme in color_schemes %}
+      {% liquid
+        assign color_background = scheme.settings.background | default: settings.color_background | default: '#ffffff'
+        assign color_foreground = scheme.settings.foreground | default: settings.color_text | default: '#111827'
+        assign color_heading = scheme.settings.foreground_heading | default: settings.color_text | default: '#0f172a'
+        assign color_muted = scheme.settings.muted | default: settings.color_text_secondary | default: '#6b7280'
+        assign color_accent = scheme.settings.accent | default: settings.color_accent | default: '#1d4ed8'
+        assign color_primary = scheme.settings.primary | default: settings.color_primary | default: '#2563eb'
+        assign color_primary_foreground = scheme.settings.primary_foreground | default: '#ffffff'
+        assign color_primary_hover = scheme.settings.primary_hover | default: color_primary
+        assign color_secondary = scheme.settings.secondary | default: settings.color_secondary | default: '#ffffff'
+        assign color_secondary_foreground = scheme.settings.secondary_foreground | default: color_foreground
+        assign color_secondary_border = scheme.settings.secondary_border | default: settings.color_border | default: '#e5e7eb'
+        assign color_border = scheme.settings.border | default: settings.color_border | default: '#e5e7eb'
+        assign color_decorative = scheme.settings.decorative | default: color_accent
+        assign color_input_background = scheme.settings.input_background | default: color_secondary
+        assign color_input_foreground = scheme.settings.input_foreground | default: color_foreground
+        assign color_input_border = scheme.settings.input_border | default: color_border
+        assign color_inverse_background = scheme.settings.inverse_background | default: color_foreground
+        assign color_inverse_foreground = scheme.settings.inverse_foreground | default: color_background
+        assign color_shadow = scheme.settings.shadow | default: '#000000'
+        assign background_brightness = color_background | color_brightness
+        if background_brightness < 80
+          assign opacity_05 = 0.15
+          assign opacity_10 = 0.25
+          assign opacity_20 = 0.4
+          assign opacity_40 = 0.6
+          assign opacity_60 = 0.75
+        else
+          assign opacity_05 = 0.05
+          assign opacity_10 = 0.1
+          assign opacity_20 = 0.2
+          assign opacity_40 = 0.4
+          assign opacity_60 = 0.6
+        endif
+        if background_brightness < 80
+          assign surface_base = color_background | color_mix: '#ffffff', 12
+          assign surface_muted = color_background | color_mix: '#ffffff', 24
+        else
+          assign surface_base = color_background | color_mix: color_foreground, 8
+          assign surface_muted = color_background | color_mix: color_foreground, 16
+        endif
+        assign primary_soft = color_primary | color_mix: color_background, 70
+        assign inverse_surface = color_inverse_background | color_mix: '#000000', 15
+        assign scheme_mode = 'light'
+        if background_brightness < 80
+          assign scheme_mode = 'dark'
+        endif
+      %}
+      {% capture selector %}
+.color-scheme.color-{{ scheme.id }},
+.color-{{ scheme.id }}
+      {% endcapture %}
+      {% if forloop.first %}
+:root,
+body,
+{{ selector }} {
+      {% else %}
+{{ selector }} {
+      {% endif %}
+        color-scheme: {{ scheme_mode }};
+        --color-background: {{ color_background }};
+        --color-background-rgb: {{ color_background | color_extract: 'red' }} {{ color_background | color_extract: 'green' }} {{ color_background | color_extract: 'blue' }};
+        --color-surface: {{ surface_base }};
+        --color-surface-rgb: {{ surface_base | color_extract: 'red' }} {{ surface_base | color_extract: 'green' }} {{ surface_base | color_extract: 'blue' }};
+        --color-surface-muted: {{ surface_muted }};
+        --color-surface-muted-rgb: {{ surface_muted | color_extract: 'red' }} {{ surface_muted | color_extract: 'green' }} {{ surface_muted | color_extract: 'blue' }};
+        --color-foreground: {{ color_foreground }};
+        --color-foreground-rgb: {{ color_foreground | color_extract: 'red' }} {{ color_foreground | color_extract: 'green' }} {{ color_foreground | color_extract: 'blue' }};
+        --color-foreground-heading: {{ color_heading }};
+        --color-foreground-heading-rgb: {{ color_heading | color_extract: 'red' }} {{ color_heading | color_extract: 'green' }} {{ color_heading | color_extract: 'blue' }};
+        --color-muted: {{ color_muted }};
+        --color-muted-rgb: {{ color_muted | color_extract: 'red' }} {{ color_muted | color_extract: 'green' }} {{ color_muted | color_extract: 'blue' }};
+        --color-text: var(--color-foreground);
+        --color-text-rgb: var(--color-foreground-rgb);
+        --color-text-secondary: var(--color-muted);
+        --color-text-secondary-rgb: var(--color-muted-rgb);
+        --color-accent: {{ color_accent }};
+        --color-accent-rgb: {{ color_accent | color_extract: 'red' }} {{ color_accent | color_extract: 'green' }} {{ color_accent | color_extract: 'blue' }};
+        --color-primary: {{ color_primary }};
+        --color-primary-rgb: {{ color_primary | color_extract: 'red' }} {{ color_primary | color_extract: 'green' }} {{ color_primary | color_extract: 'blue' }};
+        --color-primary-hover: {{ color_primary_hover }};
+        --color-primary-hover-rgb: {{ color_primary_hover | color_extract: 'red' }} {{ color_primary_hover | color_extract: 'green' }} {{ color_primary_hover | color_extract: 'blue' }};
+        --color-primary-foreground: {{ color_primary_foreground }};
+        --color-primary-foreground-rgb: {{ color_primary_foreground | color_extract: 'red' }} {{ color_primary_foreground | color_extract: 'green' }} {{ color_primary_foreground | color_extract: 'blue' }};
+        --color-primary-soft: {{ primary_soft }};
+        --color-primary-soft-rgb: {{ primary_soft | color_extract: 'red' }} {{ primary_soft | color_extract: 'green' }} {{ primary_soft | color_extract: 'blue' }};
+        --color-secondary: {{ color_secondary }};
+        --color-secondary-rgb: {{ color_secondary | color_extract: 'red' }} {{ color_secondary | color_extract: 'green' }} {{ color_secondary | color_extract: 'blue' }};
+        --color-secondary-foreground: {{ color_secondary_foreground }};
+        --color-secondary-foreground-rgb: {{ color_secondary_foreground | color_extract: 'red' }} {{ color_secondary_foreground | color_extract: 'green' }} {{ color_secondary_foreground | color_extract: 'blue' }};
+        --color-secondary-border: {{ color_secondary_border }};
+        --color-secondary-border-rgb: {{ color_secondary_border | color_extract: 'red' }} {{ color_secondary_border | color_extract: 'green' }} {{ color_secondary_border | color_extract: 'blue' }};
+        --color-border: {{ color_border }};
+        --color-border-rgb: {{ color_border | color_extract: 'red' }} {{ color_border | color_extract: 'green' }} {{ color_border | color_extract: 'blue' }};
+        --color-decorative: {{ color_decorative }};
+        --color-decorative-rgb: {{ color_decorative | color_extract: 'red' }} {{ color_decorative | color_extract: 'green' }} {{ color_decorative | color_extract: 'blue' }};
+        --color-input-background: {{ color_input_background }};
+        --color-input-background-rgb: {{ color_input_background | color_extract: 'red' }} {{ color_input_background | color_extract: 'green' }} {{ color_input_background | color_extract: 'blue' }};
+        --color-input-foreground: {{ color_input_foreground }};
+        --color-input-foreground-rgb: {{ color_input_foreground | color_extract: 'red' }} {{ color_input_foreground | color_extract: 'green' }} {{ color_input_foreground | color_extract: 'blue' }};
+        --color-input-border: {{ color_input_border }};
+        --color-input-border-rgb: {{ color_input_border | color_extract: 'red' }} {{ color_input_border | color_extract: 'green' }} {{ color_input_border | color_extract: 'blue' }};
+        --color-inverse-background: {{ color_inverse_background }};
+        --color-inverse-background-rgb: {{ color_inverse_background | color_extract: 'red' }} {{ color_inverse_background | color_extract: 'green' }} {{ color_inverse_background | color_extract: 'blue' }};
+        --color-inverse-foreground: {{ color_inverse_foreground }};
+        --color-inverse-foreground-rgb: {{ color_inverse_foreground | color_extract: 'red' }} {{ color_inverse_foreground | color_extract: 'green' }} {{ color_inverse_foreground | color_extract: 'blue' }};
+        --color-inverse-surface: {{ inverse_surface }};
+        --color-inverse-surface-rgb: {{ inverse_surface | color_extract: 'red' }} {{ inverse_surface | color_extract: 'green' }} {{ inverse_surface | color_extract: 'blue' }};
+        --color-shadow: {{ color_shadow }};
+        --color-shadow-rgb: {{ color_shadow | color_extract: 'red' }} {{ color_shadow | color_extract: 'green' }} {{ color_shadow | color_extract: 'blue' }};
+        --opacity-05: {{ opacity_05 }};
+        --opacity-10: {{ opacity_10 }};
+        --opacity-20: {{ opacity_20 }};
+        --opacity-40: {{ opacity_40 }};
+        --opacity-60: {{ opacity_60 }};
+      }
+    {% endfor %}
+  {% endstyle %}
+{% endif %}

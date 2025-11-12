@@ -111,7 +111,10 @@ minimal-shopify-theme/
 
 本主题使用全面的设计令牌系统，将设计决策与 HTML 结构分离，使视觉样式可以通过配置更改，而无需修改组件代码。
 
-**AI 助手指南**: 查看 `docs/design-tokens-guide.md` 了解如何修改设计令牌为 DTC 网站创建自定义视觉风格。
+**AI 助手指南**: 
+- 查看 `docs/design_tokens_guide.md` 了解如何修改设计令牌为 DTC 网站创建自定义视觉风格。  
+- 查阅 `docs/brand_color_playbook.md` 选择/扩展品牌色板，`docs/color_scheme.md` 理解 color scheme 体系，`docs/accessibility_playbook.md` 落实可访问性护栏。  
+- SEO 与语义结构参考 `docs/seo_playbook.md`，确保 meta、结构化数据、lazy loading、性能策略与设计一致。
 
 **开发者指南**:
 - 修改 `config/settings_schema.json` 更改默认令牌值
@@ -125,6 +128,13 @@ minimal-shopify-theme/
 2. 编辑 `config/settings_schema.json` 更改默认值
 3. 编辑 `config/settings_data.json` 直接更改当前值
 4. 使用预设文件（`config/themes/*.json`）快速应用完整样式
+
+### Color schemes
+
+- 主题在 Shopify 端暴露 `color_scheme_group`（位于 Theme Settings → Color schemes），默认提供 `scheme-1 / scheme-2 / scheme-3` 三套方案，可在 `config/settings_data.json > color_schemes` 复制新增。
+- 每个 section 顶层必须加入 `{ "type": "color_scheme", "id": "color_scheme" }` setting，并在模板里包裹 `class="color-scheme color-{{ section.settings.color_scheme | default: 'scheme-1' }}"`，block 只有在视觉上需要打破父级底色时才暴露同名设置。
+- `snippets/color-schemes.liquid` 会把所有 scheme 输出为 CSS 变量，`tailwind.config.js` 则把变量映射到 `bg-background/bg-surface/bg-primary/ text-foreground/text-muted` 等工具类。编写样式时只使用这些语义类，不要写死 `#fff`、`bg-blue-600` 等值。
+- 透明度统一通过 Tailwind 的 `color/opacity` 语法，例如 `text-foreground/80`、`bg-primary/90`。
 
 ### 添加 JavaScript 功能
 
@@ -234,4 +244,3 @@ MIT
 ## 支持
 
 如有问题或需要帮助，请在 GitHub 上开 issue。
-
