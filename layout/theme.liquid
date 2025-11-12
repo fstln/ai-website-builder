@@ -37,8 +37,6 @@
   {% comment %} Dynamic Design Token Injection {% endcomment %}
   {% liquid
     assign color_primary = settings.color_primary | default: '#2563eb'
-    assign color_secondary = settings.color_secondary | default: '#1d4ed8'
-    assign color_accent = settings.color_accent | default: '#2563eb'
     assign color_background = settings.color_background | default: '#f9fafb'
     assign color_text = settings.color_text | default: '#111827'
     assign color_text_secondary = settings.color_text_secondary | default: '#374151'
@@ -46,9 +44,11 @@
     assign color_error = settings.color_error | default: '#EF4444'
     assign color_success = settings.color_success | default: '#10B981'
     assign color_warning = settings.color_warning | default: '#F59E0B'
+    assign color_accent = color_primary
     assign fallback_surface = color_background | color_mix: color_text, 6
     assign fallback_surface_muted = color_background | color_mix: color_text, 12
     assign fallback_primary_soft = color_primary | color_mix: color_background, 70
+    assign fallback_primary_hover = color_primary | color_darken: 10
   %}
   {% if settings.color_schemes == blank %}
     <style>
@@ -56,18 +56,12 @@
       body {
         --color-primary: {{ color_primary }};
         --color-primary-rgb: {{ color_primary | color_extract: 'red' }} {{ color_primary | color_extract: 'green' }} {{ color_primary | color_extract: 'blue' }};
-        --color-primary-hover: {{ color_secondary }};
-        --color-primary-hover-rgb: {{ color_secondary | color_extract: 'red' }} {{ color_secondary | color_extract: 'green' }} {{ color_secondary | color_extract: 'blue' }};
+        --color-primary-hover: {{ fallback_primary_hover }};
+        --color-primary-hover-rgb: {{ fallback_primary_hover | color_extract: 'red' }} {{ fallback_primary_hover | color_extract: 'green' }} {{ fallback_primary_hover | color_extract: 'blue' }};
         --color-primary-foreground: #ffffff;
         --color-primary-foreground-rgb: 255 255 255;
         --color-primary-soft: {{ fallback_primary_soft }};
         --color-primary-soft-rgb: {{ fallback_primary_soft | color_extract: 'red' }} {{ fallback_primary_soft | color_extract: 'green' }} {{ fallback_primary_soft | color_extract: 'blue' }};
-        --color-secondary: {{ color_secondary }};
-        --color-secondary-rgb: {{ color_secondary | color_extract: 'red' }} {{ color_secondary | color_extract: 'green' }} {{ color_secondary | color_extract: 'blue' }};
-        --color-secondary-foreground: {{ color_text }};
-        --color-secondary-foreground-rgb: {{ color_text | color_extract: 'red' }} {{ color_text | color_extract: 'green' }} {{ color_text | color_extract: 'blue' }};
-        --color-secondary-border: {{ color_border }};
-        --color-secondary-border-rgb: {{ color_border | color_extract: 'red' }} {{ color_border | color_extract: 'green' }} {{ color_border | color_extract: 'blue' }};
         --color-accent: {{ color_accent }};
         --color-accent-rgb: {{ color_accent | color_extract: 'red' }} {{ color_accent | color_extract: 'green' }} {{ color_accent | color_extract: 'blue' }};
         --color-background: {{ color_background }};

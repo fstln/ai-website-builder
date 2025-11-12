@@ -42,7 +42,7 @@
 >
   <button
     type="button"
-    class="quantity-minus flex items-center justify-center w-10 h-10 text-text-secondary hover:bg-border/20 hover:text-text active:bg-border/40 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-text-secondary transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+    class="quantity-minus flex items-center justify-center w-10 h-10 text-foreground-secondary hover:bg-border/20 hover:text-foreground active:bg-border/40 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-foreground-secondary transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
     on:click="/decreaseQuantity"
     ref="minusButton"
     {% if is_disabled %}disabled{% endif %}
@@ -71,13 +71,13 @@
     on:focus="/selectInputValue"
     ref="quantityInput"
     aria-label="{{ 'products.product.quantity_input' | t: product: qty_label }}"
-    class="quantity-input w-14 sm:w-16 h-10 text-center bg-background text-text font-semibold text-base focus:outline-none focus:bg-primary/10"
+    class="quantity-input w-14 sm:w-16 h-10 text-center bg-background text-foreground font-semibold text-base focus:outline-none focus:bg-primary/10"
     {% if is_disabled %}disabled{% endif %}
   >
   
   <button
     type="button"
-    class="quantity-plus flex items-center justify-center w-10 h-10 text-text-secondary hover:bg-border/20 hover:text-text active:bg-border/40 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-text-secondary transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+    class="quantity-plus flex items-center justify-center w-10 h-10 text-foreground-secondary hover:bg-border/20 hover:text-foreground active:bg-border/40 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-foreground-secondary transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
     on:click="/increaseQuantity"
     ref="plusButton"
     {% if is_disabled %}disabled{% endif %}

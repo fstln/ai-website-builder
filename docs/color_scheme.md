@@ -21,15 +21,21 @@
 | --- | --- | --- |
 | `background` | Section 基底 | `bg-background` |
 | `foreground` / `foreground_heading` | 主体文字 / 标题文字 | `text-foreground`（标题默认也使用此类；如需独立颜色可在自定义 CSS 中引用 `var(--color-foreground-heading)`） |
-| `muted` | 次级文字 | `text-muted`, `text-text-secondary` |
-| `accent` | 链接、轻强调 | `text-accent`, `border-accent` |
-| `primary` / `primary_foreground` / `primary_hover` | 主操作按钮 | `bg-primary`, `text-primary-foreground`, `hover:bg-primary-hover` |
-| `secondary` / `secondary_foreground` / `secondary_border` | 次操作按钮 | `bg-secondary`, `text-secondary-foreground`, `border-secondary-border` |
+| `muted` | 次级文字 | `text-muted` |
+| `primary` / `primary_foreground` / `primary_hover` | 主操作按钮 | `.btn.btn-primary` |
 | `border` | 卡片描边、分隔线 | `border-border`, `divide-border` |
 | `decorative` | Badge/装饰标签 | `bg-decorative`, `text-decorative` |
 | `input_background` / `input_foreground` / `input_border` | 表单 | `bg-input`, `text-input-foreground`, `border-input-border` |
-| `inverse_background` / `inverse_foreground` | 深色区块 | `bg-inverse`, `text-inverse-foreground` |
 | `shadow` | 海拔颜色 | 与 `shadow-*` 配合，影响阴影色相 |
+
+> `accent`/链接色默认沿用 `primary`；`inverse`、`surface` 等派生值由 snippet 自动计算，无需手动拾色。
+
+`foreground`（Body text）负责所有正文、副标题、交互控件标签等需要最高可读性的内容；`muted` 则用于说明文字、辅助信息、表单提示或占位符。两者保持 4.5:1 与 3:1 的对比差异，可让 AI 在 `text-foreground` 与 `text-muted` 之间自由切换密度，而无需增加新的“次级文本”角色。
+
+派生值一览：
+- **Surface / Surface-muted**：依据背景亮度在 `background` 与 `foreground` 之间混合，生成卡片与柔和分组底色。
+- **Inverse background / foreground / surface**：把 `foreground` 与 `background` 对调，并混入 15% 黑色，在 Footer 或 Toast 等反色模块中保持可读。
+- **Primary-soft**：`primary` 与 `background` 以 30/70 比例混合，形成 Hero/统计卡常用的轻强调背景。
 
 派生逻辑：
 - **Surface**：根据 `background` 亮度自动生成 `surface` 与 `surface-muted`，保证浅/深背景下的卡片对比度。
@@ -46,7 +52,6 @@
    - 保证 `foreground` 与 `background` 对比度 ≥ 4.5:1。
    - `foreground_heading` 可更深（提升主标题权重）。
    - `primary_hover` 必须与 `primary` 有 5% 以上亮度/饱和度差值。
-   - `secondary_border` 至少比 `secondary` 深 10%，确保描边可见。
 3. **同步主题预设（可选）**：若配色属于某品牌，复制 `current` 到 `config/themes/<brand>.json`，便于 Shopify 中一键切换。
 4. **本地验证**：`npm run dev` → Theme Editor 中切换 Section 的 `color_scheme`，检查 CTA、表单、面层、Footer、反色模块。
 5. **记录**：在 README 或 PR 中补充此 scheme 的用途、默认分布，方便 AI/人工复用。
@@ -61,20 +66,14 @@
     "foreground": "#F4F6FB",
     "foreground_heading": "#FFFFFF",
     "muted": "#94A3B8",
-    "accent": "#60A5FA",
     "primary": "#3B82F6",
     "primary_foreground": "#FFFFFF",
     "primary_hover": "#2563EB",
-    "secondary": "#1E293B",
-    "secondary_foreground": "#F1F5F9",
-    "secondary_border": "#334155",
     "border": "#1F2937",
     "decorative": "#312E81",
     "input_background": "#1F2937",
     "input_foreground": "#F8FAFC",
     "input_border": "#334155",
-    "inverse_background": "#F8FAFC",
-    "inverse_foreground": "#0B1220",
     "shadow": "#000000"
   }
 }

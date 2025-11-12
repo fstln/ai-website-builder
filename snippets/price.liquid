@@ -11,7 +11,7 @@
       <span class="price-item price-sale font-bold text-error">
         {{ product.price | money }}
       </span>
-      <span class="price-item price-compare text-text-secondary line-through text-sm">
+      <span class="price-item price-compare text-foreground-secondary line-through text-sm">
         {{ product.compare_at_price | money }}
       </span>
     </div>
@@ -22,7 +22,7 @@
   {% endif %}
   
   {% if product.price_varies %}
-    <span class="price-varies text-sm text-text-secondary">
+    <span class="price-varies text-sm text-foreground-secondary">
       {{ 'products.product.from' | t | default: 'from' }}
     </span>
   {% endif %}

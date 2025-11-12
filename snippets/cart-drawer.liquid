@@ -25,7 +25,7 @@
   <div class="cart-drawer-container h-full flex flex-col bg-background relative">
     {%- comment -%} Header {%- endcomment -%}
     <div class="cart-drawer-header flex items-center justify-between p-5 border-b border-border bg-background">
-      <h2 class="text-xl font-bold text-text">
+      <h2 class="text-xl font-bold text-foreground">
         {{ 'general.cart.title' | t }}
         <span class="inline-flex items-center justify-center min-w-[24px] h-6 px-2 ml-2 text-xs font-semibold text-primary bg-primary/10 rounded-full">
           <span data-drawer-count>0</span>
@@ -34,7 +34,7 @@
       
       <button
         type="button"
-        class="w-9 h-9 flex items-center justify-center text-text-secondary hover:text-text hover:bg-border/20 rounded-lg transition-all"
+        class="w-9 h-9 flex items-center justify-center text-foreground-secondary hover:text-foreground hover:bg-border/20 rounded-lg transition-all"
         data-drawer-close
         aria-label="{{ 'accessibility.close' | t }}"
       >
@@ -50,14 +50,14 @@
       data-drawer-empty
     >
       <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-border/20 flex items-center justify-center">
-        <svg class="w-10 h-10 text-text-secondary/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-10 h-10 text-foreground-secondary/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
         </svg>
       </div>
-      <p class="text-lg font-semibold text-text mb-4">{{ 'general.cart.empty' | t }}</p>
+      <p class="text-lg font-semibold text-foreground mb-4">{{ 'general.cart.empty' | t }}</p>
       <button
         type="button"
-        class="px-6 py-3 bg-primary text-background text-sm font-semibold rounded-lg shadow hover:bg-secondary transition-all"
+        class="btn btn-primary px-6 py-3 text-sm font-semibold shadow"
         data-drawer-close
       >
         {{ 'general.continue_shopping' | t }}
@@ -75,12 +75,12 @@
     <div class="cart-drawer-footer border-t border-border p-5 bg-background" data-drawer-content-footer>
       {%- comment -%} Subtotal {%- endcomment -%}
       <div class="flex justify-between items-baseline mb-2">
-        <span class="text-base font-semibold text-text-secondary">{{ 'general.cart.subtotal' | t }}</span>
-        <span class="text-2xl font-bold text-text" data-drawer-subtotal>$0.00</span>
+        <span class="text-base font-semibold text-foreground-secondary">{{ 'general.cart.subtotal' | t }}</span>
+        <span class="text-2xl font-bold text-foreground" data-drawer-subtotal>$0.00</span>
       </div>
 
       {%- comment -%} Shipping Note {%- endcomment -%}
-      <p class="text-xs text-text-secondary mb-5 text-center">
+      <p class="text-xs text-foreground-secondary mb-5 text-center">
         {{ 'general.cart.taxes_and_shipping_at_checkout' | t }}
       </p>
 
@@ -88,14 +88,14 @@
       <div class="space-y-2.5">
         <a 
           href="/checkout" 
-          class="w-full text-center block px-6 py-3.5 bg-primary text-background text-base font-semibold rounded-lg shadow hover:bg-secondary hover:shadow-lg transition-all"
+          class="btn btn-primary w-full text-base font-semibold shadow"
         >
           {{ 'general.cart.checkout' | t }}
         </a>
         
         <a 
           href="/cart" 
-          class="w-full text-center block px-6 py-2.5 bg-border/20 text-text text-sm font-medium rounded-lg border border-border hover:bg-border/40 transition-all"
+          class="w-full text-center block px-6 py-2.5 bg-border/20 text-foreground text-sm font-medium rounded-lg border border-border hover:bg-border/40 transition-all"
         >
           {{ 'general.cart.view_cart' | t }}
         </a>
@@ -135,7 +135,7 @@
   }
 
   .cart-drawer-content::-webkit-scrollbar-thumb:hover {
-    background: var(--color-text-secondary);
+    background: var(--color-muted);
   }
 </style>
 

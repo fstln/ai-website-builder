@@ -23,13 +23,13 @@
       
       {% if section.settings.show_view_all %}
         <div class="text-center mt-8">
-          <a href="{{ collection.url }}" class="btn btn-secondary">
+          <a href="{{ collection.url }}" class="btn btn-outline-primary">
             {{ section.settings.button_label | default: 'View All' }}
           </a>
         </div>
       {% endif %}
     {% else %}
-      <div class="text-center py-12 text-text-secondary">
+      <div class="text-center py-12 text-muted">
         <p>Please select a product collection in theme settings</p>
       </div>
     {% endif %}

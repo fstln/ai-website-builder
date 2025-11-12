@@ -34,23 +34,22 @@ Sections & Snippets 中的 `bg-* / text-* / shadow-*` 等实用类（见 visual_
 | Setting ID | CSS 变量 | Tailwind 语义类 | 用途 |
 |------------|----------|------------------|------|
 | `color_primary` | `--color-primary(-rgb)` | `bg-primary`, `text-primary` | 默认主品牌色（也作为 scheme fallback） |
-| `color_secondary` | `--color-secondary(-rgb)` | `bg-secondary`, `border-secondary-border` | 次级强调 |
-| `color_accent` | `--color-accent(-rgb)` | `text-accent`, `bg-decorative` | 链接/徽章 |
+| `color_accent` | `--color-accent(-rgb)` | `text-accent`, `bg-decorative` | 链接/徽章（默认继承 primary） |
 | `color_background` | `--color-background(-rgb)` | `bg-background` | 页面基底 |
-| `color_text` | `--color-text(-rgb)` | `text-text`, `text-foreground` | 主体文字 |
-| `color_text_secondary` | `--color-text-secondary(-rgb)` | `text-text-secondary`, `text-muted` | 次级文字 |
+| `color_text` | `--color-text(-rgb)` | `text-foreground` | 主体文字 |
+| `color_text_secondary` | `--color-text-secondary(-rgb)` | `text-muted` | 次级文字 |
 | `color_border` | `--color-border(-rgb)` | `border-border` | 边框与分隔 |
 | `color_error/success/warning` | `--color-{role}` | `text-error`, `bg-success/10` | 反馈状态 |
 
-> **注意**：Section/Block 仍以 color scheme 为准；当元素未包裹 `color-scheme color-xxx` 类时使用上述全局值作为退化。
+> **注意**：Section/Block 仍以 color scheme 为准；当元素未包裹 `color-scheme color-xxx` 类时使用上述全局值作为退化。链接/Accent 默认复用主色，次按钮通过描边/透明背景表现，不再需要额外色值。
 
 ### 2.2 Color Scheme 角色
 
 每个 scheme 在 Shopify `color_scheme_group` 中定义 18 个角色。`snippets/color-schemes.liquid` 会衍生 surface、muted、inverse、primary-soft 等变量。Tailwind 中可直接使用的常用语义：
 
 - 背景：`bg-background`, `bg-surface`, `bg-surface-muted`, `bg-inverse`, `bg-inverse-surface`
-- 文本：`text-foreground`, `text-text`, `text-text-secondary`, `text-muted`, `text-inverse-foreground`
-- CTA：`bg-primary`, `text-primary-foreground`, `bg-secondary`, `text-secondary-foreground`, `border-secondary-border`
+- 文本：`text-foreground`, `text-muted`, `text-inverse-foreground`
+- CTA：主按钮使用 `.btn.btn-primary`（实体填充），次按钮使用 `.btn.btn-outline-primary`（仅描边，`.btn.btn-secondary` 为兼容别名），不要自定义渐变或反色 hover
 - 边框 & 分隔：`border-border`, `divide-border/60`
 - 装饰：`bg-primary-soft`, `bg-decorative`
 - 输入：`bg-input`, `text-input-foreground`, `border-input-border`

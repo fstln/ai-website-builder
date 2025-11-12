@@ -125,7 +125,7 @@ ai-website-from-scratch/
 **Contains**: 
 - Tailwind directives (`@tailwind base/components/utilities`)
 - Design token CSS variables with defaults
-- Custom component classes (`.btn-primary`, `.btn-secondary`)
+- Custom component classes (`.btn-primary`, `.btn-outline-primary` / legacy `.btn-secondary`)
 **When to modify**: Adding new design tokens, custom component styles  
 **Key sections**: `:root` variables, `@layer components`
 
@@ -207,14 +207,14 @@ Component Classes (Tailwind utilities)
 ```
 
 #### Token Categories
-- **Colors**: `color_primary`, `color_secondary`, `color_accent`, `color_background`, `color_text`, etc.
+- **Colors**: `color_primary`, `color_accent`, `color_background`, `color_text`, etc.
 - **Typography**: `font_heading`, `font_body`, `text_size_*`, `font_weight_*`, `line_height_*`
 - **Spacing**: `spacing_base` (with calculated scale)
 - **Borders**: `border_radius_*`, `border_width`
 - **Shadows**: `shadow_*` (sm, md, lg, xl, 2xl)
 
 #### Token Usage in Components
-- **Tailwind classes**: `bg-primary`, `text-text-secondary`, `rounded-md`
+- **Tailwind classes**: `bg-primary`, `text-muted`, `rounded-md`
 - **CSS variables**: `var(--color-primary)`, `var(--spacing-base)`
 - **Component classes**: `.btn-primary` uses `var(--color-primary)`
 
@@ -380,18 +380,16 @@ Component Classes (Tailwind utilities)
 
 **When creating new pages or components, you MUST:**
 
-1. **Use Tailwind classes + BEM naming** for layout and structure
-2. **Put custom styles in `<style>` tags** for special effects
-3. **Understand the separation**:
-   - `settings_data.json` = Brand style (colors, sizes, fonts)
-   - Tailwind + Custom CSS = Page layout and structure
-   - Both are needed for complete design
+1. **Wrap every section/root with** `class="color-scheme color-{{ section.settings.color_scheme | default: 'scheme-1' }}"` **并只使用** `docs/visual_spec.md` **中定义的语义 Tailwind 组合（`bg-background`, `text-foreground`, `bg-surface`, `.btn` 等）。**
+2. **所有 CTA/链接按钮走 `.btn` 家族**（`.btn.btn-primary` / `.btn.btn-outline-primary`〔或旧 `.btn.btn-secondary`〕 / `.btn` + 自定义尺寸），禁止自定义渐变 hover 或孤立状态样式。
+3. **自定义 CSS 优先写入 `src/css/tailwind.css` 的 `@layer components`**；只有确实需要 Section 局部样式时才在模板内添加 `<style>`，并确保仍引用 token 变量。
+4. **理解令牌/结构分层**：`settings_data.json` 控制品牌外观，Tailwind/Liquid 决定布局；任何视觉需求都应通过配置 + 语义类完成，避免硬编码色值或尺寸。
 
 **Example: Correct approach**
 ```liquid
 <style>
   .product-hero {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    background: linear-gradient(135deg, var(--color-primary), rgb(var(--color-primary-rgb) / 0.6));
   }
 </style>
 
@@ -402,16 +400,18 @@ Component Classes (Tailwind utilities)
         <img src="..." class="w-full h-96 object-cover rounded-lg">
       </div>
       <div class="product-hero__content">
-        <h1 class="text-3xl font-bold text-text mb-4">Title</h1>
+        <h1 class="text-3xl font-bold text-foreground mb-4">Title</h1>
       </div>
     </div>
   </div>
 </section>
 ```
 
+> 示例中的 `<style>` 仅用于演示如何基于 token 派生渐变；可复用的样式应移至 `src/css/tailwind.css`。
+
 **After creating, ALWAYS run:** `npm run build`
 
-📖 **See**: `docs/design_tokens_guide.md` (Tailwind CSS Usage Guide section) for detailed guidelines
+📖 **See**: `docs/design_tokens_guide.md`, `docs/visual_spec.md`, `docs/liquid_dev_playbook.md` 获取更详细的类与结构约定
 
 ### When Making Changes
 
@@ -430,7 +430,7 @@ Component Classes (Tailwind utilities)
 
 ### Design Token Usage
 
-- **In Liquid**: Use Tailwind classes (`bg-primary`, `text-text`)
+- **In Liquid**: Use Tailwind classes (`bg-primary`, `text-foreground`)
 - **In CSS**: Use CSS variables (`var(--color-primary)`)
 - **In JS**: Use CSS variables if needed (rare)
 
@@ -443,10 +443,17 @@ Component Classes (Tailwind utilities)
 
 ## Related Documentation
 
-- **Design Tokens Guide**: `docs/design_tokens_guide.md` - How to modify design tokens
-- **Theme 2.0 Migration**: `THEME_2.0_MIGRATION.md` - Migration details
-- **Project Context**: `openspec/project.md` - Detailed project context
-- **README**: `README.md` - Quick start and overview
+- **Design Tokens Guide** (`docs/design_tokens_guide.md`): settings → CSS 变量 → Tailwind 映射全流程
+- **Visual Spec** (`docs/visual_spec.md`): Section/Block 可直接套用的 Tailwind 语义组合
+- **Color Scheme Playbook** (`docs/color_scheme.md`): Shopify scheme 角色、派生值与治理
+- **Brand Color Playbook** (`docs/brand_color_playbook.md`): 如何为新品牌挑选/扩展色板
+- **Accessibility Playbook** (`docs/accessibility_playbook.md`): WCAG/ADA/EU 指令检查清单
+- **SEO Playbook** (`docs/seo_playbook.md`): 语义结构、性能与元数据约束
+- **Liquid Development Playbook** (`docs/liquid_dev_playbook.md`): Section/Snippet 结构、schema、可访问性
+- **JavaScript & Web Component Guide** (`docs/js_component_guide.md`): 渐进增强、模块化、交互策略
+- **Theme 2.0 Migration** (`THEME_2.0_MIGRATION.md`): 历史迁移说明
+- **Project Context** (`openspec/project.md`): OpenSpec 背景
+- **README** (`README.md`): 快速开始与脚手架
 
 ## Quick File Lookup
 
@@ -511,7 +518,7 @@ Before making changes, check these files:
 1. ❌ Don't hardcode colors (use design tokens)
 2. ❌ Don't modify `assets/` directly (edit `src/` instead)
 3. ❌ Don't forget `{% schema %}` blocks in sections
-4. ❌ Don't use inline styles (use Tailwind classes)
+4. ❌ Don't 把长期样式留在 inline `<style>`；无法复用的局部样式才可保留，其余迁移到 `src/css/tailwind.css`
 5. ❌ Don't skip validation (`npm run lint`)
 
 ---

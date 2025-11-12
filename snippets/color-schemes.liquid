@@ -9,20 +9,17 @@
         assign color_foreground = scheme.settings.foreground | default: settings.color_text | default: '#111827'
         assign color_heading = scheme.settings.foreground_heading | default: settings.color_text | default: '#0f172a'
         assign color_muted = scheme.settings.muted | default: settings.color_text_secondary | default: '#6b7280'
-        assign color_accent = scheme.settings.accent | default: settings.color_accent | default: '#1d4ed8'
         assign color_primary = scheme.settings.primary | default: settings.color_primary | default: '#2563eb'
         assign color_primary_foreground = scheme.settings.primary_foreground | default: '#ffffff'
-        assign color_primary_hover = scheme.settings.primary_hover | default: color_primary
-        assign color_secondary = scheme.settings.secondary | default: settings.color_secondary | default: '#ffffff'
-        assign color_secondary_foreground = scheme.settings.secondary_foreground | default: color_foreground
-        assign color_secondary_border = scheme.settings.secondary_border | default: settings.color_border | default: '#e5e7eb'
+        assign color_primary_hover = scheme.settings.primary_hover | default: color_primary | color_darken: 10
         assign color_border = scheme.settings.border | default: settings.color_border | default: '#e5e7eb'
-        assign color_decorative = scheme.settings.decorative | default: color_accent
-        assign color_input_background = scheme.settings.input_background | default: color_secondary
+        assign color_decorative = scheme.settings.decorative | default: color_primary
+        assign color_input_background = scheme.settings.input_background | default: color_background
         assign color_input_foreground = scheme.settings.input_foreground | default: color_foreground
         assign color_input_border = scheme.settings.input_border | default: color_border
-        assign color_inverse_background = scheme.settings.inverse_background | default: color_foreground
-        assign color_inverse_foreground = scheme.settings.inverse_foreground | default: color_background
+        assign color_inverse_background = color_foreground
+        assign color_inverse_foreground = color_background
+        assign color_accent = color_primary
         assign color_shadow = scheme.settings.shadow | default: '#000000'
         assign background_brightness = color_background | color_brightness
         if background_brightness < 80
@@ -80,8 +77,6 @@ body,
         --color-text-rgb: var(--color-foreground-rgb);
         --color-text-secondary: var(--color-muted);
         --color-text-secondary-rgb: var(--color-muted-rgb);
-        --color-accent: {{ color_accent }};
-        --color-accent-rgb: {{ color_accent | color_extract: 'red' }} {{ color_accent | color_extract: 'green' }} {{ color_accent | color_extract: 'blue' }};
         --color-primary: {{ color_primary }};
         --color-primary-rgb: {{ color_primary | color_extract: 'red' }} {{ color_primary | color_extract: 'green' }} {{ color_primary | color_extract: 'blue' }};
         --color-primary-hover: {{ color_primary_hover }};
@@ -90,12 +85,8 @@ body,
         --color-primary-foreground-rgb: {{ color_primary_foreground | color_extract: 'red' }} {{ color_primary_foreground | color_extract: 'green' }} {{ color_primary_foreground | color_extract: 'blue' }};
         --color-primary-soft: {{ primary_soft }};
         --color-primary-soft-rgb: {{ primary_soft | color_extract: 'red' }} {{ primary_soft | color_extract: 'green' }} {{ primary_soft | color_extract: 'blue' }};
-        --color-secondary: {{ color_secondary }};
-        --color-secondary-rgb: {{ color_secondary | color_extract: 'red' }} {{ color_secondary | color_extract: 'green' }} {{ color_secondary | color_extract: 'blue' }};
-        --color-secondary-foreground: {{ color_secondary_foreground }};
-        --color-secondary-foreground-rgb: {{ color_secondary_foreground | color_extract: 'red' }} {{ color_secondary_foreground | color_extract: 'green' }} {{ color_secondary_foreground | color_extract: 'blue' }};
-        --color-secondary-border: {{ color_secondary_border }};
-        --color-secondary-border-rgb: {{ color_secondary_border | color_extract: 'red' }} {{ color_secondary_border | color_extract: 'green' }} {{ color_secondary_border | color_extract: 'blue' }};
+        --color-accent: {{ color_accent }};
+        --color-accent-rgb: {{ color_accent | color_extract: 'red' }} {{ color_accent | color_extract: 'green' }} {{ color_accent | color_extract: 'blue' }};
         --color-border: {{ color_border }};
         --color-border-rgb: {{ color_border | color_extract: 'red' }} {{ color_border | color_extract: 'green' }} {{ color_border | color_extract: 'blue' }};
         --color-decorative: {{ color_decorative }};

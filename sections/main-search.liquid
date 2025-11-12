@@ -27,7 +27,7 @@
   {% paginate search.results by 12 %}
     <div class="search-results">
       {% if search.performed %}
-        <p class="text-text-secondary mb-6">
+        <p class="text-muted mb-6">
           Found {{ search.results_count }} {{ 'general.search.results' | t | default: 'result' }}{{ search.results_count | pluralize: '', 's' }}
         </p>
         
@@ -42,15 +42,15 @@
                     <h3 class="font-bold mb-2">
                       <a href="{{ item.url }}" class="hover:underline">{{ item.title }}</a>
                     </h3>
-                    <p class="text-sm text-text-secondary mb-2">{{ item.published_at | date: '%B %d, %Y' }}</p>
-                    <p class="text-text">{{ item.excerpt | strip_html | truncate: 120 }}</p>
+                    <p class="text-sm text-muted mb-2">{{ item.published_at | date: '%B %d, %Y' }}</p>
+                    <p class="text-foreground">{{ item.excerpt | strip_html | truncate: 120 }}</p>
                   </article>
                 {% when 'page' %}
                   <div class="border rounded-lg p-4">
                     <h3 class="font-bold mb-2">
                       <a href="{{ item.url }}" class="hover:underline">{{ item.title }}</a>
                     </h3>
-                    <p class="text-text">{{ item.content | strip_html | truncate: 120 }}</p>
+                    <p class="text-foreground">{{ item.content | strip_html | truncate: 120 }}</p>
                   </div>
               {% endcase %}
             {% endfor %}
@@ -59,18 +59,18 @@
           {% if paginate.pages > 1 %}
             <div class="pagination mt-12 flex justify-center gap-2">
               {% if paginate.previous %}
-                <a href="{{ paginate.previous.url }}" class="btn btn-secondary">{{ 'general.pagination.previous' | t | default: 'Previous' }}</a>
+                <a href="{{ paginate.previous.url }}" class="btn btn-outline-primary">{{ 'general.pagination.previous' | t | default: 'Previous' }}</a>
               {% endif %}
               
               <span class="px-4 py-2">{{ paginate.current_page }} / {{ paginate.pages }}</span>
               
               {% if paginate.next %}
-                <a href="{{ paginate.next.url }}" class="btn btn-secondary">{{ 'general.pagination.next' | t | default: 'Next' }}</a>
+                <a href="{{ paginate.next.url }}" class="btn btn-outline-primary">{{ 'general.pagination.next' | t | default: 'Next' }}</a>
               {% endif %}
             </div>
           {% endif %}
         {% else %}
-          <p class="text-center py-12 text-text-secondary">{{ 'general.search.no_results' | t | default: 'No matching results found' }}</p>
+          <p class="text-center py-12 text-muted">{{ 'general.search.no_results' | t | default: 'No matching results found' }}</p>
         {% endif %}
       {% endif %}
     </div>

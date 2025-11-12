@@ -15,7 +15,7 @@
           class: 'w-full h-auto group-hover:scale-105 transition-transform duration-300'
         %}
       {% else %}
-        <div class="aspect-square flex items-center justify-center text-text-secondary">
+        <div class="aspect-square flex items-center justify-center text-foreground-secondary">
           {% render 'icon', name: 'placeholder' %}
         </div>
       {% endif %}
@@ -28,7 +28,7 @@
     </div>
     
     <div class="product-card-info">
-      <h3 class="font-medium text-sm text-text mb-2 line-clamp-2 group-hover:underline">
+      <h3 class="font-medium text-sm text-foreground mb-2 line-clamp-2 group-hover:underline">
         {{ product.title }}
       </h3>
       

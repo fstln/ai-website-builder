@@ -29,19 +29,19 @@
       {% if paginate.pages > 1 %}
         <div class="pagination mt-12 flex justify-center gap-2">
           {% if paginate.previous %}
-            <a href="{{ paginate.previous.url }}" class="btn btn-secondary">{{ 'general.pagination.previous' | t | default: 'Previous' }}</a>
+            <a href="{{ paginate.previous.url }}" class="btn btn-outline-primary">{{ 'general.pagination.previous' | t | default: 'Previous' }}</a>
           {% endif %}
           
           <span class="px-4 py-2">Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
           
           {% if paginate.next %}
-            <a href="{{ paginate.next.url }}" class="btn btn-secondary">{{ 'general.pagination.next' | t | default: 'Next' }}</a>
+            <a href="{{ paginate.next.url }}" class="btn btn-outline-primary">{{ 'general.pagination.next' | t | default: 'Next' }}</a>
           {% endif %}
         </div>
       {% endif %}
     {% else %}
       <div class="text-center py-12">
-        <p class="text-text-secondary">{{ 'collections.general.no_matches' | t }}</p>
+        <p class="text-muted">{{ 'collections.general.no_matches' | t }}</p>
       </div>
     {% endif %}
     </div>

@@ -40,7 +40,7 @@
   if badge_type == 'new'
     assign show_badge = true
     assign badge_text = 'products.product.new' | t
-    assign badge_class = 'badge-new bg-primary text-background'
+      assign badge_class = 'badge-new bg-primary text-primary-foreground'
   endif
 
   if badge_type == 'custom' and text != blank

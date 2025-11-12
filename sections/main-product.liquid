@@ -6,7 +6,7 @@
 {% assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1' %}
 
 <section class="color-scheme color-{{ section_color_scheme }} section-main-product">
-  <div class="w-full min-h-screen bg-background text-text">
+  <div class="w-full min-h-screen bg-background text-foreground">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">    
     {%- comment -%} Product Grid - Image left, Info right, stacked on mobile {%- endcomment -%}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mt-6">
@@ -136,7 +136,7 @@
       <div class="product-info">
         {%- comment -%} Vendor - Small Label {%- endcomment -%}
         {% if product.vendor != blank %}
-          <a href="{{ product.vendor | url_for_vendor }}" class="inline-flex items-center text-xs font-medium text-primary hover:text-secondary mb-3 transition-colors">
+          <a href="{{ product.vendor | url_for_vendor }}" class="inline-flex items-center text-xs font-medium text-primary hover:text-primary/80 mb-3 transition-colors">
             {{ product.vendor }}
             <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -172,31 +172,30 @@
             {% else %}
               {% assign has_purchase_blocks = false %}
             {% endif %}
-            {% assign has_purchase_blocks = section.blocks.size > 0 %}
             {% if has_purchase_blocks %}
               {% for block in section.blocks %}
                 {% assign block_type = block.type %}
                 {% assign block_attributes = block.shopify_attributes %}
                 {% case block_type %}
                   {% when 'product_title' %}
-                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-text leading-tight mb-6" {{ block_attributes }}>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground leading-tight mb-6" {{ block_attributes }}>
                       {{ product.title }}
                     </h1>
                   {% when 'product_price' %}
                     <div class="product-price bg-background rounded-2xl mb-8" {{ block_attributes }}>
                       <div class="flex items-baseline gap-3 mb-6">
                         {% if product.compare_at_price > product.price %}
-                          <span class="text-4xl text-text">
+                          <span class="text-4xl text-foreground">
                             {{ product.price | money }}
                           </span>
-                          <span class="text-2xl font-medium text-text-secondary line-through">
+                          <span class="text-2xl font-medium text-muted line-through">
                             {{ product.compare_at_price | money }}
                           </span>
                           <span class="inline-flex items-center px-3 py-1 bg-error text-background text-sm font-bold rounded-full">
                             {{ 'products.product.save_amount' | t: amount: product.compare_at_price | minus: product.price | money }}
                           </span>
                         {% else %}
-                          <span class="text-4xl text-text">
+                          <span class="text-4xl text-foreground">
                             {{ product.price | money }}
                           </span>
                         {% endif %}
@@ -204,7 +203,7 @@
                     </div>
                   {% when 'product_description' %}
                     {% if product.description != blank %}
-                      <div class="product-short-description text-base leading-relaxed text-text-secondary mb-6 pb-6" {{ block_attributes }}>
+                      <div class="product-short-description text-base leading-relaxed text-muted mb-6 pb-6" {{ block_attributes }}>
                         {{ product.description | strip_html | truncate: 200 }}
                       </div>
                     {% endif %}
@@ -224,9 +223,9 @@
                           
                           {% for option in product.options_with_values %}
                             <div class="variant-option">
-                              <label class="block text-sm font-semibold text-text mb-3">
+                              <label class="block text-sm font-semibold text-foreground mb-3">
                                 {{ option.name }}
-                                <span class="font-normal text-text-secondary ml-2" data-selected-value-{{ option.name | handle }}>
+                                <span class="font-normal text-muted ml-2" data-selected-value-{{ option.name | handle }}>
                                   {% if option.selected_value %}
                                     - {{ option.selected_value }}
                                   {% endif %}
@@ -256,10 +255,10 @@
                                       for="Option-{{ option.name | handle }}-{{ value | handle }}"
                                       class="inline-flex items-center justify-center min-w-[60px] px-4 py-2.5 text-sm font-medium rounded-lg border cursor-pointer transition-all duration-200
                                              {% if variant_for_value.available %}
-                                               border-border/80 bg-background text-text hover:border-border
-                                               peer-checked:border-primary peer-checked:bg-primary peer-checked:text-background
+                                               border-border/80 bg-background text-foreground hover:border-border
+                                               peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground
                                              {% else %}
-                                               border-border/60 bg-border/15 text-text-secondary/60 cursor-not-allowed line-through
+                                               border-border/60 bg-border/15 text-muted/60 cursor-not-allowed line-through
                                              {% endif %}"
                                     >
                                       {{ value }}
@@ -277,7 +276,7 @@
                   {% when 'quantity_selector' %}
                     <div class="flex items-start gap-4" {{ block_attributes }}>
                       <div class="flex-shrink-0">
-                        <label class="block text-sm font-semibold text-text mb-3">
+                        <label class="block text-sm font-semibold text-foreground mb-3">
                           {{ 'products.product.quantity' | t }}
                         </label>
                         {% render 'quantity-input', 
@@ -308,7 +307,7 @@
                             ref="addToCartButton"
                             on:click="/handleClick"
                             data-add-to-cart-button
-                            class="relative w-full px-8 py-4 text-lg font-bold text-background rounded-xl shadow-lg bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary active:scale-[0.99]"
+                          class="btn btn-primary w-full text-lg font-semibold"
                           >
                             <span class="flex items-center justify-center gap-3">
                               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -316,7 +315,7 @@
                               </svg>
                               <span data-add-to-cart-text>{{ 'products.product.add_to_cart' | t }}</span>
                             </span>
-                            <span class="absolute inset-0 flex items-center justify-center gap-2 text-base font-semibold text-background transition-opacity duration-200 opacity-0 pointer-events-none" ref="addToCartSuccess">
+                            <span class="absolute inset-0 flex items-center justify-center gap-2 text-base font-semibold text-primary-foreground transition-opacity duration-200 opacity-0 pointer-events-none" ref="addToCartSuccess">
                               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                               </svg>
@@ -331,7 +330,7 @@
                         <button 
                           type="button"
                           disabled
-                          class="w-full px-8 py-4 text-lg font-bold text-background bg-text-secondary/40 rounded-lg cursor-not-allowed opacity-60"
+                          class="btn w-full text-lg font-semibold bg-muted/40 text-primary-foreground cursor-not-allowed"
                         >
                           {{ 'products.product.sold_out' | t }}
                         </button>
@@ -346,24 +345,24 @@
                 {% assign block_attributes = '' %}
                 {% case block_type %}
                   {% when 'product_title' %}
-                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-text leading-tight mb-6">
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground leading-tight mb-6">
                       {{ product.title }}
                     </h1>
                   {% when 'product_price' %}
                     <div class="product-price bg-background rounded-2xl mb-8">
                       <div class="flex items-baseline gap-3 mb-6">
                         {% if product.compare_at_price > product.price %}
-                          <span class="text-4xl text-text">
+                          <span class="text-4xl text-foreground">
                             {{ product.price | money }}
                           </span>
-                          <span class="text-2xl font-medium text-text-secondary line-through">
+                          <span class="text-2xl font-medium text-muted line-through">
                             {{ product.compare_at_price | money }}
                           </span>
                           <span class="inline-flex items-center px-3 py-1 bg-error text-background text-sm font-bold rounded-full">
                             {{ 'products.product.save_amount' | t: amount: product.compare_at_price | minus: product.price | money }}
                           </span>
                         {% else %}
-                          <span class="text-4xl text-text">
+                          <span class="text-4xl text-foreground">
                             {{ product.price | money }}
                           </span>
                         {% endif %}
@@ -371,7 +370,7 @@
                     </div>
                   {% when 'product_description' %}
                     {% if product.description != blank %}
-                      <div class="product-short-description text-base leading-relaxed text-text-secondary mb-6 pb-6">
+                      <div class="product-short-description text-base leading-relaxed text-muted mb-6 pb-6">
                         {{ product.description | strip_html | truncate: 200 }}
                       </div>
                     {% endif %}
@@ -389,9 +388,9 @@
                         </script>
                         {% for option in product.options_with_values %}
                           <div class="variant-option">
-                            <label class="block text-sm font-semibold text-text mb-3">
+                            <label class="block text-sm font-semibold text-foreground mb-3">
                               {{ option.name }}
-                              <span class="font-normal text-text-secondary ml-2" data-selected-value-{{ option.name | handle }}>
+                              <span class="font-normal text-muted ml-2" data-selected-value-{{ option.name | handle }}>
                                 {% if option.selected_value %}
                                   - {{ option.selected_value }}
                                 {% endif %}
@@ -421,10 +420,10 @@
                                     for="Option-{{ option.name | handle }}-{{ value | handle }}"
                                   class="inline-flex items-center justify-center min-w-[60px] px-4 py-2.5 text-sm font-medium rounded-lg border cursor-pointer transition-all duration-200
                                          {% if variant_for_value.available %}
-                                           border-border/80 bg-background text-text hover:border-border
-                                           peer-checked:border-primary peer-checked:bg-primary peer-checked:text-background
+                                           border-border/80 bg-background text-foreground hover:border-border
+                                           peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground
                                          {% else %}
-                                           border-border/60 bg-border/15 text-text-secondary/60 cursor-not-allowed line-through
+                                           border-border/60 bg-border/15 text-muted/60 cursor-not-allowed line-through
                                          {% endif %}"
                                   >
                                     {{ value }}
@@ -441,7 +440,7 @@
                   {% when 'quantity_selector' %}
                     <div class="flex items-start gap-4">
                       <div class="flex-shrink-0">
-                        <label class="block text-sm font-semibold text-text mb-3">
+                        <label class="block text-sm font-semibold text-foreground mb-3">
                           {{ 'products.product.quantity' | t }}
                         </label>
                         {% render 'quantity-input', 
@@ -472,7 +471,7 @@
                             ref="addToCartButton"
                             on:click="/handleClick"
                             data-add-to-cart-button
-                            class="relative w-full px-8 py-4 text-lg font-bold text-background rounded-xl shadow-lg bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary active:scale-[0.99]"
+                            class="btn btn-primary w-full text-lg font-semibold"
                           >
                             <span class="flex items-center justify-center gap-3">
                               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -480,7 +479,7 @@
                               </svg>
                               <span data-add-to-cart-text>{{ 'products.product.add_to_cart' | t }}</span>
                             </span>
-                            <span class="absolute inset-0 flex items-center justify-center gap-2 text-base font-semibold text-background transition-opacity duration-200 opacity-0 pointer-events-none" ref="addToCartSuccess">
+                            <span class="absolute inset-0 flex items-center justify-center gap-2 text-base font-semibold text-primary-foreground transition-opacity duration-200 opacity-0 pointer-events-none" ref="addToCartSuccess">
                               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                               </svg>
@@ -495,7 +494,7 @@
                         <button 
                           type="button"
                           disabled
-                          class="w-full px-8 py-4 text-lg font-bold text-background bg-text-secondary/40 rounded-lg cursor-not-allowed opacity-60"
+                          class="btn w-full text-lg font-semibold bg-muted/40 text-primary-foreground cursor-not-allowed"
                         >
                           {{ 'products.product.sold_out' | t }}
                         </button>
@@ -516,13 +515,13 @@
 <div class="lg:hidden fixed bottom-0 inset-x-0 bg-background/95 backdrop-blur z-40 transform translate-y-full transition-transform duration-300" id="stickyCartBar">
   <div class="px-4 py-3 flex items-center gap-3">
     <div class="flex-1 min-w-0">
-      <p class="text-xs text-text-secondary truncate">{{ product.title }}</p>
-      <p class="text-lg font-bold text-text">{{ product.price | money }}</p>
+      <p class="text-xs text-muted truncate">{{ product.title }}</p>
+      <p class="text-lg font-bold text-foreground">{{ product.price | money }}</p>
     </div>
     <button 
       type="button"
       onclick="document.querySelector('form.product-form').requestSubmit()"
-      class="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 text-base font-bold text-background bg-primary rounded-lg active:scale-95 transition-transform"
+      class="btn btn-primary flex-shrink-0 px-6 py-3 text-base font-bold"
       data-sticky-add-to-cart
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -599,14 +598,14 @@
         if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
           if (addToCartButton.disabled) {
             stickyCartButton.disabled = true;
-            stickyCartButton.classList.add('opacity-60', 'cursor-not-allowed', 'bg-text-secondary/40');
+            stickyCartButton.classList.add('opacity-60', 'cursor-not-allowed', 'bg-muted/40');
             stickyCartButton.classList.remove('bg-primary');
             if (stickyCartText) {
               stickyCartText.textContent = '{{ 'products.product.sold_out' | t }}';
             }
           } else {
             stickyCartButton.disabled = false;
-            stickyCartButton.classList.remove('opacity-60', 'cursor-not-allowed', 'bg-text-secondary/40');
+            stickyCartButton.classList.remove('opacity-60', 'cursor-not-allowed', 'bg-muted/40');
             stickyCartButton.classList.add('bg-primary');
             if (stickyCartText) {
               stickyCartText.textContent = '{{ 'products.product.add_to_cart' | t }}';

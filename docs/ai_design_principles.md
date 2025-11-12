@@ -41,22 +41,22 @@
 ### 3.1 Shopify Scheme 为唯一来源
 - 禁止直接使用 Tailwind 原始调色板 (`blue-500` 等)。
 - 仅引用 `settings_schema.json`、`settings_data.json` 中定义的语义色（如 `settings.color_primary`、`settings.color_text`、`settings.color_background`）。
-- 通过 `color-scheme` 包裹与语义 Tailwind 工具（`bg-surface`, `text-foreground`, `bg-primary` 等）绑定颜色。
+- 通过 `color-scheme` 包裹与语义 Tailwind 工具（`bg-background`, `text-foreground`, `bg-primary` 等）绑定颜色。
 - 品牌差异通过 `docs/brand_color_playbook.md` 中的流程创建新 scheme；不要在组件中硬编码色值。
 
 ### 3.2 操作意图一致
-- **Primary actions**：所有关键操作使用统一的主色与填充样式。
-- **Secondary actions**：全部采用一致的描边或浅色填充模式，避免出现多种次要样式。
+- **Primary actions**：所有关键操作使用 `.btn.btn-primary`（主色填充 + 统一 hover）。
+- **Secondary actions**：统一采用 `.btn.btn-outline-primary`（描边/透明背景，`.btn.btn-secondary` 仅作兼容别名），不要自定义渐变或反色。
 - **Destructive actions**：破坏性操作仅使用 `settings.color_error` 及匹配的语义工具类。
 
 ### 3.3 对比度、反色与辅助状态
-- 文本与背景必须满足 WCAG AA（至少 4.5:1）。使用 `text-foreground`、`text-muted` 配合 `bg-surface`、`bg-inverse` 保证层级。
+- 文本与背景必须满足 WCAG AA（至少 4.5:1）。使用 `text-foreground`/`text-muted` 配合 `bg-background`/`bg-inverse` 保证层级；当需要浮起层次时，在内层容器使用 `bg-surface`。
 - 透明度叠加（如 `bg-primary/10`）时需重新检查对比度。
 - 反色模块（深色 footer、hero overlay）使用 `bg-inverse` + `text-inverse-foreground`，不得混用浅色文本类。
 - 错误/成功/警告必须由 `text-error` 等语义类驱动，禁止将品牌色复用为危险状态。
 
 ## 4. 意图明确的排版
-- 仅使用主题预设的排版层级（`text-h1`、`text-h2`、`text-body`、`text-label`、`text-caption` 等）；禁止 `text-[15px]`、`font-[520]` 等任意值。
+- 仅使用 `docs/visual_spec.md` 中定义的 Tailwind 组合（如 `text-5xl sm:text-6xl`、`text-3xl sm:text-4xl`、`text-base leading-relaxed` 等）；禁止 `text-[15px]`、`font-[520]` 等任意值。
 - `font-heading` 与 `font-body` 在 `layout/theme.liquid` 中已注入，保持与 tokens 对齐。
 - 长文本（商品描述、博客、常见问题）默认 `leading-relaxed`，需要紧凑节奏时再降级；不要将正文行高低于 `leading-normal`。
 - 行长控制在 60–72 字符；超出时用分栏或图文布局分割。
@@ -87,7 +87,7 @@ AI 必须严格执行下列状态；只允许在描述的范围内选择具体 T
   - 其他状态沿用 Primary 的 focus/active/disabled 约束。
 
 ### 6.2 卡片 / Surface
-- 默认：`bg-surface shadow-sm rounded-lg` 或命名 tokens 提供的同等级样式。
+- 默认：`bg-background shadow-sm rounded-lg`；如需更强的层次（卡片/模态内部容器），可在内层使用 `bg-surface`。
 - `hover:` 只有可点击卡片才提升海拔（`shadow-lg translate-y-[-2px]`）；静态卡片保持不变。
 - 所有卡片都应与父级 `color-scheme` 对齐，并在需要时通过 `divide-*` 或 `border-border/50` 表现分隔。
 

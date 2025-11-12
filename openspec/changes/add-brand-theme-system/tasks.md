@@ -47,7 +47,7 @@
   - [x] `snippets/image.liquid` - Use token spacing/borders
 - [x] 2.4 Update component classes in `src/css/tailwind.css`:
   - [x] `.btn-primary` - Use `var(--color-primary)`
-  - [x] `.btn-secondary` - Use `var(--color-secondary)`
+  - [x] `.btn-outline-primary`（兼容 `.btn-secondary`） - Use `var(--color-primary)` outline tokens
   - [x] All component classes reference tokens
 
 ## 3. Theme Preset System
@@ -105,4 +105,3 @@
   - [x] Token reference documentation (all available tokens in settings_schema.json and CSS comments)
   - [x] Token value calculator/helper (preset files serve as examples)
   - [x] Preset comparison tool (optional - deferred, can be added later if needed)
-

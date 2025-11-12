@@ -151,13 +151,6 @@
           },
           {
             "type": "color",
-            "id": "accent",
-            "label": "Accent & links",
-            "default": "#1D4ED8",
-            "alpha": true
-          },
-          {
-            "type": "color",
             "id": "primary",
             "label": "Primary action",
             "default": "#2563EB",
@@ -175,27 +168,6 @@
             "id": "primary_hover",
             "label": "Primary action hover",
             "default": "#1D4ED8",
-            "alpha": true
-          },
-          {
-            "type": "color",
-            "id": "secondary",
-            "label": "Secondary action background",
-            "default": "#FFFFFF",
-            "alpha": true
-          },
-          {
-            "type": "color",
-            "id": "secondary_foreground",
-            "label": "Secondary action text",
-            "default": "#111827",
-            "alpha": true
-          },
-          {
-            "type": "color",
-            "id": "secondary_border",
-            "label": "Secondary action border",
-            "default": "#E5E7EB",
             "alpha": true
           },
           {
@@ -235,20 +207,6 @@
           },
           {
             "type": "color",
-            "id": "inverse_background",
-            "label": "Inverse background",
-            "default": "#0F172A",
-            "alpha": true
-          },
-          {
-            "type": "color",
-            "id": "inverse_foreground",
-            "label": "Inverse text",
-            "default": "#F8FAFC",
-            "alpha": true
-          },
-          {
-            "type": "color",
             "id": "shadow",
             "label": "Shadow color",
             "default": "#000000",
@@ -257,15 +215,15 @@
         ],
         "role": {
           "text": "foreground",
+          "links": "primary",
           "background": "background",
-          "links": "accent",
           "icons": "foreground",
           "primary_button": "primary",
           "on_primary_button": "primary_foreground",
           "primary_button_border": "primary",
-          "secondary_button": "secondary",
-          "on_secondary_button": "secondary_foreground",
-          "secondary_button_border": "secondary_border"
+          "secondary_button": "primary",
+          "on_secondary_button": "primary_foreground",
+          "secondary_button_border": "primary"
         }
       }
     ]

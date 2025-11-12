@@ -22,12 +22,12 @@
 
 | 角色 | Tailwind 类 | 典型用途 |
 |------|-------------|----------|
-| 页面背景 | `bg-background text-foreground` | Section/页面主体 |
-| Surface（卡片/模态） | `bg-surface text-foreground shadow-sm rounded-lg` | 普通卡片 |
-| Muted Surface | `bg-surface-muted text-foreground` | 分组背景、空状态 |
+| 页面背景 | `bg-background text-foreground` | Section/页面主体（推荐） |
+| Surface（卡片/模态） | `bg-surface text-foreground shadow-sm rounded-lg` | 浮起的卡片容器；保持与父级背景对比 |
+| Muted Surface | `bg-surface-muted text-foreground` | 分组背景、空状态（可选） |
 | Primary CTA | `bg-primary text-primary-foreground` | 主按钮、badge |
-| Secondary CTA | `bg-secondary text-secondary-foreground border border-secondary-border` | 次按钮、ghost CTA |
-| 文本语义 | `text-text`（正文）、`text-text-secondary`（说明）、`text-muted`（占位） | 任何文本 |
+| Secondary CTA | `.btn.btn-outline-primary`（描边/透明背景，旧版 `.btn.btn-secondary` 为兼容别名） | 次按钮、ghost CTA |
+| 文本语义 | `text-foreground`（正文）、`text-muted`（说明/占位） | 任何文本 |
 | 分隔线/边框 | `border border-border`、`divide-border/60` | 列表、卡片分隔 |
 | 输入 | `bg-input border-input-border text-input-foreground` | Input/textarea |
 | 反馈 | `text-error`, `text-success`, `text-warning` | 校验、状态 |
@@ -35,7 +35,8 @@
 | 反色块 | `bg-inverse text-inverse-foreground` | 深色 Footer / Toast |
 
 规范：
-- 不得使用 Tailwind 原始色号 (`bg-blue-500`)；全部使用上述语义类或 `text-foreground/80` 形式的透明度语法。
+- 不得使用 Tailwind 原始色号 (`bg-blue-500`)；全部使用上述语义类；默认正文使用 `text-foreground`，次级文本使用 `text-muted`。
+- Section 或 Block 的根背景由 `color-scheme` 决定，默认 `bg-background`。浮起卡片/模态一律使用 `bg-surface`，需要更软的分组背景再切换 `bg-surface-muted`。
 - 单色背景不使用 border 分割，使用 `shadow-*` 或不同 surface 层级。
 - 透明叠加通过 `/opacity`：如 `bg-primary/10`, `text-foreground/70`。
 
@@ -44,7 +45,7 @@
 ## 3. 排版系统
 
 ### 3.1 字体家族
-- 根节点：`<body class="font-body antialiased text-text bg-background">`
+- 根节点：`<body class="font-body antialiased text-foreground bg-background">`
 - 需要强调的标题：`font-heading`（可与 `tracking-tight` 搭配）。
 
 ### 3.2 语义层级
@@ -55,9 +56,9 @@
 | **H1 / 页面标题** | `text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground` | 列表页主标题 |
 | **H2 / 区块标题** | `text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-4` | Section 标题 |
 | **H3 / 卡片标题** | `text-2xl font-semibold text-foreground` 或 `text-xl font-semibold` | 卡片或详情子区块 |
-| **Eyebrow / Meta** | `text-xs font-medium uppercase tracking-[0.2em] text-text-secondary` | 标题上方标签 |
-| **Body** | `text-base leading-relaxed text-text` | 正文段落 |
-| **Body Small** | `text-sm leading-relaxed text-text-secondary` | 摘要、次要信息 |
+| **Eyebrow / Meta** | `text-xs font-medium uppercase tracking-[0.2em] text-muted` | 标题上方标签 |
+| **Body** | `text-base leading-relaxed text-foreground` | 正文段落 |
+| **Body Small** | `text-sm leading-relaxed text-muted` | 摘要、次要信息 |
 | **Label / CTA 文案** | `text-sm font-medium` 或 `text-base font-medium` | 按钮、标签 |
 
 规则：
@@ -100,9 +101,9 @@
 
 | 类型 | 类组合 |
 |------|--------|
-| Primary | `inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-primary text-primary-foreground font-medium shadow-sm hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 active:scale-95 disabled:opacity-50 disabled:pointer-events-none` |
-| Secondary | `inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-secondary-border text-primary bg-transparent hover:bg-primary/10`（focus/active/disabled 同上） |
-| Text / Ghost | `inline-flex items-center gap-1 text-primary font-medium hover:bg-primary/10 rounded-full px-3 py-2` |
+| Primary | `btn btn-primary`（可叠加 `w-full`, `text-lg` 等尺寸类） |
+| Secondary / Outline | `btn btn-outline-primary`（描边/透明背景，承袭主色；`.btn.btn-secondary` 为兼容别名） |
+| Text / Ghost | `btn px-3 py-2 text-primary bg-transparent hover:bg-primary/10` |
 
 所有按钮遵循最小 44px 高度，可通过 `min-h-11` 保证触控。
 
@@ -110,14 +111,14 @@
 
 ```
 <article class="bg-surface text-foreground rounded-xl shadow-sm p-6 flex flex-col gap-4">
-  <div class="flex items-center justify-between text-sm text-text-secondary">
+  <div class="flex items-center justify-between text-sm text-muted">
     ...
   </div>
   <h3 class="text-xl font-semibold text-foreground">标题</h3>
-  <p class="text-sm text-text-secondary leading-relaxed line-clamp-3">摘要</p>
+  <p class="text-sm text-muted leading-relaxed line-clamp-3">摘要</p>
   <div class="mt-auto flex items-center justify-between">
     <span class="text-primary font-medium">了解更多</span>
-    <button class="btn btn-secondary">Action</button>
+    <button class="btn btn-outline-primary">Action</button>
   </div>
 </article>
 ```
@@ -128,10 +129,10 @@
 ### 6.3 表单元素
 
 ```
-<label class="flex flex-col gap-2 text-sm font-medium text-text">
+<label class="flex flex-col gap-2 text-sm font-medium text-foreground">
   Email
-  <input class="h-11 px-4 rounded-lg border border-input-border bg-input text-input-foreground placeholder:text-text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus:border-primary transition" />
-  <p class="text-xs text-text-secondary">我们不会发送垃圾邮件</p>
+  <input class="h-11 px-4 rounded-lg border border-input-border bg-input text-input-foreground placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus:border-primary transition" />
+  <p class="text-xs text-muted">我们不会发送垃圾邮件</p>
 </label>
 ```
 
@@ -141,15 +142,15 @@
 
 ### 6.4 列表、标签与导航
 
-- 标签/Chips：`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-muted text-text text-sm`.
-- Meta 行：`flex items-center gap-2 text-xs text-text-secondary`.
+- 标签/Chips：`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-muted text-foreground text-sm`。
+- Meta 行：`flex items-center gap-2 text-xs text-muted`。
 - 导航：
   ```
-  <nav class="flex items-center gap-3 text-sm font-medium text-text-secondary">
+  <nav class="flex items-center gap-3 text-sm font-medium text-muted">
     <a class="px-3 py-2 rounded-full hover:bg-surface-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary/40">Link</a>
   </nav>
   ```
-- 列表容器 `space-y-6` 或 `divide-y divide-border/60`.
+- 列表容器 `space-y-6` 或 `divide-y divide-border/60`。
 
 ### 6.5 Hero / Section wrapper
 
@@ -157,22 +158,22 @@
 <section class="color-scheme color-{{ section.settings.color_scheme | default: 'scheme-1' }} bg-background">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 flex flex-col gap-10">
     <div class="max-w-3xl space-y-6">
-      <p class="text-sm uppercase tracking-[0.2em] text-text-secondary">Eyebrow</p>
+      <p class="text-sm uppercase tracking-[0.2em] text-muted">Eyebrow</p>
       <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-foreground">标题</h1>
-      <p class="text-lg leading-relaxed text-text-secondary">说明文案</p>
+      <p class="text-lg leading-relaxed text-muted">说明文案</p>
       <div class="flex flex-wrap gap-3">
         <a class="btn btn-primary">主操作</a>
-        <a class="btn btn-secondary">次操作</a>
+        <a class="btn btn-outline-primary">次操作</a>
       </div>
     </div>
-    <div class="grid grid-cols-2 gap-6 text-text-secondary text-sm">
+    <div class="grid grid-cols-2 gap-6 text-muted text-sm">
       ...
     </div>
   </div>
 </section>
 ```
 
-要点：Hero 背景可改为 `bg-primary-soft` 或 `bg-surface-muted`，但文字始终使用 `text-foreground` 与 `text-text-secondary`。
+要点：Hero 背景可改为 `bg-primary-soft` 或 `bg-surface-muted`，但文字始终使用 `text-foreground` 与 `text-muted`。
 
 ---
 
