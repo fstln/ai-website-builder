@@ -213,6 +213,10 @@ Component Classes (Tailwind utilities)
 - **Borders**: `border_radius_*`, `border_width`
 - **Shadows**: `shadow_*` (sm, md, lg, xl, 2xl)
 
+> **Fonts & head code**  
+> - Shopify 的 `font_picker` 结果在 `layout/theme.liquid` 中通过 `{{ settings.font_* | font_face: font_display: 'swap' }}` 注入 `@font-face`，不再需要手动维护 Google Fonts `<link>`。  
+> - 若需要额外的追踪脚本、像素或自定义 `<link>`，请使用 `settings.custom_head_markup`（Theme Editor → Custom Code → Head injections）。Liquid 会在 `</head>` 前输出该字段，避免直接改模板。
+
 #### Token Usage in Components
 - **Tailwind classes**: `bg-primary`, `text-muted`, `rounded-md`
 - **CSS variables**: `var(--color-primary)`, `var(--spacing-base)`

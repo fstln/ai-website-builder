@@ -800,10 +800,10 @@
         "label": "Container Max Width",
         "min": 1024,
         "max": 1920,
-        "step": 64,
+        "step": 16,
         "unit": "px",
-        "default": 1280,
-        "info": "Maximum width of container elements"
+        "default": 1376,
+        "info": "Maximum width of container elements (safe area)"
       }
     ]
   },
@@ -911,31 +911,51 @@
         "type": "text",
         "id": "social_instagram_link",
         "label": "Instagram",
-        "info": "https://www.instagram.com/yourbrand"
+        "info": "https://www.instagram.com/yourbrand",
+        "default": "https://www.instagram.com/yourbrand"
       },
       {
         "type": "text",
         "id": "social_facebook_link",
         "label": "Facebook",
-        "info": "https://www.facebook.com/yourbrand"
+        "info": "https://www.facebook.com/yourbrand",
+        "default": "https://www.facebook.com/yourbrand"
       },
       {
         "type": "text",
         "id": "social_tiktok_link",
         "label": "TikTok",
-        "info": "https://www.tiktok.com/@yourbrand"
+        "info": "https://www.tiktok.com/@yourbrand",
+        "default": "https://www.tiktok.com/@yourbrand"
       },
       {
         "type": "text",
         "id": "social_youtube_link",
         "label": "YouTube",
-        "info": "https://www.youtube.com/@yourbrand"
+        "info": "https://www.youtube.com/@yourbrand",
+        "default": "https://www.youtube.com/@yourbrand"
       },
       {
         "type": "text",
         "id": "social_twitter_link",
         "label": "Twitter / X",
-        "info": "https://twitter.com/yourbrand"
+        "info": "https://twitter.com/yourbrand",
+        "default": "https://twitter.com/yourbrand"
+      }
+    ]
+  },
+  {
+    "name": "Custom Code",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Head injections"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_head_markup",
+        "label": "Custom head markup",
+        "info": "Paste analytics snippets, tracking pixels, or external font links. Rendered before the closing head tag."
       }
     ]
   }

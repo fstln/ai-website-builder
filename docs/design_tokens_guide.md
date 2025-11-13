@@ -61,7 +61,7 @@ Sections & Snippets 中的 `bg-* / text-* / shadow-*` 等实用类（见 visual_
 
 | Setting / Token | 描述 | 使用位置 |
 |-----------------|------|----------|
-| `font_heading`, `font_body` | 字体家族 | `layout/theme.liquid` 写入 `--font-heading`, `--font-body`，在 `body` 或 `font-heading/font-body` 类中引用 |
+| `font_heading`, `font_body` | 字体家族 | `layout/theme.liquid` 写入 `--font-heading`, `--font-body`，在 `body` 或 `font-heading/font-body` 类中引用。Liquid 通过 `{{ settings.font_* | font_face: font_display: 'swap' }}` 自动输出 `@font-face`，无需再手动维护 Google Fonts `<link>`。 |
 | `text_size_*` | XS–XL 尺寸范围 | 供 AI 在 `visual_spec` 约定的排版层级中选择合适的 Tailwind 组合 |
 | `font_weight_normal/bold` | 字重上限 | 配合 `font-normal`, `font-bold`, `font-semibold` |
 | `line_height_*` | 行高基线 | 与 `leading-snug/relaxed` 等 Tailwind 类配合 |
@@ -111,7 +111,8 @@ Sections & Snippets 中的 `bg-* / text-* / shadow-*` 等实用类（见 visual_
 1. **确定变更范围**  
    - 仅需为当前店铺换肤 → 修改 `config/settings_data.json > current`。  
    - 需要复用的品牌预设 → 在 `config/themes/` 新建 JSON，并在 `settings_data.json` 引用。  
-   - 需要新增可配置项 → 修改 `config/settings_schema.json`（谨慎，需保持与 Liquid/CSS 对应的变量名一致）。
+   - 需要新增可配置项 → 修改 `config/settings_schema.json`（谨慎，需保持与 Liquid/CSS 对应的变量名一致）。  
+   - 需要插入追踪/第三方 `<script>` 或额外字体 `<link>` → 首选 `settings.custom_head_markup`（Theme Editor 中的「Custom Code」区域），避免直接改 `layout/theme.liquid`。
 
 2. **更新运行时代码（如有必要）**  
    - 新增颜色角色 ⇒ 同步更新 `snippets/color-schemes.liquid` 与 `tailwind.config.js`。  

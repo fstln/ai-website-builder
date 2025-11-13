@@ -152,7 +152,7 @@
           {% for block in section.blocks %}
             {% case block.type %}
               {% when 'cart_subtotal' %}
-                <div class="color-scheme color-{{ block.settings.color_scheme | default: 'scheme-1' }} cart-summary bg-background p-6 sm:p-8 rounded-2xl sticky top-4" {{ block.shopify_attributes }}>
+                <div class="color-scheme color-{{ block.settings.color_scheme | default: 'scheme-1' }} cart-summary bg-surface p-6 sm:p-8 rounded-2xl sticky top-4" {{ block.shopify_attributes }}>
                   <h2 class="text-2xl font-bold text-foreground mb-6">{{ 'general.cart.subtotal' | t }}</h2>
                   <div class="flex justify-between items-baseline pb-6 mb-6">
                     <span class="text-lg font-medium text-muted">{{ 'general.cart.subtotal' | t }}</span>

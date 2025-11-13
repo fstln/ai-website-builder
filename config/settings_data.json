@@ -59,6 +59,11 @@
     "brand_density": "normal",
     "brand_scale": "medium",
     "brand_boldness": 60,
+    "social_instagram_link": "https://www.instagram.com/yourbrand",
+    "social_facebook_link": "https://www.facebook.com/yourbrand",
+    "social_tiktok_link": "https://www.tiktok.com/@yourbrand",
+    "social_youtube_link": "https://www.youtube.com/@yourbrand",
+    "social_twitter_link": "https://twitter.com/yourbrand",
     "transition_duration": 250,
     "hover_opacity": 90,
     "hover_scale": 101,
@@ -66,7 +71,7 @@
     "section_spacing": 96,
     "content_padding": 28,
     "grid_gap": 28,
-    "container_max_width": 1280,
+    "container_max_width": 1376,
     "color_schemes": {
       "scheme-1": {
         "settings": {

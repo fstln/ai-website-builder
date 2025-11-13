@@ -35,12 +35,18 @@
           assign opacity_40 = 0.4
           assign opacity_60 = 0.6
         endif
-        if background_brightness < 80
-          assign surface_base = color_background | color_mix: '#ffffff', 12
-          assign surface_muted = color_background | color_mix: '#ffffff', 24
+        if background_brightness >= 85
+          assign surface_base = color_background | color_darken: 3
+          assign surface_muted = color_background | color_darken: 8
+        elsif background_brightness >= 65
+          assign surface_base = color_background | color_darken: 6
+          assign surface_muted = color_background | color_darken: 12
+        elsif background_brightness >= 45
+          assign surface_base = color_background | color_mix: '#ffffff', 18
+          assign surface_muted = color_background | color_mix: '#ffffff', 30
         else
-          assign surface_base = color_background | color_mix: color_foreground, 8
-          assign surface_muted = color_background | color_mix: color_foreground, 16
+          assign surface_base = color_background | color_mix: '#ffffff', 28
+          assign surface_muted = color_background | color_mix: '#ffffff', 40
         endif
         assign primary_soft = color_primary | color_mix: color_background, 70
         assign inverse_surface = color_inverse_background | color_mix: '#000000', 15

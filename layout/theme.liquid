@@ -23,11 +23,14 @@
   {%- endif -%}
   
   {{ content_for_header }}
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  {% style %}
+    {% if settings.font_heading %}
+      {{ settings.font_heading | font_face: font_display: 'swap' }}
+    {% endif %}
+    {% if settings.font_body %}
+      {{ settings.font_body | font_face: font_display: 'swap' }}
+    {% endif %}
+  {% endstyle %}
   
   {{ 'theme.css' | asset_url | stylesheet_tag }}
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
@@ -242,6 +245,9 @@
       --container-max-width: {{ container_max_width_base }}px;
     }
   </style>
+  {% if settings.custom_head_markup != blank %}
+    {{ settings.custom_head_markup }}
+  {% endif %}
 </head>
 
 <body class="template-{{ template.name }}">

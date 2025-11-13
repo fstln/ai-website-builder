@@ -2,11 +2,19 @@
   "sections": {
     "main-cart": {
       "type": "main-cart",
-      "settings": {}
+      "settings": {},
+      "blocks": {
+        "main-cart_subtotal": {
+          "type": "cart_subtotal",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "main-cart_subtotal"
+      ]
     }
   },
   "order": [
     "main-cart"
   ]
 }
-
