@@ -51,9 +51,7 @@
     {% endunless %}
   >
     <span class="sr-only">{{ 'products.product.quantity_decrease' | t: product: qty_label }}</span>
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"></path>
-    </svg>
+    {% render 'icon', name: 'minus', class: 'w-4 h-4' %}
   </button>
   
   <input
@@ -84,9 +82,7 @@
     {% if max and qty_value >= max %}disabled{% endif %}
   >
     <span class="sr-only">{{ 'products.product.quantity_increase' | t: product: qty_label }}</span>
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
-    </svg>
+    {% render 'icon', name: 'plus', class: 'w-4 h-4' %}
   </button>
 </{{ component_name }}>
 
