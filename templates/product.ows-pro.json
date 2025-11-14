@@ -9,49 +9,95 @@
  */
 {
   "sections": {
-    "main_product_qF9DQF": {
+    "main-product": {
       "type": "main-product",
+      "settings": {}
+    },
+    "custom_hero_ows_pro_HMeKkE": {
+      "type": "custom-hero-ows-pro",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "eyebrow_text": "OWS Pro",
+        "heading": "HEAR THE BASS, NOT THE NOISE",
+        "subheading": "<p>Tired of 'tinny' open-ear sound? Our patented tech delivers deep, rich bass you can feel, while Focus Mode tunes out ambient voices.<\/p>",
+        "cta_text": "Shop Now"
+      }
+    },
+    "custom_feature_list_ows_pro_Jz9b4B": {
+      "type": "custom-feature-list-ows-pro",
       "blocks": {
-        "product_title_TjhQwJ": {
-          "type": "product_title",
-          "settings": {}
+        "feature_NqE4jP": {
+          "type": "feature",
+          "settings": {
+            "icon": "<svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z\" \/><\/svg>",
+            "heading": "GO FOR WEEKS, NOT DAYS",
+            "description": "Stop worrying about your battery. The OWS Pro offers a staggering 58 hours of total playtime."
+          }
         },
-        "product_price_U8tjJt": {
-          "type": "product_price",
-          "settings": {}
+        "feature_p3zfbB": {
+          "type": "feature",
+          "settings": {
+            "icon": "<svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z\" \/><\/svg>",
+            "heading": "HEAR THE BASS, NOT THE NOISE",
+            "description": "Our patented tech delivers deep, rich bass you can feel, while Focus Mode tunes out ambient voices."
+          }
         },
-        "product_description_hgj6Ec": {
-          "type": "product_description",
-          "settings": {}
-        },
-        "variant_selector_BKxrtd": {
-          "type": "variant_selector",
-          "settings": {}
-        },
-        "quantity_selector_dfreaf": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons_FnBVJA": {
-          "type": "buy_buttons",
-          "settings": {}
+        "feature_yKzJbJ": {
+          "type": "feature",
+          "settings": {
+            "icon": "<svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 2.44m5.96 11.93a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.314.06a6 6 0 01-2.278-3.643 14.977 14.977 0 01-6.34-12.05A14.977 14.977 0 019.63 2.44m0 13.93a6 6 0 01-3.643 2.278 14.977 14.977 0 01-12.05-6.34 14.977 14.977 0 0112.05-6.34 14.977 14.977 0 016.34 12.05 6 6 0 01-2.278 3.643z\" \/><\/svg>",
+            "heading": "FORGET YOU'RE WEARING THEM",
+            "description": "No buds in your ear, no pain, no pressure. Just pure comfort and a wide, open soundstage."
+          }
         }
       },
       "block_order": [
-        "product_title_TjhQwJ",
-        "product_price_U8tjJt",
-        "product_description_hgj6Ec",
-        "variant_selector_BKxrtd",
-        "quantity_selector_dfreaf",
-        "buy_buttons_FnBVJA"
+        "feature_NqE4jP",
+        "feature_p3zfbB",
+        "feature_yKzJbJ"
       ],
-      "name": "Main Product",
       "settings": {
-        "color_scheme": ""
+        "color_scheme": "scheme-1",
+        "heading": "Elevate Your Listening Experience"
+      }
+    },
+    "custom_social_proof_ows_pro_eKz7bC": {
+      "type": "custom-social-proof-ows-pro",
+      "blocks": {
+        "testimonial_xJz4bB": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "This is the best open-ear headphone I have ever used. The bass is incredible, and they are so comfortable I forget I'm wearing them.",
+            "author_name": "Alex Johnson",
+            "author_title": "Verified Buyer"
+          }
+        },
+        "testimonial_yKzJbJ": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "The 58-hour battery life is a game-changer for my long work weeks. I rarely have to think about charging.",
+            "author_name": "Samantha Lee",
+            "author_title": "TechCrunch Review"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_xJz4bB",
+        "testimonial_yKzJbJ"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "Don't just take our word for it",
+        "description": "See what our customers and the press are saying about the OWS Pro."
       }
     }
   },
   "order": [
-    "main_product_qF9DQF"
+    "main-product",
+    "custom_hero_ows_pro_HMeKkE",
+    "custom_feature_list_ows_pro_Jz9b4B",
+    "custom_social_proof_ows_pro_eKz7bC"
   ]
 }
