@@ -1,0 +1,249 @@
+{%- comment -%}
+  This section builds trust and provides social proof through customer testimonials and media logos.
+  It uses a clean, card-based layout to present information in an organized and credible way.
+{%- endcomment -%}
+
+{%- liquid
+  assign section_id = 'custom-social-proof-' | append: section.id
+  assign bg_color = section.settings.background_color
+  assign text_color = section.settings.text_color
+-%}
+
+<style>
+  #{{ section_id }} {
+    background-color: {{ bg_color }};
+    color: {{ text_color }};
+    padding: clamp(3rem, 7vw, 6rem) 0;
+  }
+
+  #{{ section_id }} .container-custom {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 1.5rem;
+    text-align: center;
+  }
+
+  #{{ section_id }} .social-proof__main-headline {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 3rem;
+  }
+
+  #{{ section_id }} .social-proof__reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    #{{ section_id }} .social-proof__reviews-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  #{{ section_id }} .review-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #{{ section_id }} .review-card__stars {
+    display: flex;
+    gap: 0.25rem;
+    color: #FBBF24; /* A gold-like color for stars */
+    margin-bottom: 1rem;
+  }
+  
+  #{{ section_id }} .review-card__star-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  #{{ section_id }} .review-card__text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+  }
+
+  #{{ section_id }} .review-card__author {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  #{{ section_id }} .social-proof__media-headline {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: #6B7280;
+  }
+
+  #{{ section_id }} .social-proof__media-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem 4rem;
+  }
+
+  #{{ section_id }} .media-logo__image {
+    max-height: 40px;
+    width: auto;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+  }
+  
+  #{{ section_id }} .media-logo__image:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+</style>
+
+<section id="{{ section_id }}">
+  <div class="container-custom">
+    <h2 class="social-proof__main-headline">{{ section.settings.headline | escape }}</h2>
+
+    <div class="social-proof__reviews-grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'review' -%}
+          <div class="review-card" {{ block.shopify_attributes }}>
+            <div class="review-card__stars">
+              {%- for i in (1..5) -%}
+                <svg class="review-card__star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10.868 2.884c.321-.662 1.215-.662 1.536 0l1.883 3.862 4.26.62c.73.107 1.02.998.494 1.512l-3.083 2.99.728 4.242c.124.727-.638 1.28-1.29.945L10 15.347l-3.818 2.007c-.652.335-1.414-.218-1.29-.945l.728-4.242-3.083-2.99c-.527-.514-.237-1.405.494-1.512l4.26-.62 1.883-3.862z" clip-rule="evenodd" />
+                </svg>
+              {%- endfor -%}
+            </div>
+            <p class="review-card__text">{{ block.settings.text | escape }}</p>
+            <p class="review-card__author">{{ block.settings.author | escape }}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <h3 class="social-proof__media-headline">{{ section.settings.media_headline | escape }}</h3>
+    <div class="social-proof__media-logos">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'media_logo' -%}
+          <div class="media-logo" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 300 }}"
+                alt="{{ block.settings.image.alt | default: 'Media publication logo' | escape }}"
+                width="150"
+                height="40"
+                loading="lazy"
+                class="media-logo__image"
+              >
+            {%- else -%}
+              <img
+                src="https://placehold.co/150x40/FFFFFF/CCCCCC?text=MEDIA"
+                alt="Placeholder for media logo"
+                width="150"
+                height="40"
+                loading="lazy"
+                class="media-logo__image"
+              >
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Social Proof",
+  "tag": "section",
+  "class": "custom-social-proof-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#F8F8FC"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Loved by Listeners, Praised by Pros"
+    },
+    {
+      "type": "text",
+      "id": "media_headline",
+      "label": "Media Headline",
+      "default": "As Featured In"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Customer Review",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review Text",
+          "default": "Finally, open-ear headphones with REAL bass. I can wear these all day and completely forget they're on. Game changer for my workouts."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Alex R."
+        }
+      ]
+    },
+    {
+      "type": "media_logo",
+      "name": "Media Logo",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Social Proof",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "media_logo" },
+        { "type": "media_logo" },
+        { "type": "media_logo" },
+        { "type": "media_logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}
