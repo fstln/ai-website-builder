@@ -2,12 +2,24 @@
   "type": "header",
   "name": "Header group",
   "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "color_scheme": "scheme-announcement",
+        "badge_text": "Shipping update",
+        "message": "Free worldwide shipping on orders over $90",
+        "link_label": "Shop now",
+        "link_url": "/collections/all",
+        "open_in_new_tab": false
+      }
+    },
     "main-header": {
       "type": "main-header",
       "settings": {}
     }
   },
   "order": [
+    "announcement-bar",
     "main-header"
   ]
 }

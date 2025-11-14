@@ -1,0 +1,157 @@
+{% comment %}
+  Announcement Bar Section
+  Single-message banner with brand blue background, intended for the header group.
+{% endcomment %}
+
+{% liquid
+  assign section_color_scheme = section.settings.color_scheme | default: 'scheme-announcement'
+  assign badge_text = section.settings.badge_text
+  assign message = section.settings.message
+  assign link_label = section.settings.link_label
+  assign link_url = section.settings.link_url
+  assign open_in_new_tab = section.settings.open_in_new_tab
+%}
+
+{% if message != blank %}
+  <section class="announcement-bar color-scheme color-{{ section_color_scheme }}" role="region" aria-label="{{ 'sections.announcement_bar.label' | t | default: 'Announcement bar' }}">
+    <div class="announcement-bar__inner container-custom">
+      <div class="announcement-bar__content">
+        {% if badge_text != blank %}
+          <span class="announcement-bar__badge">{{ badge_text }}</span>
+        {% endif %}
+
+        <span class="announcement-bar__text">{{ message }}</span>
+
+        {% if link_label != blank and link_url != blank %}
+          <a
+            class="announcement-bar__link"
+            href="{{ link_url }}"
+            {% if open_in_new_tab %}target="_blank" rel="noopener"{% endif %}
+          >
+            {{ link_label }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% stylesheet %}
+.announcement-bar {
+  background-color: rgb(var(--color-background-rgb));
+  color: var(--color-foreground);
+}
+
+.announcement-bar__inner {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--spacing-2);
+}
+
+.announcement-bar__content {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-3);
+  text-align: center;
+  flex-wrap: wrap;
+  font-size: var(--text-size-sm);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.announcement-bar__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: 4px 12px;
+  border-radius: 999px;
+  background-color: rgb(var(--color-foreground-rgb) / 0.15);
+  color: var(--color-foreground);
+  font-size: var(--text-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.announcement-bar__text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.announcement-bar__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-weight: 600;
+  text-decoration: underline;
+  color: currentColor;
+}
+
+.announcement-bar__link:hover,
+.announcement-bar__link:focus-visible {
+  color: rgb(var(--color-foreground-rgb));
+}
+
+@media screen and (max-width: 768px) {
+  .announcement-bar__content {
+    gap: var(--spacing-2);
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "class": "section-announcement-bar",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-announcement"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "Shipping update"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "message",
+      "label": "Message",
+      "default": "Free worldwide shipping on orders over $90"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_tab",
+      "label": "Open link in new tab",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement bar"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}

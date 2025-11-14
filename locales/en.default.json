@@ -73,6 +73,11 @@
     "account": "Account",
     "log_in": "Log in"
   },
+  "sections": {
+    "announcement_bar": {
+      "label": "Announcement bar"
+    }
+  },
   "footer": {
     "newsletter_placeholder": "Enter your email"
   },
@@ -257,4 +262,3 @@
     "star_reviews_info": "{{ rating_value }} out of {{ rating_max }} stars"
   }
 }
-

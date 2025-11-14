@@ -150,6 +150,23 @@
           "input_border": "#e0e0e0",
           "shadow": "#000000"
         }
+      },
+      "scheme-announcement": {
+        "settings": {
+          "background": "#5e89ff",
+          "foreground": "#ffffff",
+          "foreground_heading": "#ffffff",
+          "muted": "#f2f6ff",
+          "primary": "#ffffff",
+          "primary_foreground": "#5e89ff",
+          "primary_hover": "#e0e7ff",
+          "border": "#4b6ed8",
+          "decorative": "#a8b8ff",
+          "input_background": "#5e89ff",
+          "input_foreground": "#ffffff",
+          "input_border": "#ffffff",
+          "shadow": "#000000"
+        }
       }
     },
     "button_corner_radius": 12,
@@ -237,6 +254,23 @@
             "input_background": "#FFFFFF",
             "input_foreground": "#333333",
             "input_border": "#E0E0E0",
+            "shadow": "#000000"
+          }
+        },
+        "scheme-announcement": {
+          "settings": {
+            "background": "#5E89FF",
+            "foreground": "#FFFFFF",
+            "foreground_heading": "#FFFFFF",
+            "muted": "#F2F6FF",
+            "primary": "#FFFFFF",
+            "primary_foreground": "#5E89FF",
+            "primary_hover": "#E0E7FF",
+            "border": "#4B6ED8",
+            "decorative": "#A8B8FF",
+            "input_background": "#5E89FF",
+            "input_foreground": "#FFFFFF",
+            "input_border": "#FFFFFF",
             "shadow": "#000000"
           }
         }

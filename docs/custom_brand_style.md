@@ -94,6 +94,7 @@
 
 - **按钮**：矩形且 4px 圆角；默认黑底白字，hover 变品牌蓝 + `transform: scale(1.05)`；禁用态降低不透明度至 40%，且禁用阴影。
 - **导航**：白色背景、0px 圆角、文本全大写（500 字重），hover 仅更改文本色 + 下划线平滑显现。
+- **Announcement Bar**：使用 `sections/announcement-bar.liquid` 生成的标准模块，只能在 Header Group 中启用（已在 `sections/header-group.json` 默认添加，并固定排在 `main-header` 之前）。模块默认采用新建的 `scheme-announcement`（品牌蓝背景、白色前景），仅保留“徽章 + 正文 + CTA”三段配置，强制居中对齐、不支持轮播或关闭按钮，并继承 `container-custom` 安全区与 48px 最小高度。
 - **产品卡**：8–12px 圆角，轻阴影 `0 1px 3px rgba(0,0,0,0.1)`；图片裁剪为 1:1 或 16:9，使用 `filter: brightness(1.05)`。
 - **列表**：无样式符号（`list-style: none`），但可以 `::before` 插入 `•`；链接 hover 显示下划线。
 - **输入框**：6px 圆角，1px `#E0E0E0` 边框，focus 态 `box-shadow: 0 0 0 2px #A8B8FF33`。
