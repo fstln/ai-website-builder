@@ -1,0 +1,202 @@
+{%- comment -%}
+  This section clearly lists what's included with the product purchase,
+  managing customer expectations and building trust through transparency.
+{%- endcomment -%}
+
+{%- liquid
+  assign section_id = 'custom-in-the-box-' | append: section.id
+  assign bg_color = section.settings.background_color
+  assign text_color = section.settings.text_color
+-%}
+
+<style>
+  #{{ section_id }} {
+    background-color: {{ bg_color }};
+    color: {{ text_color }};
+    padding: clamp(3rem, 7vw, 6rem) 0;
+  }
+
+  #{{ section_id }} .container-custom {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    #{{ section_id }} .container-custom {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  #{{ section_id }} .in-the-box__image-wrapper {
+    text-align: center;
+  }
+
+  #{{ section_id }} .in-the-box__image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    background-color: #F0F0F0; /* Placeholder BG */
+  }
+
+  #{{ section_id }} .in-the-box__content {
+    text-align: center;
+  }
+  
+  @media (min-width: 768px) {
+    #{{ section_id }} .in-the-box__content {
+      text-align: left;
+    }
+  }
+
+  #{{ section_id }} .in-the-box__headline {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 2rem;
+  }
+
+  #{{ section_id }} .in-the-box__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 480px) {
+    #{{ section_id }} .in-the-box__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 768px) {
+    #{{ section_id }} .in-the-box__list {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    #{{ section_id }} .in-the-box__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  #{{ section_id }} .in-the-box__list-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+
+  #{{ section_id }} .in-the-box__item-icon {
+    width: 28px;
+    height: 28px;
+    color: {{ text_color }};
+    opacity: 0.8;
+  }
+</style>
+
+<section id="{{ section_id }}">
+  <div class="container-custom">
+    <div class="in-the-box__image-wrapper">
+      {%- if section.settings.image != blank -%}
+        <img
+          src="{{ section.settings.image | image_url: width: 1000 }}"
+          alt="{{ section.settings.image.alt | default: 'OWS Pro headphones and accessories in the box' | escape }}"
+          width="500"
+          height="500"
+          loading="lazy"
+          class="in-the-box__image"
+        >
+      {%- else -%}
+        <img
+          src="https://placehold.co/500x500/F0F0F0/333333?text=What's+Included"
+          alt="Placeholder for what's in the box"
+          width="500"
+          height="500"
+          loading="lazy"
+          class="in-the-box__image"
+        >
+      {%- endif -%}
+    </div>
+    <div class="in-the-box__content">
+      <h2 class="in-the-box__headline">{{ section.settings.headline | escape }}</h2>
+      <ul class="in-the-box__list">
+        {%- for block in section.blocks -%}
+          <li class="in-the-box__list-item" {{ block.shopify_attributes }}>
+            <svg class="in-the-box__item-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+            </svg>
+            <span>{{ block.settings.item_text | escape }}</span>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "In The Box",
+  "tag": "section",
+  "class": "custom-in-the-box-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#F8F8FC"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "What's In The Box"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "item_text",
+          "label": "Item Text",
+          "default": "OWS Pro Earbuds"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "In The Box",
+      "blocks": [
+        { "type": "item", "settings": { "item_text": "OWS Pro Earbuds" } },
+        { "type": "item", "settings": { "item_text": "Charging Case" } },
+        { "type": "item", "settings": { "item_text": "USB-C Charging Cable" } },
+        { "type": "item", "settings": { "item_text": "User Manual" } },
+        { "type": "item", "settings": { "item_text": "Warranty Card" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
