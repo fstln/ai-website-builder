@@ -45,13 +45,13 @@
         "type": "color",
         "id": "color_secondary",
         "label": "Secondary Color",
-        "default": "#666666"
+        "default": "#5E89FF"
       },
       {
         "type": "color",
         "id": "color_accent",
         "label": "Accent Color",
-        "default": "#3B82F6",
+        "default": "#A8B8FF",
         "info": "Used for highlights, CTAs, and interactive elements"
       },
       {
@@ -68,19 +68,19 @@
         "type": "color",
         "id": "color_text",
         "label": "Text Color",
-        "default": "#111827"
+        "default": "#333333"
       },
       {
         "type": "color",
         "id": "color_text_secondary",
         "label": "Secondary Text Color",
-        "default": "#6B7280"
+        "default": "#999999"
       },
       {
         "type": "color",
         "id": "color_border",
         "label": "Border Color",
-        "default": "#E5E7EB"
+        "default": "#E0E0E0"
       },
       {
         "type": "header",
@@ -125,35 +125,35 @@
             "type": "color",
             "id": "background",
             "label": "Background",
-            "default": "#F9FAFB",
+            "default": "#FFFFFF",
             "alpha": true
           },
           {
             "type": "color",
             "id": "foreground",
             "label": "Body text",
-            "default": "#111827",
+            "default": "#333333",
             "alpha": true
           },
           {
             "type": "color",
             "id": "foreground_heading",
             "label": "Heading text",
-            "default": "#0F172A",
+            "default": "#000000",
             "alpha": true
           },
           {
             "type": "color",
             "id": "muted",
             "label": "Muted text",
-            "default": "#4B5563",
+            "default": "#999999",
             "alpha": true
           },
           {
             "type": "color",
             "id": "primary",
             "label": "Primary action",
-            "default": "#2563EB",
+            "default": "#000000",
             "alpha": true
           },
           {
@@ -167,21 +167,21 @@
             "type": "color",
             "id": "primary_hover",
             "label": "Primary action hover",
-            "default": "#1D4ED8",
+            "default": "#5E89FF",
             "alpha": true
           },
           {
             "type": "color",
             "id": "border",
             "label": "Borders & dividers",
-            "default": "#E5E7EB",
+            "default": "#E0E0E0",
             "alpha": true
           },
           {
             "type": "color",
             "id": "decorative",
             "label": "Decorative & badges",
-            "default": "#DBEAFE",
+            "default": "#A8B8FF",
             "alpha": true
           },
           {
@@ -195,14 +195,14 @@
             "type": "color",
             "id": "input_foreground",
             "label": "Input text",
-            "default": "#111827",
+            "default": "#333333",
             "alpha": true
           },
           {
             "type": "color",
             "id": "input_border",
             "label": "Input border",
-            "default": "#D1D5DB",
+            "default": "#E0E0E0",
             "alpha": true
           },
           {
@@ -239,13 +239,13 @@
         "type": "font_picker",
         "id": "font_heading",
         "label": "Heading Font",
-        "default": "assistant_n4"
+        "default": "inter_n4"
       },
       {
         "type": "font_picker",
         "id": "font_body",
         "label": "Body Font",
-        "default": "assistant_n4"
+        "default": "inter_n4"
       },
       {
         "type": "header",
@@ -310,9 +310,18 @@
         "id": "font_weight_normal",
         "label": "Normal Weight",
         "options": [
-          { "value": "300", "label": "Light" },
-          { "value": "400", "label": "Regular" },
-          { "value": "500", "label": "Medium" }
+          {
+            "value": "300",
+            "label": "Light"
+          },
+          {
+            "value": "400",
+            "label": "Regular"
+          },
+          {
+            "value": "500",
+            "label": "Medium"
+          }
         ],
         "default": "400"
       },
@@ -321,9 +330,18 @@
         "id": "font_weight_bold",
         "label": "Bold Weight",
         "options": [
-          { "value": "600", "label": "Semibold" },
-          { "value": "700", "label": "Bold" },
-          { "value": "800", "label": "Extra Bold" }
+          {
+            "value": "600",
+            "label": "Semibold"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          },
+          {
+            "value": "800",
+            "label": "Extra Bold"
+          }
         ],
         "default": "700"
       },
@@ -336,9 +354,18 @@
         "id": "line_height_tight",
         "label": "Tight Line Height",
         "options": [
-          { "value": "1.2", "label": "1.2" },
-          { "value": "1.25", "label": "1.25" },
-          { "value": "1.3", "label": "1.3" }
+          {
+            "value": "1.2",
+            "label": "1.2"
+          },
+          {
+            "value": "1.25",
+            "label": "1.25"
+          },
+          {
+            "value": "1.3",
+            "label": "1.3"
+          }
         ],
         "default": "1.25"
       },
@@ -347,9 +374,18 @@
         "id": "line_height_normal",
         "label": "Normal Line Height",
         "options": [
-          { "value": "1.5", "label": "1.5" },
-          { "value": "1.6", "label": "1.6" },
-          { "value": "1.75", "label": "1.75" }
+          {
+            "value": "1.5",
+            "label": "1.5"
+          },
+          {
+            "value": "1.6",
+            "label": "1.6"
+          },
+          {
+            "value": "1.75",
+            "label": "1.75"
+          }
         ],
         "default": "1.5"
       },
@@ -358,9 +394,18 @@
         "id": "line_height_relaxed",
         "label": "Relaxed Line Height",
         "options": [
-          { "value": "1.75", "label": "1.75" },
-          { "value": "2", "label": "2" },
-          { "value": "2.25", "label": "2.25" }
+          {
+            "value": "1.75",
+            "label": "1.75"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "2.25",
+            "label": "2.25"
+          }
         ],
         "default": "1.75"
       }
@@ -381,7 +426,7 @@
         "step": 1,
         "unit": "px",
         "label": "Base Spacing Unit",
-        "default": 4,
+        "default": 8,
         "info": "Base unit for spacing scale (recommended: 4px or 8px)"
       }
     ]
@@ -398,7 +443,10 @@
         "id": "border_radius_none",
         "label": "None",
         "options": [
-          { "value": "0", "label": "0px" }
+          {
+            "value": "0",
+            "label": "0px"
+          }
         ],
         "default": "0"
       },
@@ -539,7 +587,7 @@
         "max": 24,
         "step": 2,
         "unit": "px",
-        "default": 12
+        "default": 16
       },
       {
         "type": "range",
@@ -549,7 +597,7 @@
         "max": 64,
         "step": 2,
         "unit": "px",
-        "default": 44
+        "default": 48
       },
       {
         "type": "range",
@@ -559,7 +607,24 @@
         "max": 18,
         "step": 1,
         "unit": "px",
-        "default": 16
+        "default": 14
+      },
+      {
+        "type": "range",
+        "id": "button_corner_radius",
+        "label": "Button Corner Radius",
+        "min": 0,
+        "max": 48,
+        "step": 1,
+        "unit": "px",
+        "default": 12,
+        "info": "Overrides button corner radius without affecting other components"
+      },
+      {
+        "type": "checkbox",
+        "id": "button_corner_radius_pill",
+        "label": "Make buttons pill-shaped",
+        "default": false
       },
       {
         "type": "header",
@@ -583,7 +648,17 @@
         "max": 32,
         "step": 4,
         "unit": "px",
-        "default": 16
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "card_corner_radius",
+        "label": "Card Corner Radius",
+        "min": 4,
+        "max": 48,
+        "step": 1,
+        "unit": "px",
+        "default": 12
       },
       {
         "type": "header",
@@ -607,7 +682,7 @@
         "max": 20,
         "step": 2,
         "unit": "px",
-        "default": 12
+        "default": 16
       },
       {
         "type": "range",
@@ -617,7 +692,7 @@
         "max": 56,
         "step": 2,
         "unit": "px",
-        "default": 44
+        "default": 48
       },
       {
         "type": "header",
@@ -631,7 +706,7 @@
         "max": 24,
         "step": 2,
         "unit": "px",
-        "default": 12
+        "default": 16
       },
       {
         "type": "range",
@@ -641,7 +716,7 @@
         "max": 32,
         "step": 4,
         "unit": "px",
-        "default": 16
+        "default": 24
       }
     ]
   },
@@ -657,9 +732,18 @@
         "id": "brand_density",
         "label": "Layout Density",
         "options": [
-          { "value": "compact", "label": "Compact" },
-          { "value": "normal", "label": "Normal" },
-          { "value": "spacious", "label": "Spacious" }
+          {
+            "value": "compact",
+            "label": "Compact"
+          },
+          {
+            "value": "normal",
+            "label": "Normal"
+          },
+          {
+            "value": "spacious",
+            "label": "Spacious"
+          }
         ],
         "default": "normal",
         "info": "Affects spacing, padding, and gaps throughout the site"
@@ -669,9 +753,18 @@
         "id": "brand_scale",
         "label": "Component Scale",
         "options": [
-          { "value": "small", "label": "Small" },
-          { "value": "medium", "label": "Medium" },
-          { "value": "large", "label": "Large" }
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          }
         ],
         "default": "medium",
         "info": "Affects the size of buttons, cards, and other components"
@@ -704,7 +797,7 @@
         "max": 500,
         "step": 50,
         "unit": "ms",
-        "default": 200,
+        "default": 250,
         "info": "Duration for all CSS transitions"
       },
       {
@@ -730,7 +823,7 @@
         "max": 110,
         "step": 1,
         "unit": "%",
-        "default": 100,
+        "default": 105,
         "info": "Scale transform on hover (100% = no scale)"
       },
       {
@@ -802,13 +895,13 @@
         "max": 1920,
         "step": 16,
         "unit": "px",
-        "default": 1376,
+        "default": 1200,
         "info": "Maximum width of container elements (safe area)"
       }
     ]
   },
   {
-    "name": "Header",
+    "name": "Logo & Favicon",
     "settings": [
       {
         "type": "header",
@@ -833,70 +926,6 @@
         "unit": "px",
         "label": "Logo Width",
         "default": 150
-      },
-      {
-        "type": "header",
-        "content": "Sticky Header"
-      },
-      {
-        "type": "checkbox",
-        "id": "enable_sticky_header",
-        "label": "Enable Sticky Header",
-        "default": true
-      },
-      {
-        "type": "checkbox",
-        "id": "hide_header_on_scroll",
-        "label": "Hide on Scroll Down",
-        "default": true,
-        "info": "Header will hide when scrolling down and show when scrolling up"
-      },
-      {
-        "type": "header",
-        "content": "Header Style"
-      },
-      {
-        "type": "color",
-        "id": "header_background",
-        "label": "Background Color",
-        "default": "#ffffff"
-      },
-      {
-        "type": "range",
-        "id": "header_background_opacity",
-        "min": 0,
-        "max": 100,
-        "step": 5,
-        "unit": "%",
-        "label": "Background Opacity",
-        "default": 100
-      },
-      {
-        "type": "select",
-        "id": "header_height",
-        "label": "Header Height",
-        "options": [
-          { "value": "compact", "label": "Compact" },
-          { "value": "normal", "label": "Normal" },
-          { "value": "tall", "label": "Tall" }
-        ],
-        "default": "normal"
-      },
-      {
-        "type": "header",
-        "content": "Navigation"
-      },
-      {
-        "type": "link_list",
-        "id": "main_menu",
-        "label": "Main Menu",
-        "default": "main-menu"
-      },
-      {
-        "type": "checkbox",
-        "id": "show_search",
-        "label": "Show Search",
-        "default": true
       }
     ]
   },

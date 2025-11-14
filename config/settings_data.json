@@ -9,17 +9,17 @@
  */
 {
   "current": {
-    "color_primary": "#0071E3",
-    "color_secondary": "#1D1D1F",
-    "color_accent": "#2997FF",
-    "color_background": "#F5F5F7",
-    "color_text": "#1D1D1F",
-    "color_text_secondary": "#6E6E73",
-    "color_border": "#D2D2D7",
+    "color_primary": "#000000",
+    "color_secondary": "#5E89FF",
+    "color_accent": "#A8B8FF",
+    "color_background": "#FFFFFF",
+    "color_text": "#333333",
+    "color_text_secondary": "#999999",
+    "color_border": "#E0E0E0",
     "color_error": "#EF4444",
     "color_success": "#10B981",
     "color_warning": "#F59E0B",
-    "font_heading": "inter_n4",
+    "font_heading": "outfit_n4",
     "font_body": "inter_n4",
     "text_size_xs": 12,
     "text_size_sm": 14,
@@ -29,9 +29,9 @@
     "font_weight_normal": "400",
     "font_weight_bold": "700",
     "line_height_tight": "1.25",
-    "line_height_normal": "1.6",
+    "line_height_normal": "1.5",
     "line_height_relaxed": "1.75",
-    "spacing_base": 4,
+    "spacing_base": 8,
     "border_radius_none": "0",
     "border_radius_sm": 4,
     "border_radius_md": 8,
@@ -40,96 +40,39 @@
     "border_radius_full": 9999,
     "border_width": 1,
     "shadow_none": "none",
-    "shadow_sm": "0 6px 12px rgba(0, 0, 0, 0.04)",
-    "shadow_md": "0 12px 30px rgba(0, 0, 0, 0.08)",
-    "shadow_lg": "0 24px 50px rgba(0, 0, 0, 0.12)",
-    "shadow_xl": "0 40px 80px rgba(0, 0, 0, 0.15)",
-    "shadow_2xl": "0 60px 120px rgba(0, 0, 0, 0.18)",
-    "button_padding_x": 32,
-    "button_padding_y": 14,
-    "button_min_height": 50,
-    "button_font_size": 16,
-    "card_padding": 32,
-    "card_gap": 24,
-    "input_padding_x": 18,
-    "input_padding_y": 14,
-    "input_min_height": 50,
-    "nav_item_padding": 10,
-    "nav_item_spacing": 28,
+    "shadow_sm": "0 1px 3px rgba(0, 0, 0, 0.1)",
+    "shadow_md": "0 4px 6px rgba(0, 0, 0, 0.1)",
+    "shadow_lg": "0 4px 12px rgba(0, 0, 0, 0.12)",
+    "shadow_xl": "0 8px 24px rgba(0, 0, 0, 0.15)",
+    "shadow_2xl": "0 16px 32px rgba(0, 0, 0, 0.18)",
+    "button_padding_x": 24,
+    "button_padding_y": 16,
+    "button_min_height": 48,
+    "button_font_size": 14,
+    "card_padding": 24,
+    "card_gap": 32,
+    "input_padding_x": 16,
+    "input_padding_y": 16,
+    "input_min_height": 48,
+    "nav_item_padding": 16,
+    "nav_item_spacing": 24,
     "brand_density": "normal",
     "brand_scale": "medium",
     "brand_boldness": 60,
+    "transition_duration": 250,
+    "hover_opacity": 90,
+    "hover_scale": 105,
+    "active_opacity": 80,
+    "section_spacing": 64,
+    "content_padding": 24,
+    "grid_gap": 24,
+    "container_max_width": 1376,
     "social_instagram_link": "https://www.instagram.com/yourbrand",
     "social_facebook_link": "https://www.facebook.com/yourbrand",
     "social_tiktok_link": "https://www.tiktok.com/@yourbrand",
     "social_youtube_link": "https://www.youtube.com/@yourbrand",
     "social_twitter_link": "https://twitter.com/yourbrand",
-    "transition_duration": 250,
-    "hover_opacity": 90,
-    "hover_scale": 101,
-    "active_opacity": 80,
-    "section_spacing": 96,
-    "content_padding": 28,
-    "grid_gap": 28,
-    "container_max_width": 1376,
-    "color_schemes": {
-      "scheme-1": {
-        "settings": {
-          "background": "#F5F5F7",
-          "foreground": "#1D1D1F",
-          "foreground_heading": "#000000",
-          "muted": "#6E6E73",
-          "primary": "#0071E3",
-          "primary_foreground": "#FFFFFF",
-          "primary_hover": "#2997FF",
-          "border": "#D2D2D7",
-          "decorative": "#E8E8ED",
-          "input_background": "#FFFFFF",
-          "input_foreground": "#1D1D1F",
-          "input_border": "#D2D2D7",
-          "shadow": "#0A0A0C"
-        }
-      },
-      "scheme-2": {
-        "settings": {
-          "background": "#000000",
-          "foreground": "#F5F5F7",
-          "foreground_heading": "#FFFFFF",
-          "muted": "#A1A1A6",
-          "primary": "#2997FF",
-          "primary_foreground": "#0B0B0F",
-          "primary_hover": "#5AC8FA",
-          "border": "#1C1C1E",
-          "decorative": "#262629",
-          "input_background": "#1C1C1E",
-          "input_foreground": "#F5F5F7",
-          "input_border": "#2C2C2E",
-          "shadow": "#000000"
-        }
-      },
-      "scheme-3": {
-        "settings": {
-          "background": "#FFFFFF",
-          "foreground": "#1D1D1F",
-          "foreground_heading": "#000000",
-          "muted": "#6E6E73",
-          "primary": "#1D1D1F",
-          "primary_foreground": "#FFFFFF",
-          "primary_hover": "#2C2C2E",
-          "border": "#E3E3E8",
-          "decorative": "#F0E6D6",
-          "input_background": "#FFFFFF",
-          "input_foreground": "#1D1D1F",
-          "input_border": "#D2D2D7",
-          "shadow": "#000000"
-        }
-      }
-    },
     "sections": {
-      "header": {
-        "type": "header",
-        "settings": {}
-      },
       "footer": {
         "type": "footer",
         "settings": {
@@ -138,48 +81,169 @@
         }
       }
     },
-    "content_for_index": []
+    "content_for_index": [],
+    "color_schemes": {
+      "scheme-1": {
+        "settings": {
+          "background": "#ffffff",
+          "foreground": "#333333",
+          "foreground_heading": "#000000",
+          "muted": "#999999",
+          "primary": "#000000",
+          "primary_foreground": "#ffffff",
+          "primary_hover": "#5e89ff",
+          "border": "#e0e0e0",
+          "decorative": "#a8b8ff",
+          "input_background": "#ffffff",
+          "input_foreground": "#333333",
+          "input_border": "#e0e0e0",
+          "shadow": "#000000"
+        }
+      },
+      "scheme-2": {
+        "settings": {
+          "background": "#fafafa",
+          "foreground": "#333333",
+          "foreground_heading": "#111111",
+          "muted": "#999999",
+          "primary": "#000000",
+          "primary_foreground": "#ffffff",
+          "primary_hover": "#5e89ff",
+          "border": "#e4e4e7",
+          "decorative": "#ced6ff",
+          "input_background": "#ffffff",
+          "input_foreground": "#333333",
+          "input_border": "#e0e0e0",
+          "shadow": "#000000"
+        }
+      },
+      "scheme-3": {
+        "settings": {
+          "background": "#0f1115",
+          "foreground": "#f5f7ff",
+          "foreground_heading": "#ffffff",
+          "muted": "#a3a6b5",
+          "primary": "#ffffff",
+          "primary_foreground": "#0f1115",
+          "primary_hover": "#5e89ff",
+          "border": "#1f2530",
+          "decorative": "#5e89ff",
+          "input_background": "#161b25",
+          "input_foreground": "#f5f7ff",
+          "input_border": "#2d3341",
+          "shadow": "#000000"
+        }
+      },
+      "scheme-header": {
+        "settings": {
+          "background": "#ffffff",
+          "foreground": "#333333",
+          "foreground_heading": "#000000",
+          "muted": "#999999",
+          "primary": "#5e89ff",
+          "primary_foreground": "#ffffff",
+          "primary_hover": "#5e89ff",
+          "border": "#e0e0e0",
+          "decorative": "#ced6ff",
+          "input_background": "#ffffff",
+          "input_foreground": "#333333",
+          "input_border": "#e0e0e0",
+          "shadow": "#000000"
+        }
+      }
+    },
+    "button_corner_radius": 12,
+    "button_corner_radius_pill": true,
+    "card_corner_radius": 24
   },
   "presets": {
-    "Haivivi": {
-      "color_primary": "#0071E3",
-      "color_background": "#F5F5F7",
-      "color_text": "#1D1D1F",
-      "color_text_secondary": "#6E6E73",
-      "color_border": "#D2D2D7",
+    "Heyup": {
+      "color_primary": "#000000",
+      "color_background": "#FFFFFF",
+      "color_text": "#333333",
+      "color_text_secondary": "#999999",
+      "color_border": "#E0E0E0",
       "font_heading": "inter_n4",
       "font_body": "inter_n4",
-      "line_height_normal": "1.6",
-      "spacing_base": 4,
+      "line_height_normal": "1.5",
+      "spacing_base": 8,
       "border_radius_md": 8,
       "border_radius_lg": 12,
       "border_radius_xl": 20,
-      "shadow_md": "0 10px 30px rgba(0, 0, 0, 0.08)",
+      "shadow_md": "0 4px 6px rgba(0, 0, 0, 0.1)",
       "color_schemes": {
         "scheme-1": {
           "settings": {
-            "background": "#F5F5F7",
-            "foreground": "#1D1D1F",
+            "background": "#FFFFFF",
+            "foreground": "#333333",
             "foreground_heading": "#000000",
-            "muted": "#6E6E73",
-            "accent": "#0071E3",
-            "primary": "#0071E3",
+            "muted": "#999999",
+            "primary": "#000000",
             "primary_foreground": "#FFFFFF",
-            "primary_hover": "#2997FF",
-            "secondary": "#FFFFFF",
-            "secondary_foreground": "#1D1D1F",
-            "secondary_border": "#D2D2D7",
-            "border": "#D2D2D7",
-            "decorative": "#E8E8ED",
+            "primary_hover": "#5E89FF",
+            "border": "#E0E0E0",
+            "decorative": "#A8B8FF",
             "input_background": "#FFFFFF",
-            "input_foreground": "#1D1D1F",
-            "input_border": "#D2D2D7",
-            "inverse_background": "#1D1D1F",
-            "inverse_foreground": "#F5F5F7",
-            "shadow": "#0A0A0C"
+            "input_foreground": "#333333",
+            "input_border": "#E0E0E0",
+            "shadow": "#000000"
+          }
+        },
+        "scheme-2": {
+          "settings": {
+            "background": "#FAFAFA",
+            "foreground": "#333333",
+            "foreground_heading": "#111111",
+            "muted": "#999999",
+            "primary": "#000000",
+            "primary_foreground": "#FFFFFF",
+            "primary_hover": "#5E89FF",
+            "border": "#E4E4E7",
+            "decorative": "#CED6FF",
+            "input_background": "#FFFFFF",
+            "input_foreground": "#333333",
+            "input_border": "#E0E0E0",
+            "shadow": "#000000"
+          }
+        },
+        "scheme-3": {
+          "settings": {
+            "background": "#0F1115",
+            "foreground": "#F5F7FF",
+            "foreground_heading": "#FFFFFF",
+            "muted": "#A3A6B5",
+            "primary": "#FFFFFF",
+            "primary_foreground": "#0F1115",
+            "primary_hover": "#5E89FF",
+            "border": "#1F2530",
+            "decorative": "#5E89FF",
+            "input_background": "#161B25",
+            "input_foreground": "#F5F7FF",
+            "input_border": "#2D3341",
+            "shadow": "#000000"
+          }
+        },
+        "scheme-header": {
+          "settings": {
+            "background": "#FFFFFF",
+            "foreground": "#333333",
+            "foreground_heading": "#000000",
+            "muted": "#999999",
+            "primary": "#5E89FF",
+            "primary_foreground": "#FFFFFF",
+            "primary_hover": "#5E89FF",
+            "border": "#E0E0E0",
+            "decorative": "#CED6FF",
+            "input_background": "#FFFFFF",
+            "input_foreground": "#333333",
+            "input_border": "#E0E0E0",
+            "shadow": "#000000"
           }
         }
-      }
+      },
+      "button_corner_radius": 12,
+      "button_corner_radius_pill": true,
+      "card_corner_radius": 24
     }
   }
 }

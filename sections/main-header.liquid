@@ -26,7 +26,7 @@
   endif
 
   assign header_logo_style = 'max-width: ' | append: header_logo_width | append: 'px'
-  assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1'
+  assign section_color_scheme = section.settings.color_scheme | default: 'scheme-header'
 %}
 
 <header 
@@ -340,7 +340,7 @@ if (document.readyState === 'loading') {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-1"
+      "default": "scheme-header"
     },
     {
       "type": "header",

@@ -4,11 +4,11 @@
   视觉规范: visual_spec.md
 {% endcomment %}
 
-{% assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1' %}
+{% assign section_color_scheme = section.settings.color_scheme | default: 'scheme-header' %}
 
 <section class="color-scheme color-{{ section_color_scheme }} section-main-blog">
-  <div class="w-full min-h-screen bg-background">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+  <div class="w-full bg-background">
+    <div class="container-custom min-h-screen py-8 sm:py-12">
   
     {%- comment -%} Blog Header - 基于 visual_spec.md Hero 规范 {%- endcomment -%}
   <div class="blog-header mt-8 mb-12 {% if section.settings.header_alignment == 'center' %}text-center{% endif %}">
@@ -127,7 +127,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-1"
+      "default": "scheme-header"
     },
     {
       "type": "range",

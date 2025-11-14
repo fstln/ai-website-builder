@@ -246,6 +246,20 @@
 @layer base {
   body {
     @apply antialiased;
+    font-family: var(--font-body, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    line-height: var(--line-height-normal, 1.5);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading, var(--font-body, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif));
+    color: var(--color-foreground-heading, var(--color-foreground));
   }
 }
 
@@ -263,7 +277,8 @@
     min-height: var(--button-min-height);
     font-size: var(--button-font-size);
     font-weight: 600;
-    border-radius: var(--radius-md);
+    font-family: var(--font-heading, var(--font-body, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif));
+    border-radius: var(--radius-button, var(--radius-md));
     border: none;
     cursor: pointer;
     transition: all var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
@@ -282,18 +297,16 @@
   .btn-primary {
     background-color: var(--color-primary);
     color: var(--color-primary-foreground);
-    box-shadow: var(--shadow-sm);
+    box-shadow: none;
   }
   
   .btn-primary:hover {
-    background-color: rgb(var(--color-primary-rgb) / 0.9);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-1px);
+    background-color: var(--color-primary-hover);
+    color: var(--color-primary-foreground);
   }
   
   .btn-primary:active {
-    transform: translateY(0);
-    box-shadow: var(--shadow-sm);
+    background-color: var(--color-primary-hover);
   }
   
   .btn-secondary,
@@ -326,12 +339,13 @@
   .shopify-payment-button__button {
     width: 100%;
     min-height: var(--button-min-height);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-button, var(--radius-md));
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     font-weight: 600;
+    font-family: var(--font-heading, var(--font-body, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif));
     font-size: var(--button-font-size, 1rem);
     padding: var(--button-padding-y) var(--button-padding-x);
     transition: all var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
@@ -342,18 +356,15 @@
   .shopify-payment-button__button--unbranded {
     background-color: var(--color-primary);
     color: var(--color-primary-foreground);
-    box-shadow: var(--shadow-sm);
+    box-shadow: none;
   }
 
   .shopify-payment-button__button--unbranded:hover:not([disabled]) {
-    background-color: rgb(var(--color-primary-rgb) / 0.9);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-1px);
+    background-color: var(--color-primary-hover);
   }
 
   .shopify-payment-button__button--unbranded:active:not([disabled]) {
     background-color: var(--color-primary-hover);
-    transform: translateY(0);
   }
 
   .shopify-payment-button__button:focus-visible {
@@ -372,27 +383,25 @@
     text-align: center;
     color: var(--color-primary);
   }
+
+  .product-card,
+  .collection-card,
+  .resource-card,
+  .blog-card,
+  .cart-summary,
+  .cart-item,
+  .article-card,
+  .card-surface {
+    border-radius: var(--radius-card, var(--radius-lg));
+  }
   
   .container-custom {
-    max-width: var(--container-max-width);
+    width: 100%;
+    max-width: min(100%, var(--container-max-width, 1200px));
     margin-left: auto;
     margin-right: auto;
-    padding-left: var(--content-padding);
-    padding-right: var(--content-padding);
-  }
-  
-  @media (min-width: 640px) {
-    .container-custom {
-      padding-left: calc(var(--content-padding) * 1.5);
-      padding-right: calc(var(--content-padding) * 1.5);
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .container-custom {
-      padding-left: calc(var(--content-padding) * 2);
-      padding-right: calc(var(--content-padding) * 2);
-    }
+    padding-left: var(--content-padding, 24px);
+    padding-right: var(--content-padding, 24px);
   }
 
   /* ============================================================================
@@ -420,11 +429,9 @@
 
   /* Material Design Elevation */
   .header__container {
-    max-width: var(--container-max-width, 1280px);
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: var(--content-padding, 24px);
-    padding-right: var(--content-padding, 24px);
     border-bottom: 1px solid rgb(var(--color-border-rgb) / 0.3);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -432,13 +439,6 @@
   .header--scrolled .header__container {
     border-bottom-color: rgb(var(--color-border-rgb) / 0.4);
     box-shadow: 0 2px 8px -2px rgb(var(--color-shadow-rgb, 0 0 0) / 0.1);
-  }
-
-  @media (min-width: 1024px) {
-    .header__container {
-      padding-left: calc(var(--content-padding, 24px) * 1.5);
-      padding-right: calc(var(--content-padding, 24px) * 1.5);
-    }
   }
 
   .header__inner {

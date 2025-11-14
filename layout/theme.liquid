@@ -155,6 +155,14 @@
       --radius-xl: {{ settings.border_radius_xl | default: 12 }}px;  /* rounded-xl */
       --radius-full: {{ settings.border_radius_full | default: 9999 }}px;  /* rounded-full */
       --border-width: {{ settings.border_width | default: 1 }}px;
+      {% assign button_corner_radius = settings.button_corner_radius | default: settings.border_radius_md %}
+      {% assign card_corner_radius = settings.card_corner_radius | default: settings.border_radius_lg %}
+      {% if settings.button_corner_radius_pill %}
+        --radius-button: 9999px;
+      {% else %}
+        --radius-button: {{ button_corner_radius }}px;
+      {% endif %}
+      --radius-card: {{ card_corner_radius }}px;
       
       /* Shadow Tokens */
       --shadow-none: {{ settings.shadow_none | default: 'none' }};
