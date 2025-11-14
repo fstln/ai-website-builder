@@ -1,0 +1,204 @@
+{%- comment -%}
+  This section provides detailed technical specifications for the OWS Pro.
+  It uses a collapsible accordion format to keep the page clean and user-friendly,
+  allowing technical users to access information without overwhelming others.
+{%- endcomment -%}
+
+{%- liquid
+  assign section_id = 'custom-specs-' | append: section.id
+  assign bg_color = section.settings.background_color
+  assign text_color = section.settings.text_color
+-%}
+
+<style>
+  #{{ section_id }} {
+    background-color: {{ bg_color }};
+    color: {{ text_color }};
+    padding: clamp(3rem, 7vw, 6rem) 0;
+  }
+
+  #{{ section_id }} .container-custom {
+    margin: 0 auto;
+    max-width: 1000px;
+    padding: 0 1.5rem;
+  }
+
+  #{{ section_id }} .specs__headline {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  #{{ section_id }} .specs__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    #{{ section_id }} .specs__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  #{{ section_id }} .specs__details {
+    border-bottom: 1px solid #E5E7EB;
+    padding-bottom: 1rem;
+  }
+
+  #{{ section_id }} .specs__summary {
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+  }
+  
+  #{{ section_id }} .specs__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  #{{ section_id }} .specs__summary-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  #{{ section_id }} .specs__details[open] .specs__summary-icon {
+    transform: rotate(45deg);
+  }
+
+  #{{ section_id }} .specs__content {
+    padding-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #4B5563;
+  }
+  
+  #{{ section_id }} .specs__content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  #{{ section_id }} .specs__content li {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  #{{ section_id }} .specs__content .spec-label {
+    font-weight: 500;
+  }
+</style>
+
+<section id="{{ section_id }}">
+  <div class="container-custom">
+    <h2 class="specs__headline">{{ section.settings.headline | escape }}</h2>
+    <div class="specs__grid">
+      {%- for block in section.blocks -%}
+        <details class="specs__details" {{ block.shopify_attributes }} {% if forloop.first %}open{% endif %}>
+          <summary class="specs__summary">
+            <span>{{ block.settings.category_title | escape }}</span>
+            <svg class="specs__summary-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </summary>
+          <div class="specs__content">
+            {{ block.settings.spec_list }}
+          </div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collapsible Specs",
+  "tag": "section",
+  "class": "custom-specs-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1F2937"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Technical Specifications"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec_category",
+      "name": "Spec Category",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "category_title",
+          "label": "Category Title",
+          "default": "Audio"
+        },
+        {
+          "type": "richtext",
+          "id": "spec_list",
+          "label": "Specification List",
+          "default": "<p><strong>Driver:</strong> 23mm Dynamic<br><strong>Chip:</strong> Independent Amplifier<br><strong>Tech:</strong> Virtual Bass 2.0</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collapsible Specs",
+      "blocks": [
+        {
+          "type": "spec_category",
+          "settings": {
+            "category_title": "Audio",
+            "spec_list": "<p><strong>Driver:</strong> 23mm Dynamic<br><strong>Chip:</strong> Independent Amplifier<br><strong>Tech:</strong> Virtual Bass 2.0, Dynamic EQ</p>"
+          }
+        },
+        {
+          "type": "spec_category",
+          "settings": {
+            "category_title": "Battery",
+            "spec_list": "<p><strong>Single Playtime:</strong> 16 Hours<br><strong>Total with Case:</strong> 58 Hours<br><strong>Charging Time:</strong> 2 Hours</p>"
+          }
+        },
+        {
+          "type": "spec_category",
+          "settings": {
+            "category_title": "Connectivity",
+            "spec_list": "<p><strong>Bluetooth:</strong> 5.3<br><strong>Range:</strong> 10m / 33ft<br><strong>Profiles:</strong> A2DP, AVRCP, HFP</p>"
+          }
+        },
+        {
+          "type": "spec_category",
+          "settings": {
+            "category_title": "General",
+            "spec_list": "<p><strong>Weight:</strong> 12.7g per earbud<br><strong>Water Resistance:</strong> IPX4<br><strong>Microphone:</strong> 2-mic system</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
