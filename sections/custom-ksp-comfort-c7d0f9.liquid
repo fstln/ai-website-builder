@@ -1,0 +1,119 @@
+{%- comment -%}
+  CUSTOM KSP SECTION: COMFORT
+  - PM: Completes the "Interest" phase by focusing on the comfort of the non-in-ear design.
+  - Designer: Reversed asymmetrical layout for visual rhythm, with a lifestyle-focused image.
+  - Architect: Built with CSS Grid, reversing column order on desktop.
+{%- endcomment -%}
+
+{%- liquid
+  assign section_id = 'custom-ksp-comfort-' | append: section.id
+  assign heading = section.settings.heading
+  assign description = section.settings.description
+  assign cta_label = section.settings.cta_label
+  assign cta_link = section.settings.cta_link
+  assign image = section.settings.image
+  assign color_scheme = section.settings.color_scheme
+-%}
+
+<section
+  id="{{ section_id }}"
+  class="color-scheme color-{{ color_scheme }}"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+    <div class="grid grid-cols-1 items-center gap-y-12 md:grid-cols-2 md:gap-x-12 lg:gap-x-16">
+      
+      <div class="md:order-last">
+        {%- if image != blank -%}
+          <div class="overflow-hidden rounded-2xl shadow-lg">
+            <img
+              src="{{ image | image_url: width: 1200 }}"
+              alt="{{ image.alt | default: 'Person comfortably wearing OWS Pro headphones in a lifestyle setting' | escape }}"
+              width="{{ image.width }}"
+              height="{{ image.height }}"
+              loading="lazy"
+              class="h-full w-full object-cover object-center"
+            >
+          </div>
+        {%- else -%}
+          <div class="bg-surface rounded-2xl shadow-lg">
+            {{ 'image' | placeholder_svg_tag: 'w-full h-full object-cover aspect-[4/3] text-muted' }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="text-center md:text-left">
+        <div class="max-w-xl mx-auto md:mx-0">
+          {%- if heading != blank -%}
+            <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground">
+              {{ heading | escape }}
+            </h2>
+          {%- endif -%}
+
+          {%- if description != blank -%}
+            <p class="mt-6 text-lg leading-8 text-muted">
+              {{ description }}
+            </p>
+          {%- endif -%}
+
+          {%- if cta_label != blank and cta_link != blank -%}
+            <div class="mt-8">
+              <a href="{{ cta_link }}" class="btn btn-primary">
+                {{ cta_label | escape }}
+              </a>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "KSP: Comfort Feature",
+  "tag": "section",
+  "class": "custom-ksp-comfort-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FORGET YOU'RE WEARING THEM"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>No buds in your ear, no pain, and no pressure. Just pure comfort and a wide, open soundstage thanks to our patented open-ear design.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA Label",
+      "default": "Explore the Design"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "KSP: Comfort Feature"
+    }
+  ]
+}
+{% endschema %}
