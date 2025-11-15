@@ -1,0 +1,146 @@
+{%- comment -%}
+  CUSTOM KSP SECTION: AUDIO
+  - PM: Focus on "Interest" stage. Headline targets the "tinny sound" pain point.
+  - Designer: Asymmetrical layout with bold typography for a premium feel.
+  - Architect: Built with CSS Grid and configurable via schema.
+{%- endcomment -%}
+
+{%- liquid
+  assign section_id = 'custom-ksp-audio-' | append: section.id
+  assign heading = section.settings.heading
+  assign image = section.settings.image
+  assign color_scheme = section.settings.color_scheme
+-%}
+
+<section
+  id="{{ section_id }}"
+  class="color-scheme color-{{ color_scheme }} isolate"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+    <div class="grid grid-cols-1 items-center gap-y-12 md:grid-cols-2 md:gap-x-12 lg:gap-x-16">
+      
+      <div class="order-2 md:order-1 text-center md:text-left">
+        <div class="max-w-xl mx-auto md:mx-0">
+          {%- if heading != blank -%}
+            <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground">
+              {{ heading | escape }}
+            </h2>
+          {%- endif -%}
+
+          <div class="mt-8 space-y-6 text-base text-muted">
+            {%- for block in section.blocks -%}
+              <div class="flex items-start gap-4" {{ block.shopify_attributes }}>
+                <div class="flex-shrink-0">
+                  {%- render 'icon-check' -%}
+                </div>
+                <div>
+                  {%- if block.settings.title != blank -%}
+                    <p class="font-semibold text-foreground">{{ block.settings.title }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.description != blank -%}
+                    <p class="mt-1">{{ block.settings.description }}</p>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+
+      <div class="order-1 md:order-2">
+        {%- if image != blank -%}
+          <div class="overflow-hidden rounded-2xl shadow-lg">
+            <img
+              src="{{ image | image_url: width: 1200 }}"
+              alt="{{ image.alt | default: 'OWS Pro headphones focusing on audio quality' | escape }}"
+              width="{{ image.width }}"
+              height="{{ image.height }}"
+              loading="lazy"
+              class="h-full w-full object-cover object-center"
+            >
+          </div>
+        {%- else -%}
+          <div class="bg-surface rounded-2xl shadow-lg">
+            {{ 'image' | placeholder_svg_tag: 'w-full h-full object-cover aspect-[4/3] text-muted' }}
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "KSP: Audio Feature",
+  "tag": "section",
+  "class": "custom-ksp-audio-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "HEAR THE BASS, NOT THE NOISE"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature_item",
+      "name": "Feature Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Virtual Bass 2.0"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Our advanced technology produces deep, rich bass you can actually feel, overcoming the 'tinny' sound of other open-ear headphones.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KSP: Audio Feature",
+      "blocks": [
+        {
+          "type": "feature_item",
+          "settings": {
+            "title": "Virtual Bass 2.0",
+            "description": "<p>An advanced technology to produce deep, rich bass.</p>"
+          }
+        },
+        {
+          "type": "feature_item",
+          "settings": {
+            "title": "Independent Amplifier Chip",
+            "description": "<p>A dedicated chip for powerful and clear audio amplification.</p>"
+          }
+        },
+        {
+          "type": "feature_item",
+          "settings": {
+            "title": "Dynamic EQ",
+            "description": "<p>Automatically adjusts the audio for optimal sound in any environment.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
