@@ -1,0 +1,130 @@
+{%- comment -%}
+  CUSTOM SPECS SECTION
+  - PM: Targets the "Decision" stage with comprehensive, scannable data.
+  - Designer: Clean, two-column layout inside a collapsible <details> element.
+  - Architect: Uses native HTML for accordion functionality, with specs managed as blocks.
+{%- endcomment -%}
+
+{%- liquid
+  assign section_id = 'custom-specs-' | append: section.id
+  assign heading = section.settings.heading
+  assign color_scheme = section.settings.color_scheme
+-%}
+
+<section
+  id="{{ section_id }}"
+  class="color-scheme color-{{ color_scheme }}"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+    <div class="max-w-3xl mx-auto">
+      <details class="border-b border-border" open>
+        <summary class="flex items-center justify-between py-4 cursor-pointer list-none">
+          {%- if heading != blank -%}
+            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+              {{ heading | escape }}
+            </h2>
+          {%- endif -%}
+          <span class="w-6 h-6 flex-shrink-0">
+            {%- render 'icon-chevron-down' -%}
+          </span>
+        </summary>
+
+        <div class="pt-4 pb-8">
+          <div class="divide-y divide-border/60">
+            {%- for block in section.blocks -%}
+              <div class="grid grid-cols-2 gap-4 py-4" {{ block.shopify_attributes }}>
+                {%- if block.settings.label != blank -%}
+                  <dt class="text-sm font-medium text-muted">{{ block.settings.label }}</dt>
+                {%- endif -%}
+                {%- if block.settings.value != blank -%}
+                  <dd class="text-sm text-foreground">{{ block.settings.value }}</dd>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<style>
+  #{{ section_id }} details[open] summary svg {
+    transform: rotate(180deg);
+  }
+  #{{ section_id }} summary svg {
+    transition: transform 0.2s ease-in-out;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collapsible Specs",
+  "tag": "section",
+  "class": "custom-specs-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Technical Specifications"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec_item",
+      "name": "Spec Item",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Audio Technology"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "Virtual Bass 2.0, Dynamic EQ"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collapsible Specs",
+      "blocks": [
+        { "type": "spec_item" },
+        {
+          "type": "spec_item",
+          "settings": {
+            "label": "Battery Life",
+            "value": "Up to 16 hours per charge, 58 hours with case"
+          }
+        },
+        {
+          "type": "spec_item",
+          "settings": {
+            "label": "Connectivity",
+            "value": "Bluetooth 5.3"
+          }
+        },
+        {
+          "type": "spec_item",
+          "settings": {
+            "label": "Water Resistance",
+            "value": "IPX4"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
