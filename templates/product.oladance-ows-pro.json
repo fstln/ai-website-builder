@@ -9,49 +9,163 @@
  */
 {
   "sections": {
-    "main_product_qF9DQF": {
+    "main-product": {
       "type": "main-product",
+      "settings": {}
+    },
+    "custom_feature_list_b7eefcb5": {
+      "type": "custom-feature-list-b7eefcb5",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "HEAR THE BASS, NOT THE NOISE",
+        "subheading": "Tired of 'tinny' open-ear sound? Our patented tech delivers deep, rich bass you can feel, combined with unparalleled comfort and battery life."
+      },
       "blocks": {
-        "product_title_TjhQwJ": {
-          "type": "product_title",
-          "settings": {}
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "title": "Epic Sound, Personal Home Theater",
+            "description": "Experience epic sound like having a personal home theater system wherever you go. Our patented Virtual Bass 2nd algorithm enhances low-frequency sound quality for a fuller, deeper bass."
+          }
         },
-        "product_price_U8tjJt": {
-          "type": "product_price",
-          "settings": {}
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "title": "Extended 58-Hour Battery Life",
+            "description": "With a total of 58 hours of full battery life including the charging case, you can go for weeks without a charge. Stop worrying about your battery and focus on your day."
+          }
         },
-        "product_description_hgj6Ec": {
-          "type": "product_description",
-          "settings": {}
-        },
-        "variant_selector_BKxrtd": {
-          "type": "variant_selector",
-          "settings": {}
-        },
-        "quantity_selector_dfreaf": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons_FnBVJA": {
-          "type": "buy_buttons",
-          "settings": {}
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "title": "Forget You're Wearing Them",
+            "description": "No buds in your ear, no pain, no pressure. The open-ear design keeps you aware of your surroundings, ensuring safety and situational awareness while providing pure comfort."
+          }
         }
       },
-      "block_order": [
-        "product_title_TjhQwJ",
-        "product_price_U8tjJt",
-        "product_description_hgj6Ec",
-        "variant_selector_BKxrtd",
-        "quantity_selector_dfreaf",
-        "buy_buttons_FnBVJA"
-      ],
-      "name": "Main Product",
+      "block_order": ["feature_1", "feature_2", "feature_3"]
+    },
+    "custom_social_proof_c6ddfcc7": {
+      "type": "custom-social-proof-c6ddfcc7",
       "settings": {
-        "color_scheme": ""
-      }
+        "color_scheme": "scheme-1",
+        "heading": "Join Thousands of Happy Ears"
+      },
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "The bass is surprisingly powerful for open-ear headphones. I can finally enjoy my music during my runs without blocking out the world. Game changer!",
+            "author": "Jessica M.",
+            "source": "Verified Runner"
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "I wear these all day for work calls and they are incredibly comfortable. The battery life is insane, I barely have to charge it.",
+            "author": "David L.",
+            "source": "WFH Professional"
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 4,
+            "quote": "Crystal clear calls, even on a windy day. The noise reduction is top-notch. My only wish is for more color options.",
+            "author": "Sarah K.",
+            "source": "Tech Reviewer"
+          }
+        }
+      },
+      "block_order": ["testimonial_1", "testimonial_2", "testimonial_3"]
+    },
+    "custom_tech_specs_c6ddfcc8": {
+      "type": "custom-tech-specs-c6ddfcc8",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "Under the Hood"
+      },
+      "blocks": {
+        "specs_1": {
+          "type": "spec_category",
+          "settings": {
+            "category_title": "Audio & Connectivity",
+            "spec_table": "<table><tbody><tr><td>Speaker Driver</td><td>23mm x 10mm</td></tr><tr><td>Frequency Response</td><td>20-20000Hz</td></tr><tr><td>Bluetooth Version</td><td>v5.3</td></tr><tr><td>Communication Distance</td><td>≥20m</td></tr></tbody></table>"
+          }
+        },
+        "specs_2": {
+          "type": "spec_category",
+          "settings": {
+            "category_title": "Battery",
+            "spec_table": "<table><tbody><tr><td>Single Earphone</td><td>16 Hours</td></tr><tr><td>With Charging Case</td><td>58 Hours</td></tr><tr><td>Charging Time</td><td>2 Hours (Earphone)</td></tr></tbody></table>"
+          }
+        },
+        "specs_3": {
+          "type": "spec_category",
+          "settings": {
+            "category_title": "Physical",
+            "spec_table": "<table><tbody><tr><td>Single Earphone Weight</td><td>13.8g</td></tr><tr><td>Waterproof Rating</td><td>IPX4</td></tr><tr><td>Material</td><td>Skin-friendly silicone, titanium memory steel wire</td></tr></tbody></table>"
+          }
+        }
+      },
+      "block_order": ["specs_1", "specs_2", "specs_3"]
+    },
+    "custom_in_the_box_c6ddfcc9": {
+      "type": "custom-in-the-box-c6ddfcc9",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "What's Included"
+      },
+      "blocks": {
+        "item_1": { "type": "item", "settings": { "item_text": "Oladance OWS Pro" } },
+        "item_2": { "type": "item", "settings": { "item_text": "Charging Case" } },
+        "item_3": { "type": "item", "settings": { "item_text": "Type-C Cable" } },
+        "item_4": { "type": "item", "settings": { "item_text": "User Manual" } },
+        "item_5": { "type": "item", "settings": { "item_text": "Brand Card" } }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4", "item_5"]
+    },
+    "custom_faq_c6ddfcca": {
+      "type": "custom-faq-c6ddfcca",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "Got Questions? We've Got Answers."
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are these headphones waterproof?",
+            "answer": "<p>The Oladance OWS Pro has an IPX4 rating, which means they are resistant to water splashes from any direction. They are perfect for workouts but should not be submerged in water.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I connect to multiple devices at once?",
+            "answer": "<p>Yes! The OWS Pro features multipoint connection, allowing you to seamlessly transition between multiple Bluetooth devices.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do the touch controls work?",
+            "answer": "<p>The headphones use an intuitive pressure-sensitive touch system. You can squeeze once to adjust volume, twice to change tracks, and three times to activate your voice assistant.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3"]
     }
   },
   "order": [
-    "main_product_qF9DQF"
+    "main-product",
+    "custom_feature_list_b7eefcb5",
+    "custom_social_proof_c6ddfcc7",
+    "custom_tech_specs_c6ddfcc8",
+    "custom_in_the_box_c6ddfcc9",
+    "custom_faq_c6ddfcca"
   ]
 }
