@@ -9,6 +9,11 @@
 > - 品牌配色策略见 `docs/brand_color_playbook.md`  
 > - SEO 与内容结构见 `docs/seo_playbook.md`
 
+> **Guardrail × Creative 模式**  
+> - 默认遵循下文的严谨规范以保持跨 Section 一致的材料语言。  
+> - Hero、购买页、Campaign 等情绪化模块可切换为“expressive 模式”，允许更大胆的排版、渐变和节奏，但必须引用主题 tokens（`--display-scale`, `--hero-max-width`, `brand_boldness` 等）并遵守可访问性。  
+> - Schema 中应暴露开关来标记哪些区块可以进入 expressive 模式，以避免普通内容受影响。
+
 ## 1. 核心理念：移动端优先的“材料”
 - **Mobile is Default**：所有样式必须首先在无断点前缀（如 md:）的情况下完美呈现。
 - **Everything is a Surface**：背景为海拔 0，其余元素都以卡片或按钮的形式悬浮；通过 `bg-*`、`rounded-*`、`shadow-*` 组合表达材料属性。
@@ -25,8 +30,8 @@
 
 ## 2. 布局与间距
 ### 2.1 间距标尺
-- 所有 `margin/padding/gap` 只能引用主题间距刻度（4px 基础的 `p-1, p-2, p-3, p-4, p-6…`）。
-- 禁用任意值（如 `mt-[10px]`、`gap-[18px]`）。若缺少刻度，应在设计 tokens 中扩展，而非内联。
+- 常规内容应使用主题间距刻度（4px 基础的 `p-1, p-2, p-3, p-4, p-6…`），保持节奏统一。
+- Expressive 模块可以使用 `clamp()` 或 `calc(var(--section-spacing)*1.5)` 等写法拓宽节奏，但必须引用 tokens；禁止硬编码毫无语义的 `gap-[18px]`。
 
 ### 2.2 内容安全边距
 - 移动端页面内容必须使用统一的水平内边距（默认 `px-4` 或 `px-6`）。
@@ -39,7 +44,7 @@
 
 ## 3. 角色驱动的色彩
 ### 3.1 Shopify Scheme 为唯一来源
-- 禁止直接使用 Tailwind 原始调色板 (`blue-500` 等)。
+- 默认使用 color scheme 语义色；如要创建渐变、霓虹高光或品牌纹理，需用 `var(--color-*-rgb)` 构建（可结合 `color(display-p3 ...)`），严禁硬编码 `#123456` 或 `bg-blue-500`。
 - 仅引用 `settings_schema.json`、`settings_data.json` 中定义的语义色（如 `settings.color_primary`、`settings.color_text`、`settings.color_background`）。
 - 通过 `color-scheme` 包裹与语义 Tailwind 工具（`bg-background`, `text-foreground`, `bg-primary` 等）绑定颜色。
 - 品牌差异通过 `docs/brand_color_playbook.md` 中的流程创建新 scheme；不要在组件中硬编码色值。
@@ -56,7 +61,7 @@
 - 错误/成功/警告必须由 `text-error` 等语义类驱动，禁止将品牌色复用为危险状态。
 
 ## 4. 意图明确的排版
-- 仅使用 `docs/visual_spec.md` 中定义的 Tailwind 组合（如 `text-5xl sm:text-6xl`、`text-3xl sm:text-4xl`、`text-base leading-relaxed` 等）；禁止 `text-[15px]`、`font-[520]` 等任意值。
+- 默认使用 `docs/visual_spec.md` 中定义的 Tailwind 组合（如 `text-5xl sm:text-6xl`、`text-3xl sm:text-4xl`、`text-base leading-relaxed` 等）；Expressive 模块可以结合 `--display-scale`、`text-[clamp()]` 或 `tracking-[theme(...)]` 调整层级，但仍需引用 tokens。
 - `font-heading` 与 `font-body` 在 `layout/theme.liquid` 中已注入，保持与 tokens 对齐。
 - 长文本（商品描述、博客、常见问题）默认 `leading-relaxed`，需要紧凑节奏时再降级；不要将正文行高低于 `leading-normal`。
 - 行长控制在 60–72 字符；超出时用分栏或图文布局分割。

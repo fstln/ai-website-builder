@@ -65,6 +65,8 @@ Sections & Snippets 中的 `bg-* / text-* / shadow-*` 等实用类（见 visual_
 | `text_size_*` | XS–XL 尺寸范围 | 供 AI 在 `visual_spec` 约定的排版层级中选择合适的 Tailwind 组合 |
 | `font_weight_normal/bold` | 字重上限 | 配合 `font-normal`, `font-bold`, `font-semibold` |
 | `line_height_*` | 行高基线 | 与 `leading-snug/relaxed` 等 Tailwind 类配合 |
+| `display_scale` | Hero/购买页标题的倍率 | 通过 `var(--display-scale)` 控制 `text-[clamp()]` 或 `text-balance` 方案，允许生成器放大或收紧展示级别排版 |
+| `hero_content_max_width` | `--hero-max-width` | Hero/购买页正文容器的最大宽度，便于控制“对齐 vs 迭代”体验 |
 
 排版的具体层级、断点策略、使用示例由 `docs/visual_spec.md` 主导。
 

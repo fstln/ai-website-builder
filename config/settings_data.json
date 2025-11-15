@@ -31,6 +31,8 @@
     "line_height_tight": "1.25",
     "line_height_normal": "1.5",
     "line_height_relaxed": "1.75",
+    "display_scale": 110,
+    "hero_content_max_width": 960,
     "spacing_base": 8,
     "border_radius_none": "0",
     "border_radius_sm": 4,

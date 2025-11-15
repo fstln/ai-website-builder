@@ -5,6 +5,11 @@
 
 ---
 
+> **创意窗口（Hero / 购买页 / Campaign）**  
+> - 允许突破下文部分的严格限制，例如更大胆的排版比例、渐变或层级。  
+> - 自由区块必须引用新增 expressive tokens（`--display-scale`, `--hero-max-width`, `--brand-boldness` 等）或 color scheme 语义色，避免写死 hex。  
+> - 常规 Section 仍按基础规范执行；在 schema 中提供显式开关以决定是否进入创意模式。
+
 ## 1. 布局基础
 
 - **移动端优先**：无断点类代表最终移动体验；仅在 `md:` 变成多列或拓展留白，`lg:` 增强桌面体验。
@@ -14,7 +19,7 @@
   - 双列在 `md:` 打开：`grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8`
   - 商品/文章网格：`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8`
 - **Flex 间距**：`gap-4` 为默认，紧凑内容用 `gap-2`，CTA 区块可用 `gap-3`。
-- **Section 垂直节奏**：根节点 `py-12 sm:py-16 lg:py-20`；区块之间用 `mb-8` 或 `mb-12`。
+- **Section 垂直节奏**：根节点 `py-12 sm:py-16 lg:py-20`；区块之间用 `mb-8` 或 `mb-12`。Hero/购买区块可通过 `style="padding-block: calc(var(--section-spacing)*1.5)"` 或 `py-[clamp(4rem,6vw,10rem)]` 放大节奏。
 
 ---
 
@@ -35,7 +40,7 @@
 | 反色块 | `bg-inverse text-inverse-foreground` | 深色 Footer / Toast |
 
 规范：
-- 不得使用 Tailwind 原始色号 (`bg-blue-500`)；全部使用上述语义类；默认正文使用 `text-foreground`，次级文本使用 `text-muted`。
+- 默认使用语义类；如需渐变或霓虹高光，请以 scheme 变量为来源（例如 `bg-[radial-gradient(circle_at_top,_var(--color-primary)_0%,_transparent_70%)]` 或 `from-[color(display-p3_var(--color-primary-rgb))]`），不可硬编码固定 hex。
 - Section 或 Block 的根背景由 `color-scheme` 决定，默认 `bg-background`。浮起卡片/模态一律使用 `bg-surface`，需要更软的分组背景再切换 `bg-surface-muted`。
 - 单色背景不使用 border 分割，使用 `shadow-*` 或不同 surface 层级。
 - 透明叠加通过 `/opacity`：如 `bg-primary/10`, `text-foreground/70`。
@@ -65,12 +70,13 @@
 - 为阅读区域设置 `max-w-3xl` 并保持 `leading-relaxed`。
 - 行间距最小 `leading-normal`，长文使用 `leading-relaxed`。
 - 标题与正文间距：`mb-6`（大标题）、`mb-4`（中标题）、`mb-2`（卡片标题）。
+- Hero/购买标题可通过 `style="font-size: calc(var(--display-scale) * 1.2rem)"` 或 `text-[clamp(2.5rem,_var(--display-scale)*3vw,_5rem)]` 放大比例，搭配 `text-balance`、`leading-tight`，避免文字重叠。
 
 ---
 
 ## 4. 间距与节奏
 
-- **刻度**：严格使用 Tailwind 间距类（4px 基线）。禁止 `mt-[18px]` 等任意值。
+- **刻度**：默认使用 Tailwind 间距类（4px 基线）。只有 Hero/购买/装饰块才允许 `clamp()` 或 `style` 自定义值，且需引用 `--section-spacing`、`--content-padding` 等变量。
 - **内边距**：
   - 主按钮：`px-5 py-3`（默认），大型 CTA `px-6 py-3`.
   - 卡片：`p-5`（紧凑）或 `p-6`（默认）。
@@ -81,6 +87,12 @@
   - 列表或卡组：`space-y-6` / `gap-6`。
 - **Gap**：按钮/标签 `gap-2`，卡片栅格 `gap-6`，视觉留白 `gap-8` 以上。
 - **Safe Area**：所有 Section 内的内容容器需 `mx-auto max-w-7xl px-4 sm:px-6 lg:px-8` 或 `.container-custom`。
+
+### 4.1 Hero / 购买页例外
+
+- 使用 `max-w-[var(--hero-max-width)]` 或 `style="max-width: var(--hero-max-width)"` 控制文案宽度，可在同一 Section 中混合左对齐与居中布局。
+- 可以叠加 `translate`、`rotate`、`clip-path` 等效果，但需通过 schema 的“expressive”布尔值或 `brand_boldness` 来控制，避免常规 Section 误触发。
+- 若必须自定义 `gap`/`padding`，请通过 `calc(var(--content-padding) * 1.5)` 等方式引用 token，保证主题设置仍能影响布局。
 
 ---
 

@@ -200,6 +200,10 @@
       --brand-boldness: {{ brand_boldness }};
       --density-multiplier: {{ density_multiplier }};
       --scale-multiplier: {{ scale_multiplier }};
+      {% assign display_scale = settings.display_scale | default: 110 %}
+      {% assign hero_content_max_width = settings.hero_content_max_width | default: 960 %}
+      --display-scale: calc({{ display_scale }} / 100);
+      --hero-max-width: {{ hero_content_max_width }}px;
       
       /* Component Size Tokens */
       {% assign button_padding_x_base = settings.button_padding_x | default: 24 %}
