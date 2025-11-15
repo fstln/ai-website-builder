@@ -28,8 +28,9 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'feature' -%}
-            <div class="grid md:grid-cols-2 gap-8 items-center {% if forloop.index | modulo: 2 == 0 %}md:grid-flow-col-dense md:grid-cols-2 md:gap-12{% endif %}">
-              <div class="{% if forloop.index | modulo: 2 == 0 %}md:col-start-2{% endif %}">
+            {% assign modulo = forloop.index | modulo: 2 %}
+            <div class="grid md:grid-cols-2 gap-8 items-center {% if mofulo == 0 %}md:grid-flow-col-dense md:grid-cols-2 md:gap-12{% endif %}">
+              <div class="{% if modulo == 0 %}md:col-start-2{% endif %}">
                 {%- if block.settings.image != blank -%}
                   {{ block.settings.image | image_url: width: 1200 | image_tag: class: 'rounded-2xl shadow-lg', loading: 'lazy', sizes: '(min-width: 768px) 50vw, 100vw' }}
                 {%- else -%}
