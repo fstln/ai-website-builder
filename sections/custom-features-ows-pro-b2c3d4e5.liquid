@@ -1,0 +1,133 @@
+{%- comment -%}
+  This section highlights the Key Selling Points (KSPs) of the Oladance OWS Pro.
+  - PM: Defined the core features to build user interest.
+  - Designer: Used a two-column grid with icons for scannability and visual appeal.
+  - Architect: Implemented with a flexible `blocks` schema for easy content management.
+{%- endcomment -%}
+
+<section class="color-scheme color-{{ section.settings.color_scheme }} bg-background py-16 sm:py-20 lg:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:text-center">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-heading">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="mt-6 text-lg leading-8 text-muted">
+          {{ section.settings.subheading }}
+        </p>
+      {%- endif -%}
+    </div>
+    <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+      <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+        {%- for block in section.blocks -%}
+          <div class="relative pl-16" {{ block.shopify_attributes }}>
+            <dt class="text-base font-semibold leading-7 text-foreground">
+              <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
+                <div class="h-6 w-6 text-primary-foreground">
+                  {{ block.settings.icon_svg }}
+                </div>
+              </div>
+              {{ block.settings.title }}
+            </dt>
+            <dd class="mt-2 text-base leading-7 text-muted">{{ block.settings.description }}</dd>
+          </div>
+        {%- endfor -%}
+      </dl>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom: Features (OWS Pro)",
+  "tag": "section",
+  "class": "custom-features-ows-pro-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Everything you need to know"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Discover the core features that make Oladance OWS Pro unique."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature_item",
+      "name": "Feature Item",
+      "settings": [
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "Icon SVG",
+          "info": "Paste your 24x24 SVG code here."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Describe the feature in a few sentences."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom: Features (OWS Pro)",
+      "blocks": [
+        {
+          "type": "feature_item",
+          "settings": {
+            "icon_svg": "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' d='M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25' /></svg>",
+            "title": "Powerful Surge of Sound",
+            "description": "Our patented Virtual Bass 2nd algorithm uses high dynamic power to enhance low-frequency sound quality, significantly improving bass volume."
+          }
+        },
+        {
+          "type": "feature_item",
+          "settings": {
+            "icon_svg": "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' d='M21 10.5h.375c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125H21M4.5 10.5H18V15H4.5v-4.5zM3.75 18h15A2.25 2.25 0 0021 15.75v-6.375A2.25 2.25 0 0018.75 7.5h-15A2.25 2.25 0 001.5 9.375v6.375A2.25 2.25 0 003.75 18z' /></svg>",
+            "title": "58 Hours of Full Battery Life",
+            "description": "Our self-developed 150mAh 'Little Steel Cannon' battery offers high density, small volume, and stronger charge storage."
+          }
+        },
+        {
+          "type": "feature_item",
+          "settings": {
+            "icon_svg": "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' d='M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z' /></svg>",
+            "title": "Entirely Open Ear Design",
+            "description": "With our patented open ear design, the OWS Pro keeps you in sync with your surroundings, without sealing the ear canal."
+          }
+        },
+        {
+          "type": "feature_item",
+          "settings": {
+            "icon_svg": "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' d='M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7zM19.5 12a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z' /></svg>",
+            "title": "Comfortable Enough to Forget",
+            "description": "Our patented design and integrated liquid silicone molding mean the OWS Pro rests gently on top of your ear, never intruding."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
