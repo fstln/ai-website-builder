@@ -1,0 +1,124 @@
+{%- comment -%}
+  This hero section is designed for the Oladance OWS Pro product page.
+  It follows an asymmetrical layout to create a modern, high-end feel.
+  - Designer: Emphasized bold typography and generous spacing.
+  - Architect: Built with utility-first CSS and a fully configurable schema.
+{%- endcomment -%}
+
+{%- liquid
+  assign section_id = 'custom-hero-' | append: section.id
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign button_label = section.settings.button_label
+  assign button_link = section.settings.button_link
+  assign image = section.settings.image
+-%}
+
+<section
+  id="{{ section_id }}"
+  class="color-scheme color-{{ section.settings.color_scheme }} bg-background overflow-hidden"
+  data-section-id="{{ section.id }}"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12 py-16 sm:py-20 lg:py-24">
+      <div class="flex flex-col justify-center items-start text-left">
+        <div class="max-w-lg">
+          {%- if subheading != blank -%}
+            <p class="text-base font-semibold leading-7 text-primary">{{ subheading }}</p>
+          {%- endif -%}
+          {%- if heading != blank -%}
+            <h1 class="mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl font-heading">
+              {{ heading }}
+            </h1>
+          {%- endif -%}
+          <p class="mt-6 text-lg leading-8 text-muted">
+            {{ section.settings.paragraph }}
+          </p>
+          {%- if button_label != blank and button_link != blank -%}
+            <div class="mt-10">
+              <a href="{{ button_link }}" class="btn btn-primary">
+                {{ button_label }}
+              </a>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="flex items-center justify-center">
+        {%- if image != blank -%}
+          <img
+            src="{{ image | image_url: width: 1000 }}"
+            alt="{{ image.alt | escape }}"
+            width="1000"
+            height="1000"
+            class="w-full max-w-md md:max-w-none rounded-2xl object-cover"
+            loading="eager"
+          >
+        {%- else -%}
+          <img
+            src="https://placehold.co/1000x1000/F3F4F6/333333?text=OWS+Pro"
+            alt="Oladance OWS Pro placeholder image"
+            width="1000"
+            height="1000"
+            class="w-full max-w-md md:max-w-none rounded-2xl object-cover"
+            loading="eager"
+          >
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom: Hero (OWS Pro)",
+  "tag": "section",
+  "class": "custom-hero-ows-pro-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Oladance OWS Pro"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Second-Generation Bass Algorithm"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraph",
+      "default": "<p>Our patented Virtual Bass 2nd algorithm uses high dynamic power to enhance low-frequency sound quality, significantly improving bass volume for a fuller, deeper bass.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom: Hero (OWS Pro)"
+    }
+  ]
+}
+{% endschema %}
