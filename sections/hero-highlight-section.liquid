@@ -1,12 +1,12 @@
 {%- comment -%}
-  This hero section is designed for the Oladance OWS Pro product page.
-  It follows an asymmetrical layout to create a modern, high-end feel.
+  Reusable hero highlight section featuring a split layout with optional CTA.
   - Designer: Emphasized bold typography and generous spacing.
   - Architect: Built with utility-first CSS and a fully configurable schema.
 {%- endcomment -%}
 
 {%- liquid
-  assign section_id = 'custom-hero-' | append: section.id
+  assign fallback_section_id = 'hero-highlight-section-' | append: section.index
+  assign section_id = section.settings.section_id | default: fallback_section_id
   assign heading = section.settings.heading
   assign subheading = section.settings.subheading
   assign button_label = section.settings.button_label
@@ -25,7 +25,7 @@
 -%}
 
 <section
-  id="{{ section_id }}"
+  id="{{ section_id | escape }}"
   class="color-scheme color-{{ section.settings.color_scheme }} bg-background overflow-hidden"
   data-section-id="{{ section.id }}"
 >
@@ -65,8 +65,8 @@
           >
         {%- else -%}
           <img
-            src="https://placehold.co/1000x1000/F3F4F6/333333?text=OWS+Pro"
-            alt="Oladance OWS Pro placeholder image"
+            src="https://placehold.co/1000x1000/F3F4F6/333333?text=Hero+Image"
+            alt="Hero placeholder image"
             width="1000"
             height="1000"
             class="w-full max-w-md md:max-w-none rounded-2xl object-cover"
@@ -80,15 +80,21 @@
 
 {% schema %}
 {
-  "name": "Custom: Hero (OWS Pro)",
+  "name": "Hero highlight",
   "tag": "section",
-  "class": "custom-hero-ows-pro-section",
+  "class": "hero-highlight-section",
   "settings": [
     {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color Scheme",
       "default": "scheme-2"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section ID",
+      "info": "Used for anchor links. Defaults to hero-highlight-section-{index} when left blank."
     },
     {
       "type": "image_picker",
@@ -109,19 +115,19 @@
       "type": "text",
       "id": "subheading",
       "label": "Subheading",
-      "default": "Oladance OWS Pro"
+      "default": "Featured product"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "The Second-Generation Bass Algorithm"
+      "default": "Bring your big story to the top of the page"
     },
     {
       "type": "richtext",
       "id": "paragraph",
       "label": "Paragraph",
-      "default": "<p>Our patented Virtual Bass 2nd algorithm uses high dynamic power to enhance low-frequency sound quality, significantly improving bass volume for a fuller, deeper bass.</p>"
+      "default": "<p>Use this space to explain your value proposition, product benefit, or promotion with concise, compelling copy.</p>"
     },
     {
       "type": "text",
@@ -137,7 +143,7 @@
   ],
   "presets": [
     {
-      "name": "Custom: Hero (OWS Pro)"
+      "name": "Hero highlight"
     }
   ]
 }

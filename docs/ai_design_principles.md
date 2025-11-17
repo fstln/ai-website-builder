@@ -51,8 +51,10 @@
 
 ### 3.2 操作意图一致
 - **Primary actions**：所有关键操作使用 `.btn.btn-primary`（主色填充 + 统一 hover）。
-- **Secondary actions**：统一采用 `.btn.btn-outline-primary`（描边/透明背景，`.btn.btn-secondary` 仅作兼容别名），不要自定义渐变或反色。
+- **Secondary actions**：统一采用 `.btn.btn-outline-primary`（描边/透明背景），不要自定义渐变或反色。
 - **Destructive actions**：破坏性操作仅使用 `settings.color_error` 及匹配的语义工具类。
+  
+实现细则（类名与状态）请参见 `docs/visual_spec.md` 的按钮规范；本节仅约束语义与一致性。
 
 ### 3.3 对比度、反色与辅助状态
 - 文本与背景必须满足 WCAG AA（至少 4.5:1）。使用 `text-foreground`/`text-muted` 配合 `bg-background`/`bg-inverse` 保证层级；当需要浮起层次时，在内层容器使用 `bg-surface`。

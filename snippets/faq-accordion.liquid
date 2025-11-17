@@ -1,0 +1,59 @@
+{%- comment -%}
+  Shared FAQ accordion snippet.
+  Accepts:
+    - section_id: optional anchor ID for the wrapper section
+    - color_scheme: Shopify color scheme handle (defaults to scheme-2)
+    - heading: main title (defaults to "Frequently Asked Questions")
+    - subheading: optional subtitle text
+    - faqs / blocks: array of FAQ items. Each item can be a section block or a simple object
+      with "question" and "answer" keys.
+    - section_classes: extra classes for the wrapper section.
+{%- endcomment -%}
+
+{%- liquid
+  assign faq_section_id = section_id
+  assign faq_color_scheme = color_scheme | default: 'scheme-2'
+  assign faq_heading = heading | default: 'Frequently Asked Questions'
+  assign faq_subheading = subheading
+  assign faq_items = faqs | default: blocks
+  assign faq_section_classes = section_classes
+-%}
+
+{%- if faq_items != blank -%}
+<section{% if faq_section_id %} id="{{ faq_section_id | escape }}"{% endif %} class="color-scheme color-{{ faq_color_scheme }} bg-background py-16 sm:py-20 lg:py-24{% if faq_section_classes %} {{ faq_section_classes }}{% endif %}">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-heading text-center">
+        {{ faq_heading }}
+      </h2>
+      {%- if faq_subheading != blank -%}
+        <p class="mt-6 text-lg leading-8 text-muted text-center">
+          {{ faq_subheading }}
+        </p>
+      {%- endif -%}
+      <div class="mt-12 space-y-6">
+        {%- for faq in faq_items -%}
+          {%- liquid
+            assign faq_question = faq.question | default: faq.settings.question
+            assign faq_answer = faq.answer | default: faq.settings.answer
+            assign faq_attributes = faq.shopify_attributes
+          -%}
+          <details class="group rounded-lg bg-surface p-6 shadow-sm"{% if faq_attributes %} {{ faq_attributes }}{% endif %}>
+            <summary class="flex cursor-pointer items-center justify-between text-lg font-medium text-foreground">
+              {{ faq_question }}
+              <span class="ml-4 h-6 w-6 flex-shrink-0">
+                <svg class="h-6 w-6 transform transition-transform duration-200 group-open:-rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+              </span>
+            </summary>
+            <div class="mt-4 text-base text-muted prose max-w-none">
+              {{ faq_answer }}
+            </div>
+          </details>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}

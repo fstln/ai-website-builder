@@ -11,6 +11,7 @@ import { sectionRenderer, morphSection } from '../utils/section-renderer.js';
 export class VariantSelectorComponent extends Component {
   #pendingRequestUrl = null;
   #abortController = null;
+  productData = null;
 
   connectedCallback() {
     super.connectedCallback();
@@ -40,7 +41,10 @@ export class VariantSelectorComponent extends Component {
         this.productData = JSON.parse(productScript.textContent);
       } catch (error) {
         console.error('Failed to parse product data:', error);
+        this.productData = null;
       }
+    } else {
+      this.productData = null;
     }
   }
 
@@ -52,25 +56,32 @@ export class VariantSelectorComponent extends Component {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
-    // Get selected option element
+    // Get selected option element if available
     const selectedOption = target instanceof HTMLSelectElement 
       ? target.options[target.selectedIndex] 
       : target;
 
-    if (!selectedOption) return;
+    if (selectedOption) {
+      this.#updateSelectedOption(target);
+    }
 
-    // Update visual state
-    this.#updateSelectedOption(target);
+    const currentVariant = this.#getSelectedVariant();
 
     // Dispatch variant selected event (before fetching)
     this.dispatchEvent(new CustomEvent(ThemeEvents.variantSelected, {
       detail: { 
-        optionValueId: selectedOption.dataset.optionValueId || '',
+        optionValueId: selectedOption?.dataset.optionValueId || '',
+        variantId: currentVariant?.id?.toString() || selectedOption?.dataset.variantId || '',
         source: 'variant-selector-component'
       },
       bubbles: true,
       composed: true
     }));
+
+    if (!currentVariant) {
+      this.#dispatchVariantUpdate(null);
+      return;
+    }
 
     // Check if on product page
     const isOnProductPage = this.dataset.productPage === 'true' &&
@@ -78,14 +89,14 @@ export class VariantSelectorComponent extends Component {
       !this.closest('quick-add-dialog');
 
     // Build request URL
-    const requestUrl = this.#buildRequestUrl(selectedOption);
+    const requestUrl = this.#buildRequestUrl(currentVariant.id);
     
     // Fetch updated section
-    await this.#fetchUpdatedSection(requestUrl);
+    await this.#fetchUpdatedSection(requestUrl, currentVariant);
 
     // Update URL if on product page
     if (isOnProductPage) {
-      const variantId = selectedOption.dataset.variantId;
+      const variantId = currentVariant.id;
       const url = new URL(window.location.href);
       
       if (variantId) {
@@ -123,17 +134,16 @@ export class VariantSelectorComponent extends Component {
 
   /**
    * Build request URL for variant
-   * @param {HTMLElement} selectedOption
+   * @param {string | number} variantId
    * @returns {string}
    */
-  #buildRequestUrl(selectedOption) {
+  #buildRequestUrl(variantId) {
     const productUrl = this.dataset.productUrl?.split('?')[0];
     if (!productUrl) return '';
 
     const url = new URL(productUrl, window.location.origin);
     
     // Add variant ID if available
-    const variantId = selectedOption.dataset.variantId;
     if (variantId) {
       url.searchParams.set('variant', variantId);
     }
@@ -150,9 +160,13 @@ export class VariantSelectorComponent extends Component {
   /**
    * Fetch updated section HTML
    * @param {string} requestUrl
+   * @param {any} fallbackVariant
    */
-  async #fetchUpdatedSection(requestUrl) {
-    if (!requestUrl) return;
+  async #fetchUpdatedSection(requestUrl, fallbackVariant = null) {
+    if (!requestUrl) {
+      this.#dispatchVariantUpdate(fallbackVariant);
+      return;
+    }
 
     // Cancel previous request
     if (this.#abortController) {
@@ -180,28 +194,18 @@ export class VariantSelectorComponent extends Component {
       // Extract variant data from new HTML
       const newVariantSelector = doc.querySelector('variant-selector-component');
       const productScript = newVariantSelector?.querySelector('[type="application/json"]');
+      let variantForEvent = fallbackVariant;
       
       if (productScript) {
         try {
           const productData = JSON.parse(productScript.textContent);
-          const selectedVariant = productData.selected_or_first_available_variant;
-
-          // Dispatch variant update event with full variant data
-          this.dispatchEvent(new CustomEvent(ThemeEvents.variantUpdate, {
-            detail: {
-              variant: selectedVariant,
-              productId: this.dataset.productId,
-              html: doc,
-              source: 'variant-selector-component'
-            },
-            bubbles: true,
-            composed: true
-          }));
-
+          variantForEvent = productData.selected_or_first_available_variant || productData.current_variant || fallbackVariant;
         } catch (error) {
           console.error('Failed to parse variant data:', error);
         }
       }
+
+      this.#dispatchVariantUpdate(variantForEvent, doc);
 
       // Update this component's HTML if needed
       if (newVariantSelector) {
@@ -216,6 +220,7 @@ export class VariantSelectorComponent extends Component {
         return;
       }
       console.error('Failed to fetch variant:', error);
+      this.#dispatchVariantUpdate(fallbackVariant);
     } finally {
       this.#pendingRequestUrl = null;
       this.#abortController = null;
@@ -256,9 +261,100 @@ export class VariantSelectorComponent extends Component {
       }
     }
   }
+
+  /**
+   * Get selected option values in product option order
+   * @returns {string[]}
+   */
+  #getSelectedOptions() {
+    if (!this.productData?.options) {
+      return [];
+    }
+
+    const selections = new Map();
+    const inputs = this.querySelectorAll('input[name^="options"], select[name^="options"]');
+
+    inputs.forEach((input) => {
+      const nameMatch = input.name?.match(/^options\[(.+)\]$/);
+      if (!nameMatch) {
+        return;
+      }
+
+      const optionName = nameMatch[1];
+
+      if (input instanceof HTMLInputElement) {
+        if (input.type === 'radio') {
+          if (input.checked) {
+            selections.set(optionName, input.value);
+          }
+        } else {
+          selections.set(optionName, input.value);
+        }
+      } else if (input instanceof HTMLSelectElement) {
+        selections.set(optionName, input.value);
+      }
+    });
+
+    return this.productData.options.map((optionName) => selections.get(optionName) || '');
+  }
+
+  /**
+   * Resolve the currently selected variant from option selections
+   * @returns {any | null}
+   */
+  #getSelectedVariant() {
+    if (!this.productData?.variants?.length) {
+      return null;
+    }
+
+    const selectedOptions = this.#getSelectedOptions();
+    if (!selectedOptions.length) {
+      return null;
+    }
+
+    return this.productData.variants.find((variant) => {
+      const variantOptions = variant.options || [
+        variant.option1,
+        variant.option2,
+        variant.option3
+      ].filter(Boolean);
+
+      return variantOptions.every((optionValue, index) => {
+        const selectedValue = selectedOptions[index];
+        return !selectedValue || optionValue === selectedValue;
+      });
+    }) || null;
+  }
+
+  /**
+   * Dispatch both theme and legacy variant update events
+   * @param {any | null} variant
+   * @param {Document} [doc]
+   */
+  #dispatchVariantUpdate(variant, doc = undefined) {
+    this.dispatchEvent(new CustomEvent(ThemeEvents.variantUpdate, {
+      detail: {
+        variant,
+        productId: this.dataset.productId,
+        html: doc,
+        source: 'variant-selector-component'
+      },
+      bubbles: true,
+      composed: true
+    }));
+
+    if (variant) {
+      document.dispatchEvent(new CustomEvent('variant:selected', {
+        detail: {
+          variant,
+          media: variant
+        },
+        bubbles: true
+      }));
+    }
+  }
 }
 
 if (!customElements.get('variant-selector-component')) {
   customElements.define('variant-selector-component', VariantSelectorComponent);
 }
-

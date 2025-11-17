@@ -45,11 +45,11 @@ Sections & Snippets 中的 `bg-* / text-* / shadow-*` 等实用类（见 visual_
 
 ### 2.2 Color Scheme 角色
 
-每个 scheme 在 Shopify `color_scheme_group` 中定义 18 个角色。`snippets/color-schemes.liquid` 会衍生 surface、muted、inverse、primary-soft 等变量。Tailwind 中可直接使用的常用语义：
+每个 scheme 在 Shopify `color_scheme_group` 中定义 18 个角色。`snippets/color-schemes.liquid` 会衍生 surface、muted、inverse、primary-soft 等变量。Tailwind 中常用语义包括：
 
 - 背景：`bg-background`, `bg-surface`, `bg-surface-muted`, `bg-inverse`, `bg-inverse-surface`
 - 文本：`text-foreground`, `text-muted`, `text-inverse-foreground`
-- CTA：主按钮使用 `.btn.btn-primary`（实体填充），次按钮使用 `.btn.btn-outline-primary`（仅描边，`.btn.btn-secondary` 为兼容别名），不要自定义渐变或反色 hover
+- CTA：按钮样式与交互状态详见 `docs/visual_spec.md`（避免自定义渐变/反色 hover）
 - 边框 & 分隔：`border-border`, `divide-border/60`
 - 装饰：`bg-primary-soft`, `bg-decorative`
 - 输入：`bg-input`, `text-input-foreground`, `border-input-border`

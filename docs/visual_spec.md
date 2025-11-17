@@ -31,7 +31,7 @@
 | Surface（卡片/模态） | `bg-surface text-foreground shadow-sm rounded-lg` | 浮起的卡片容器；保持与父级背景对比 |
 | Muted Surface | `bg-surface-muted text-foreground` | 分组背景、空状态（可选） |
 | Primary CTA | `bg-primary text-primary-foreground` | 主按钮、badge |
-| Secondary CTA | `.btn.btn-outline-primary`（描边/透明背景，旧版 `.btn.btn-secondary` 为兼容别名） | 次按钮、ghost CTA |
+| Secondary CTA | `.btn.btn-outline-primary`（描边/透明背景；`.btn.btn-secondary` 为兼容别名） | 次按钮、ghost CTA |
 | 文本语义 | `text-foreground`（正文）、`text-muted`（说明/占位） | 任何文本 |
 | 分隔线/边框 | `border border-border`、`divide-border/60` | 列表、卡片分隔 |
 | 输入 | `bg-input border-input-border text-input-foreground` | Input/textarea |
@@ -44,6 +44,8 @@
 - Section 或 Block 的根背景由 `color-scheme` 决定，默认 `bg-background`。浮起卡片/模态一律使用 `bg-surface`，需要更软的分组背景再切换 `bg-surface-muted`。
 - 单色背景不使用 border 分割，使用 `shadow-*` 或不同 surface 层级。
 - 透明叠加通过 `/opacity`：如 `bg-primary/10`, `text-foreground/70`。
+
+按钮交互状态与类组合的详细规则请参阅 `docs/ai_design_principles.md` 的“交互状态合约（按钮）”，避免在多个文档重复维护。
 
 ---
 

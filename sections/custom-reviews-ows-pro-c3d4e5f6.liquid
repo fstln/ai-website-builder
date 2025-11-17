@@ -5,7 +5,12 @@
   - Architect: Built with a flexible `blocks` schema for dynamic review management.
 {%- endcomment -%}
 
-<section class="color-scheme color-{{ section.settings.color_scheme }} bg-background py-16 sm:py-20 lg:py-24">
+{%- liquid
+  assign fallback_section_id = 'custom-reviews-ows-pro-c3d4e5f6-' | append: section.index
+  assign section_id = section.settings.section_id | default: fallback_section_id
+-%}
+
+<section id="{{ section_id | escape }}" class="color-scheme color-{{ section.settings.color_scheme }} bg-background py-16 sm:py-20 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-2xl lg:text-center">
       <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-heading">
@@ -76,6 +81,13 @@
       "id": "color_scheme",
       "label": "Color Scheme",
       "default": "scheme-2"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section ID",
+      "default": "",
+      "info": "Used for anchor links. Defaults to custom-reviews-ows-pro-c3d4e5f6-{index} when left blank."
     },
     {
       "type": "text",

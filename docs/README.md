@@ -70,6 +70,14 @@ This directory contains documentation to help AI assistants understand and work 
 **Use when**: 设计/生成模块时需要确保 alt text、对比度、键盘可达等要求落地。
 
 ### 10. [SEO Playbook](./seo_playbook.md)
+ 
+### 11. [通用模块与组件目录](./modules_catalog.md)
+**Purpose**: 枚举现有可复用的 Snippets、Web Components、JS 模块与工具，说明用途与接入方式  
+**Use when**: 想复用已有能力（购物车抽屉、产品卡、FAQ、变体/图廊等），避免重复造轮子
+
+### 12. [Sections 目录与适用场景](./sections_catalog.md)
+**Purpose**: 列出主题已实现的 Sections、推荐放置位置、依赖与注意事项  
+**Use when**: 规划页面结构、挑选合适区块、为长购买页配置粘性锚点导航
 **Purpose**: 整合 Shopify SEO 能力、语义结构与性能要求的执行清单  
 **Use when**: 生成页面/模块时需要设置 meta、结构化数据、lazy loading、语义标签或评估性能。
 

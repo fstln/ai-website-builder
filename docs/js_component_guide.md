@@ -86,6 +86,8 @@ customElements.define('countdown-timer', CountdownTimer);
   - 购物车：使用 [Cart AJAX API](https://shopify.dev/docs/api/ajax/reference/cart) 与 Fetch。
   - Section Rendering：`fetch('/?sections=section-id')` 获取更新片段。
 
+> 事件与数据流：购物车相关事件名与分发方式（如 `cart:item-added`, `cart:updated`, `cart:error`）统一记录在 `docs/modules_catalog.md`，组件实现请直接复用，避免各文档重复描述。
+
 ---
 
 ## 5. 交互模式

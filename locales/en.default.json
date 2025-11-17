@@ -129,7 +129,8 @@
         "load_image": "Load image {{ index }} in gallery view",
         "load_model": "Load 3D model in gallery view",
         "load_video": "Play video in gallery view"
-      }
+      },
+      "checkout": "Buy Now"
     }
   },
   "collections": {

@@ -776,7 +776,6 @@
   <div class="global-sticky-bar fixed bottom-0 inset-x-0 z-40 transform translate-y-full transition-transform duration-300 border-t" data-sticky-bar data-sticky-mode="global">
     <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div class="flex-1 min-w-0">
-        <p class="text-xs text-muted truncate">{{ product.title }}</p>
         <p class="text-sm font-semibold text-foreground truncate" data-sticky-variant-title>{{ sticky_variant.title | default: product.title }}</p>
         <div class="flex items-baseline gap-2">
           <span class="text-lg font-bold text-foreground" data-sticky-price>{{ sticky_variant.price | money }}</span>
@@ -794,7 +793,6 @@
           class="btn btn-primary w-full sm:w-auto text-base font-semibold flex items-center justify-center gap-2"
           data-sticky-add-to-cart
         >
-          {% render 'icon', name: 'cart-outline', class: 'w-5 h-5' %}
           <span data-sticky-cart-text>{{ 'products.product.add_to_cart' | t }}</span>
         </button>
         <a 
@@ -802,7 +800,6 @@
           class="btn btn-secondary w-full sm:w-auto text-base font-semibold flex items-center justify-center gap-2"
           data-sticky-checkout-link
         >
-          {% render 'icon', name: 'arrow-right', class: 'w-5 h-5' %}
           <span>{{ 'products.product.checkout' | t | default: 'Checkout' }}</span>
         </a>
       </div>

@@ -1,51 +1,38 @@
 {%- comment -%}
-  This section addresses common user questions to reduce pre-sale friction.
-  - PM: Focused on answering final user doubts to lower support load.
-  - Designer: Used an accordion UI to keep the layout clean and user-friendly.
-  - Architect: Implemented with a block-based schema and native HTML details/summary for performance.
+  Reusable FAQ accordion section built on the shared snippet.
+  Keeps the same UX used on the OWS Pro page while exposing configurable settings.
 {%- endcomment -%}
 
-<section class="color-scheme color-{{ section.settings.color_scheme }} bg-background py-16 sm:py-20 lg:py-24">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-3xl">
-      <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-heading text-center">
-        {{ section.settings.heading }}
-      </h2>
-      <p class="mt-6 text-lg leading-8 text-muted text-center">
-        {{ section.settings.subheading }}
-      </p>
-      <div class="mt-12 space-y-6">
-        {%- for block in section.blocks -%}
-          <details class="group rounded-lg bg-surface p-6 shadow-sm" {{ block.shopify_attributes }}>
-            <summary class="flex cursor-pointer items-center justify-between text-lg font-medium text-foreground">
-              {{ block.settings.question }}
-              <span class="ml-4 h-6 w-6 flex-shrink-0">
-                <svg class="h-6 w-6 transform transition-transform duration-200 group-open:-rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                </svg>
-              </span>
-            </summary>
-            <div class="mt-4 text-base text-muted prose max-w-none">
-              {{ block.settings.answer }}
-            </div>
-          </details>
-        {%- endfor -%}
-      </div>
-    </div>
-  </div>
-</section>
+{%- liquid
+  assign fallback_section_id = 'faq-accordion-section-' | append: section.index
+  assign section_id = section.settings.section_id | default: fallback_section_id
+-%}
+
+{%- render 'faq-accordion',
+  section_id: section_id,
+  color_scheme: section.settings.color_scheme,
+  heading: section.settings.heading,
+  subheading: section.settings.subheading,
+  faqs: section.blocks
+-%}
 
 {% schema %}
 {
-  "name": "Custom: FAQ (OWS Pro)",
+  "name": "FAQ (Accordion)",
   "tag": "section",
-  "class": "custom-faq-ows-pro-section",
+  "class": "faq-accordion-section",
   "settings": [
     {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color Scheme",
       "default": "scheme-2"
+    },
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section ID",
+      "info": "Used for anchor links. Defaults to faq-accordion-section-{index} when left blank."
     },
     {
       "type": "text",
@@ -82,7 +69,7 @@
   ],
   "presets": [
     {
-      "name": "Custom: FAQ (OWS Pro)",
+      "name": "FAQ (Accordion)",
       "blocks": [
         {
           "type": "faq_item",
