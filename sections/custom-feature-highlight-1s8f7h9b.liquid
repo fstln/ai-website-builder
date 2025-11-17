@@ -1,0 +1,119 @@
+{%- liquid
+  assign section_id = 'feature-highlight-' | append: section.id
+  assign image = section.settings.image
+  assign layout = section.settings.layout
+-%}
+
+<section
+  id="{{ section_id }}"
+  class="color-scheme color-{{ section.settings.color_scheme }} py-12 sm:py-16 lg:py-20"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 items-center gap-12 md:grid-cols-2 lg:gap-20">
+      <div class="{% if layout == 'image_right' %}md:order-last{% endif %}">
+        {%- if image != blank -%}
+          <img
+            class="w-full rounded-2xl shadow-lg"
+            src="{{ image | image_url: width: 1200 }}"
+            alt="{{ image.alt | escape }}"
+            width="{{ image.width }}"
+            height="{{ image.height }}"
+            loading="lazy"
+          >
+        {%- else -%}
+          <img
+            class="w-full rounded-2xl shadow-lg"
+            src="https://placehold.co/800x600/e0e7ff/333333?text=Feature+Image"
+            alt="Placeholder for feature highlight"
+            width="800"
+            height="600"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+
+      <div class="flex flex-col items-start text-left">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-muted">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <div class="mt-6 text-base leading-relaxed text-foreground">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+          <div class="mt-8">
+            <a href="{{ section.settings.button_link }}" class="btn btn-primary">
+              {{ section.settings.button_label }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Feature Highlight",
+  "tag": "section",
+  "class": "feature-highlight-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Image placement",
+      "options": [
+        { "value": "image_left", "label": "Image on left" },
+        { "value": "image_right", "label": "Image on right" }
+      ],
+      "default": "image_left"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Our Technology"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Feature Highlight"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Use this section to highlight a key feature of your product. Pair it with a compelling image or graphic.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature Highlight"
+    }
+  ]
+}
+{% endschema %}
