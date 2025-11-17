@@ -51,8 +51,11 @@
     "button_padding_y": 16,
     "button_min_height": 48,
     "button_font_size": 14,
+    "button_corner_radius": 12,
+    "button_corner_radius_pill": true,
     "card_padding": 24,
     "card_gap": 32,
+    "card_corner_radius": 24,
     "input_padding_x": 16,
     "input_padding_y": 16,
     "input_min_height": 48,
@@ -69,6 +72,8 @@
     "content_padding": 24,
     "grid_gap": 24,
     "container_max_width": 1376,
+    "favicon": "shopify://shop_images/favicon.png",
+    "logo": "shopify://shop_images/Heyup_store_logo.png",
     "social_instagram_link": "https://www.instagram.com/yourbrand",
     "social_facebook_link": "https://www.facebook.com/yourbrand",
     "social_tiktok_link": "https://www.tiktok.com/@yourbrand",
@@ -170,10 +175,7 @@
           "shadow": "#000000"
         }
       }
-    },
-    "button_corner_radius": 12,
-    "button_corner_radius_pill": true,
-    "card_corner_radius": 24
+    }
   },
   "presets": {
     "Heyup": {
