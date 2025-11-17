@@ -49,7 +49,7 @@ ai-website-from-scratch/
 │   ├── hero.liquid               # Homepage hero banner
 │   ├── featured-products.liquid   # Featured products section
 │   ├── featured-collection.liquid # Featured collection section
-│   ├── custom-sticky-navbar.liquid # Sticky pill navigation for purchase pages (jump links)
+│   ├── sticky-navbar.liquid # Sticky pill navigation for purchase pages (jump links)
 │   ├── main-product.liquid       # Product page content
 │   ├── main-collection.liquid    # Collection page content
 │   ├── main-cart.liquid          # Cart page content

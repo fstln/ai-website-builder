@@ -2,7 +2,66 @@
   "sections": {
     "main-product": {
       "type": "main-product",
-      "settings": {}
+      "blocks": {
+        "product_title_wkgHei": {
+          "type": "product_title",
+          "settings": {}
+        },
+        "product_price_bFpLGn": {
+          "type": "product_price",
+          "settings": {}
+        },
+        "promotion_discount_bar_d4A4KP": {
+          "type": "promotion_discount_bar",
+          "disabled": true,
+          "settings": {
+            "badge_label": "",
+            "promo_heading": "Extra 15% off for first-time customers",
+            "promo_subtext": "Use the code below and save instantly at checkout.",
+            "background_color": "rgba(94,137,255, .2)",
+            "text_color": "#000000",
+            "discount_code": "SAVE15",
+            "button_label": "Claim discount",
+            "claimed_label": "Discount saved",
+            "cookie_duration": 30
+          }
+        },
+        "product_description_R6JmKQ": {
+          "type": "product_description",
+          "settings": {
+            "description_content": "<p>Describe your hero product highlights, materials, and key benefits in a couple of punchy sentences.</p>"
+          }
+        },
+        "variant_selector_ifAAig": {
+          "type": "variant_selector",
+          "settings": {}
+        },
+        "quantity_selector_jJfRJ9": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_aDWXeR": {
+          "type": "buy_buttons",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "product_title_wkgHei",
+        "product_price_bFpLGn",
+        "promotion_discount_bar_d4A4KP",
+        "product_description_R6JmKQ",
+        "variant_selector_ifAAig",
+        "quantity_selector_jJfRJ9",
+        "buy_buttons_aDWXeR"
+      ],
+      "name": "Main Product",
+      "settings": {
+        "color_scheme": "",
+        "enable_global_sticky_bar": true,
+        "discount_ribbon_color_start": "#ef4444",
+        "discount_ribbon_color_end": "#ef4444",
+        "discount_ribbon_text_color": "#ffffff"
+      }
     },
     "custom_hero_ows_pro_a1b2c3d4": {
       "type": "custom-hero-ows-pro-a1b2c3d4",

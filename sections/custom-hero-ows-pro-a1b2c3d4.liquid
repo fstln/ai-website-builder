@@ -16,11 +16,11 @@
   assign text_classes = 'order-1'
   assign image_classes = 'order-2'
   if image_position == 'left'
-    assign text_classes = text_classes | append: ' lg:order-2'
-    assign image_classes = image_classes | append: ' lg:order-1'
+    assign text_classes = text_classes | append: ' md:order-2 lg:order-2'
+    assign image_classes = image_classes | append: ' md:order-1 lg:order-1'
   else
-    assign text_classes = text_classes | append: ' lg:order-1'
-    assign image_classes = image_classes | append: ' lg:order-2'
+    assign text_classes = text_classes | append: ' md:order-1 lg:order-1'
+    assign image_classes = image_classes | append: ' md:order-2 lg:order-2'
   endif
 -%}
 
