@@ -1,0 +1,459 @@
+{%- liquid
+  assign section_dom_id = 'ows-pro-' | append: section.id
+  assign current_variant = product.selected_or_first_available_variant
+-%}
+<section id="{{ section.settings.section_id | default: section.id }}" class="color-scheme color-{{ section.settings.color_scheme | default: 'scheme-1' }} bg-background text-foreground" data-section-type="ows-pro" data-section-id="{{ section.id }}">
+  <style>
+    /* Scoped only to this section */
+    #{{ section_dom_id }} .gradient-mesh{
+      position: relative;
+      isolation: isolate;
+      background: radial-gradient(60% 60% at 20% 20%, color-mix(in oklab, var(--color-primary), transparent 85%) 0%, transparent 70%),
+                  radial-gradient(50% 50% at 80% 30%, color-mix(in oklab, var(--color-decorative, var(--color-primary)), transparent 88%) 0%, transparent 70%),
+                  radial-gradient(40% 40% at 50% 90%, color-mix(in oklab, var(--color-accent, var(--color-primary)), transparent 90%) 0%, transparent 70%);
+    }
+    #{{ section_dom_id }} .float {
+      animation: float-anim 4s ease-in-out infinite;
+    }
+    @keyframes float-anim { 0%,100%{ transform: translateY(0)} 50%{ transform: translateY(-10px)} }
+    @media (prefers-reduced-motion: reduce){
+      #{{ section_dom_id }} .float { animation: none; }
+    }
+    #{{ section_dom_id }} .sticky-cta{ transform: translateY(100%); transition: transform .25s ease-out; }
+    #{{ section_dom_id }} .sticky-cta.visible{ transform: translateY(0); }
+  </style>
+
+  <div id="{{ section_dom_id }}">
+    <!-- Hero -->
+    <header id="hero" class="gradient-mesh">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <!-- Left content -->
+          <div class="order-2 lg:order-1 text-center lg:text-left">
+            {%- assign hero_badges = section.blocks | where: 'type', 'hero_badge' -%}
+            {%- if hero_badges.size > 0 -%}
+              <div class="flex flex-wrap justify-center lg:justify-start gap-2 mb-6">
+                {%- for block in hero_badges -%}
+                  <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface text-foreground border border-border text-xs font-medium" {{ block.shopify_attributes }}>
+                    {%- if block.settings.badge_icon != blank -%}
+                      <span class="opacity-70" aria-hidden="true">{{ block.settings.badge_icon | escape }}</span>
+                    {%- endif -%}
+                    <span>{{ block.settings.badge_label | escape }}</span>
+                  </span>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {%- capture heading_tag -%}{{ section.settings.hero_heading_tag | default: 'h2' }}{%- endcapture -%}
+            <{{ heading_tag }} class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
+              {{ section.settings.hero_title | escape }}
+            </{{ heading_tag }}>
+            {%- if section.settings.hero_subtext != blank -%}
+              <p class="text-lg md:text-xl text-muted max-w-xl mx-auto lg:mx-0 mb-8">{{ section.settings.hero_subtext | escape }}</p>
+            {%- endif -%}
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+              {%- if section.settings.primary_label != blank -%}
+                <a
+                  class="btn btn-primary"
+                  {%- if section.settings.primary_url != blank -%} href="{{ section.settings.primary_url }}" {%- else -%} role="link" aria-disabled="true" {%- endif -%}
+                >{{ section.settings.primary_label | escape }}</a>
+              {%- endif -%}
+              {%- if section.settings.secondary_label != blank -%}
+                <a
+                  class="btn btn-outline-primary"
+                  {%- if section.settings.secondary_url != blank -%} href="{{ section.settings.secondary_url }}" {%- else -%} role="link" aria-disabled="true" {%- endif -%}
+                >{{ section.settings.secondary_label | escape }}</a>
+              {%- endif -%}
+            </div>
+          </div>
+
+          <!-- Right visual -->
+          <div class="order-1 lg:order-2">
+            {%- if section.settings.hero_image != blank -%}
+              <img
+                src="{{ section.settings.hero_image | image_url: width: 1600 }}"
+                alt="{{ section.settings.hero_image.alt | escape }}"
+                class="w-full h-auto rounded-2xl shadow-lg object-cover float"
+                loading="eager" decoding="async">
+            {%- else -%}
+              <img src="https://placehold.co/800x600/f0f0f0/333?text=OWS+Pro" alt="{{ 'OWS Pro hero image' | escape }}" class="w-full h-auto rounded-2xl shadow-lg object-cover" loading="eager" decoding="async">
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Features -->
+    <section id="features" class="py-12 sm:py-16 lg:py-20 bg-surface">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {%- if section.settings.features_heading != blank -%}
+          <div class="text-center mb-10">
+            <h2 class="font-heading text-3xl md:text-4xl font-bold tracking-tight">{{ section.settings.features_heading | escape }}</h2>
+            {%- if section.settings.features_subtext != blank -%}
+              <p class="mt-3 text-lg text-muted max-w-2xl mx-auto">{{ section.settings.features_subtext | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- assign feature_cards = section.blocks | where: 'type', 'feature_card' -%}
+        {%- if feature_cards.size > 0 -%}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            {%- for block in feature_cards -%}
+              <article class="bg-background rounded-xl shadow-sm overflow-hidden transition-transform duration-200 hover:-translate-y-1 border border-border/60" {{ block.shopify_attributes }}>
+                {%- if block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 1200 }}" alt="{{ block.settings.image.alt | escape }}" class="w-full h-56 object-cover" loading="lazy" decoding="async">
+                {%- else -%}
+                  <img src="https://placehold.co/800x600/e2e8f0/333?text={{ block.settings.title | default: 'Feature' | url_encode }}" alt="{{ block.settings.title | default: 'Feature image' | escape }}" class="w-full h-56 object-cover" loading="lazy" decoding="async">
+                {%- endif -%}
+                <div class="p-6">
+                  <h3 class="font-heading text-xl font-semibold mb-2">{{ block.settings.title | escape }}</h3>
+                  {%- if block.settings.text != blank -%}
+                    <p class="text-muted">{{ block.settings.text | escape }}</p>
+                  {%- endif -%}
+                </div>
+              </article>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section id="reviews" class="py-12 sm:py-16 lg:py-20 bg-background">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {%- if section.settings.reviews_heading != blank -%}
+          <div class="text-center mb-10">
+            <h2 class="font-heading text-3xl md:text-4xl font-bold tracking-tight">{{ section.settings.reviews_heading | escape }}</h2>
+            {%- if section.settings.reviews_subtext != blank -%}
+              <p class="mt-3 text-lg text-muted max-w-2xl mx-auto">{{ section.settings.reviews_subtext | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- assign review_cards = section.blocks | where: 'type', 'review_card' -%}
+        {%- if review_cards.size > 0 -%}
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {%- for block in review_cards -%}
+              <article class="bg-surface p-6 rounded-xl border border-border/60" {{ block.shopify_attributes }}>
+                <div class="flex items-center mb-3 text-[color:var(--color-warning, #EAB308)]">
+                  {%- assign stars = block.settings.rating | default: 5 -%}
+                  {%- for i in (1..5) -%}
+                    {%- if i <= stars -%}
+                      <span aria-hidden="true">★</span>
+                    {%- else -%}
+                      <span aria-hidden="true" class="opacity-40">☆</span>
+                    {%- endif -%}
+                  {%- endfor -%}
+                  <span class="sr-only">{{ stars }} out of 5 stars</span>
+                </div>
+                <blockquote class="text-foreground italic">{{ block.settings.quote | escape }}</blockquote>
+                <div class="flex items-center mt-4">
+                  {%- if block.settings.avatar != blank -%}
+                    <img src="{{ block.settings.avatar | image_url: width: 80 }}" alt="{{ block.settings.author | escape }}" class="w-10 h-10 rounded-full mr-3" loading="lazy" decoding="async">
+                  {%- else -%}
+                    <img src="https://placehold.co/40x40/e2e8f0/333?text=A" alt="{{ block.settings.author | default: 'Reviewer' | escape }}" class="w-10 h-10 rounded-full mr-3" loading="lazy" decoding="async">
+                  {%- endif -%}
+                  <div>
+                    <p class="font-medium">{{ block.settings.author | escape }}</p>
+                    {%- if block.settings.role != blank -%}
+                      <p class="text-sm text-muted">{{ block.settings.role | escape }}</p>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </article>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- assign media_logos = section.blocks | where: 'type', 'media_logo' -%}
+        {%- if media_logos.size > 0 -%}
+          <div class="mt-12 text-center">
+            {%- if section.settings.media_label != blank -%}
+              <p class="text-xs font-semibold uppercase tracking-widest text-muted mb-6">{{ section.settings.media_label | escape }}</p>
+            {%- endif -%}
+            <div class="flex flex-wrap justify-center items-center gap-x-10 gap-y-6 opacity-80">
+              {%- for block in media_logos -%}
+                <div class="h-8 flex items-center" {{ block.shopify_attributes }}>
+                  {%- if block.settings.logo != blank -%}
+                    <img src="{{ block.settings.logo | image_url: width: 200 }}" alt="{{ block.settings.alt | escape }}" class="h-8 w-auto" loading="lazy" decoding="async">
+                  {%- else -%}
+                    <img src="https://placehold.co/120x40/ccc/999?text={{ block.settings.alt | default: 'Logo' | url_encode }}" alt="{{ block.settings.alt | default: 'Logo' | escape }}" class="h-8 w-auto" loading="lazy" decoding="async">
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    <section id="compare" class="py-12 sm:py-16 lg:py-20 bg-surface">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        {%- if section.settings.compare_heading != blank -%}
+          <div class="text-center mb-10">
+            <h2 class="font-heading text-3xl md:text-4xl font-bold tracking-tight">{{ section.settings.compare_heading | escape }}</h2>
+            {%- if section.settings.compare_subtext != blank -%}
+              <p class="mt-3 text-lg text-muted max-w-2xl mx-auto">{{ section.settings.compare_subtext | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- assign compare_rows = section.blocks | where: 'type', 'comparison_row' -%}
+        {%- if compare_rows.size > 0 -%}
+          <div class="bg-background rounded-xl shadow-sm overflow-hidden border border-border/60">
+            <table class="w-full text-left">
+              <thead class="bg-surface-muted">
+                <tr>
+                  <th class="p-5 font-heading text-lg font-semibold">{{ section.settings.compare_feature_label | default: 'Feature' | escape }}</th>
+                  <th class="p-5 font-heading text-lg font-semibold text-center border-l border-border/60">{{ section.settings.compare_col1_label | default: 'OWS 2' | escape }}</th>
+                  <th class="p-5 font-heading text-lg font-semibold text-center border-l border-border/60 text-primary">{{ section.settings.compare_col2_label | default: 'OWS Pro' | escape }}</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-border/60">
+                {%- for block in compare_rows -%}
+                  <tr class="group" {{ block.shopify_attributes }}>
+                    <td class="p-5 font-medium">{{ block.settings.feature | escape }}</td>
+                    <td class="p-5 text-center text-muted border-l border-border/60">{{ block.settings.col1 | escape }}</td>
+                    <td class="p-5 text-center border-l border-border/60">
+                      <span class="inline-flex items-center justify-center gap-2 font-medium {%- if block.settings.highlight_pro -%} text-primary {%- endif -%}">{{ block.settings.col2 | escape }}</span>
+                    </td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </div>
+        {%- endif -%}
+      </div>
+    </section>
+
+    <!-- Specs & Box -->
+    <section id="specs" class="py-12 sm:py-16 lg:py-20 bg-background">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+          <!-- Box -->
+          <div>
+            {%- if section.settings.box_heading != blank -%}
+              <h2 class="font-heading text-3xl md:text-4xl font-bold tracking-tight mb-6">{{ section.settings.box_heading | escape }}</h2>
+            {%- endif -%}
+            {%- if section.settings.box_image != blank -%}
+              <img src="{{ section.settings.box_image | image_url: width: 1600 }}" alt="{{ section.settings.box_image.alt | escape }}" class="w-full rounded-xl shadow-md mb-6" loading="lazy" decoding="async">
+            {%- else -%}
+              <img src="https://placehold.co/800x600/f0f0f0/333?text=OWS+Pro+%2B+Accessories" alt="{{ 'OWS Pro with accessories' | escape }}" class="w-full rounded-xl shadow-md mb-6" loading="lazy" decoding="async">
+            {%- endif -%}
+            {%- assign box_items = section.blocks | where: 'type', 'box_item' -%}
+            {%- if box_items.size > 0 -%}
+              <ul class="space-y-3 text-lg text-foreground">
+                {%- for block in box_items -%}
+                  <li class="flex items-center gap-3" {{ block.shopify_attributes }}>
+                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-primary" aria-hidden="true"></span>
+                    <span>{{ block.settings.text | escape }}</span>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+
+          <!-- Tech Specs (details/summary accordion) -->
+          <div>
+            {%- if section.settings.specs_heading != blank -%}
+              <h2 class="font-heading text-3xl md:text-4xl font-bold tracking-tight mb-6">{{ section.settings.specs_heading | escape }}</h2>
+            {%- endif -%}
+            {%- assign spec_groups = section.blocks | where: 'type', 'spec_group' -%}
+            {%- if spec_groups.size > 0 -%}
+              <div class="space-y-4">
+                {%- for block in spec_groups -%}
+                  <details class="bg-surface rounded-xl border border-border/60 overflow-hidden" {{ block.shopify_attributes }}>
+                    <summary class="w-full p-5 cursor-pointer flex items-center justify-between">
+                      <span class="font-heading text-xl font-semibold">{{ block.settings.title | escape }}</span>
+                      <span aria-hidden="true" class="text-muted">+</span>
+                    </summary>
+                    <div class="px-5 pb-5 text-muted">
+                      {%- if block.settings.html != blank -%}
+                        {{ block.settings.html }}
+                      {%- endif -%}
+                    </div>
+                  </details>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-12 sm:py-16 lg:py-20 bg-surface">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        {%- if section.settings.faq_heading != blank -%}
+          <div class="text-center mb-10">
+            <h2 class="font-heading text-3xl md:text-4xl font-bold tracking-tight">{{ section.settings.faq_heading | escape }}</h2>
+            {%- if section.settings.faq_subtext != blank -%}
+              <p class="mt-3 text-lg text-muted">{{ section.settings.faq_subtext | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- assign faqs = section.blocks | where: 'type', 'faq_item' -%}
+        {%- if faqs.size > 0 -%}
+          <div class="space-y-4">
+            {%- for block in faqs -%}
+              <details class="bg-background rounded-xl border border-border/60 shadow-sm overflow-hidden" {{ block.shopify_attributes }}>
+                <summary class="w-full p-5 cursor-pointer flex items-center justify-between">
+                  <span class="font-heading text-lg font-semibold">{{ block.settings.question | escape }}</span>
+                  <span aria-hidden="true" class="text-muted">+</span>
+                </summary>
+                <div class="px-5 pb-5 text-muted">
+                  {{ block.settings.answer }}
+                </div>
+              </details>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </section>
+
+    <!-- Purchase anchor to jump near main product form placed right after this section in template -->
+    <div id="{{ section.settings.purchase_anchor_id | default: 'purchase' }}" class="sr-only" aria-hidden="true"></div>
+
+    {%- if section.settings.enable_sticky_bar -%}
+      <!-- Sticky CTA Bar (global for this template section scope) -->
+      <div class="sticky-cta fixed bottom-0 left-0 right-0 w-full bg-background/80 backdrop-blur-md border-t border-border shadow-xl z-40 p-4">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+              {%- if product.featured_image != blank -%}
+                <img src="{{ product.featured_image | image_url: width: 160 }}" alt="{{ product.featured_image.alt | escape }}" class="hidden sm:block w-14 h-14 rounded-lg object-cover" loading="lazy" decoding="async">
+              {%- else -%}
+                <img src="https://placehold.co/64x64/f0f0f0/333?text=OWS" alt="{{ 'OWS Pro thumbnail' | escape }}" class="hidden sm:block w-14 h-14 rounded-lg object-cover" loading="lazy" decoding="async">
+              {%- endif -%}
+              <div class="min-w-0">
+                <h3 class="font-heading font-semibold text-base truncate">{{ product.title | escape }}</h3>
+                <p class="text-lg font-semibold">{%- if current_variant -%}{{ current_variant.price | money }}{%- else -%}{{ product.price | money }}{%- endif -%}</p>
+              </div>
+            </div>
+            <div class="w-full sm:w-auto flex items-center gap-3">
+              <a class="btn btn-primary w-full sm:w-auto" href="#{{ section.settings.purchase_anchor_id | default: 'purchase' }}">{{ section.settings.sticky_button_label | default: 'Add to Cart' | escape }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script type="module">
+        (() => {
+          const root = document.querySelector('[data-section-id="{{ section.id }}"]');
+          if (!root) return;
+          const bar = root.querySelector('.sticky-cta');
+          const sentinel = root.querySelector('#features');
+          if (!bar || !sentinel) return;
+          const io = new IntersectionObserver((entries) => {
+            const e = entries[0];
+            if (!e) return;
+            bar.classList.toggle('visible', e.intersectionRatio < 1);
+          }, { threshold: [1] });
+          io.observe(sentinel);
+          document.addEventListener('shopify:section:unload', (ev) => {
+            if (ev && ev.detail && ev.detail.sectionId === '{{ section.id }}') {
+              try { io.disconnect(); } catch(e) {}
+            }
+          });
+        })();
+      </script>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: OWS Pro PDP",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme" },
+    { "type": "text", "id": "section_id", "label": "Section anchor id", "default": "ows-pro" },
+
+    { "type": "header", "content": "Hero" },
+    { "type": "select", "id": "hero_heading_tag", "label": "Hero heading tag", "default": "h2", "options": [
+      {"value": "h2", "label": "H2"}, {"value": "h3", "label": "H3"}
+    ]},
+    { "type": "text", "id": "hero_title", "label": "Hero title", "default": "OWS Pro: Hear the World, Feel the Music." },
+    { "type": "text", "id": "hero_subtext", "label": "Hero subtext", "default": "The ultimate open-ear headphones for all-day comfort, situational awareness, and powerful bass." },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "primary_label", "label": "Primary button label", "default": "Shop Now" },
+    { "type": "url", "id": "primary_url", "label": "Primary button link", "default": "#purchase" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "Learn More" },
+    { "type": "url", "id": "secondary_url", "label": "Secondary button link", "default": "#features" },
+
+    { "type": "header", "content": "Features" },
+    { "type": "text", "id": "features_heading", "label": "Features heading", "default": "Engineered for Your Life" },
+    { "type": "text", "id": "features_subtext", "label": "Features subtext", "default": "Discover the core innovations that make OWS Pro the perfect audio companion." },
+
+    { "type": "header", "content": "Reviews" },
+    { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Loved by runners, creators, and audiophiles." },
+    { "type": "text", "id": "reviews_subtext", "label": "Reviews subtext", "default": "Don't just take our word for it. Here's what the community is saying." },
+    { "type": "text", "id": "media_label", "label": "Media label", "default": "As featured in" },
+
+    { "type": "header", "content": "Comparison" },
+    { "type": "text", "id": "compare_heading", "label": "Comparison heading", "default": "Which Oladance is Right for You?" },
+    { "type": "text", "id": "compare_subtext", "label": "Comparison subtext", "default": "See how the OWS Pro stacks up against our classic OWS 2." },
+    { "type": "text", "id": "compare_feature_label", "label": "Feature column label", "default": "Feature" },
+    { "type": "text", "id": "compare_col1_label", "label": "Column 1 label", "default": "OWS 2" },
+    { "type": "text", "id": "compare_col2_label", "label": "Column 2 label", "default": "OWS Pro" },
+
+    { "type": "header", "content": "Specs & Box" },
+    { "type": "text", "id": "box_heading", "label": "What's in the box heading", "default": "What's in the Box" },
+    { "type": "image_picker", "id": "box_image", "label": "What's in the box image" },
+    { "type": "text", "id": "specs_heading", "label": "Specs heading", "default": "Tech Specs" },
+
+    { "type": "header", "content": "FAQ" },
+    { "type": "text", "id": "faq_heading", "label": "FAQ heading", "default": "We've Got You Covered" },
+    { "type": "text", "id": "faq_subtext", "label": "FAQ subtext", "default": "Have questions? We have answers." },
+
+    { "type": "header", "content": "Sticky CTA" },
+    { "type": "checkbox", "id": "enable_sticky_bar", "label": "Enable sticky CTA bar", "default": true },
+    { "type": "text", "id": "sticky_button_label", "label": "Sticky CTA button label", "default": "Add to Cart" },
+    { "type": "text", "id": "purchase_anchor_id", "label": "Purchase anchor id", "default": "purchase", "info": "The CTA links to #purchase. This anchor is output right after this section; place the main-product section next to it in the template." }
+  ],
+  "blocks": [
+    { "type": "hero_badge", "name": "Hero badge", "limit": 6, "settings": [
+      { "type": "text", "id": "badge_icon", "label": "Badge icon (text)", "info": "Optional text/icon. Avoid external icon fonts." },
+      { "type": "text", "id": "badge_label", "label": "Badge label" }
+    ]},
+    { "type": "feature_card", "name": "Feature card", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "title", "label": "Title" },
+      { "type": "text", "id": "text", "label": "Description" }
+    ]},
+    { "type": "review_card", "name": "Review", "settings": [
+      { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+      { "type": "textarea", "id": "quote", "label": "Quote" },
+      { "type": "image_picker", "id": "avatar", "label": "Avatar" },
+      { "type": "text", "id": "author", "label": "Author" },
+      { "type": "text", "id": "role", "label": "Role/Source" }
+    ]},
+    { "type": "media_logo", "name": "Media logo", "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo" },
+      { "type": "text", "id": "alt", "label": "Alt text" }
+    ]},
+    { "type": "comparison_row", "name": "Comparison row", "settings": [
+      { "type": "text", "id": "feature", "label": "Feature" },
+      { "type": "text", "id": "col1", "label": "Column 1 value" },
+      { "type": "text", "id": "col2", "label": "Column 2 value" },
+      { "type": "checkbox", "id": "highlight_pro", "label": "Highlight Pro value", "default": true }
+    ]},
+    { "type": "box_item", "name": "Box item", "settings": [
+      { "type": "text", "id": "text", "label": "Item" }
+    ]},
+    { "type": "spec_group", "name": "Spec group", "settings": [
+      { "type": "text", "id": "title", "label": "Group title" },
+      { "type": "html", "id": "html", "label": "HTML content", "info": "Use <ul><li>…</li></ul> etc. Avoid scripts." }
+    ]},
+    { "type": "faq_item", "name": "FAQ item", "settings": [
+      { "type": "text", "id": "question", "label": "Question" },
+      { "type": "richtext", "id": "answer", "label": "Answer" }
+    ]}
+  ],
+  "presets": [
+    { "name": "OWS Pro PDP" }
+  ]
+}
+{% endschema %}
