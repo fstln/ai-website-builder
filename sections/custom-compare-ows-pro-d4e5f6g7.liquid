@@ -1,0 +1,164 @@
+{%- comment -%}
+  This section helps users in the consideration phase by comparing product models.
+  - PM: Focused on highlighting OWS Pro's advantages over other models.
+  - Designer: Created a clean, easy-to-scan comparison table with visual emphasis on the Pro model.
+  - Architect: Used a semantic `<table>` and a block-based schema for flexibility and accessibility.
+{%- endcomment -%}
+
+<section class="color-scheme color-{{ section.settings.color_scheme }} bg-background py-16 sm:py-20 lg:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-heading">
+        {{ section.settings.heading }}
+      </h2>
+      <p class="mt-6 text-lg leading-8 text-muted">
+        {{ section.settings.subheading }}
+      </p>
+    </div>
+    <div class="mt-16 sm:mt-20 lg:mt-24">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-border">
+          <thead class="bg-surface">
+            <tr>
+              <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-foreground sm:pl-6">Feature</th>
+              <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-foreground">OWS 1</th>
+              <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-foreground">OWS 2</th>
+              <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-foreground bg-primary/10 rounded-t-lg">OWS Pro</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border bg-surface">
+            {%- for block in section.blocks -%}
+              <tr {{ block.shopify_attributes }}>
+                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-foreground sm:pl-6">{{ block.settings.feature_name }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-muted text-center">{{ block.settings.ows1_value }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-muted text-center">{{ block.settings.ows2_value }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-foreground text-center font-semibold bg-primary/10">{{ block.settings.owspro_value }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom: Compare (OWS Pro)",
+  "tag": "section",
+  "class": "custom-compare-ows-pro-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Compare Our Models"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Find the perfect Oladance for your lifestyle."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "comparison_row",
+      "name": "Comparison Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_name",
+          "label": "Feature Name",
+          "default": "Bluetooth Version"
+        },
+        {
+          "type": "text",
+          "id": "ows1_value",
+          "label": "OWS 1 Value",
+          "default": "5.2"
+        },
+        {
+          "type": "text",
+          "id": "ows2_value",
+          "label": "OWS 2 Value",
+          "default": "5.3"
+        },
+        {
+          "type": "text",
+          "id": "owspro_value",
+          "label": "OWS Pro Value",
+          "default": "5.3"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom: Compare (OWS Pro)",
+      "blocks": [
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Driver Size",
+            "ows1_value": "16.5mm (x2)",
+            "ows2_value": "16.5mm (x2)",
+            "owspro_value": "23mm*10mm"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Battery Life (Earphones)",
+            "ows1_value": "16 hours",
+            "ows2_value": "19 hours",
+            "owspro_value": "16 hours"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Total Battery Life (with Case)",
+            "ows1_value": "Not specified",
+            "ows2_value": "Not specified",
+            "owspro_value": "58 hours"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Bass Technology",
+            "ows1_value": "Not specified",
+            "ows2_value": "Virtual Bass 2nd Gen",
+            "owspro_value": "Virtual Bass 2nd Algorithm"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Weight (Single Earphone)",
+            "ows1_value": "12.7g",
+            "ows2_value": "12.7g",
+            "owspro_value": "13.8g"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Waterproof Rating",
+            "ows1_value": "IPX4",
+            "ows2_value": "IPX4",
+            "owspro_value": "IPX4"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
