@@ -40,6 +40,90 @@
   #shopify-section-{{ section.id }} .dynamic-checkout-button more-payment-options-link a:hover {
     color: rgb(var(--color-primary-rgb) / 0.8);
   }
+
+  #shopify-section-{{ section.id }} .promotion-discount-bar__button--claimed {
+    opacity: 0.85;
+  }
+
+  #shopify-section-{{ section.id }} .promotion-discount-bar {
+    background: var(--promotion-background, rgba(239, 68, 68, 0.08));
+    border-color: var(--promotion-border, rgba(239, 68, 68, 0.3));
+    color: var(--promotion-foreground, #7a1b1b);
+  }
+
+  #shopify-section-{{ section.id }} .promotion-discount-bar__badge {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--promotion-foreground, #7a1b1b);
+    opacity: 0.8;
+  }
+
+  #shopify-section-{{ section.id }} .promotion-discount-bar__heading {
+    color: var(--promotion-foreground, #7a1b1b);
+  }
+
+  #shopify-section-{{ section.id }} .promotion-discount-bar__subtext {
+    color: var(--promotion-foreground, #7a1b1b);
+    opacity: 0.75;
+  }
+
+  #shopify-section-{{ section.id }} .promotion-discount-bar__code {
+    color: var(--promotion-foreground, #7a1b1b);
+    border-color: var(--promotion-border, rgba(239, 68, 68, 0.3));
+  }
+
+  #shopify-section-{{ section.id }} .promotion-discount-bar__claim {
+    color: var(--promotion-foreground, #7a1b1b);
+    border-bottom: 1px solid transparent;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  #shopify-section-{{ section.id }} .promotion-discount-bar__claim:hover {
+    opacity: 0.85;
+  }
+
+  #shopify-section-{{ section.id }} .promotion-discount-bar__claim.promotion-discount-bar__button--claimed {
+    opacity: 0.75;
+    text-decoration: none;
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .product-info {
+      position: sticky;
+      top: 2rem;
+      align-self: flex-start;
+    }
+
+    #shopify-section-{{ section.id }} .product-images {
+      max-height: calc(100vh - 3rem);
+      overflow-y: auto;
+      padding-right: 0.5rem;
+      scrollbar-width: thin;
+    }
+
+    #shopify-section-{{ section.id }} .product-images::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #shopify-section-{{ section.id }} .product-images::-webkit-scrollbar-thumb {
+      background-color: rgb(var(--color-border-rgb, 148 163 184) / 0.6);
+      border-radius: 999px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .global-sticky-bar {
+    background-color: rgb(var(--color-background-rgb, 255 255 255) / 0.95);
+    border-top: 1px solid rgb(var(--color-border-rgb, 148 163 184) / 0.5);
+    box-shadow: 0 -8px 40px rgb(15 23 42 / 0.08);
+    backdrop-filter: blur(10px);
+  }
 {% endstyle %}
 
 <section class="color-scheme color-{{ section_color_scheme }} section-main-product">
@@ -49,7 +133,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mt-6">
       
       {%- comment -%} Left: Product Image Gallery {%- endcomment -%}
-      <div class="product-images">
+      <div class="product-images lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:pr-2">
         {% assign selected_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media %}
         {% assign selected_media_id = selected_media.id %}
         
@@ -196,6 +280,7 @@
               name="id" 
               value="{{ product.selected_or_first_available_variant.id }}"
               ref="variantId"
+              data-product-variant-id
             >
             {% assign current_variant = product.selected_or_first_available_variant %}
             {% if section.blocks.size > 0 %}
@@ -232,6 +317,62 @@
                         {% endif %}
                       </div>
                     </div>
+                  {% when 'promotion_discount_bar' %}
+                    {% liquid
+                      assign discount_code = block.settings.discount_code | strip
+                      assign promo_heading = block.settings.promo_heading | strip
+                      assign promo_subtext = block.settings.promo_subtext | strip
+                      assign badge_label = block.settings.badge_label | strip
+                      assign button_label = block.settings.button_label | default: 'Claim discount'
+                      assign claimed_label = block.settings.claimed_label | default: 'Discount saved'
+                      assign promo_background = block.settings.background_color | default: 'rgba(239, 68, 68, 0.1)'
+                      assign promo_text_color = block.settings.text_color | default: '#7a1b1b'
+                      assign promo_border_color = promo_text_color
+                      if promo_text_color contains 'rgb'
+                        assign promo_border_color = promo_text_color
+                      else
+                        assign promo_border_color = promo_text_color | color_modify: 'alpha', 0.35
+                      endif
+                      capture promo_styles
+                        echo '--promotion-background: ' | append: promo_background | append: ';'
+                        echo '--promotion-foreground: ' | append: promo_text_color | append: ';'
+                        echo '--promotion-border: ' | append: promo_border_color | append: ';'
+                      endcapture
+                    %}
+                    {% if discount_code != blank or promo_heading != blank or promo_subtext != blank or badge_label != blank %}
+                      <div class="promotion-discount-bar rounded-2xl border p-5 sm:p-6 space-y-4" style="{{ promo_styles | strip_newlines | strip }}" {{ block_attributes }}>
+                        {% if badge_label != blank %}
+                          <p class="promotion-discount-bar__badge text-xs">
+                            {{ badge_label | escape }}
+                          </p>
+                        {% endif %}
+                        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                          <div class="space-y-1.5">
+                            {% if promo_heading != blank %}
+                              <p class="promotion-discount-bar__heading text-lg font-bold">{{ promo_heading | escape }}</p>
+                            {% endif %}
+                            {% if promo_subtext != blank %}
+                              <p class="promotion-discount-bar__subtext text-sm">{{ promo_subtext | escape }}</p>
+                            {% endif %}
+                          </div>
+                          {% if discount_code != blank %}
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                              <button
+                                type="button"
+                                class="promotion-discount-bar__claim inline-flex items-center gap-2 text-sm"
+                                data-promotion-claim
+                                data-discount-code="{{ discount_code | escape }}"
+                                data-cookie-duration="{{ block.settings.cookie_duration | default: 30 }}"
+                                data-success-text="{{ claimed_label | escape }}"
+                                data-default-text="{{ button_label | escape }}"
+                              >
+                                <span data-claim-text>{{ button_label | escape }}</span>
+                              </button>
+                            </div>
+                          {% endif %}
+                        </div>
+                      </div>
+                    {% endif %}
                   {% when 'product_description' %}
                     {% if product.description != blank %}
                       <div class="product-short-description text-base leading-relaxed text-muted mb-6 pb-6" {{ block_attributes }}>
@@ -368,7 +509,7 @@
                 {% endcase %}
               {% endfor %}
             {% else %}
-              {% assign default_block_order = 'product_title|product_price|product_description|variant_selector|quantity_selector|buy_buttons' | split: '|' %}
+              {% assign default_block_order = 'product_title|product_price|promotion_discount_bar|product_description|variant_selector|quantity_selector|buy_buttons' | split: '|' %}
               {% for fallback_block in default_block_order %}
                 {% assign block_type = fallback_block %}
                 {% assign block_attributes = '' %}
@@ -395,6 +536,50 @@
                             {{ product.price | money }}
                           </span>
                         {% endif %}
+                      </div>
+                    </div>
+                  {% when 'promotion_discount_bar' %}
+                    {% liquid
+                      assign discount_code = 'SAVE15'
+                      assign promo_heading = 'Extra 15% off for first-time customers'
+                      assign promo_subtext = 'Use the code below and save instantly at checkout.'
+                      assign badge_label = 'Limited time offer'
+                      assign button_label = 'Claim discount'
+                      assign claimed_label = 'Discount saved'
+                      assign promo_background = 'rgba(239, 68, 68, 0.1)'
+                      assign promo_text_color = '#7a1b1b'
+                      assign promo_border_color = promo_text_color | color_modify: 'alpha', 0.35
+                      capture promo_styles
+                        echo '--promotion-background: ' | append: promo_background | append: ';'
+                        echo '--promotion-foreground: ' | append: promo_text_color | append: ';'
+                        echo '--promotion-border: ' | append: promo_border_color | append: ';'
+                      endcapture
+                    %}
+                    <div class="promotion-discount-bar rounded-2xl border p-5 sm:p-6 space-y-4" style="{{ promo_styles | strip_newlines | strip }}">
+                      <p class="promotion-discount-bar__badge text-xs">
+                        {{ badge_label }}
+                      </p>
+                      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="space-y-1.5">
+                          <p class="promotion-discount-bar__heading text-lg font-bold">{{ promo_heading }}</p>
+                          <p class="promotion-discount-bar__subtext text-sm">{{ promo_subtext }}</p>
+                        </div>
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                          <div class="promotion-discount-bar__code inline-flex items-center justify-center px-4 py-2 rounded-xl border border-dashed bg-background/80 text-base font-semibold tracking-[0.3em] uppercase">
+                            {{ discount_code }}
+                          </div>
+                          <button
+                            type="button"
+                            class="promotion-discount-bar__claim inline-flex items-center gap-2 text-sm"
+                            data-promotion-claim
+                            data-discount-code="{{ discount_code }}"
+                            data-cookie-duration="30"
+                            data-success-text="{{ claimed_label }}"
+                            data-default-text="{{ button_label }}"
+                          >
+                            <span data-claim-text>{{ button_label }}</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   {% when 'product_description' %}
@@ -538,50 +723,176 @@
   </div>
 </section>
 
-{%- comment -%} Sticky Add to Cart Bar (Mobile) {%- endcomment -%}
-<div class="lg:hidden fixed bottom-0 inset-x-0 bg-background/95 backdrop-blur z-40 transform translate-y-full transition-transform duration-300" id="stickyCartBar">
-  <div class="px-4 py-3 flex items-center gap-3">
-    <div class="flex-1 min-w-0">
-      <p class="text-xs text-muted truncate">{{ product.title }}</p>
-      <p class="text-lg font-bold text-foreground">{{ product.price | money }}</p>
+{% assign sticky_variant = product.selected_or_first_available_variant %}
+{% if section.settings.enable_global_sticky_bar %}
+  {%- comment -%} Global Sticky Purchase Bar {%- endcomment -%}
+  <div class="global-sticky-bar fixed bottom-0 inset-x-0 z-40 transform translate-y-full transition-transform duration-300 border-t" data-sticky-bar data-sticky-mode="global">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex-1 min-w-0">
+        <p class="text-xs text-muted truncate">{{ product.title }}</p>
+        <p class="text-sm font-semibold text-foreground truncate" data-sticky-variant-title>{{ sticky_variant.title | default: product.title }}</p>
+        <div class="flex items-baseline gap-2">
+          <span class="text-lg font-bold text-foreground" data-sticky-price>{{ sticky_variant.price | money }}</span>
+          <span class="text-sm text-muted line-through {% unless sticky_variant.compare_at_price > sticky_variant.price %}hidden{% endunless %}" data-sticky-compare-price>
+            {% if sticky_variant.compare_at_price > sticky_variant.price %}
+              {{ sticky_variant.compare_at_price | money }}
+            {% endif %}
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-2 w-full sm:w-auto sm:flex-row sm:items-center sm:gap-3">
+        <button 
+          type="button"
+          onclick="document.querySelector('form.product-form').requestSubmit()"
+          class="btn btn-primary w-full sm:w-auto text-base font-semibold flex items-center justify-center gap-2"
+          data-sticky-add-to-cart
+        >
+          {% render 'icon', name: 'cart-outline', class: 'w-5 h-5' %}
+          <span data-sticky-cart-text>{{ 'products.product.add_to_cart' | t }}</span>
+        </button>
+        <a 
+          href="/cart/{{ sticky_variant.id }}:1"
+          class="btn btn-secondary w-full sm:w-auto text-base font-semibold flex items-center justify-center gap-2"
+          data-sticky-checkout-link
+        >
+          {% render 'icon', name: 'arrow-right', class: 'w-5 h-5' %}
+          <span>{{ 'products.product.checkout' | t | default: 'Checkout' }}</span>
+        </a>
+      </div>
     </div>
-    <button 
-      type="button"
-      onclick="document.querySelector('form.product-form').requestSubmit()"
-      class="btn btn-primary flex-shrink-0 px-6 py-3 text-base font-bold"
-      data-sticky-add-to-cart
-    >
-      {% render 'icon', name: 'cart-outline', class: 'w-5 h-5' %}
-      <span data-sticky-cart-text>{{ 'products.product.add_to_cart' | t }}</span>
-    </button>
   </div>
-</div>
+{% else %}
+  {%- comment -%} Sticky Add to Cart Bar (Mobile) {%- endcomment -%}
+  <div class="lg:hidden fixed bottom-0 inset-x-0 bg-background/95 backdrop-blur z-40 transform translate-y-full transition-transform duration-300" id="stickyCartBar" data-sticky-bar data-sticky-mode="mobile">
+    <div class="px-4 py-3 flex items-center gap-3">
+      <div class="flex-1 min-w-0">
+        <p class="text-xs text-muted truncate">{{ product.title }}</p>
+        <p class="text-sm font-semibold text-foreground truncate" data-sticky-variant-title>{{ sticky_variant.title | default: product.title }}</p>
+        <div class="flex items-baseline gap-2">
+          <span class="text-lg font-bold text-foreground" data-sticky-price>{{ sticky_variant.price | money }}</span>
+          <span class="text-xs text-muted line-through {% unless sticky_variant.compare_at_price > sticky_variant.price %}hidden{% endunless %}" data-sticky-compare-price>
+            {% if sticky_variant.compare_at_price > sticky_variant.price %}
+              {{ sticky_variant.compare_at_price | money }}
+            {% endif %}
+          </span>
+        </div>
+      </div>
+      <button 
+        type="button"
+        onclick="document.querySelector('form.product-form').requestSubmit()"
+        class="btn btn-primary flex-shrink-0 px-6 py-3 text-base font-bold flex items-center gap-2"
+        data-sticky-add-to-cart
+      >
+        {% render 'icon', name: 'cart-outline', class: 'w-5 h-5' %}
+        <span data-sticky-cart-text>{{ 'products.product.add_to_cart' | t }}</span>
+      </button>
+    </div>
+  </div>
+{% endif %}
 
 {%- comment -%} JavaScript for Sticky Bar and Variant Image Switch {%- endcomment -%}
 <script>
 (function() {
-  // Sticky cart bar on scroll (mobile only)
-  if (window.innerWidth < 1024) {
-    let lastScroll = 0;
-    const stickyBar = document.getElementById('stickyCartBar');
-    const productForm = document.querySelector('.product-form-wrapper');
-    
-    window.addEventListener('scroll', () => {
-      const currentScroll = window.pageYOffset;
-      const formRect = productForm.getBoundingClientRect();
-      const isFormVisible = formRect.top < window.innerHeight && formRect.bottom > 0;
-      
-      if (!isFormVisible && currentScroll > lastScroll) {
-        // Scrolling down and form is not visible
-        stickyBar.style.transform = 'translateY(0)';
+  const sectionRoot = document.getElementById('shopify-section-{{ section.id }}');
+  const productForm = sectionRoot ? sectionRoot.querySelector('.product-form-wrapper') : document.querySelector('.product-form-wrapper');
+  const stickyBars = document.querySelectorAll('[data-sticky-bar]');
+  let lastScroll = 0;
+
+  function handleStickyBars() {
+    if (!productForm || !stickyBars.length) {
+      return;
+    }
+
+    const formRect = productForm.getBoundingClientRect();
+    const isFormVisible = formRect.top < window.innerHeight && formRect.bottom > 0;
+    const currentScroll = window.pageYOffset;
+
+    stickyBars.forEach((bar) => {
+      const mode = bar.getAttribute('data-sticky-mode') || 'mobile';
+
+      if (mode === 'global') {
+        if (!isFormVisible) {
+          bar.style.transform = 'translateY(0)';
+        } else {
+          bar.style.transform = 'translateY(100%)';
+        }
       } else {
-        // Scrolling up or form is visible
-        stickyBar.style.transform = 'translateY(100%)';
+        if (window.innerWidth < 1024 && !isFormVisible && currentScroll > lastScroll) {
+          bar.style.transform = 'translateY(0)';
+        } else {
+          bar.style.transform = 'translateY(100%)';
+        }
       }
-      
-      lastScroll = currentScroll;
+    });
+
+    lastScroll = currentScroll;
+  }
+
+  if (stickyBars.length && productForm) {
+    handleStickyBars();
+    window.addEventListener('scroll', handleStickyBars, { passive: true });
+    window.addEventListener('resize', handleStickyBars);
+  }
+
+  const stickyVariantTitles = document.querySelectorAll('[data-sticky-variant-title]');
+  const stickyPriceElements = document.querySelectorAll('[data-sticky-price]');
+  const stickyCompareElements = document.querySelectorAll('[data-sticky-compare-price]');
+  const stickyCheckoutLinks = document.querySelectorAll('[data-sticky-checkout-link]');
+  const moneyFormatter = (cents) => {
+    if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
+      return window.Shopify.formatMoney(cents);
+    }
+    return '$' + (cents / 100).toFixed(2);
+  };
+  let currentVariantData = {{ product.selected_or_first_available_variant | json }};
+
+  function updateStickyBarContent(variant) {
+    if (!variant) {
+      return;
+    }
+
+    currentVariantData = variant;
+
+    stickyVariantTitles.forEach((titleEl) => {
+      if (titleEl) {
+        titleEl.textContent = variant.title || '{{ product.title | escape }}';
+      }
+    });
+
+    stickyPriceElements.forEach((priceEl) => {
+      if (priceEl) {
+        priceEl.textContent = moneyFormatter(variant.price);
+      }
+    });
+
+    stickyCompareElements.forEach((compareEl) => {
+      if (!compareEl) {
+        return;
+      }
+
+      if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+        compareEl.textContent = moneyFormatter(variant.compare_at_price);
+        compareEl.classList.remove('hidden');
+      } else {
+        compareEl.classList.add('hidden');
+      }
+    });
+
+    stickyCheckoutLinks.forEach((link) => {
+      if (link) {
+        link.href = `/cart/${variant.id}:1`;
+      }
     });
   }
+
+  updateStickyBarContent(currentVariantData);
+
+  document.addEventListener('variant:selected', function(event) {
+    const variant = event.detail && event.detail.variant ? event.detail.variant : null;
+    if (variant) {
+      updateStickyBarContent(variant);
+    }
+  });
   
   // Update main image when variant changes
   document.addEventListener('change', function(e) {
@@ -590,13 +901,13 @@
     // Check if it's a variant input with image data
     if (target.matches('input[name^="options"][data-variant-image]')) {
       const variantImage = target.getAttribute('data-variant-image');
-      const mainImage = document.querySelector('[data-main-image]');
+      const mainImage = sectionRoot ? sectionRoot.querySelector('[data-main-image]') : document.querySelector('[data-main-image]');
       
       if (variantImage && variantImage !== '' && mainImage) {
         mainImage.src = variantImage;
       }
 
-      const variantThumbnail = document.querySelector('[data-variant-thumbnail]');
+      const variantThumbnail = sectionRoot ? sectionRoot.querySelector('[data-variant-thumbnail]') : document.querySelector('[data-variant-thumbnail]');
       if (variantThumbnail && mainImage) {
         variantThumbnail.src = mainImage.src;
         if (mainImage.alt) {
@@ -604,7 +915,7 @@
         }
       }
 
-      const thumbnailTrack = document.querySelector('[data-thumbnail-track]');
+      const thumbnailTrack = sectionRoot ? sectionRoot.querySelector('[data-thumbnail-track]') : document.querySelector('[data-thumbnail-track]');
       if (thumbnailTrack) {
         thumbnailTrack.scrollTo({ left: 0, behavior: 'smooth' });
       }
@@ -612,35 +923,122 @@
   });
   
   // Update sold out button text in sticky bar
-  const addToCartButton = document.querySelector('[data-add-to-cart-button]');
-  const stickyCartButton = document.querySelector('[data-sticky-add-to-cart]');
-  const stickyCartText = document.querySelector('[data-sticky-cart-text]');
-  
-  if (addToCartButton && stickyCartButton) {
+  const addToCartButton = sectionRoot ? sectionRoot.querySelector('[data-add-to-cart-button]') : document.querySelector('[data-add-to-cart-button]');
+  const stickyCartButtons = document.querySelectorAll('[data-sticky-add-to-cart]');
+  const stickyCartTexts = document.querySelectorAll('[data-sticky-cart-text]');
+  const soldOutText = '{{ 'products.product.sold_out' | t }}';
+  const addToCartText = '{{ 'products.product.add_to_cart' | t }}';
+
+  function setStickyButtonsState(disabled) {
+    stickyCartButtons.forEach((button) => {
+      if (!button) {
+        return;
+      }
+
+      if (disabled) {
+        button.disabled = true;
+        button.classList.add('opacity-60', 'cursor-not-allowed');
+      } else {
+        button.disabled = false;
+        button.classList.remove('opacity-60', 'cursor-not-allowed');
+      }
+    });
+
+    stickyCartTexts.forEach((textEl) => {
+      if (textEl) {
+        textEl.textContent = disabled ? soldOutText : addToCartText;
+      }
+    });
+  }
+
+  if (addToCartButton && stickyCartButtons.length > 0) {
+    setStickyButtonsState(addToCartButton.disabled);
+
     // Sync disabled state
     const observer = new MutationObserver(function(mutations) {
       mutations.forEach(function(mutation) {
         if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
-          if (addToCartButton.disabled) {
-            stickyCartButton.disabled = true;
-            stickyCartButton.classList.add('opacity-60', 'cursor-not-allowed', 'bg-muted/40');
-            stickyCartButton.classList.remove('bg-primary');
-            if (stickyCartText) {
-              stickyCartText.textContent = '{{ 'products.product.sold_out' | t }}';
-            }
-          } else {
-            stickyCartButton.disabled = false;
-            stickyCartButton.classList.remove('opacity-60', 'cursor-not-allowed', 'bg-muted/40');
-            stickyCartButton.classList.add('bg-primary');
-            if (stickyCartText) {
-              stickyCartText.textContent = '{{ 'products.product.add_to_cart' | t }}';
-            }
-          }
+          setStickyButtonsState(addToCartButton.disabled);
         }
       });
     });
     
     observer.observe(addToCartButton, { attributes: true });
+  }
+
+  const promotionButtons = sectionRoot ? sectionRoot.querySelectorAll('[data-promotion-claim]') : [];
+
+  if (promotionButtons.length > 0) {
+    const existingCode = getCookie('discount_code');
+
+    promotionButtons.forEach(function(button) {
+      const buttonCode = button.getAttribute('data-discount-code');
+      if (existingCode && buttonCode === existingCode) {
+        setPromoButtonState(button, 'claimed');
+      }
+
+      button.addEventListener('click', function() {
+        const discountCode = button.getAttribute('data-discount-code');
+        if (!discountCode) {
+          return;
+        }
+
+        const cookieDays = parseInt(button.getAttribute('data-cookie-duration'), 10) || 30;
+        setDiscountCookie(discountCode, cookieDays);
+
+        promotionButtons.forEach(function(item) {
+          const itemCode = item.getAttribute('data-discount-code');
+          if (item === button || itemCode === discountCode) {
+            setPromoButtonState(item, 'claimed');
+          } else {
+            setPromoButtonState(item, 'default');
+          }
+        });
+      });
+    });
+  }
+
+  function setDiscountCookie(code, days) {
+    const ttl = (parseInt(days, 10) || 30) * 24 * 60 * 60 * 1000;
+    const expires = new Date(Date.now() + ttl);
+    document.cookie = 'discount_code=' + encodeURIComponent(code) + '; path=/; expires=' + expires.toUTCString() + '; SameSite=Lax';
+  }
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      return decodeURIComponent(parts.pop().split(';').shift());
+    }
+    return null;
+  }
+
+  function setPromoButtonState(button, state) {
+    if (!button) {
+      return;
+    }
+
+    const textNode = button.querySelector('[data-claim-text]');
+    const defaultText = button.getAttribute('data-default-text') || '';
+    const successText = button.getAttribute('data-success-text') || defaultText;
+
+    if (state === 'claimed') {
+      if (textNode && successText) {
+        textNode.textContent = successText;
+      } else if (successText) {
+        button.textContent = successText;
+      }
+      button.classList.add('promotion-discount-bar__button--claimed');
+      button.setAttribute('aria-pressed', 'true');
+    } else {
+      if (textNode && defaultText) {
+        textNode.textContent = defaultText;
+      } else if (defaultText) {
+        button.textContent = defaultText;
+      }
+      button.classList.remove('promotion-discount-bar__button--claimed');
+      button.removeAttribute('aria-pressed');
+    }
   }
 })();
 </script>
@@ -656,6 +1054,12 @@
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_global_sticky_bar",
+      "label": "Enable global sticky purchase bar",
+      "default": false
     }
   ],
   "blocks": [
@@ -668,6 +1072,70 @@
       "type": "product_price",
       "name": "Price",
       "limit": 1
+    },
+    {
+      "type": "promotion_discount_bar",
+      "name": "Promotion discount bar",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_label",
+          "label": "Badge label",
+          "default": "Limited time offer"
+        },
+        {
+          "type": "text",
+          "id": "promo_heading",
+          "label": "Heading",
+          "default": "Extra 15% off for first-time customers"
+        },
+        {
+          "type": "text",
+          "id": "promo_subtext",
+          "label": "Subtext",
+          "default": "Use the code below and save instantly at checkout."
+        },
+        {
+          "type": "color_background",
+          "id": "background_color",
+          "label": "Background color",
+          "default": "rgba(239, 68, 68, 0.1)"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#7a1b1b"
+        },
+        {
+          "type": "text",
+          "id": "discount_code",
+          "label": "Discount code",
+          "default": "SAVE15"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Claim discount"
+        },
+        {
+          "type": "text",
+          "id": "claimed_label",
+          "label": "Claimed state label",
+          "default": "Discount saved"
+        },
+        {
+          "type": "range",
+          "id": "cookie_duration",
+          "label": "Days to keep discount cookie",
+          "min": 1,
+          "max": 90,
+          "step": 1,
+          "default": 30
+        }
+      ]
     },
     {
       "type": "product_description",
@@ -696,6 +1164,7 @@
       "blocks": [
         { "type": "product_title" },
         { "type": "product_price" },
+        { "type": "promotion_discount_bar" },
         { "type": "product_description" },
         { "type": "variant_selector" },
         { "type": "quantity_selector" },

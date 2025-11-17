@@ -14,7 +14,7 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {
-        "color_scheme": "scheme-announcement",
+        "color_scheme": "scheme-primary",
         "badge_text": "Shipping update",
         "message": "Free worldwide shipping on orders over $90",
         "link_label": "Shop now",

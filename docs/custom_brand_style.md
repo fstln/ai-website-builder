@@ -94,7 +94,7 @@
 
 - **按钮**：矩形且 4px 圆角；默认黑底白字，hover 变品牌蓝 + `transform: scale(1.05)`；禁用态降低不透明度至 40%，且禁用阴影。
 - **导航**：白色背景、0px 圆角、文本全大写（500 字重），hover 仅更改文本色 + 下划线平滑显现。
-- **Announcement Bar**：使用 `sections/announcement-bar.liquid` 生成的标准模块，只能在 Header Group 中启用（已在 `sections/header-group.json` 默认添加，并固定排在 `main-header` 之前）。模块默认采用新建的 `scheme-announcement`（品牌蓝背景、白色前景），仅保留“徽章 + 正文 + CTA”三段配置，强制居中对齐、不支持轮播或关闭按钮，并继承 `container-custom` 安全区与 48px 最小高度。
+- **Announcement Bar**：使用 `sections/announcement-bar.liquid` 生成的标准模块，只能在 Header Group 中启用（已在 `sections/header-group.json` 默认添加，并固定排在 `main-header` 之前）。模块默认采用新建的 `scheme-primary`（品牌蓝背景、白色前景），仅保留“徽章 + 正文 + CTA”三段配置，强制居中对齐、不支持轮播或关闭按钮，并继承 `container-custom` 安全区与 48px 最小高度。
 - **产品卡**：8–12px 圆角，轻阴影 `0 1px 3px rgba(0,0,0,0.1)`；图片裁剪为 1:1 或 16:9，使用 `filter: brightness(1.05)`。
 - **列表**：无样式符号（`list-style: none`），但可以 `::before` 插入 `•`；链接 hover 显示下划线。
 - **输入框**：6px 圆角，1px `#E0E0E0` 边框，focus 态 `box-shadow: 0 0 0 2px #A8B8FF33`。
@@ -145,3 +145,49 @@
   3. 仅当 Shopify Online Store 2.0 动态加载导致脚本无法复用时，才在 Section 末尾写 `<script>`，并用注释标注 “Heyup-only inline script”。
 
 遵循以上边界，可以在保持 Shopify 主题结构整洁的同时，快速切换到其它品牌或进行版本升级。
+
+---
+
+## 10. 模块级自定义配色策略
+
+> 目标：维持现有 color scheme 的一致性，同时允许少量 Section 拥有更大胆的视觉（如 Oladance 产品页、Campaign Hero）。
+
+1. **默认仍套用 `color-scheme`**  
+   - Section 根节点继续写 `class="color-scheme color-{{ section.settings.color_scheme | default: 'scheme-1' }}"`，以便继承背景/文本/阴影基础值。  
+   - 在 schema 中新增“Accent”字段（示例：`accent_mode` select、`accent_color` color、`accent_gradient` text），并通过局部 `<style>` 或 `.scss.liquid` 为当前 Section 注入 CSS 变量（不要写到 `style=""`）：  
+     ```liquid
+     {%- liquid
+       assign accent_color = section.settings.accent_color | default: 'var(--color-primary)'
+       assign accent_grad = section.settings.accent_gradient | default: 'linear-gradient(135deg,var(--color-primary),var(--color-decorative))'
+     -%}
+     <section
+       id="{{ section_id }}"
+       class="color-scheme color-{{ section.settings.color_scheme | default: 'scheme-1' }}"
+       data-accent-mode="{{ section.settings.accent_mode }}"
+     >
+       ...
+     </section>
+     <style>
+       #{{ section_id }} {
+         --section-accent: {{ accent_color }};
+         --section-gradient: {{ accent_grad }};
+       }
+     </style>
+     ```
+   - 元素内部通过 `class="text-[color:var(--section-accent)]"`、`bg-[radial-gradient(circle_at_top,_var(--section-gradient),_transparent)]` 等语义类引用变量，即可获得自定义颜色，同时保持主题切换能力。
+
+2. **当必须脱离 scheme 时的约束**  
+   - 在 schema 中提供布尔开关（例如 “Use custom backdrop”），开启后可以移除 `color-scheme` 类，并在追加的 `<style>` 块中为 `#{{ section_id }}` 写入背景/文本颜色，保持样式与结构解耦。  
+   - 所有自定义样式都必须 scope 到 `#{{ section_id }}`，且在 CSS 中使用更高优先级（如 `#{{ section_id }} .custom-card`），避免被 `.color-scheme.color-*` 下的通用样式覆盖。  
+   - 自定义模式下仍需提供语义备选：例如 `color: var(--color-primary, #FF6B3D);`，以免未来切换品牌时完全断裂。
+
+3. **防止被全局样式覆盖的技巧**  
+   - 任何额外的 background / text color 建议写在 `#{{ section_id }}` 作用域的 CSS 变量（例如 `#{{ section_id }} { --local-border: rgba(255,255,255,.2); }`），再通过 `border-[color:var(--local-border)]` 调用，避免内联 `style`。  
+   - 若 Section 需要 gradient overlay，可使用伪元素，并在 CSS 中加上 `position: relative` + `z-index` 控制，确保不会被 `.color-scheme` 提供的基础背景填充掉。
+
+4. **新增模块开发流程**  
+   1. 优先评估现有 scheme 是否满足（`scheme-1`, `scheme-2`, `scheme-3`, `scheme-header`, `scheme-primary`）。  
+   2. 若需要额外色彩，仅在 Section schema 添加自定义字段，不新增全局 scheme。  
+   3. 只有当新的视觉同时需要在多个 Section 复用时，才考虑扩展 `config/settings_data.json > color_schemes`，否则通过上述 CSS 变量即可。
+
+遵循以上策略，模块既能获得“独立调色口子”，又不会破坏 Shopify Theme Editor 的配色联动或被 `color-scheme` 的基础样式覆盖。

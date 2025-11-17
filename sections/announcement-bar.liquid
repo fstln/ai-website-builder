@@ -4,7 +4,7 @@
 {% endcomment %}
 
 {% liquid
-  assign section_color_scheme = section.settings.color_scheme | default: 'scheme-announcement'
+  assign section_color_scheme = section.settings.color_scheme | default: 'scheme-primary'
   assign badge_text = section.settings.badge_text
   assign message = section.settings.message
   assign link_label = section.settings.link_label
@@ -112,7 +112,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-announcement"
+      "default": "scheme-primary"
     },
     {
       "type": "text",

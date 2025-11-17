@@ -1,0 +1,211 @@
+{% comment %}
+  Purchase Sticky Navbar
+  Provides sticky navigation pills for long purchase pages
+{% endcomment %}
+
+{% assign section_color_scheme = section.settings.color_scheme | default: 'scheme-1' %}
+{% assign sticky_offset = section.settings.sticky_offset | default: 72 %}
+{% assign scroll_offset = section.settings.scroll_offset | default: 96 %}
+
+{% style %}
+  #shopify-section-{{ section.id }} .sticky-nav__container {
+    position: sticky;
+    top: {{ sticky_offset }}px;
+    z-index: 30;
+  }
+
+  #shopify-section-{{ section.id }} .sticky-nav__surface {
+    background-color: rgb(var(--color-background-rgb, 255 255 255) / 0.92);
+    box-shadow: 0 10px 40px rgb(15 23 42 / 0.08);
+    backdrop-filter: blur(8px);
+  }
+
+  #shopify-section-{{ section.id }} .sticky-nav__track {
+    scrollbar-width: none;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  #shopify-section-{{ section.id }} .sticky-nav__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  #shopify-section-{{ section.id }} .sticky-nav__link {
+    border-radius: 999px;
+    border: none;
+    transition: color 150ms ease;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .sticky-nav__link:hover {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .sticky-nav__link:focus-visible {
+    outline: 2px solid rgb(var(--color-primary-rgb, 17 94 89) / 0.5);
+    outline-offset: 2px;
+  }
+{% endstyle %}
+
+<section class="color-scheme color-{{ section_color_scheme }}">
+  <div class="sticky-nav w-full" data-section-id="{{ section.id }}">
+    <div class="sticky-nav__container">
+      <nav 
+        class="sticky-nav__surface mx-auto px-4 py-2 sm:px-6"
+        aria-label="{{ section.settings.nav_aria_label | default: 'Purchase page navigation' }}"
+      >
+        <div 
+          class="sticky-nav__track flex items-center gap-6 md:gap-10 overflow-x-auto justify-start lg:justify-center"
+          data-sticky-nav
+          data-scroll-offset="{{ scroll_offset }}"
+        >
+          {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+              {% assign nav_label = block.settings.label | default: 'Section' %}
+              {% assign nav_subtext = block.settings.subtext | strip %}
+              {% assign target_id = block.settings.anchor_id | strip %}
+              {% if target_id == blank %}
+                {% assign anchor_href = '#' %}
+              {% else %}
+                {% if target_id contains '#' %}
+                  {% assign anchor_href = target_id %}
+                {% else %}
+                  {% assign anchor_href = '#' | append: target_id %}
+                {% endif %}
+              {% endif %}
+              <a
+                class="sticky-nav__link py-2 text-sm font-semibold text-foreground/80 bg-transparent hover:text-foreground/100 focus-visible:text-foreground/100 whitespace-nowrap"
+                href="{{ anchor_href }}"
+                data-nav-link
+                data-target="{{ anchor_href }}"
+                {{ block.shopify_attributes }}
+              >
+                <span>{{ nav_label | escape }}</span>
+                {% if nav_subtext != blank %}
+                  <span class="ml-2 text-xs font-normal text-muted">{{ nav_subtext | escape }}</span>
+                {% endif %}
+              </a>
+            {% endfor %}
+          {% else %}
+            <div class="text-center w-full text-sm text-muted py-2">
+              {{ 'Start adding navigation items' }}
+            </div>
+          {% endif %}
+        </div>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  const section = document.getElementById('shopify-section-{{ section.id }}');
+  if (!section) return;
+
+  const navTrack = section.querySelector('[data-sticky-nav]');
+  if (!navTrack) return;
+
+  navTrack.addEventListener('click', function(event) {
+    const trigger = event.target.closest('[data-nav-link]');
+    if (!trigger) return;
+
+    const targetSelector = trigger.getAttribute('data-target');
+    if (!targetSelector || targetSelector === '#') return;
+
+    const targetElement = document.querySelector(targetSelector);
+    if (!targetElement) return;
+
+    event.preventDefault();
+    const scrollOffset = parseInt(navTrack.getAttribute('data-scroll-offset'), 10) || 0;
+    const position = targetElement.getBoundingClientRect().top + window.pageYOffset - scrollOffset;
+
+    window.scrollTo({
+      top: position,
+      behavior: 'smooth'
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Sticky purchase navbar",
+  "tag": "section",
+  "class": "section-sticky-navbar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "nav_aria_label",
+      "label": "Navigation label",
+      "default": "Purchase page navigation"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "sticky_offset",
+      "label": "Distance from top when sticking",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "scroll_offset",
+      "label": "Scroll offset for anchor targets",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav_link",
+      "name": "Navigation item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Product details"
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Helper text"
+        },
+        {
+          "type": "text",
+          "id": "anchor_id",
+          "label": "Anchor link (with or without #)",
+          "default": "details"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky purchase navbar",
+      "blocks": [
+        { "type": "nav_link", "settings": { "label": "Why this product", "anchor_id": "why" } },
+        { "type": "nav_link", "settings": { "label": "How it works", "anchor_id": "how-it-works" } },
+        { "type": "nav_link", "settings": { "label": "Ingredients", "anchor_id": "ingredients" } },
+        { "type": "nav_link", "settings": { "label": "Reviews", "anchor_id": "reviews" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
