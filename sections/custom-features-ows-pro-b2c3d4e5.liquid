@@ -19,29 +19,59 @@
         </p>
       {%- endif -%}
     </div>
-    <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-      <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
-        {%- for block in section.blocks -%}
-          <div class="relative pl-16" {{ block.shopify_attributes }}>
-            <dt class="text-base font-semibold leading-7 text-foreground">
-              <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                <div class="h-6 w-6 text-primary-foreground">
+    <div class="mx-auto mt-16 space-y-16 sm:mt-20 lg:mt-24">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign is_even = forloop.index0 | modulo: 2
+          assign image_classes = 'order-1'
+          assign text_classes = 'order-2'
+          if is_even == 0
+            assign image_classes = image_classes | append: ' lg:order-1'
+            assign text_classes = text_classes | append: ' lg:order-2'
+          else
+            assign image_classes = image_classes | append: ' lg:order-2'
+            assign text_classes = text_classes | append: ' lg:order-1'
+          endif
+        -%}
+        <article class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2" {{ block.shopify_attributes }}>
+          <div class="{{ image_classes }} relative">
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 1200 }}"
+                alt="{{ block.settings.title | escape }}"
+                width="1200"
+                height="1200"
+                class="w-full rounded-3xl object-cover shadow-2xl ring-1 ring-border/60"
+                loading="lazy"
+              >
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'w-full rounded-3xl bg-muted/20 aspect-square' }}
+            {%- endif -%}
+          </div>
+          <div class="{{ text_classes }} max-w-xl">
+            {%- if block.settings.icon_svg != blank -%}
+              <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <div class="h-7 w-7 text-current">
                   {{ block.settings.icon_svg }}
                 </div>
               </div>
+            {%- endif -%}
+            <h3 class="text-3xl font-semibold tracking-tight text-foreground font-heading">
               {{ block.settings.title }}
-            </dt>
-            <dd class="mt-2 text-base leading-7 text-muted">{{ block.settings.description }}</dd>
+            </h3>
+            <p class="mt-4 text-lg leading-8 text-muted">
+              {{ block.settings.description | newline_to_br }}
+            </p>
           </div>
-        {%- endfor -%}
-      </dl>
+        </article>
+      {%- endfor -%}
     </div>
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Custom: Features (OWS Pro)",
+  "name": "Custom: Features(OWS Pro)",
   "tag": "section",
   "class": "custom-features-ows-pro-section",
   "settings": [
@@ -73,7 +103,12 @@
           "type": "html",
           "id": "icon_svg",
           "label": "Icon SVG",
-          "info": "Paste your 24x24 SVG code here."
+          "info": "Optional accent icon that appears above the copy."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
         },
         {
           "type": "text",

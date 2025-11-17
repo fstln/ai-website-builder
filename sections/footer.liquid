@@ -18,7 +18,8 @@
     {% for block in section.blocks %}
       {% case block.type %}
         {% when 'newsletter' %}
-          <div class="color-scheme color-{{ block.settings.color_scheme | default: 'scheme-1' }} footer__newsletter-section" {{ block.shopify_attributes }}>
+          {% assign newsletter_color_scheme = block.settings.color_scheme | default: section_color_scheme %}
+          <div class="color-scheme color-{{ newsletter_color_scheme }} footer__newsletter-section" {{ block.shopify_attributes }}>
             <h3 class="footer__newsletter-title">{{ block.settings.title | default: section.settings.newsletter_title | default: 'Get new tech guides & exclusive deals.' }}</h3>
             {% assign desc_text = block.settings.text | default: section.settings.newsletter_text %}
             {% if desc_text != blank %}

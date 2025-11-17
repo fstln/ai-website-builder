@@ -12,6 +12,16 @@
   assign button_label = section.settings.button_label
   assign button_link = section.settings.button_link
   assign image = section.settings.image
+  assign image_position = section.settings.image_position | default: 'right'
+  assign text_classes = 'order-1'
+  assign image_classes = 'order-2'
+  if image_position == 'left'
+    assign text_classes = text_classes | append: ' lg:order-2'
+    assign image_classes = image_classes | append: ' lg:order-1'
+  else
+    assign text_classes = text_classes | append: ' lg:order-1'
+    assign image_classes = image_classes | append: ' lg:order-2'
+  endif
 -%}
 
 <section
@@ -21,7 +31,7 @@
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12 py-16 sm:py-20 lg:py-24">
-      <div class="flex flex-col justify-center items-start text-left">
+      <div class="{{ text_classes }} flex flex-col justify-center items-start text-left">
         <div class="max-w-lg">
           {%- if subheading != blank -%}
             <p class="text-base font-semibold leading-7 text-primary">{{ subheading }}</p>
@@ -43,7 +53,7 @@
           {%- endif -%}
         </div>
       </div>
-      <div class="flex items-center justify-center">
+      <div class="{{ image_classes }} flex items-center justify-center">
         {%- if image != blank -%}
           <img
             src="{{ image | image_url: width: 1000 }}"
@@ -84,6 +94,16 @@
       "type": "image_picker",
       "id": "image",
       "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "default": "right",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
     },
     {
       "type": "text",
