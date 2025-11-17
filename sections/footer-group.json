@@ -13,6 +13,19 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "newsletter_Aeic4H": {
+          "type": "newsletter",
+          "settings": {
+            "color_scheme": "scheme-primary",
+            "title": "Get new tech guides & exclusive deals.",
+            "text": ""
+          }
+        }
+      },
+      "block_order": [
+        "newsletter_Aeic4H"
+      ],
       "settings": {
         "color_scheme": "",
         "show_newsletter": true,
