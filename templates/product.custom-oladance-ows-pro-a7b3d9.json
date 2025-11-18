@@ -1,0 +1,185 @@
+{
+  "sections": {
+    "main-product": {
+      "type": "main-product",
+      "blocks": {
+        "product_title_wkgHei": {
+          "type": "product_title",
+          "settings": {}
+        },
+        "product_price_bFpLGn": {
+          "type": "product_price",
+          "settings": {}
+        },
+        "promotion_discount_bar_d4A4KP": {
+          "type": "promotion_discount_bar",
+          "disabled": true,
+          "settings": {
+            "badge_label": "",
+            "promo_heading": "Extra 15% off for first-time customers",
+            "promo_subtext": "Use the code below and save instantly at checkout.",
+            "background_color": "rgba(94,137,255, .2)",
+            "text_color": "#000000",
+            "discount_code": "SAVE15",
+            "button_label": "Claim discount",
+            "claimed_label": "Discount saved",
+            "cookie_duration": 30
+          }
+        },
+        "product_description_R6JmKQ": {
+          "type": "product_description",
+          "settings": {
+            "description_content": "<p>Describe your hero product highlights, materials, and key benefits in a couple of punchy sentences.</p>"
+          }
+        },
+        "variant_selector_ifAAig": {
+          "type": "variant_selector",
+          "settings": {}
+        },
+        "quantity_selector_jJfRJ9": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_aDWXeR": {
+          "type": "buy_buttons",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "product_title_wkgHei",
+        "product_price_bFpLGn",
+        "promotion_discount_bar_d4A4KP",
+        "product_description_R6JmKQ",
+        "variant_selector_ifAAig",
+        "quantity_selector_jJfRJ9",
+        "buy_buttons_aDWXeR"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "enable_global_sticky_bar": true,
+        "discount_ribbon_color_start": "#ef4444",
+        "discount_ribbon_color_end": "#ef4444",
+        "discount_ribbon_text_color": "#ffffff"
+      }
+    },
+    "custom_hero_ksp_a7b3d9": {
+      "type": "custom-hero-ksp-a7b3d9",
+      "settings": {
+        "heading": "Stable enough to stay put, comfortable enough to forget.",
+        "subheading": "<p>Our patented open ear design and integrated liquid silicone molding mean the OWS Pro rests gently on top of your ear, never intruding. Comfort all day, every day.</p>",
+        "cta_text": "Shop Oladance OWS Pro"
+      }
+    },
+    "custom_social_proof_a7b3d9": {
+      "type": "custom-social-proof-a7b3d9",
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I'm a road cyclist and these are a game changer. I can hear traffic and still enjoy my music. Super comfortable and secure.",
+            "author": "Mike R.",
+            "author_meta": "Road Cyclist",
+            "rating": 5
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Perfect for my commute and office. I can stay aware of my surroundings while focusing on my work. The battery life is insane!",
+            "author": "Jessica P.",
+            "author_meta": "Daily Commuter",
+            "rating": 5
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "As a runner, I've struggled to find headphones that don't fall out or block out important sounds. The OWS Pro solves both problems. Highly recommend!",
+            "author": "David Chen",
+            "author_meta": "Fitness Enthusiast",
+            "rating": 5
+          }
+        }
+      },
+      "block_order": ["testimonial_1", "testimonial_2", "testimonial_3"],
+      "settings": {
+        "heading": "Trusted by Athletes & Professionals"
+      }
+    },
+    "custom_feature_highlights_a7b3d9": {
+      "type": "custom-feature-highlights-a7b3d9",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "title": "The second-generation bass algorithm",
+            "description": "<p>Our patented Virtual Bass 2nd algorithm uses high dynamic power to enhance low-frequency sound quality, significantly improving bass volume for a fuller, deeper bass.</p>"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "title": "58 hours of full battery life",
+            "description": "<p>Our self-developed 150mAh 'Little Steel Cannon' battery offers high density, small volume, stronger charge storage, and higher safety.</p>"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "title": "Stay aware of every sound of nature",
+            "description": "<p>With our patented open ear design, the OWS Pro keeps you in sync with your surroundings, without sealing the ear canal.</p>"
+          }
+        }
+      },
+      "block_order": ["feature_1", "feature_2", "feature_3"],
+      "settings": {
+        "heading": "Engineered for Superior Sound & Comfort"
+      }
+    },
+    "custom_tech_specs_a7b3d9": {
+      "type": "custom-tech-specs-a7b3d9",
+      "blocks": {
+        "spec_1": { "type": "spec", "settings": { "spec_title": "Weight", "spec_value": "13.8g (Single Earphone)" } },
+        "spec_2": { "type": "spec", "settings": { "spec_title": "Total Battery Life", "spec_value": "58 Hours (with case)" } },
+        "spec_3": { "type": "spec", "settings": { "spec_title": "Single Charge", "spec_value": "16 Hours" } },
+        "spec_4": { "type": "spec", "settings": { "spec_title": "Bluetooth", "spec_value": "V5.3" } },
+        "spec_5": { "type": "spec", "settings": { "spec_title": "Waterproof", "spec_value": "IPX4" } },
+        "spec_6": { "type": "spec", "settings": { "spec_title": "Material", "spec_value": "Skin-friendly silicone, titanium memory steel wire" } }
+      },
+      "block_order": ["spec_1", "spec_2", "spec_3", "spec_4", "spec_5", "spec_6"]
+    },
+    "custom_in_the_box_a7b3d9": {
+      "type": "custom-in-the-box-a7b3d9",
+      "blocks": {
+        "item_1": { "type": "item", "settings": { "item_text": "Oladance OWS Pro Earphones" } },
+        "item_2": { "type": "item", "settings": { "item_text": "Charging Case" } },
+        "item_3": { "type": "item", "settings": { "item_text": "USB Type-C Cable" } },
+        "item_4": { "type": "item", "settings": { "item_text": "User Manual" } },
+        "item_5": { "type": "item", "settings": { "item_text": "Brand Card" } }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4", "item_5"]
+    },
+    "custom_comparison_a7b3d9": {
+      "type": "custom-comparison-a7b3d9",
+      "blocks": {
+        "product_1": { "type": "product_column", "settings": { "product_name": "OWS Pro" } },
+        "product_2": { "type": "product_column", "settings": { "product_name": "OWS 2" } },
+        "product_3": { "type": "product_column", "settings": { "product_name": "OWS 1" } }
+      },
+      "block_order": ["product_1", "product_2", "product_3"],
+      "settings": {
+        "features": "Bass Effect, Virtual Bass 2nd Gen, Virtual Bass 2nd Gen, N/A\nBluetooth, 5.3, 5.3, 5.2\nBattery Life (Single), 16 hours, 19 hours, 16 hours\nMulti-point Connection, Support, Support, N/A\nWaterproofing, IPX4, IPX4, IPX4"
+      }
+    }
+  },
+  "order": [
+    "custom_hero_ksp_a7b3d9",
+    "main-product",
+    "custom_social_proof_a7b3d9",
+    "custom_feature_highlights_a7b3d9",
+    "custom_tech_specs_a7b3d9",
+    "custom_in_the_box_a7b3d9",
+    "custom_comparison_a7b3d9"
+  ],
+  "name": "Oladance OWS Pro"
+}
