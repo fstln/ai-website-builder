@@ -1,0 +1,120 @@
+{% comment %}
+  Shopify Section: Social Proof
+  - Displays media logos and customer reviews.
+  - Settings: Section title.
+  - Blocks: 'logo' for media logos, 'review' for customer testimonials.
+{% endcomment %}
+
+<section class="bg-background text-foreground px-6 py-20 lg:py-24">
+  <div class="mx-auto max-w-7xl">
+    {%- if section.settings.heading != blank -%}
+      <div class="text-center">
+        <h2 class="font-heading text-4xl font-bold text-foreground lg:text-5xl">{{ section.settings.heading | escape }}</h2>
+      </div>
+    {%- endif -%}
+
+    {%- assign logo_blocks = section.blocks | where: "type", "logo" -%}
+    {%- if logo_blocks.size > 0 -%}
+      <div class="mt-12 grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+        {%- for block in logo_blocks -%}
+          <div class="flex justify-center" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <img
+                class="h-10 object-contain"
+                src="{{ block.settings.image | image_url: height: 40 }}"
+                alt="{{ block.settings.image.alt | default: 'Media logo' | escape }}"
+                width="{{ block.settings.image.width }}"
+                height="40"
+                loading="lazy"
+              >
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg h-10 w-auto object-contain text-muted' }}
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- assign review_blocks = section.blocks | where: "type", "review" -%}
+    {%- if review_blocks.size > 0 -%}
+      <div class="mt-16 grid gap-8 lg:grid-cols-3">
+        {%- for block in review_blocks -%}
+          <div class="bg-surface p-8 rounded-lg shadow-sm" {{ block.shopify_attributes }}>
+            {%- if block.settings.quote != blank -%}
+              <div class="text-muted">{{ block.settings.quote }}</div>
+            {%- endif -%}
+            {%- if block.settings.author != blank -%}
+              <footer class="mt-6">
+                <p class="font-semibold text-foreground">{{ block.settings.author | escape }}</p>
+              </footer>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Social Proof",
+  "tag": "section",
+  "class": "social-proof-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Loved by Listeners & Critics"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo Image"
+        }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Quote",
+          "default": "<p>Share a customer's experience or a review from a publication.</p>"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Alex R."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "C: Social Proof",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}
