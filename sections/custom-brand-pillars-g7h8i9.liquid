@@ -1,0 +1,64 @@
+<section id="brand-pillars-{{ section.id }}" class="bg-[#FAFAFA] px-6 py-20 lg:py-24">
+  <div class="mx-auto max-w-container space-y-16">
+    {%- for block in section.blocks -%}
+      {%- assign is_odd = forloop.index | modulo: 2 -%}
+      <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div class="{% if is_odd == 1 %}order-2 lg:order-1{% else %}order-1 lg:order-2{% endif %}">
+          {%- if block.settings.title != blank -%}
+            <h3 class="font-display text-3xl font-bold text-slate-900 lg:text-4xl">{{ block.settings.title }}</h3>
+          {%- endif -%}
+          {%- if block.settings.description != blank -%}
+            <p class="mt-4 text-lg text-slate-600">{{ block.settings.description }}</p>
+          {%- endif -%}
+        </div>
+        <div class="{% if is_odd == 1 %}order-1 lg:order-2{% else %}order-2 lg:order-1{% endif %}">
+          {%- if block.settings.image != blank -%}
+            <img src="{{ block.settings.image | image_url: width: 1100 }}" alt="{{ block.settings.image.alt | default: block.settings.title }}" class="card-float w-full object-cover">
+          {%- else -%}
+            <img src="https://placehold.co/550x450/A8B8FF/ffffff?text={{ block.settings.title | url_encode }}" alt="{{ block.settings.title }}" class="card-float w-full object-cover">
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Brand Pillars",
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "FORGET YOU'RE WEARING THEM"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Our patented open-ear design rests gently outside your ear, eliminating pressure and pain for pure comfort.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Pillars",
+      "blocks": [
+        { "type": "pillar" },
+        { "type": "pillar" }
+      ]
+    }
+  ]
+}
+{% endschema %}
