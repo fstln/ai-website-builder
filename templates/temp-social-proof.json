@@ -1,0 +1,66 @@
+{
+  "sections": {
+    "social_proof_section": {
+      "type": "custom-social-proof",
+      "settings": {
+        "heading": "Loved by Listeners & Critics"
+      },
+      "blocks": {
+        "logo_1": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_2": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_3": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_4": {
+          "type": "logo",
+          "settings": {}
+        },
+        "logo_5": {
+          "type": "logo",
+          "settings": {}
+        },
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>Finally, earbuds that don't hurt my ears after an hour! The sound is surprisingly good for an open design.</p>",
+            "author": "Alex R."
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>The battery life is insane. I use them for work calls all day and barely have to charge them.</p>",
+            "author": "Jessica M."
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>As a runner, these are a game-changer. I can hear my music and still be aware of my surroundings.</p>",
+            "author": "David L."
+          }
+        }
+      },
+      "block_order": [
+        "logo_1",
+        "logo_2",
+        "logo_3",
+        "logo_4",
+        "logo_5",
+        "review_1",
+        "review_2",
+        "review_3"
+      ]
+    }
+  },
+  "order": [
+    "social_proof_section"
+  ]
+}
