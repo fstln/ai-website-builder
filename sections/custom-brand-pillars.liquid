@@ -1,0 +1,142 @@
+{%- liquid
+  assign section_dom_id = 'brand-pillars-' | append: section.id
+-%}
+
+<section
+  id="{{ section_dom_id }}"
+  class="bg-[#FAFAFA] px-6 py-20 lg:py-24"
+>
+  <div class="mx-auto max-w-container space-y-16">
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign is_image_left = false
+          if block.settings.image_position == 'left'
+            assign is_image_left = true
+          endif
+        -%}
+        <div
+          class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16"
+          {{ block.shopify_attributes }}
+        >
+          <div
+            class="{% if is_image_left %}order-2 lg:order-2{% else %}order-2 lg:order-1{% endif %}"
+          >
+            {%- if block.settings.title != blank -%}
+              <h3 class="font-display text-3xl font-bold text-slate-900 lg:text-4xl">
+                {{ block.settings.title }}
+              </h3>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+              <div class="mt-4 text-lg text-slate-600">
+                {{ block.settings.description }}
+              </div>
+            {%- endif -%}
+          </div>
+          <div
+            class="{% if is_image_left %}order-1 lg:order-1{% else %}order-1 lg:order-2{% endif %}"
+          >
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 1100, height: 900 }}"
+                alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
+                width="550"
+                height="450"
+                loading="lazy"
+                class="card-float w-full object-cover"
+              >
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'card-float w-full object-cover' }}
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  #{{ section_dom_id }} .card-float {
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-radius: 0.75rem;
+  }
+  #{{ section_dom_id }} .card-float:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "C: Brand Pillars",
+  "tag": "section",
+  "class": "brand-pillars-section",
+  "max_blocks": 4,
+  "settings": [],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Pillar Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Use this text to describe the pillar and its benefits.</p>"
+        },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image Position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "right"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "C: Brand Pillars",
+      "blocks": [
+        {
+          "type": "pillar",
+          "settings": {
+            "title": "FORGET YOU'RE WEARING THEM",
+            "description": "<p>Our patented open-ear design rests gently outside your ear, eliminating pressure and pain for pure comfort.</p>",
+            "image_position": "right"
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "title": "RICH BASS, OPEN SOUND",
+            "description": "<p>Tired of 'tinny' sound? Our advanced audio technology delivers deep, rich bass you can feel, without sealing you off from the world.</p>",
+            "image_position": "left"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
