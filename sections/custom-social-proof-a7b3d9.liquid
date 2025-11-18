@@ -1,0 +1,143 @@
+{%- liquid
+  assign section_id = 'social-proof-' | append: section.id
+-%}
+
+<section
+  id="{{ section_id }}"
+  class="color-scheme color-{{ section.settings.color_scheme }} bg-background py-16 sm:py-24"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+        {{ section.settings.heading }}
+      </h2>
+      <p class="mt-4 text-lg leading-8 text-muted">
+        {{ section.settings.subheading }}
+      </p>
+    </div>
+    <div class="mx-auto mt-16 flow-root">
+      <div class="-my-12 divide-y divide-border/60">
+        {%- for block in section.blocks -%}
+          <div class="py-12" {{ block.shopify_attributes }}>
+            <div class="flex items-center gap-x-4">
+              {%- if block.settings.avatar != blank -%}
+                <img
+                  class="h-12 w-12 rounded-full"
+                  src="{{ block.settings.avatar | image_url: width: 96 }}"
+                  alt="{{ block.settings.author | escape }}"
+                  width="48"
+                  height="48"
+                  loading="lazy"
+                >
+              {%- else -%}
+                <img
+                  class="h-12 w-12 rounded-full bg-surface-muted"
+                  src="https://placehold.co/96x96/E2E8F0/4A5568?text={{ block.settings.author | slice: 0 | upcase }}"
+                  alt="Avatar for {{ block.settings.author | escape }}"
+                  width="48"
+                  height="48"
+                  loading="lazy"
+                >
+              {%- endif -%}
+              <div>
+                <div class="flex items-center gap-x-1">
+                  {%- for i in (1..5) -%}
+                    <svg class="h-5 w-5 {% if i <= block.settings.rating %}text-yellow-400{% else %}text-gray-300{% endif %}" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M10.868 2.884c.321-.662 1.215-.662 1.536 0l1.881 3.861 4.254.617c.732.106 1.022.992.494 1.503l-3.078 2.999.726 4.237c.124.728-.64 1.281-1.283.948L10 15.347l-3.834 2.016c-.643.333-1.407-.22-1.283-.948l.726-4.237-3.078-2.999c-.528-.511-.238-1.397.494-1.503l4.254-.617 1.88-3.861z" clip-rule="evenodd" />
+                    </svg>
+                  {%- endfor -%}
+                </div>
+                <h3 class="mt-1 text-lg font-semibold leading-6 text-foreground">
+                  {{ block.settings.author }}
+                </h3>
+                <p class="text-sm text-muted">{{ block.settings.author_meta }}</p>
+              </div>
+            </div>
+            <blockquote class="mt-6 text-lg leading-7 text-foreground">
+              <p>{{ block.settings.quote }}</p>
+            </blockquote>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Social Proof",
+  "tag": "section",
+  "class": "custom-social-proof-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Loved by runners & cyclists"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Hear what our community has to say about the Oladance OWS Pro."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Avatar"
+        },
+        {
+          "type": "text",
+          "id": "quote",
+          "label": "Quote",
+          "default": "These are the best open-ear headphones I've ever used. They stay put during my long runs and the sound quality is incredible."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Sarah L."
+        },
+        {
+          "type": "text",
+          "id": "author_meta",
+          "label": "Author Meta",
+          "default": "Marathon Runner"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "unit": "s",
+          "label": "Rating",
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Social Proof",
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
+    }
+  ]
+}
+{% endschema %}
