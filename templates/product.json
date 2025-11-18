@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main-product": {
@@ -57,10 +66,16 @@
       "name": "Main Product",
       "settings": {
         "color_scheme": "",
+        "enable_color_swatches": true,
         "enable_global_sticky_bar": true,
+        "enable_dynamic_checkout": true,
+        "enable_sticky_price_promo": true,
         "discount_ribbon_color_start": "#ef4444",
         "discount_ribbon_color_end": "#ef4444",
-        "discount_ribbon_text_color": "#ffffff"
+        "discount_ribbon_text_color": "#ffffff",
+        "price_promo_color_start": "#ef4444",
+        "price_promo_color_end": "#ff4d1d",
+        "price_promo_text_color": "#ffffff"
       }
     }
   },
@@ -68,4 +83,3 @@
     "main-product"
   ]
 }
-

@@ -574,6 +574,45 @@ Before making changes, check these files:
   - 场景：常见问题（复用 `snippets/faq-accordion.liquid`）。
   - 设置：`color_scheme`、`section_id`、标题/副标题；Blocks 为问答项。
 
+- `sections/reviews.liquid`
+  - 场景：用户评价/社交证明（Testimonials）。
+  - 设置：`color_scheme`、`section_id`、`heading`、`subheading`。
+  - Blocks：`review` → `rating`（1–5）、`author`、`quote`（富文本）。
+  - 用法：建议与 `sticky-navbar` 联动；默认锚点前缀 `reviews-{index}`。
+
+- `sections/compare.liquid`
+  - 场景：型号/方案对比表（三列布局）。
+  - 设置：`color_scheme`、`section_id`、`heading`、`subheading`。
+  - Blocks：`comparison_row` → `feature_name`、`owspro_value`、`ows2_value`、`ows1_value`。
+  - 说明：当前列标题为固定文案（OWS Pro / OWS 2 / OWS 1）；如需改为其他产品名，可直接在该 Section 模板中替换列头文本。
+  - 用法：默认锚点前缀 `compare-{index}`。
+
+- `sections/specs.liquid`
+  - 场景：技术规格（JS-free 折叠列表，`<details>/<summary>`）。
+  - 设置：`color_scheme`、`section_id`、`heading`、`subheading`。
+  - Blocks：`spec_category`（分组标题）、`spec_item`（规格名/值）。
+  - 用法：默认锚点前缀 `specs-{index}`；适合长规格内容分组展示。
+
+- `sections/in-the-box.liquid`
+  - 场景：包装清单（可选配图 + 勾选列表）。
+  - 设置：`color_scheme`、`section_id`、`image`、`heading`、`subheading`。
+  - Blocks：`list_item` → `item_text`。
+  - 用法：默认锚点前缀 `in-the-box-{index}`；图片可为空则展示占位图。
+
+示例（片段）：在 JSON 模板中引用并与粘性导航锚点对齐
+```json
+{
+  "sections": {
+    "sticky": { "type": "sticky-navbar", "blocks": { "reviews_link": { "type": "nav_link", "settings": { "label": "Reviews", "anchor_id": "reviews-1" } } } },
+    "reviews_section": { "type": "reviews", "settings": { "section_id": "reviews-1" } },
+    "compare_section": { "type": "compare", "settings": { "section_id": "compare-1" } },
+    "specs_section": { "type": "specs", "settings": { "section_id": "specs-1" } },
+    "box_section": { "type": "in-the-box", "settings": { "section_id": "in-the-box-1" } }
+  },
+  "order": ["sticky", "reviews_section", "compare_section", "specs_section", "box_section"]
+}
+```
+
 > 说明：不收录以 `custom-` 开头的临时/专项 Section（仅用于示例或特定活动，非稳定接口）。如需参考其结构，请直接查看对应文件，但不作为通用目录的一部分。
 
 ---

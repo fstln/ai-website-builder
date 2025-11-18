@@ -644,7 +644,7 @@
                             </span>
                           </button>
                         </add-to-cart-component>
-                        {% if additional_checkout_buttons %}
+                        {% if section.settings.enable_dynamic_checkout %}
                           <div class="accelerated-checkout-block dynamic-checkout-button w-full mt-3" data-dynamic-checkout>
                             {{ form | payment_button }}
                           </div>
@@ -901,7 +901,7 @@
                             </span>
                           </button>
                         </add-to-cart-component>
-                        {% if additional_checkout_buttons %}
+                        {% if section.settings.enable_dynamic_checkout %}
                           <div class="accelerated-checkout-block dynamic-checkout-button w-full mt-3" data-dynamic-checkout>
                             {{ form | payment_button }}
                           </div>
@@ -1301,6 +1301,12 @@
       "id": "enable_global_sticky_bar",
       "label": "Enable global sticky purchase bar",
       "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_dynamic_checkout",
+      "label": "Show dynamic checkout buttons",
+      "default": true
     },
     {
       "type": "checkbox",

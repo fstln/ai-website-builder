@@ -89,7 +89,7 @@
           "settings": {
             "label": "Reviews",
             "subtext": "",
-            "anchor_id": "custom-reviews-ows-pro-c3d4e5f6-1"
+            "anchor_id": "reviews-1"
           }
         },
         "nav_link_EJ7RyY": {
@@ -97,7 +97,7 @@
           "settings": {
             "label": "Specs",
             "subtext": "",
-            "anchor_id": "custom-specs-ows-pro-e5f6g7h8-1"
+            "anchor_id": "specs-1"
           }
         },
         "nav_link_dVBfVQ": {
@@ -189,7 +189,7 @@
       }
     },
     "custom_reviews_ows_pro_c3d4e5f6": {
-      "type": "custom-reviews-ows-pro-c3d4e5f6",
+      "type": "reviews",
       "blocks": {
         "block_1": {
           "type": "review",
@@ -223,13 +223,13 @@
       ],
       "settings": {
         "color_scheme": "scheme-2",
-        "section_id": "custom-reviews-ows-pro-c3d4e5f6-1",
+        "section_id": "reviews-1",
         "heading": "Don't just take our word for it",
         "subheading": "See what our customers are saying about the Oladance OWS Pro."
       }
     },
     "custom_compare_ows_pro_d4e5f6g7": {
-      "type": "custom-compare-ows-pro-d4e5f6g7",
+      "type": "compare",
       "blocks": {
         "block_1": {
           "type": "comparison_row",
@@ -286,13 +286,13 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
-        "section_id": "custom-compare-ows-pro-d4e5f6g7-1",
+        "section_id": "compare-1",
         "heading": "Compare Our Models",
         "subheading": "Find the perfect Oladance for your lifestyle."
       }
     },
     "custom_specs_ows_pro_e5f6g7h8": {
-      "type": "custom-specs-ows-pro-e5f6g7h8",
+      "type": "specs",
       "blocks": {
         "block_1": {
           "type": "spec_category",
@@ -376,13 +376,13 @@
       ],
       "settings": {
         "color_scheme": "scheme-2",
-        "section_id": "custom-specs-ows-pro-e5f6g7h8-1",
+        "section_id": "specs-1",
         "heading": "Technical Specifications",
         "subheading": "Dive into the details of the Oladance OWS Pro."
       }
     },
     "custom_in_the_box_ows_pro_f6g7h8i9": {
-      "type": "custom-in-the-box-ows-pro-f6g7h8i9",
+      "type": "in-the-box",
       "blocks": {
         "block_1": {
           "type": "list_item",
@@ -417,7 +417,7 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
-        "section_id": "custom-in-the-box-ows-pro-f6g7h8i9-1",
+        "section_id": "in-the-box-1",
         "heading": "What's in the Box",
         "subheading": "Everything you get with your Oladance OWS Pro."
       }

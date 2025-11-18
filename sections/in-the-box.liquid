@@ -1,12 +1,9 @@
 {%- comment -%}
-  This section manages user expectations by clearly listing package contents.
-  - PM: Focused on transparency to prevent post-purchase issues.
-  - Designer: Used an asymmetric layout with an image and a list for visual appeal.
-  - Architect: Built with a configurable schema for the image and a block-based list.
+  Generic "In the Box" section for reuse across pages.
 {%- endcomment -%}
 
 {%- liquid
-  assign fallback_section_id = 'custom-in-the-box-ows-pro-f6g7h8i9-' | append: section.index
+  assign fallback_section_id = 'in-the-box-' | append: section.index
   assign section_id = section.settings.section_id | default: fallback_section_id
 -%}
 
@@ -40,7 +37,7 @@
         {%- else -%}
           <img
             src="https://placehold.co/800x800/F3F4F6/333333?text=What's+in+the+Box"
-            alt="Placeholder for Oladance OWS Pro box contents"
+            alt="Placeholder for box contents"
             width="800"
             height="800"
             class="w-full max-w-md rounded-2xl object-cover shadow-lg"
@@ -54,9 +51,9 @@
 
 {% schema %}
 {
-  "name": "Custom:In the Box(Pro)",
+  "name": "In the Box",
   "tag": "section",
-  "class": "custom-in-the-box-ows-pro-section",
+  "class": "in-the-box-section",
   "settings": [
     {
       "type": "color_scheme",
@@ -68,8 +65,7 @@
       "type": "text",
       "id": "section_id",
       "label": "Section ID",
-      "default": "",
-      "info": "Used for anchor links. Defaults to custom-in-the-box-ows-pro-f6g7h8i9-{index} when left blank."
+      "info": "Used for anchor links. Defaults to in-the-box-{index} when left blank."
     },
     {
       "type": "image_picker",
@@ -86,7 +82,7 @@
       "type": "text",
       "id": "subheading",
       "label": "Subheading",
-      "default": "Everything you get with your Oladance OWS Pro."
+      "default": "Everything you get inside."
     }
   ],
   "blocks": [
@@ -98,16 +94,16 @@
           "type": "text",
           "id": "item_text",
           "label": "Item Text",
-          "default": "Oladance OWS Pro Earphones"
+          "default": "Oladance Earphones"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Custom:In the Box(OWS Pro)",
+      "name": "In the Box",
       "blocks": [
-        { "type": "list_item", "settings": { "item_text": "Oladance OWS Pro Earphones" } },
+        { "type": "list_item", "settings": { "item_text": "Oladance Earphones" } },
         { "type": "list_item", "settings": { "item_text": "Charging Case" } },
         { "type": "list_item", "settings": { "item_text": "Type-C Cable" } },
         { "type": "list_item", "settings": { "item_text": "User Manual" } },
@@ -117,3 +113,4 @@
   ]
 }
 {% endschema %}
+
