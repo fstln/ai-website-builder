@@ -1,0 +1,99 @@
+{%- liquid
+  assign section_id = 'specs-accordion-' | append: section.id
+-%}
+
+<section
+  id="{{ section_id }}"
+  class="color-scheme color-{{ section.settings.color_scheme }}"
+>
+  <div class="container-custom py-12 md:py-24">
+    <div class="max-w-3xl mx-auto text-center">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+    </div>
+
+    <div class="mt-12 max-w-3xl mx-auto">
+      <div class="divide-y divide-border">
+        {%- for block in section.blocks -%}
+          <details
+            class="group py-6"
+            {% if forloop.first %}
+              open
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <summary
+              class="flex justify-between items-center font-medium cursor-pointer list-none"
+            >
+              <span class="text-lg text-foreground">
+                {{ block.settings.title }}
+              </span>
+              <span class="transition-transform group-open:rotate-180">
+                {%- render 'icon', name: 'chevron-down', class: 'h-6 w-6' -%}
+              </span>
+            </summary>
+            <div class="mt-4 text-foreground-muted prose">
+              {{ block.settings.content }}
+            </div>
+          </details>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Tech Specs Accordion",
+  "tag": "section",
+  "class": "custom-specs-accordion-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Technical Specifications"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec_item",
+      "name": "Specification Item",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Category"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Add detailed specifications here. Use lists for clarity.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tech Specs Accordion",
+      "blocks": [
+        { "type": "spec_item" },
+        { "type": "spec_item" },
+        { "type": "spec_item" }
+      ]
+    }
+  ]
+}
+{% endschema %}
