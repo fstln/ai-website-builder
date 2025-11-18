@@ -1,0 +1,135 @@
+{
+  "name": "OWS 2",
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {}
+    },
+    "sticky_navbar_fKzXQn": {
+      "type": "sticky-navbar",
+      "blocks": {
+        "link_1": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Highlights",
+            "anchor_id": "ksp-1"
+          }
+        },
+        "link_2": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Compare",
+            "anchor_id": "comparison"
+          }
+        },
+        "link_3": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Tech Specs",
+            "anchor_id": "tech-specs"
+          }
+        },
+        "link_4": {
+          "type": "nav_link",
+          "settings": {
+            "label": "FAQ",
+            "anchor_id": "faq"
+          }
+        }
+      },
+      "block_order": ["link_1", "link_2", "link_3", "link_4"],
+      "settings": {}
+    },
+    "hero_highlight_1": {
+      "type": "hero-highlight-section",
+      "settings": {
+        "section_id": "ksp-1",
+        "subheading": "HEAR THE DIFFERENCE. FEEL THE DEPTH.",
+        "heading": "Open-ear earbuds usually sound flat. OWS2’s oversized 16.5mm drivers bring rich, dynamic bass and crystal clarity – like headphones twice the price."
+      }
+    },
+    "hero_highlight_2": {
+      "type": "hero-highlight-section",
+      "settings": {
+        "section_id": "ksp-2",
+        "subheading": "WORK ALL DAY. CHARGE LESS.",
+        "heading": "From your morning focus session to your late-night calls – OWS2 keeps going. No charging breaks, no interruptions, just sound that lasts."
+      }
+    },
+    "hero_highlight_3": {
+      "type": "hero-highlight-section",
+      "settings": {
+        "section_id": "ksp-3",
+        "subheading": "COMFORT YOU CAN FORGET.",
+        "heading": "No more sore ears or isolation. OWS2 rests gently outside your ear - so light, you'll forget you're wearing them."
+      }
+    },
+    "social_proof_aBcDeF": {
+      "type": "custom-social-proof",
+      "settings": {
+        "section_id": "social-proof"
+      }
+    },
+    "comparison_gHiJkL": {
+      "type": "custom-comparison-table",
+      "settings": {
+        "section_id": "comparison"
+      }
+    },
+    "tech_specs_mNoPqR": {
+      "type": "custom-tech-specs",
+      "settings": {
+        "section_id": "tech-specs"
+      }
+    },
+    "faq_accordion_sTuVwX": {
+      "type": "faq-accordion-section",
+      "settings": {
+        "section_id": "faq",
+        "heading": "Frequently Asked Questions"
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are the OWS 2 earbuds waterproof?",
+            "answer": "<p>Yes, the OWS 2 earbuds have an IPX4 waterproof rating, which means they are resistant to water splashes from any direction. They are perfect for workouts and running in the rain, but should not be submerged in water.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does the battery last on a single charge?",
+            "answer": "<p>The OWS 2 offers up to 19 hours of continuous playtime on a single charge, allowing you to get through multiple workdays or long training sessions without needing to recharge.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I connect the OWS 2 to my laptop and phone at the same time?",
+            "answer": "<p>Absolutely. The OWS 2 supports Bluetooth 5.3 with multipoint connection, allowing you to seamlessly switch between two devices, such as your laptop for a video call and your phone for music.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is the fit secure enough for sports like running or cycling?",
+            "answer": "<p>Yes, the OWS 2 features a multi-point support fit system and is made from medical-grade liquid silicone rubber. It's designed to rest gently but securely on your ear, providing a stable fit even during vigorous activities.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4"]
+    }
+  },
+  "order": [
+    "main",
+    "sticky_navbar_fKzXQn",
+    "hero_highlight_1",
+    "hero_highlight_2",
+    "hero_highlight_3",
+    "social_proof_aBcDeF",
+    "comparison_gHiJkL",
+    "tech_specs_mNoPqR",
+    "faq_accordion_sTuVwX"
+  ]
+}
