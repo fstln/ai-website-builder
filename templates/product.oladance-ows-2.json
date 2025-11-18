@@ -1,0 +1,455 @@
+
+{
+  "sections": {
+    "main-product": {
+      "type": "main-product",
+      "blocks": {
+        "product_title_wkgHei": {
+          "type": "product_title",
+          "settings": {}
+        },
+        "product_price_bFpLGn": {
+          "type": "product_price",
+          "settings": {}
+        },
+        "promotion_discount_bar_d4A4KP": {
+          "type": "promotion_discount_bar",
+          "disabled": true,
+          "settings": {
+            "badge_label": "",
+            "promo_heading": "Extra 15% off for first-time customers",
+            "promo_subtext": "Use the code below and save instantly at checkout.",
+            "background_color": "rgba(94,137,255, .2)",
+            "text_color": "#000000",
+            "discount_code": "SAVE15",
+            "button_label": "Claim discount",
+            "claimed_label": "Discount saved",
+            "cookie_duration": 30
+          }
+        },
+        "product_description_R6JmKQ": {
+          "type": "product_description",
+          "settings": {
+            "description_content": "<p>Describe your hero product highlights, materials, and key benefits in a couple of punchy sentences.</p>"
+          }
+        },
+        "variant_selector_ifAAig": {
+          "type": "variant_selector",
+          "settings": {}
+        },
+        "quantity_selector_jJfRJ9": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_aDWXeR": {
+          "type": "buy_buttons",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "product_title_wkgHei",
+        "product_price_bFpLGn",
+        "promotion_discount_bar_d4A4KP",
+        "product_description_R6JmKQ",
+        "variant_selector_ifAAig",
+        "quantity_selector_jJfRJ9",
+        "buy_buttons_aDWXeR"
+      ],
+      "name": "Main Product",
+      "settings": {
+        "color_scheme": "",
+        "enable_global_sticky_bar": true,
+        "discount_ribbon_color_start": "#ef4444",
+        "discount_ribbon_color_end": "#ef4444",
+        "discount_ribbon_text_color": "#ffffff"
+      }
+    },
+    "sticky_navbar_ows_2_vbnm1234": {
+      "type": "sticky-navbar",
+      "blocks": {
+        "nav_link_LPgGPR": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Features",
+            "subtext": "",
+            "anchor_id": "hero_ows_2_feature_depth"
+          }
+        },
+        "nav_link_tjLd3g": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Reviews",
+            "subtext": "",
+            "anchor_id": "reviews_ows_2"
+          }
+        },
+        "nav_link_EJ7RyY": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Specs",
+            "subtext": "",
+            "anchor_id": "specs_ows_2"
+          }
+        },
+        "nav_link_dVBfVQ": {
+          "type": "nav_link",
+          "settings": {
+            "label": "FAQs",
+            "subtext": "",
+            "anchor_id": "faq_ows_2"
+          }
+        }
+      },
+      "block_order": [
+        "nav_link_LPgGPR",
+        "nav_link_tjLd3g",
+        "nav_link_EJ7RyY",
+        "nav_link_dVBfVQ"
+      ],
+      "name": "Sticky purchase navbar",
+      "settings": {
+        "nav_aria_label": "Purchase page navigation",
+        "color_scheme": "scheme-1",
+        "sticky_offset": 72,
+        "scroll_offset": 96
+      }
+    },
+    "hero_ows_2_feature_depth_asdf5678": {
+      "type": "hero-highlight-section",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "section_id": "hero_ows_2_feature_depth",
+        "image_position": "right",
+        "subheading": "",
+        "heading": "HEAR THE DIFFERENCE. FEEL THE DEPTH.",
+        "paragraph": "<p>Open-ear earbuds usually sound flat. OWS2's oversized 16.5mm drivers bring rich, dynamic bass and crystal clarity – like headphones twice the price.</p>",
+        "button_label": "",
+        "button_link": ""
+      }
+    },
+    "hero_ows_2_feature_battery_qwer9012": {
+      "type": "hero-highlight-section",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "section_id": "hero_ows_2_feature_battery",
+        "image_position": "left",
+        "subheading": "",
+        "heading": "WORK ALL DAY. CHARGE LESS.",
+        "paragraph": "<p>From your morning focus session to your late-night calls – OWS2 keeps going. No charging breaks, no interruptions, just sound that lasts.</p>",
+        "button_label": "",
+        "button_link": ""
+      }
+    },
+    "hero_ows_2_feature_comfort_zxcv3456": {
+      "type": "hero-highlight-section",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "section_id": "hero_ows_2_feature_comfort",
+        "image_position": "right",
+        "subheading": "",
+        "heading": "COMFORT YOU CAN FORGET.",
+        "paragraph": "<p>No more sore ears or isolation. OWS2 rests gently outside your ear - so light, you'll forget you're wearing them.</p>",
+        "button_label": "",
+        "button_link": ""
+      }
+    },
+    "reviews_ows_2_hjkl7890": {
+      "type": "reviews",
+      "blocks": {
+        "block_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "author": "Alex Johnson",
+            "quote": "<p>The sound quality is incredible, especially the bass. I can wear them all day without any discomfort. Highly recommended!</p>"
+          }
+        },
+        "block_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "author": "Samantha Lee",
+            "quote": "<p>Finally, headphones that don't fall out when I'm cycling. The open-ear design lets me stay aware of traffic, which is a huge safety plus.</p>"
+          }
+        },
+        "block_3": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "author": "Michael Chen",
+            "quote": "<p>Battery life is insane. I charge the case once a week. The only thing I'd wish for is more color options, but functionally they are perfect.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "block_1",
+        "block_2",
+        "block_3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "section_id": "reviews_ows_2",
+        "heading": "Don't just take our word for it",
+        "subheading": "See what our customers are saying about the Oladance OWS 2."
+      }
+    },
+    "compare_ows_2_erty1234": {
+      "type": "compare",
+      "blocks": {
+        "block_1": {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Driver Size",
+            "ows1_value": "16.5mm (x2)",
+            "ows2_value": "16.5mm (x2)",
+            "owspro_value": "23mm*10mm"
+          }
+        },
+        "block_2": {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Battery Life (Earphones)",
+            "ows1_value": "16 hours",
+            "ows2_value": "19 hours",
+            "owspro_value": "16 hours"
+          }
+        },
+        "block_3": {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Multipoint Connection",
+            "ows1_value": "Not Supported",
+            "ows2_value": "Supported",
+            "owspro_value": "Not Supported"
+          }
+        },
+        "block_4": {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Bass Technology",
+            "ows1_value": "Not specified",
+            "ows2_value": "Virtual Bass 2nd Gen",
+            "owspro_value": "Virtual Bass 2nd Algorithm"
+          }
+        },
+        "block_5": {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Weight (Single Earphone)",
+            "ows1_value": "12.7g",
+            "ows2_value": "12.7g",
+            "owspro_value": "13.8g"
+          }
+        }
+      },
+      "block_order": [
+        "block_1",
+        "block_2",
+        "block_3",
+        "block_4",
+        "block_5"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "section_id": "compare_ows_2",
+        "heading": "Compare Our Models",
+        "subheading": "Find the perfect Oladance for your lifestyle."
+      }
+    },
+    "specs_ows_2_uiop5678": {
+      "type": "specs",
+      "blocks": {
+        "spec_category_audio": {
+          "type": "spec_category",
+          "settings": {
+            "category_title": "Audio"
+          }
+        },
+        "spec_item_drivers": {
+          "type": "spec_item",
+          "settings": {
+            "spec_name": "Dynamic Drivers",
+            "spec_value": "Two 16.5mm Drivers"
+          }
+        },
+        "spec_item_coding": {
+          "type": "spec_item",
+          "settings": {
+            "spec_name": "Audio Coding",
+            "spec_value": "SBC"
+          }
+        },
+        "spec_item_bass": {
+          "type": "spec_item",
+          "settings": {
+            "spec_name": "Bass Effect",
+            "spec_value": "Virtual Bass 2nd Generation"
+          }
+        },
+        "spec_category_battery": {
+          "type": "spec_category",
+          "settings": {
+            "category_title": "Battery"
+          }
+        },
+        "spec_item_life": {
+          "type": "spec_item",
+          "settings": {
+            "spec_name": "Battery Life",
+            "spec_value": "Up to 19 hours"
+          }
+        },
+        "spec_item_capacity": {
+          "type": "spec_item",
+          "settings": {
+            "spec_name": "Battery Capacity",
+            "spec_value": "160mAh"
+          }
+        },
+        "spec_item_charging": {
+          "type": "spec_item",
+          "settings": {
+            "spec_name": "Charging Time",
+            "spec_value": "1.5-2 hours"
+          }
+        },
+        "spec_category_connectivity": {
+          "type": "spec_category",
+          "settings": {
+            "category_title": "Connectivity"
+          }
+        },
+        "spec_item_bluetooth": {
+          "type": "spec_item",
+          "settings": {
+            "spec_name": "Bluetooth Version",
+            "spec_value": "5.3"
+          }
+        },
+        "spec_item_multipoint": {
+          "type": "spec_item",
+          "settings": {
+            "spec_name": "Multipoint Connection",
+            "spec_value": "Supported"
+          }
+        }
+      },
+      "block_order": [
+        "spec_category_audio",
+        "spec_item_drivers",
+        "spec_item_coding",
+        "spec_item_bass",
+        "spec_category_battery",
+        "spec_item_life",
+        "spec_item_capacity",
+        "spec_item_charging",
+        "spec_category_connectivity",
+        "spec_item_bluetooth",
+        "spec_item_multipoint"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "section_id": "specs_ows_2",
+        "heading": "Technical Specifications",
+        "subheading": "Dive into the details of the Oladance OWS 2."
+      }
+    },
+    "in_the_box_ows_2_dfgh9012": {
+      "type": "in-the-box",
+      "blocks": {
+        "item_1": {
+          "type": "list_item",
+          "settings": {
+            "item_text": "Carry case"
+          }
+        },
+        "item_2": {
+          "type": "list_item",
+          "settings": {
+            "item_text": "oladance OWS 2 earbuds"
+          }
+        },
+        "item_3": {
+          "type": "list_item",
+          "settings": {
+            "item_text": "Type-C Cable"
+          }
+        },
+        "item_4": {
+          "type": "list_item",
+          "settings": {
+            "item_text": "User manual"
+          }
+        },
+        "item_5": {
+          "type": "list_item",
+          "settings": {
+            "item_text": "Earbuds supporter"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4",
+        "item_5"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "section_id": "in_the_box_ows_2",
+        "heading": "What's in the Box",
+        "subheading": "Everything you get with your Oladance OWS 2."
+      }
+    },
+    "faq_ows_2_jklp3456": {
+      "type": "faq-accordion-section",
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Does the OWS 2 support connecting to two devices at once?",
+            "answer": "<p>Yes, the Oladance OWS 2 supports multipoint connection, allowing you to seamlessly switch between two devices.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are they suitable for running and workouts?",
+            "answer": "<p>Absolutely. The patented open-ear design and skin-friendly silicone ensure a secure and comfortable fit, even during intense workouts. The IPX4 waterproof rating also protects them from sweat.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is the warranty period?",
+            "answer": "<p>The Oladance OWS 2 comes with a 12-month limited warranty. For more details, please visit our warranty policy page.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "section_id": "faq_ows_2",
+        "heading": "Frequently Asked Questions",
+        "subheading": "Can't find the answer you're looking for? Reach out to our customer support team."
+      }
+    }
+  },
+  "order": [
+    "main-product",
+    "sticky_navbar_ows_2_vbnm1234",
+    "hero_ows_2_feature_depth_asdf5678",
+    "hero_ows_2_feature_battery_qwer9012",
+    "hero_ows_2_feature_comfort_zxcv3456",
+    "reviews_ows_2_hjkl7890",
+    "compare_ows_2_erty1234",
+    "specs_ows_2_uiop5678",
+    "in_the_box_ows_2_dfgh9012",
+    "faq_ows_2_jklp3456"
+  ]
+}
