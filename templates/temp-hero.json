@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "custom-hero",
+      "settings": {
+        "heading": "HEAR THE WORLD, <br> <span class='text-brand-blue'>YOUR WAY.</span>",
+        "subheading": "<p>Experience ultimate comfort and superior sound with Oladance open-ear headphones. Up to 58 hours of playtime.</p>",
+        "button_text": "Shop All Deals",
+        "button_link": "shopify:\/\/collections\/all"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
