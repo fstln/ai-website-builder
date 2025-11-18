@@ -4,6 +4,46 @@
 
 ---
 
+## 0. 放置规范（Section 优先）
+
+为保证隔离与按需加载，本项目采用“Section 优先”的 CSS/JS 放置策略：
+
+- 默认：新增仅服务单一 Section 的样式与脚本，写在该 Section 的 `.liquid` 文件中，并严格作用域到该 Section。
+  - 样式：使用 `<style>` 或 `{% style %}`，用 `#{{ section.id }}` 或自定义 `section_dom_id` 作为作用域根，避免影响全局。
+  - 脚本：使用 `<script type="module">`，通过 `const root = document.querySelector('[data-section-id=\"{{ section.id }}\"]')` 获取根节点；在 Theme Editor 中监听 `shopify:section:load` / `shopify:section:unload` 做挂载与清理。
+- 当样式/脚本需要跨多个 Section 或页面复用、或体量较大时，再抽取到 `src/js`、`src/css`，由 Vite 构建到 `assets/`，在 `layout/theme.liquid` 或特定 Section 中按需引入。
+
+示例（Section 内联、作用域隔离）：
+
+```liquid
+{%- liquid assign section_dom_id = 'example-' | append: section.id -%}
+<section data-section-id="{{ section.id }}" data-section-type="example">
+  <style>
+    /* 仅对当前 Section 生效 */
+    #{{ section_dom_id }} .badge { border-color: var(--color-border); }
+  </style>
+
+  <div id="{{ section_dom_id }}">
+    ...
+  </div>
+
+  <script type="module">
+    (() => {
+      const root = document.querySelector('[data-section-id="{{ section.id }}"]');
+      if (!root) return;
+      // 绑定当前 Section 内部的交互
+      const onLoad = () => {/* mount */};
+      const onUnload = () => {/* cleanup */};
+      onLoad();
+      document.addEventListener('shopify:section:unload', (ev) => {
+        if (ev?.detail?.sectionId === '{{ section.id }}') onUnload();
+      });
+    })();
+  </script>
+```
+
+该策略与项目中 `sections/main-product-ows-pro.liquid`、`sections/sticky-navbar.liquid` 的实现一致：小体量、只服务当前 Section 的样式/脚本就地内联并加作用域；可复用或重量级能力抽到 `src/` 并打包复用。
+
 ## 1. 项目结构
 
 - 源文件位于 `src/js/`：

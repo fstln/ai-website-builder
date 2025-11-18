@@ -160,6 +160,14 @@ class MyComponent extends HTMLElement {
 customElements.define('my-component', MyComponent);
 ```
 
+### CSS/JS 放置规范（Section 优先）
+
+- 新增仅服务单一 Section 的样式与脚本，优先写在该 Section 的 `.liquid` 文件中：
+  - 样式使用 `<style>` 或 `{% style %}`，作用域限定在 `#{{ section.id }}` 或自定义 `section_dom_id`，避免污染全局。
+  - 脚本使用 `<script type="module">`，通过 `[data-section-id="{{ section.id }}"]` 获取根节点，并处理 `shopify:section:load` / `shopify:section:unload` 事件以便在 Theme Editor 中正确挂载/清理。
+- 当代码需要跨多个 Section/页面复用或体量较大时，抽到 `src/js`、`src/css`，由 Vite 构建为 `assets/`，并在 `layout/theme.liquid` 或具体 Section 内按需引入。
+- 参考样例：`sections/main-product-ows-pro.liquid`（小体量、就地作用域）；`src/js/main.js`（全局入口，复用模块）。
+
 ### 添加新模板或部分
 
 1. 在相应目录创建新的 `.liquid` 文件

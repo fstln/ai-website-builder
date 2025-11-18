@@ -128,13 +128,13 @@
 | 色板落地 | `snippets/color-schemes.liquid`, `config/settings_schema.json` | 新增 Heyup 色板及可配置开关；保证 Theme Editor 可选。 |
 | 组件样式 | `assets/heyup.components.css`（新建） | 放置按钮、卡片、导航等共享规则；在 `theme.liquid` 统一引入。 |
 | 动效脚本 | `assets/heyup.effects.js`（新建） | 负责懒加载、气泡动画、CTA 互动；`theme.liquid` 中 `type="module"` defer 引入。 |
-| Section 特化 | 位于 `sections/` 的定制 Section | 仅保留结构与动态数据；避免在 Section 内联大量 CSS/JS。若必须内联，需注释说明“仅此 Section 生效”。 |
+| Section 特化 | 位于 `sections/` 的定制 Section | 采用 Section 隔离优先：允许在 Section 内联小体量 CSS/JS，且作用域限定在当前 Section（`#{{ section_id }}` 或 `section_dom_id`）。当样式/脚本需要复用或体量较大时，抽到 `src/*` 并由 Vite 构建到 `assets/` 后按需引入。 |
 
 ---
 
 ## 9. 自定义模块 CSS / JS 的写法
 
-- **原则**：所有可复用的样式与逻辑，都应存放在独立的 `assets/*.css`、`assets/*.js` 文件中，通过 `{{ 'file.css' | asset_url | stylesheet_tag }}` / `{{ 'file.js' | asset_url | script_tag }}` 在 `layout/theme.liquid` 或特定 Section 中引入，便于缓存与版本控制。
+- **原则**：在“Section 隔离优先”的前提下，所有可复用的样式与逻辑，应存放在独立的 `assets/*.css`、`assets/*.js`（由 `src/` 构建而来）中，通过 `{{ 'file.css' | asset_url | stylesheet_tag }}` / `{{ 'file.js' | asset_url | script_tag }}` 在 `layout/theme.liquid` 或特定 Section 中按需引入，便于缓存与版本控制。
 - **何时 Section 内联？**
   1. 样式只服务单一 Section，且体量 < 30 行。
   2. 无法复用（例如一次性的装饰定位）。
