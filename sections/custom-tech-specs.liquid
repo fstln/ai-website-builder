@@ -1,0 +1,64 @@
+{%- liquid
+  assign section_dom_id = 'tech-specs-' | append: section.id
+-%}
+<section id="{{ section.settings.section_id | default: 'tech-specs' }}" class="color-scheme color-{{ section.settings.color_scheme | default: 'scheme-1' }} bg-background" data-section-id="{{ section.id }}" data-section-type="custom-tech-specs">
+  <div id="{{ section_dom_id }}" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+    <div class="text-center space-y-4 mb-8">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <div class="text-lg text-muted max-w-2xl mx-auto">{{ section.settings.subheading }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'spec_group' -%}
+            <div class="bg-surface rounded-xl shadow-sm p-6" {{ block.shopify_attributes }}>
+              <h3 class="text-xl font-semibold text-foreground mb-4">{{ block.settings.title | default: 'Specification' | escape }}</h3>
+              {%- if block.settings.items != blank -%}
+                <dl class="divide-y divide-border/60">
+                  {%- assign rows = block.settings.items | split: '\n' -%}
+                  {%- for row in rows -%}
+                    {%- assign parts = row | split: '|' -%}
+                    <div class="py-3 grid grid-cols-3 gap-4">
+                      <dt class="col-span-1 text-sm text-muted">{{ parts[0] | default: 'Key' | strip | escape }}</dt>
+                      <dd class="col-span-2 text-sm text-foreground">{{ parts[1] | default: '-' | strip }}</dd>
+                    </div>
+                  {%- endfor -%}
+                </dl>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Tech Specs",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "text", "id": "section_id", "label": "Section ID", "default": "tech-specs" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Technical Specifications" },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Detailed specs to help you understand the product better</p>" }
+  ],
+  "blocks": [
+    {
+      "type": "spec_group",
+      "name": "Spec group",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Group title", "default": "Audio & Connectivity" },
+        { "type": "textarea", "id": "items", "label": "Items (one per line, label|value)", "default": "Bluetooth|5.3\nCodecs|AAC, SBC\nDrivers|16.2mm dynamic" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "C: Tech Specs" }
+  ]
+}
+{% endschema %}
