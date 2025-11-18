@@ -1,0 +1,162 @@
+{%- comment -%}
+  @param section_id {string}
+    The unique ID for the section, used for targeting with JS and CSS.
+{%- endcomment -%}
+
+{%- liquid
+  assign section_dom_id = 'featured-products-' | append: section.id
+-%}
+
+<section
+  id="{{ section_dom_id }}"
+  class="color-scheme color-{{ section.settings.color_scheme | default: 'scheme-1' }} bg-background"
+  data-section-id="{{ section.id }}"
+  data-section-type="featured-products"
+>
+  <div class="mx-auto max-w-container px-6 py-20 lg:py-24 text-center">
+    {%- if section.settings.title != blank -%}
+      <h2 class="font-display text-4xl font-bold text-foreground lg:text-5xl tracking-tight">
+        {{ section.settings.title | escape }}
+      </h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <div class="mt-4 max-w-2xl mx-auto text-lg text-muted">
+        {{ section.settings.subheading }}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {%- for block in section.blocks -%}
+          <div
+            class="bg-surface text-foreground rounded-lg shadow-sm text-left overflow-hidden transition-shadow hover:shadow-lg"
+            {{ block.shopify_attributes }}
+          >
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 800 }}"
+                alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
+                width="400"
+                height="400"
+                loading="lazy"
+                decoding="async"
+                class="w-full h-64 object-cover"
+              >
+            {%- else -%}
+              <div class="w-full h-64 bg-surface-muted flex items-center justify-center">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            {%- endif -%}
+            <div class="p-6">
+              {%- if block.settings.title != blank -%}
+                <h3 class="font-display text-2xl font-bold text-foreground">
+                  {{ block.settings.title | escape }}
+                </h3>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <p class="mt-2 text-muted">
+                  {{ block.settings.description | escape }}
+                </p>
+              {%- endif -%}
+              {%- if block.settings.button_text != blank and block.settings.button_link != blank -%}
+                <a
+                  href="{{ block.settings.button_link }}"
+                  class="btn btn-primary mt-6 inline-block"
+                >
+                  {{ block.settings.button_text | escape }}
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Featured Products",
+  "tag": "section",
+  "class": "featured-products-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Find Your Perfect Fit"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>From premium audio to all-day comfort, there's an Oladance for everyone.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product Card",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Product Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "A short description of the product's key feature."
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "View Product"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link",
+          "default": "/collections/all"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "C: Featured Products",
+      "blocks": [
+        {
+          "type": "product_card"
+        },
+        {
+          "type": "product_card"
+        },
+        {
+          "type": "product_card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
