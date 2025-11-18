@@ -1,0 +1,281 @@
+{%- comment -%}
+  This section renders a dynamic comparison table.
+
+  **Settings:**
+  - title: The main heading for the section.
+  - subtitle: The descriptive text below the heading.
+
+  **Blocks:**
+  - product_column: Defines a column in the table for a product.
+    - product_name: The name of the product in the column header.
+    - is_highlighted: Checkbox to apply special styling to this column.
+    - badge_text: Text for the badge on a highlighted column.
+  - feature_row: Defines a row in the table for a specific feature.
+    - feature_name: The name of the feature in the first cell of the row.
+    - value_col_1 to value_col_4: The text value for each corresponding product column.
+      - Special values: "check" renders a green checkmark, "cross" renders a red cross.
+{%- endcomment -%}
+
+{%- liquid
+  assign product_columns = section.blocks | where: 'type', 'product_column'
+  assign feature_rows = section.blocks | where: 'type', 'feature_row'
+-%}
+
+<section class="py-16 lg:py-24 bg-gray-50" data-module="comparison-table">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12 lg:mb-16">
+      {%- if section.settings.title != blank -%}
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
+          {{ section.settings.title }}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.subtitle != blank -%}
+        <div class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+          {{ section.settings.subtitle }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-max border-collapse text-left">
+          <thead>
+            <tr>
+              <th class="p-4 lg:p-6 text-sm font-semibold text-gray-600 bg-white rounded-tl-2xl">
+                {{ 'sections.custom_comparison_table.feature_header' | t: 'Feature' }}
+              </th>
+              {%- for block in product_columns -%}
+                {%- assign is_highlighted = block.settings.is_highlighted -%}
+                <th
+                  class="p-4 lg:p-6 text-sm font-semibold text-center relative
+                    {% if is_highlighted %}
+                      text-gray-900 bg-primary-lightest border-2 border-primary rounded-t-2xl
+                    {% else %}
+                      text-gray-600 bg-white
+                    {% endif %}
+                    {% if forloop.last and is_highlighted == false %}rounded-tr-2xl{% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- if is_highlighted and block.settings.badge_text != blank -%}
+                    <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">
+                      {{ block.settings.badge_text }}
+                    </span>
+                  {%- endif -%}
+                  {{ block.settings.product_name | default: 'Product' }}
+                </th>
+              {%- endfor -%}
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-gray-200">
+            {%- for row_block in feature_rows -%}
+              <tr class="bg-white">
+                <td class="p-4 lg:p-6 font-medium text-gray-800
+                  {% if forloop.last %}rounded-bl-2xl{% endif %}"
+                  {{ row_block.shopify_attributes }}
+                >
+                  {{ row_block.settings.feature_name | default: 'Feature Name' }}
+                </td>
+
+                {%- for col_block in product_columns -%}
+                  {%- assign setting_key = 'value_col_' | append: forloop.index -%}
+                  {%- assign cell_value = row_block.settings[setting_key] -%}
+                  {%- assign is_highlighted = col_block.settings.is_highlighted -%}
+
+                  <td
+                    class="p-4 lg:p-6 text-center
+                      {% if is_highlighted %}
+                        text-gray-900 font-bold bg-primary-lightest border-x-2 border-primary
+                        {% if forloop.last %} border-b-2 rounded-b-2xl{% endif %}
+                      {% else %}
+                        text-gray-600
+                        {% if forloop.last and forloop.parentloop.last %} rounded-br-2xl{% endif %}
+                      {% endif %}"
+                  >
+                    {%- if cell_value == 'check' -%}
+                      <span class="text-2xl text-success-500">&check;</span>
+                    {%- elsif cell_value == 'cross' -%}
+                      <span class="text-2xl text-critical-500">&times;</span>
+                    {%- else -%}
+                      {{ cell_value }}
+                    {%- endif -%}
+                  </td>
+                {%- endfor -%}
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Comparison Table",
+  "class": "shopify-section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Find Your Perfect Fit"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<p>Compare our products to find the one that's right for you.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_column",
+      "name": "Product Column",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product Name",
+          "default": "Product Name"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_highlighted",
+          "label": "Highlight this column?",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Highlight Badge Text",
+          "default": "MOST POPULAR"
+        }
+      ]
+    },
+    {
+      "type": "feature_row",
+      "name": "Feature Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_name",
+          "label": "Feature Name",
+          "default": "Feature"
+        },
+        {
+          "type": "header",
+          "content": "Column Values"
+        },
+        {
+          "type": "text",
+          "id": "value_col_1",
+          "label": "Value for Column 1"
+        },
+        {
+          "type": "text",
+          "id": "value_col_2",
+          "label": "Value for Column 2"
+        },
+        {
+          "type": "text",
+          "id": "value_col_3",
+          "label": "Value for Column 3"
+        },
+        {
+          "type": "text",
+          "id": "value_col_4",
+          "label": "Value for Column 4"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "C: Comparison Table",
+      "settings": {
+        "title": "Find Your Perfect Fit",
+        "subtitle": "<p>Compare the Oladance Wearable Stereo series to find the one that's right for you.</p>"
+      },
+      "blocks": [
+        {
+          "type": "product_column",
+          "settings": {
+            "product_name": "OWS 1"
+          }
+        },
+        {
+          "type": "product_column",
+          "settings": {
+            "product_name": "OWS 2",
+            "is_highlighted": true,
+            "badge_text": "MOST POPULAR"
+          }
+        },
+        {
+          "type": "product_column",
+          "settings": {
+            "product_name": "OWS Pro"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "feature_name": "Battery Life (Single Charge)",
+            "value_col_1": "Up to 16 hours",
+            "value_col_2": "Up to 19 hours",
+            "value_col_3": "Up to 16 hours"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "feature_name": "Bluetooth Version",
+            "value_col_1": "5.2",
+            "value_col_2": "5.3",
+            "value_col_3": "5.3"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "feature_name": "Multipoint Connection",
+            "value_col_1": "cross",
+            "value_col_2": "check",
+            "value_col_3": "check"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "feature_name": "Bass Effect",
+            "value_col_1": "Virtual Bass",
+            "value_col_2": "Virtual Bass 2nd Gen",
+            "value_col_3": "Super Bass System"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "feature_name": "Driver Size",
+            "value_col_1": "16.5mm",
+            "value_col_2": "16.5mm",
+            "value_col_3": "23mm*10mm"
+          }
+        },
+        {
+          "type": "feature_row",
+          "settings": {
+            "feature_name": "Weight (Single Ear)",
+            "value_col_1": "12.7g",
+            "value_col_2": "12.7g",
+            "value_col_3": "13.8g"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
