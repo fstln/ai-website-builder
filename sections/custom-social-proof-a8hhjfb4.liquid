@@ -1,0 +1,131 @@
+{%- liquid
+  assign section_id = 'social-proof-' | append: section.id
+-%}
+
+<section
+  id="{{ section_id }}"
+  class="color-scheme color-{{ section.settings.color_scheme }} isolate"
+>
+  <div class="container-custom py-12 md:py-20">
+    <div class="max-w-3xl mx-auto text-center">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="mt-4 text-lg text-foreground-muted">
+          {{ section.settings.subheading }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_rating -%}
+      <div class="flex items-center justify-center mt-8 space-x-1">
+        {%- for i in (1..5) -%}
+          {%- render 'icon', name: 'star', class: 'h-5 w-5 text-yellow-400' -%}
+        {%- endfor -%}
+      </div>
+      {%- if section.settings.rating_text != blank -%}
+        <p class="mt-2 text-center text-sm text-foreground-muted">
+          {{ section.settings.rating_text }}
+        </p>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div
+        class="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-5"
+      >
+        {%- for block in section.blocks -%}
+          <div
+            class="flex justify-center items-center"
+            {{ block.shopify_attributes }}
+          >
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 300 }}"
+                alt="{{ block.settings.image.alt | escape }}"
+                class="max-h-8 w-auto object-contain grayscale opacity-60 transition-opacity hover:opacity-100"
+                width="150"
+                height="40"
+                loading="lazy"
+              >
+            {%- else -%}
+              <div class="w-32 h-8 bg-gray-200 rounded flex items-center justify-center">
+                <span class="text-xs text-gray-500">150x40</span>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Social Proof",
+  "tag": "section",
+  "class": "custom-social-proof-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Trusted by the best"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our products are featured in top-tier media outlets."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show star rating",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "Based on 1,000+ reviews"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Media Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo image"
+        }
+      ],
+      "limit": 5
+    }
+  ],
+  "presets": [
+    {
+      "name": "Social Proof",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}
