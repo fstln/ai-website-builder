@@ -1,0 +1,108 @@
+{%- liquid
+  assign section_id = 'section-' | append: section.id
+-%}
+
+<section
+  id="{{ section_id }}"
+  class="relative overflow-hidden bg-gradient-to-br from-white via-[#FAFAFA] to-[#F5F7FF] px-6 py-20 lg:py-32"
+  data-section-id="{{ section.id }}"
+  data-section-type="custom-hero"
+>
+  <div class="mx-auto max-w-container">
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
+      <!-- Left Content -->
+      <div class="space-y-8 text-center lg:text-left">
+        {%- if section.settings.heading != blank -%}
+          <h1 class="font-display text-5xl font-bold leading-tight tracking-tight text-slate-900 lg:text-7xl">
+            {{ section.settings.heading }}
+          </h1>
+        {%- endif -%}
+
+        {%- if section.settings.subheading != blank -%}
+          <div class="text-lg leading-relaxed text-slate-600 lg:text-xl">
+            {{ section.settings.subheading }}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.button_text != blank and section.settings.button_link != blank -%}
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center lg:justify-start">
+            <a
+              href="{{ section.settings.button_link }}"
+              class="btn-pill btn-primary inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white shadow-lg"
+            >
+              {{ section.settings.button_text | escape }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Right Image -->
+      <div class="relative">
+        {%- if section.settings.image != blank -%}
+          <img
+            src="{{ section.settings.image | image_url: width: 1200 }}"
+            alt="{{ section.settings.image.alt | default: 'Hero image' | escape }}"
+            width="{{ section.settings.image.width }}"
+            height="{{ section.settings.image.height }}"
+            class="card-float w-full object-cover"
+            loading="eager"
+          >
+        {%- else -%}
+          <img
+            src="https://placehold.co/600x700/A8B8FF/ffffff?text=Hero+Product+Image"
+            alt="Placeholder for Hero Product Image"
+            class="card-float w-full object-cover"
+          />
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Hero Section",
+  "tag": "section",
+  "class": "section-custom-hero",
+  "settings": [
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "default": "HEAR THE WORLD, <br> <span class='text-brand-blue'>YOUR WAY.</span>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Experience ultimate comfort and superior sound with Oladance open-ear headphones. Up to 58 hours of playtime.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop All Deals"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "C: Hero Section"
+    }
+  ]
+}
+{% endschema %}
