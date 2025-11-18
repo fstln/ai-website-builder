@@ -1,0 +1,102 @@
+<section id="social-proof-{{ section.id }}" class="bg-white px-6 py-20 lg:py-24">
+  <div class="mx-auto max-w-container">
+    <div class="text-center">
+      {%- if section.settings.section_title != blank -%}
+        <h2 class="font-display text-4xl font-bold text-slate-900 lg:text-5xl">{{ section.settings.section_title }}</h2>
+      {%- endif -%}
+    </div>
+
+    {%- comment %} Media Logos {% endcomment -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="mt-12 grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'logo' -%}
+            {%- if block.settings.image != blank -%}
+              <img class="h-10 object-contain" src="{{ block.settings.image | image_url: height: 40 }}" alt="{{ block.settings.image.alt | default: 'Media logo' }}">
+            {%- else -%}
+              <img class="h-10 object-contain" src="https://placehold.co/158x48/cccccc/999999?text=LOGO" alt="Placeholder logo">
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment %} Customer Reviews {% endcomment -%}
+    <div class="mt-16 grid gap-8 lg:grid-cols-3">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'review' -%}
+          <div class="card-float bg-[#FAFAFA] p-8">
+            {%- if block.settings.quote != blank -%}
+              <p class="text-slate-700">{{ block.settings.quote }}</p>
+            {%- endif -%}
+            <footer class="mt-6">
+              {%- if block.settings.author != blank -%}
+                <p class="font-semibold text-slate-900">{{ block.settings.author }}</p>
+              {%- endif -%}
+            </footer>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Social Proof",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Loved by Listeners & Critics"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Media Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo Image"
+        }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Customer Review",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Quote",
+          "default": "<p>Finally, earbuds that don't hurt my ears after an hour! The sound is surprisingly good for an open design.</p>"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Alex R."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Social Proof",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}
