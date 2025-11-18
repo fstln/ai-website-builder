@@ -1,0 +1,154 @@
+{%- comment -%}
+  This section builds trust by showcasing customer testimonials.
+
+  **Best Practices:**
+  - PM: Use authentic, benefit-oriented quotes.
+  - Designer: Keep cards clean and readable. Use visual cues like stars and names to add credibility.
+  - Architect: Use repeater blocks for testimonials. Dynamically render stars based on a number setting.
+{%- endcomment -%}
+
+{%- liquid
+  assign section_dom_id = 'custom-social-proof-' | append: section.id
+-%}
+
+<div class="color-scheme color-{{ section.settings.color_scheme | default: 'scheme-1' }} isolate">
+  <section
+    id="{{ section_dom_id }}"
+    class="bg-background text-foreground py-12 sm:py-16 lg:py-20"
+    aria-labelledby="social-proof-title-{{ section.id }}"
+  >
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center">
+        {%- if section.settings.title != blank -%}
+          <h2 id="social-proof-title-{{ section.id }}" class="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+            {{ section.settings.title | escape }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.subtitle != blank -%}
+          <p class="mt-4 text-base leading-relaxed text-muted">
+            {{ section.settings.subtitle }}
+          </p>
+        {%- endif -%}
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="mt-12 sm:mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {%- for block in section.blocks -%}
+            <div
+              class="bg-surface text-foreground rounded-xl shadow-sm p-6 flex flex-col"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.rating > 0 -%}
+                <div class="flex items-center gap-1">
+                  {%- for i in (1..5) -%}
+                    {%- liquid
+                      assign star_color = "text-muted/30"
+                      if i <= block.settings.rating
+                        assign star_color = "text-yellow-400"
+                      endif
+                    -%}
+                    <svg
+                      class="w-5 h-5 {{ star_color }}"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10.868 2.884c.321-.662 1.215-.662 1.536 0l1.681 3.462a1 1 0 00.951.692h3.632c.712 0 1.008.916.484 1.345l-2.938 2.14a1 1 0 00-.364 1.118l1.11 3.863c.214.743-.589 1.349-1.24.93l-3.24-2.265a1 1 0 00-1.175 0l-3.24 2.265c-.651.419-1.454-.187-1.24-.93l1.11-3.863a1 1 0 00-.364-1.118L2.054 8.383c-.524-.429-.228-1.345.484-1.345h3.632a1 1 0 00.951-.692l1.681-3.462z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+
+              {%- if block.settings.quote != blank -%}
+                <blockquote class="mt-4 text-base text-foreground flex-grow">
+                  {{ block.settings.quote }}
+                </blockquote>
+              {%- endif -%}
+
+              {%- if block.settings.author != blank -%}
+                <footer class="mt-6 pt-6 border-t border-border/60">
+                  <p class="text-sm font-medium text-foreground">{{ block.settings.author | escape }}</p>
+                  <p class="text-sm text-muted">Verified Customer</p>
+                </footer>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Social Proof",
+  "tag": "section",
+  "class": "custom-social-proof-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Trusted by thousands"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<p>See what our customers are saying about their experience.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "unit": "star",
+          "label": "Rating",
+          "default": 5
+        },
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Quote",
+          "default": "<p>This is the best product I've ever used. It completely changed my workflow and I couldn't be happier. Highly recommended!</p>"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Alex Johnson"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Social Proof",
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
+    }
+  ]
+}
+{% endschema %}
