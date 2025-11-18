@@ -1,0 +1,91 @@
+{%- liquid
+  assign section_dom_id = "comparison-table-" | append: section.id
+-%}
+
+<section
+  id="{{ section_dom_id }}"
+  class="py-16 lg:py-24 color-scheme color-{{ section.settings.color_scheme | default: 'scheme-1' }} bg-background"
+>
+  <div class="mx-auto max-w-7xl px-6">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="text-center mb-16">
+        {%- if section.settings.title != blank -%}
+          <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
+            {{ section.settings.title }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.subtitle != blank -%}
+          <p class="text-lg md:text-xl text-muted max-w-2xl mx-auto">
+            {{ section.settings.subtitle }}
+          </p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="overflow-x-auto rounded-2xl border border-border shadow-lg">
+      <table class="w-full min-w-[800px] text-left text-sm">
+        {%- if section.settings.table_header != blank -%}
+          <thead class="bg-surface-muted">
+            {{ section.settings.table_header }}
+          </thead>
+        {%- endif -%}
+        {%- if section.settings.table_body != blank -%}
+          <tbody class="divide-y divide-border">
+            {{ section.settings.table_body }}
+          </tbody>
+        {%- endif -%}
+      </table>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Comparison Table",
+  "tag": "section",
+  "class": "custom-comparison-table",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Find Your Perfect Fit"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Compare the Oladance OWS series."
+    },
+    {
+      "type": "header",
+      "content": "Table Content"
+    },
+    {
+      "type": "html",
+      "id": "table_header",
+      "label": "Table Header (<thead>)",
+      "info": "Define the table header row(s) here. Example: <tr><th>Feature</th><th>OWS 1</th><th>OWS 2</th><th class='bg-blue-600 text-white'>OWS Pro</th></tr>",
+      "default": "<tr><th scope='col' class='p-6 font-semibold text-foreground'>Feature</th><th scope='col' class='p-6 font-semibold text-foreground text-center'>OWS 1</th><th scope='col' class='p-6 font-semibold text-foreground text-center'>OWS 2</th><th scope='col' class='p-6 font-semibold text-primary-foreground text-center bg-primary rounded-t-lg'>OWS Pro</th></tr>"
+    },
+    {
+      "type": "html",
+      "id": "table_body",
+      "label": "Table Body (<tbody>)",
+      "info": "Define all table body rows (<tr>) here. Use utility classes for styling.",
+      "default": "<tr><td class='p-6 font-medium text-foreground'>佩戴方式</td><td class='p-6 text-center text-muted'>Open Ear</td><td class='p-6 text-center text-muted'>Open Ear</td><td class='p-6 text-center font-semibold text-primary'>Open Ear</td></tr><tr><td class='p-6 font-medium text-foreground'>蓝牙版本</td><td class='p-6 text-center text-muted'>5.2</td><td class='p-6 text-center text-muted'>5.3</td><td class='p-6 text-center font-semibold text-primary'>5.3</td></tr><tr><td class='p-6 font-medium text-foreground'>续航时间</td><td class='p-6 text-center text-muted'>Up to 16 hours</td><td class='p-6 text-center text-muted'>Up to 19 hours</td><td class='p-6 text-center font-semibold text-primary'>Up to 58 hours (with case)</td></tr><tr><td class='p-6 font-medium text-foreground'>防水等级</td><td class='p-6 text-center text-muted'>IPX4</td><td class='p-6 text-center text-muted'>IPX4</td><td class='p-6 text-center font-semibold text-primary'>IPX4</td></tr><tr><td class='p-6 font-medium text-foreground'>低音效果</td><td class='p-6 text-center text-muted'>—</td><td class='p-6 text-center text-muted'>Virtual Bass 2nd Gen</td><td class='p-6 text-center font-semibold text-primary'><span class='inline-flex items-center gap-2'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor' class='w-5 h-5 text-green-500'><path fill-rule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z' clip-rule='evenodd' /></svg>Virtual Bass 2nd Gen</span></td></tr><tr><td class='p-6 font-medium text-foreground'>多点连接</td><td class='p-6 text-center text-muted'>—</td><td class='p-6 text-center text-muted'>Supported</td><td class='p-6 text-center font-semibold text-primary'><span class='inline-flex items-center gap-2'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor' class='w-5 h-5 text-green-500'><path fill-rule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z' clip-rule='evenodd' /></svg>Supported</span></td></tr>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "C: Comparison Table"
+    }
+  ]
+}
+{% endschema %}
