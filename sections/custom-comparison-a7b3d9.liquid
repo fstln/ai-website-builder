@@ -29,7 +29,8 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-border/60 bg-surface">
-          {%- for feature_row in section.settings.features | split: newline -%}
+            {%- assign newline = section.settings.features | split: newline -%}
+          {%- for feature_row in newline -%}
             {%- assign feature_items = feature_row | split: ',' -%}
             <tr>
               <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-foreground sm:pl-6">

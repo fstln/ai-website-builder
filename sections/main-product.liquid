@@ -451,38 +451,74 @@
                                   {% endif %}
                                 </span>
                               </label>
+
+                              {% assign use_swatches = section.settings.enable_color_swatches %}
+
                               <div class="variant-buttons flex flex-wrap gap-2" role="radiogroup">
                                 {% for value in option.values %}
-                                  {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
-                                  {%- if option.position == 2 -%}
-                                    {%- assign variant_for_value = product.variants | where: "option2", value | first -%}
-                                  {%- elsif option.position == 3 -%}
-                                    {%- assign variant_for_value = product.variants | where: "option3", value | first -%}
-                                  {%- endif -%}
+                                  {% liquid
+                                    assign option_value = value
+                                    assign value_name = option_value.name | default: value
+                                    assign value_handle = value_name | handle
+                                    assign variant_for_value = option_value.variant
+                                    if variant_for_value == nil
+                                      if option.position == 1
+                                        assign variant_for_value = product.variants | where: "option1", value_name | first
+                                      elsif option.position == 2
+                                        assign variant_for_value = product.variants | where: "option2", value_name | first
+                                      else
+                                        assign variant_for_value = product.variants | where: "option3", value_name | first
+                                      endif
+                                    endif
+                                  %}
                                   <div class="variant-button-wrapper">
                                     <input
                                       type="radio"
-                                      id="Option-{{ option.name | handle }}-{{ value | handle }}"
+                                      id="Option-{{ option.name | handle }}-{{ value_handle }}"
                                       name="options[{{ option.name }}]"
-                                      value="{{ value }}"
+                                      value="{{ value_name }}"
                                       class="sr-only peer"
                                       data-variant-id="{{ variant_for_value.id }}"
                                       data-variant-image="{{ variant_for_value.featured_image | image_url: width: 1200 }}"
-                                      {% if option.selected_value == value %}checked{% endif %}
-                                      {% unless variant_for_value.available %}disabled{% endunless %}
+                                      {% if option_value.selected %}checked{% endif %}
+                                      {% unless option_value.available %}disabled{% endunless %}
                                     >
-                                    <label
-                                      for="Option-{{ option.name | handle }}-{{ value | handle }}"
-                                      class="inline-flex items-center justify-center min-w-[60px] px-4 py-2.5 text-sm font-medium rounded-lg border cursor-pointer transition-all duration-200
-                                             {% if variant_for_value.available %}
-                                               border-border/80 bg-background text-foreground hover:border-border
-                                               peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground
-                                             {% else %}
-                                               border-border/60 bg-border/15 text-muted/60 cursor-not-allowed line-through
-                                             {% endif %}"
-                                    >
-                                      {{ value }}
-                                    </label>
+                                    {% if use_swatches and option_value.swatch %}
+                                      <label
+                                        for="Option-{{ option.name | handle }}-{{ value_handle }}"
+                                        title="{{ value_name }}"
+                                        aria-label="{{ value_name }}"
+                                        class="relative inline-flex items-center justify-center w-10 h-10 rounded-full border cursor-pointer transition-all duration-200
+                                               {% if variant_for_value.available %}
+                                                 border-border/80 bg-background hover:border-border peer-checked:border-primary peer-checked:ring-primary
+                                               {% else %}
+                                                 border-border/60 bg-border/15 cursor-not-allowed opacity-50
+                                               {% endif %}"
+                                      >
+                                        <span class="sr-only">{{ value_name }}</span>
+                                        {% if option_value.swatch.image %}
+                                          {% assign swatch_image = option_value.swatch.image | image_url: width: 48, height: 48, crop: 'center' %}
+                                          <span class="block w-6 h-6 rounded-full border border-border/50 bg-center bg-cover" style="background-image: url({{ swatch_image }});"></span>
+                                        {% elsif option_value.swatch.color %}
+                                          <span class="block w-6 h-6 rounded-full border border-border/50" style="background-color: {{ option_value.swatch.color }};"></span>
+                                        {% else %}
+                                          <span class="block w-6 h-6 rounded-full border border-border/50"></span>
+                                        {% endif %}
+                                      </label>
+                                    {% else %}
+                                      <label
+                                        for="Option-{{ option.name | handle }}-{{ value_handle }}"
+                                        class="inline-flex items-center justify-center min-w-[60px] px-4 py-2.5 text-sm font-medium rounded-lg border cursor-pointer transition-all duration-200
+                                               {% if variant_for_value.available %}
+                                                 border-border/80 bg-background text-foreground hover:border-border
+                                                 peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground
+                                               {% else %}
+                                                 border-border/60 bg-border/15 text-muted/60 cursor-not-allowed line-through
+                                               {% endif %}"
+                                      >
+                                        {{ value_name }}
+                                      </label>
+                                    {% endif %}
                                   </div>
                                 {% endfor %}
                               </div>
@@ -657,38 +693,74 @@
                                 {% endif %}
                               </span>
                             </label>
+
+                            {% assign use_swatches = section.settings.enable_color_swatches %}
+
                             <div class="variant-buttons flex flex-wrap gap-2" role="radiogroup">
                               {% for value in option.values %}
-                                {%- assign variant_for_value = product.variants | where: "option1", value | first -%}
-                                {%- if option.position == 2 -%}
-                                  {%- assign variant_for_value = product.variants | where: "option2", value | first -%}
-                                {%- elsif option.position == 3 -%}
-                                  {%- assign variant_for_value = product.variants | where: "option3", value | first -%}
-                                {%- endif -%}
+                                {% liquid
+                                  assign option_value = value
+                                  assign value_name = option_value.name | default: value
+                                  assign value_handle = value_name | handle
+                                  assign variant_for_value = option_value.variant
+                                  if variant_for_value == nil
+                                    if option.position == 1
+                                      assign variant_for_value = product.variants | where: "option1", value_name | first
+                                    elsif option.position == 2
+                                      assign variant_for_value = product.variants | where: "option2", value_name | first
+                                    else
+                                      assign variant_for_value = product.variants | where: "option3", value_name | first
+                                    endif
+                                  endif
+                                %}
                                 <div class="variant-button-wrapper">
                                   <input
                                     type="radio"
-                                    id="Option-{{ option.name | handle }}-{{ value | handle }}"
+                                    id="Option-{{ option.name | handle }}-{{ value_handle }}"
                                     name="options[{{ option.name }}]"
-                                    value="{{ value }}"
+                                    value="{{ value_name }}"
                                     class="sr-only peer"
                                     data-variant-id="{{ variant_for_value.id }}"
                                     data-variant-image="{{ variant_for_value.featured_image | image_url: width: 1200 }}"
-                                    {% if option.selected_value == value %}checked{% endif %}
-                                    {% unless variant_for_value.available %}disabled{% endunless %}
+                                    {% if option_value.selected %}checked{% endif %}
+                                    {% unless option_value.available %}disabled{% endunless %}
                                   >
-                                  <label
-                                    for="Option-{{ option.name | handle }}-{{ value | handle }}"
-                                  class="inline-flex items-center justify-center min-w-[60px] px-4 py-2.5 text-sm font-medium rounded-lg border cursor-pointer transition-all duration-200
-                                         {% if variant_for_value.available %}
-                                           border-border/80 bg-background text-foreground hover:border-border
-                                           peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground
-                                         {% else %}
-                                           border-border/60 bg-border/15 text-muted/60 cursor-not-allowed line-through
-                                         {% endif %}"
-                                  >
-                                    {{ value }}
-                                  </label>
+                                  {% if use_swatches and option_value.swatch %}
+                                    <label
+                                      for="Option-{{ option.name | handle }}-{{ value_handle }}"
+                                      title="{{ value_name }}"
+                                      aria-label="{{ value_name }}"
+                                      class="relative inline-flex items-center justify-center w-10 h-10 rounded-full border cursor-pointer transition-all duration-200
+                                             {% if variant_for_value.available %}
+                                               border-border/80 bg-background hover:border-border peer-checked:border-primary peer-checked:ring-primary
+                                             {% else %}
+                                               border-border/60 bg-border/15 cursor-not-allowed opacity-50
+                                             {% endif %}"
+                                    >
+                                      <span class="sr-only">{{ value_name }}</span>
+                                      {% if option_value.swatch.image %}
+                                        {% assign swatch_image = option_value.swatch.image | image_url: width: 48, height: 48, crop: 'center' %}
+                                        <span class="block w-6 h-6 rounded-full border border-border/50 bg-center bg-cover" style="background-image: url({{ swatch_image }});"></span>
+                                      {% elsif option_value.swatch.color %}
+                                        <span class="block w-6 h-6 rounded-full border border-border/50" style="background-color: {{ option_value.swatch.color }};"></span>
+                                      {% else %}
+                                        <span class="block w-6 h-6 rounded-full border border-border/50"></span>
+                                      {% endif %}
+                                    </label>
+                                  {% else %}
+                                    <label
+                                      for="Option-{{ option.name | handle }}-{{ value_handle }}"
+                                    class="inline-flex items-center justify-center min-w-[60px] px-4 py-2.5 text-sm font-medium rounded-lg border cursor-pointer transition-all duration-200
+                                           {% if variant_for_value.available %}
+                                             border-border/80 bg-background text-foreground hover:border-border
+                                             peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground
+                                           {% else %}
+                                             border-border/60 bg-border/15 text-muted/60 cursor-not-allowed line-through
+                                           {% endif %}"
+                                    >
+                                      {{ value_name }}
+                                    </label>
+                                  {% endif %}
                                 </div>
                               {% endfor %}
                             </div>
@@ -1098,6 +1170,12 @@
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_color_swatches",
+      "label": "Enable color swatches",
+      "default": false
     },
     {
       "type": "checkbox",

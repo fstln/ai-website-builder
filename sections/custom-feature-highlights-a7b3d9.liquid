@@ -17,13 +17,14 @@
     </div>
     <div class="mt-16 space-y-16">
       {%- for block in section.blocks -%}
+        {%- assign image_order = forloop.index | modulo: 2 %}
         <div
           class="flex flex-col-reverse gap-8 lg:grid lg:grid-cols-12 lg:items-center lg:gap-16"
           {{ block.shopify_attributes }}
         >
           <div class="lg:col-span-5">
             <div class="
-              {% if (forloop.index | modulo: 2) == 0 %}
+              {% if image_order == 0 %}
                 lg:ml-auto
               {% endif %}
             ">
@@ -36,7 +37,8 @@
             </div>
           </div>
           <div class="lg:col-span-7
-            {% if (forloop.index | modulo: 2) == 0 %}
+            {% assign image_order = forloop.index | modulo: 2 %}
+            {% if image_order == 0 %}
               lg:order-first
             {% endif %}
           ">
