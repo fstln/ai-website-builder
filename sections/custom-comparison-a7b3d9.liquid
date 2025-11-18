@@ -1,0 +1,103 @@
+{%- liquid
+  assign section_id = 'comparison-' | append: section.id
+  assign products = section.blocks
+-%}
+
+<section
+  id="{{ section_id }}"
+  class="color-scheme color-{{ section.settings.color_scheme }} bg-background py-16 sm:py-24"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+        {{ section.settings.heading }}
+      </h2>
+    </div>
+
+    <div class="mt-12 overflow-x-auto">
+      <table class="min-w-full divide-y divide-border/60 border-t border-border/60">
+        <thead class="bg-surface-muted">
+          <tr>
+            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-foreground sm:pl-6">
+              Feature
+            </th>
+            {%- for block in products -%}
+              <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-foreground">
+                {{ block.settings.product_name }}
+              </th>
+            {%- endfor -%}
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border/60 bg-surface">
+          {%- for feature_row in section.settings.features | split: newline -%}
+            {%- assign feature_items = feature_row | split: ',' -%}
+            <tr>
+              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-foreground sm:pl-6">
+                {{ feature_items[0] }}
+              </td>
+              {%- for i in (1..products.size) -%}
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-muted">
+                  {{ feature_items[i] | strip }}
+                </td>
+              {%- endfor -%}
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Comparison Table",
+  "tag": "section",
+  "class": "custom-comparison-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Compare Models"
+    },
+    {
+      "type": "textarea",
+      "id": "features",
+      "label": "Features (CSV format)",
+      "info": "Each line is a row. Comma-separated values. First value is the feature name.",
+      "default": "Type, Open Ear, Open Ear, Open Ear\nBass Effect, Virtual Bass 2nd Gen, Virtual Bass 2nd Gen, N/A\nBluetooth, 5.3, 5.3, 5.2\nBattery Life, Up to 19 hours, Up to 19 hours, Up to 16 hours\nWaterproofing, IPX4, IPX4, IPX4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_column",
+      "name": "Product Column",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product Name",
+          "default": "OWS Pro"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Comparison Table",
+      "blocks": [
+        { "type": "product_column", "settings": { "product_name": "OWS Pro" } },
+        { "type": "product_column", "settings": { "product_name": "OWS 2" } },
+        { "type": "product_column", "settings": { "product_name": "OWS 1" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
