@@ -1,0 +1,76 @@
+{%- liquid
+  assign card_image = image
+  assign card_title = title
+  assign card_description = description
+  assign card_label = label
+  assign placeholder_label = placeholder | default: 'Upload an image to showcase this KSP'
+  assign text_layout = text_layout | default: 'stacked'
+  assign overlay_layout = false
+  if text_layout == 'overlay'
+    assign overlay_layout = true
+  endif
+-%}
+
+<div class="flex h-full flex-col">
+  {%- if overlay_layout -%}
+    <div class="relative w-full overflow-hidden rounded-2xl bg-surface-muted" style="aspect-ratio: 16 / 9;">
+      {%- if card_image != blank -%}
+        <img
+          src="{{ card_image | image_url: width: 1200 }}"
+          alt="{{ card_image.alt | default: card_title | default: 'Product highlight media' | escape }}"
+          width="1200"
+          height="675"
+          class="h-full w-full object-cover"
+          loading="lazy"
+        >
+      {%- else -%}
+        <div class="flex h-full items-center justify-center px-6 text-center text-sm font-medium text-muted">
+          {{ placeholder_label }}
+        </div>
+      {%- endif -%}
+      <div class="pointer-events-none absolute inset-0 flex flex-col justify-start gap-3 rounded-2xl bg-gradient-to-b from-black/65 via-black/35 to-transparent p-6 text-left text-white">
+        {%- if card_label != blank -%}
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/80">{{ card_label }}</p>
+        {%- endif -%}
+        {%- if card_title != blank -%}
+          <h3 class="text-2xl font-semibold leading-tight text-white font-heading">{{ card_title }}</h3>
+        {%- endif -%}
+        {%- if card_description != blank -%}
+          <div class="text-base leading-6 text-white/90">
+            {{ card_description }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- else -%}
+    <div class="flex flex-col">
+      {%- if card_label != blank -%}
+        <p class="text-sm font-semibold uppercase tracking-wide text-primary">{{ card_label }}</p>
+      {%- endif -%}
+      {%- if card_title != blank -%}
+        <h3 class="mt-2 text-2xl font-semibold text-foreground font-heading">{{ card_title }}</h3>
+      {%- endif -%}
+      {%- if card_description != blank -%}
+        <div class="mt-4 text-base leading-7 text-muted">
+          {{ card_description }}
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="mt-6 w-full overflow-hidden rounded-2xl bg-surface-muted" style="aspect-ratio: 16 / 9;">
+      {%- if card_image != blank -%}
+        <img
+          src="{{ card_image | image_url: width: 1200 }}"
+          alt="{{ card_image.alt | default: card_title | default: 'Product highlight media' | escape }}"
+          width="1200"
+          height="675"
+          class="h-full w-full object-cover"
+          loading="lazy"
+        >
+      {%- else -%}
+        <div class="flex h-full items-center justify-center px-6 text-center text-sm font-medium text-muted">
+          {{ placeholder_label }}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>

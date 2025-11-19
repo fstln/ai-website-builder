@@ -582,10 +582,10 @@ Before making changes, check these files:
 
 - `sections/compare.liquid`
   - 场景：型号/方案对比表（三列布局）。
-  - 设置：`color_scheme`、`section_id`、`heading`、`subheading`。
-  - Blocks：`comparison_row` → `feature_name`、`owspro_value`、`ows2_value`、`ows1_value`。
-  - 说明：当前列标题为固定文案（OWS Pro / OWS 2 / OWS 1）；如需改为其他产品名，可直接在该 Section 模板中替换列头文本。
-  - 用法：默认锚点前缀 `compare-{index}`。
+  - 设置：`color_scheme`、`section_id`、`heading`、`subheading`、`product_col1/2/3`（产品选择器）、`show_product_cards`（顶部产品卡片：名称/封面/购买按钮）、`buy_now_label`（购买按钮文案）、列标题兜底文案。
+  - 数据：当选择了产品后，列标题、顶部卡片会直接读取 Shopify 产品对象的值（`title`、`featured_media`、`url`）。
+  - Blocks：`comparison_row` → `feature_name`、`owspro_value`、`ows2_value`、`ows1_value`（为保持向后兼容暂不改名）。
+  - 用法：默认锚点前缀 `compare-{index}`；若未设置产品，则使用兜底列标题（OWS Pro / OWS 2 / OWS 1）。
 
 - `sections/specs.liquid`
   - 场景：技术规格（JS-free 折叠列表，`<details>/<summary>`）。
