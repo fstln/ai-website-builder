@@ -1,0 +1,177 @@
+{%- liquid
+  assign section_dom_id = "custom-hero-" | append: section.id
+-%}
+
+<section id="{{ section_dom_id }}" class="relative isolate overflow-hidden bg-white px-6 pt-20 pb-24 sm:pt-32 sm:pb-32 lg:px-8">
+    <div aria-hidden="true" class="absolute inset-0 -z-10 overflow-hidden">
+        <div class="absolute left-[50%] top-0 -translate-x-1/2 blur-3xl opacity-20" style="width: 800px; height: 800px;">
+            <div class="aspect-square w-full bg-gradient-to-br from-[#5E89FF] via-[#A8B8FF] to-transparent rounded-full"></div>
+        </div>
+    </div>
+    
+    <div class="mx-auto max-w-7xl">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div class="text-center lg:text-left">
+                {%- if section.settings.eyebrow_text != blank -%}
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 text-sm font-medium text-gray-700 mb-8">
+                    <span class="w-2 h-2 rounded-full bg-[#5E89FF] animate-pulse"></span>
+                    {{ section.settings.eyebrow_text | escape }}
+                </div>
+                {%- endif -%}
+                
+                {%- if section.settings.heading != blank -%}
+                <h1 class="font-['Outfit'] text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6">
+                    {{ section.settings.heading }}
+                </h1>
+                {%- endif -%}
+                
+                {%- if section.settings.subheading != blank -%}
+                <p class="text-xl text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                    {{ section.settings.subheading }}
+                </p>
+                {%- endif -%}
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    {%- if section.settings.button_primary_label != blank and section.settings.button_primary_link != blank -%}
+                    <a href="{{ section.settings.button_primary_link }}" 
+                       class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-[#5E89FF] text-white font-semibold text-lg shadow-lg shadow-blue-500/30 hover:bg-[#4a73e6] hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 hover:-translate-y-0.5">
+                        {{ section.settings.button_primary_label | escape }}
+                        <i class="ri-arrow-right-line ml-2 text-xl"></i>
+                    </a>
+                    {%- endif -%}
+                    {%- if section.settings.button_secondary_label != blank and section.settings.button_secondary_link != blank -%}
+                    <a href="{{ section.settings.button_secondary_link }}" 
+                       class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-gray-900 font-semibold text-lg border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-300">
+                        {{ section.settings.button_secondary_label | escape }}
+                        <i class="ri-play-circle-line ml-2 text-xl"></i>
+                    </a>
+                    {%- endif -%}
+                </div>
+                
+                {%- if section.blocks.size > 0 -%}
+                <div class="flex items-center gap-8 mt-12 justify-center lg:justify-start">
+                    {%- for block in section.blocks -%}
+                    <div class="flex items-center gap-8">
+                      <div>
+                          <div class="font-['Outfit'] text-3xl font-bold text-gray-900">{{ block.settings.stat_value }}</div>
+                          <div class="text-sm text-gray-600 mt-1">{{ block.settings.stat_label }}</div>
+                      </div>
+                      {%- unless forloop.last -%}
+                        <div class="w-px h-12 bg-gray-200"></div>
+                      {%- endunless -%}
+                    </div>
+                    {%- endfor -%}
+                </div>
+                {%- endif -%}
+            </div>
+            
+            <div class="relative">
+                <div class="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl">
+                    {%- if section.settings.image != blank -%}
+                        <img src="{{ section.settings.image | image_url: width: 1200 }}" 
+                             alt="{{ section.settings.image.alt | default: 'Featured innovative tech product showcase with modern design' | escape }}"
+                             class="w-full h-auto" 
+                             width="{{ section.settings.image.width }}"
+                             height="{{ section.settings.image.height }}"
+                             loading="eager" />
+                    {%- else -%}
+                        <img src="https://placehold.co/600x700/5E89FF/ffffff?text=Hero+Tech+Product" 
+                             alt="Placeholder for featured innovative tech product showcase with modern design"
+                             class="w-full h-auto" />
+                    {%- endif -%}
+                </div>
+                
+                <div class="absolute -bottom-6 -left-6 w-40 h-40 bg-gradient-to-br from-[#A8B8FF] to-[#5E89FF] rounded-[2rem] opacity-20 blur-2xl -z-10"></div>
+                <div class="absolute -top-6 -right-6 w-32 h-32 bg-gradient-to-br from-[#5E89FF] to-[#A8B8FF] rounded-[2rem] opacity-20 blur-2xl -z-10"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Hero HeyUp",
+  "tag": "section",
+  "class": "custom-hero-heyup-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow Text",
+      "default": "New in Tech"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Discover Tomorrow's Tech, Today</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Join thousands of tech enthusiasts exploring cutting-edge gadgets and innovative products that shape the future.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_primary_label",
+      "label": "Primary Button Label",
+      "default": "Explore Products"
+    },
+    {
+      "type": "url",
+      "id": "button_primary_link",
+      "label": "Primary Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "button_secondary_label",
+      "label": "Secondary Button Label",
+      "default": "How It Works"
+    },
+    {
+      "type": "url",
+      "id": "button_secondary_link",
+      "label": "Secondary Button Link",
+      "default": "/"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Statistic",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "stat_value",
+          "label": "Stat Value",
+          "default": "50K+"
+        },
+        {
+          "type": "text",
+          "id": "stat_label",
+          "label": "Stat Label",
+          "default": "Happy Customers"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "C: Hero HeyUp",
+      "blocks": [
+        { "type": "stat" },
+        { "type": "stat", "settings": { "stat_value": "1000+", "stat_label": "Products Curated" }},
+        { "type": "stat", "settings": { "stat_value": "4.9/5", "stat_label": "Avg Rating" }}
+      ]
+    }
+  ]
+}
+{% endschema %}
