@@ -1,127 +1,102 @@
 {
   "name": "Home page",
   "sections": {
+    "announcement_bar_reused_a5b1c8": {
+      "type": "announcement-bar",
+      "settings": {
+        "message": "Free worldwide shipping on orders over $90"
+      }
+    },
     "header": {
       "type": "header",
       "settings": {}
     },
-    "custom_hero_homepage_1": {
-      "type": "custom-hero",
+    "custom_hero_heyup_a5b1c8": {
+      "type": "custom-hero-heyup-a5b1c8",
       "settings": {
-        "heading": "HEAR THE WORLD, <br> <span class='text-brand-blue'>YOUR WAY.</span>",
-        "subheading": "<p>Experience ultimate comfort and superior sound with Oladance open-ear headphones. Up to 58 hours of playtime.</p>",
-        "button_text": "Shop All Deals",
-        "button_link": "shopify:\/\/collections\/all"
+        "heading": "<p>HEAR THE BASS, NOT THE NOISE</p>",
+        "subheading": "<p>Revolutionary open-ear headphones for all-day comfort and immersive sound.</p>",
+        "button_primary_label": "Shop Oladance Series"
       }
     },
-    "custom_featured_products_homepage_2": {
-      "type": "custom-featured-products",
+    "featured_collection_reused_a5b1c8": {
+      "type": "featured-collection",
       "settings": {
-        "title": "Find Your Perfect Fit",
-        "subheading": "<p>From premium audio to all-day comfort, there's an Oladance for everyone.</p>"
-      },
-      "blocks": {
-        "block_hp_2_1": {
-          "type": "product_card",
-          "settings": {
-            "title": "OWS Pro",
-            "description": "Premium open-ear sound with high-quality bass and focus mode.",
-            "button_text": "View Product",
-            "button_link": "shopify:\/\/products\/ows-pro"
-          }
-        },
-        "block_hp_2_2": {
-          "type": "product_card",
-          "settings": {
-            "title": "OWS 2",
-            "description": "All-day battery and a forgettable comfort fit for daily use.",
-            "button_text": "View Product",
-            "button_link": "shopify:\/\/products\/ows-2"
-          }
-        },
-        "block_hp_2_3": {
-          "type": "product_card",
-          "settings": {
-            "title": "OWS 1",
-            "description": "The foundational open-ear experience for comfort and stability.",
-            "button_text": "View Product",
-            "button_link": "shopify:\/\/products\/ows-1"
-          }
-        }
-      },
-      "block_order": [
-        "block_hp_2_1",
-        "block_hp_2_2",
-        "block_hp_2_3"
-      ]
+        "heading": "Our Best Sellers",
+        "collection": "oladance-series",
+        "products_to_show": 4
+      }
     },
-    "custom_brand_pillars_homepage_3": {
-      "type": "custom-brand-pillars",
+    "custom_brand_pillars_heyup_a5b1c8": {
+      "type": "custom-brand-pillars-heyup-a5b1c8",
+      "settings": {
+        "heading": "<p>The Oladance Difference</p>"
+      },
       "blocks": {
-        "block_hp_3_1": {
+        "pillar_1": {
           "type": "pillar",
           "settings": {
-            "title": "FORGET YOU'RE WEARING THEM",
-            "description": "<p>Our patented open-ear design rests gently outside your ear, eliminating pressure and pain for pure comfort.</p>",
-            "image_position": "right"
+            "heading": "Open-Ear Comfort",
+            "subheading": "FORGET YOU'RE WEARING THEM. No buds in your ear, no pain, no pressure."
           }
         },
-        "block_hp_3_2": {
+        "pillar_2": {
           "type": "pillar",
           "settings": {
-            "title": "RICH BASS, OPEN SOUND",
-            "description": "<p>Tired of 'tinny' sound? Our advanced audio technology delivers deep, rich bass you can feel, without sealing you off from the world.</p>",
-            "image_position": "left"
+            "heading": "Superior Sound",
+            "subheading": "HEAR THE DIFFERENCE. Patented technology delivers deep, rich bass you can feel."
+          }
+        },
+        "pillar_3": {
+          "type": "pillar",
+          "settings": {
+            "heading": "All-Day Battery",
+            "subheading": "GO FOR WEEKS, NOT DAYS. Up to 58 hours of total playtime."
           }
         }
       },
       "block_order": [
-        "block_hp_3_1",
-        "block_hp_3_2"
+        "pillar_1",
+        "pillar_2",
+        "pillar_3"
       ]
     },
-    "custom_social_proof_homepage_4": {
-      "type": "custom-social-proof",
+    "custom_social_proof_heyup_a5b1c8": {
+      "type": "custom-social-proof-heyup-a5b1c8",
+      "settings": {}
+    },
+    "faq_accordion_section_reused_a5b1c8": {
+      "type": "faq-accordion-section",
       "settings": {
-        "heading": "Loved by Listeners & Critics"
+        "heading": "Frequently Asked Questions"
       },
       "blocks": {
-        "block_hp_4_1": { "type": "logo", "settings": {} },
-        "block_hp_4_2": { "type": "logo", "settings": {} },
-        "block_hp_4_3": { "type": "logo", "settings": {} },
-        "block_hp_4_4": { "type": "logo", "settings": {} },
-        "block_hp_4_5": { "type": "logo", "settings": {} },
-        "block_hp_4_6": {
-          "type": "review",
+        "faq_1": {
+          "type": "faq_item",
           "settings": {
-            "quote": "<p>Finally, earbuds that don't hurt my ears after an hour! The sound is surprisingly good for an open design.</p>",
-            "author": "Alex R."
+            "question": "Are they suitable for running and workouts?",
+            "answer": "<p>Absolutely. The patented open-ear design and skin-friendly silicone ensure a secure and comfortable fit, even during intense workouts. The IPX4 waterproof rating also protects them from sweat.</p>"
           }
         },
-        "block_hp_4_7": {
-          "type": "review",
+        "faq_2": {
+          "type": "faq_item",
           "settings": {
-            "quote": "<p>The battery life is insane. I use them for work calls all day and barely have to charge them.</p>",
-            "author": "Jessica M."
+            "question": "Can I connect to multiple devices at once?",
+            "answer": "<p>The Oladance OWS Pro supports Bluetooth 5.3 but does not officially support multipoint connection to two devices simultaneously. For this feature, please consider the OWS 2 model.</p>"
           }
         },
-        "block_hp_4_8": {
-          "type": "review",
+        "faq_3": {
+          "type": "faq_item",
           "settings": {
-            "quote": "<p>As a runner, these are a game-changer. I can hear my music and still be aware of my surroundings.</p>",
-            "author": "David L."
+            "question": "How does the open-ear design affect sound leakage?",
+            "answer": "<p>Our sound leakage control technology minimizes sound leakage, ensuring your music and calls remain private in most environments. In very quiet settings, some sound may be audible to those in close proximity.</p>"
           }
         }
       },
       "block_order": [
-        "block_hp_4_1",
-        "block_hp_4_2",
-        "block_hp_4_3",
-        "block_hp_4_4",
-        "block_hp_4_5",
-        "block_hp_4_6",
-        "block_hp_4_7",
-        "block_hp_4_8"
+        "faq_1",
+        "faq_2",
+        "faq_3"
       ]
     },
     "footer": {
@@ -130,11 +105,13 @@
     }
   },
   "order": [
+    "announcement_bar_reused_a5b1c8",
     "header",
-    "custom_hero_homepage_1",
-    "custom_featured_products_homepage_2",
-    "custom_brand_pillars_homepage_3",
-    "custom_social_proof_homepage_4",
+    "custom_hero_heyup_a5b1c8",
+    "featured_collection_reused_a5b1c8",
+    "custom_brand_pillars_heyup_a5b1c8",
+    "custom_social_proof_heyup_a5b1c8",
+    "faq_accordion_section_reused_a5b1c8",
     "footer"
   ]
 }
