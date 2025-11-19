@@ -1,0 +1,100 @@
+<section class="bg-gray-50 px-6 py-24 sm:py-32 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+        <div class="text-center mb-16">
+            {%- if section.settings.heading != blank -%}
+            <h2 class="font-['Outfit'] text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+                {{ section.settings.heading }}
+            </h2>
+            {%- endif -%}
+            {%- if section.settings.subheading != blank -%}
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                {{ section.settings.subheading }}
+            </p>
+            {%- endif -%}
+        </div>
+        
+        {%- if section.blocks.size > 0 -%}
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {%- for block in section.blocks -%}
+            <div class="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                {%- if block.settings.icon_class != blank -%}
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#5E89FF] to-[#A8B8FF] flex items-center justify-center mb-6">
+                    <i class="{{ block.settings.icon_class }} text-white text-2xl"></i>
+                </div>
+                {%- endif -%}
+                {%- if block.settings.heading != blank -%}
+                <h3 class="font-['Outfit'] text-2xl font-bold text-gray-900 mb-3">
+                    {{ block.settings.heading }}
+                </h3>
+                {%- endif -%}
+                {%- if block.settings.subheading != blank -%}
+                <p class="text-gray-600 leading-relaxed">
+                    {{ block.settings.subheading }}
+                </p>
+                {%- endif -%}
+            </div>
+            {%- endfor -%}
+        </div>
+        {%- endif -%}
+    </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Brand Pillars HeyUp",
+  "tag": "section",
+  "class": "custom-brand-pillars-heyup-section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Why Choose HeyUp?</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>We're more than just a marketplace. We're your trusted partner in discovering the future of technology.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon_class",
+          "label": "Icon Class (Remix Icon)",
+          "default": "ri-search-line"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Curated Selection"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Every product is hand-picked by our tech experts to ensure quality, innovation, and real value."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "C: Brand Pillars HeyUp",
+      "blocks": [
+        { "type": "pillar" },
+        { "type": "pillar", "settings": { "icon_class": "ri-community-line", "heading": "Community Driven", "subheading": "Honest reviews from real users help you make informed decisions. Your voice matters here." }},
+        { "type": "pillar", "settings": { "icon_class": "ri-rocket-line", "heading": "Early Access", "subheading": "Get exclusive access to try and test the latest tech products before anyone else." }},
+        { "type": "pillar", "settings": { "icon_class": "ri-shield-check-line", "heading": "Trusted Quality", "subheading": "We stand by our products with hassle-free returns and dedicated customer support." }}
+      ]
+    }
+  ]
+}
+{% endschema %}
