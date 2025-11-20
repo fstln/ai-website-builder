@@ -1,85 +1,149 @@
 {
   "name": "Home page",
   "sections": {
-    "custom_hero_heyup_a5b1c8": {
-      "type": "custom-hero-heyup-a5b1c8",
+    "hero_highlight_reused_c7b3e1": {
+      "type": "hero-highlight-section",
       "settings": {
-        "heading": "<p>HEAR THE BASS, NOT THE NOISE</p>",
-        "subheading": "<p>Revolutionary open-ear headphones for all-day comfort and immersive sound.</p>",
-        "button_primary_label": "Shop Oladance Series"
+        "color_scheme": "scheme-2",
+        "heading": "Unlock Auditory Freedom",
+        "subheading": "Oladance Open-ear Headphones Limited Time Offer",
+        "paragraph": "<p>Experience unparalleled comfort and superior sound without compromise.</p>",
+        "button_label": "Shop Oladance Deals",
+        "button_link": "shopify:\/\/collections\/oladance-collection"
       }
     },
-    "featured_collection_reused_a5b1c8": {
+    "featured_collection_reused_d8f4a2": {
       "type": "featured-collection",
       "settings": {
-        "heading": "Our Best Sellers",
-        "collection": "oladance-series",
-        "products_to_show": 4
+        "color_scheme": "scheme-1",
+        "heading": "Our Curated Collection",
+        "collection": "oladance-collection",
+        "show_description": true,
+        "products_to_show": 3
       }
     },
-    "custom_brand_pillars_heyup_a5b1c8": {
-      "type": "custom-brand-pillars-heyup-a5b1c8",
+    "platform_trust_created_a8b3f1": {
+      "type": "custom-platform-trust-a8b3f1",
       "settings": {
-        "heading": "<p>The Oladance Difference</p>"
+        "color_scheme": "scheme-1",
+        "heading": "Your Curated Tech Outlet",
+        "subheading": "Discover premium tech at unbeatable prices. Every product is carefully selected and tested by our community of tech enthusiasts to ensure you get exceptional value.",
+        "badge_text": "Rated 4.8/5 by Heyup Testers"
       },
       "blocks": {
-        "pillar_1": {
-          "type": "pillar",
+        "testimonial_1": {
+          "type": "testimonial",
           "settings": {
-            "heading": "Open-Ear Comfort",
-            "subheading": "FORGET YOU'RE WEARING THEM. No buds in your ear, no pain, no pressure."
+            "quote": "The quality of products on Heyup Store is outstanding. I saved over 40% on my wireless earbuds and they work perfectly. The testing reviews gave me confidence to buy.",
+            "author": "Sarah M."
           }
         },
-        "pillar_2": {
-          "type": "pillar",
+        "testimonial_2": {
+          "type": "testimonial",
           "settings": {
-            "heading": "Superior Sound",
-            "subheading": "HEAR THE DIFFERENCE. Patented technology delivers deep, rich bass you can feel."
+            "quote": "Finally, a tech outlet that doesn't compromise on quality! Fast shipping, authentic products, and the community reviews are incredibly helpful. Highly recommend.",
+            "author": "James Chen"
           }
         },
-        "pillar_3": {
-          "type": "pillar",
+        "testimonial_3": {
+          "type": "testimonial",
           "settings": {
-            "heading": "All-Day Battery",
-            "subheading": "GO FOR WEEKS, NOT DAYS. Up to 58 hours of total playtime."
+            "quote": "Best tech shopping experience I've had online. The curated selection means I don't waste time browsing junk, and the prices are unbeatable. Love this platform!",
+            "author": "Emma Rodriguez"
           }
         }
       },
       "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
+        "testimonial_1",
+        "testimonial_2",
+        "testimonial_3"
       ]
     },
-    "custom_social_proof_heyup_a5b1c8": {
-      "type": "custom-social-proof-heyup-a5b1c8",
-      "settings": {}
+    "ksp_showcase_created_c4d9e2": {
+      "type": "custom-ksp-showcase-c4d9e2",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "Experience the Oladance Difference"
+      },
+      "blocks": {
+        "ksp_1": {
+          "type": "ksp_item",
+          "settings": {
+            "icon": "comfort",
+            "title": "All-Day Comfort",
+            "description": "Our open-ear design rests gently on your ear, eliminating pressure and discomfort for a weightless experience."
+          }
+        },
+        "ksp_2": {
+          "type": "ksp_item",
+          "settings": {
+            "icon": "battery",
+            "title": "16-Hour+ Battery",
+            "description": "From your morning commute to your evening workout, Oladance keeps going with an industry-leading battery life."
+          }
+        },
+        "ksp_3": {
+          "type": "ksp_item",
+          "settings": {
+            "icon": "sound",
+            "title": "Superior Bass Quality",
+            "description": "Feel the rich, deep bass. Our patented technology delivers a full-range audio experience unlike any other open-ear headphone."
+          }
+        }
+      },
+      "block_order": [
+        "ksp_1",
+        "ksp_2",
+        "ksp_3"
+      ]
     },
-    "faq_accordion_section_reused_a5b1c8": {
+    "media_logos_created_b9e5d7": {
+      "type": "custom-media-logos-b9e5d7",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "As Seen On"
+      },
+      "blocks": {
+        "logo_1": { "type": "logo", "settings": {} },
+        "logo_2": { "type": "logo", "settings": {} },
+        "logo_3": { "type": "logo", "settings": {} },
+        "logo_4": { "type": "logo", "settings": {} },
+        "logo_5": { "type": "logo", "settings": {} }
+      },
+      "block_order": [
+        "logo_1",
+        "logo_2",
+        "logo_3",
+        "logo_4",
+        "logo_5"
+      ]
+    },
+    "faq_accordion_reused_e5f6g7": {
       "type": "faq-accordion-section",
       "settings": {
+        "color_scheme": "scheme-2",
         "heading": "Frequently Asked Questions"
       },
       "blocks": {
         "faq_1": {
           "type": "faq_item",
           "settings": {
-            "question": "Are they suitable for running and workouts?",
-            "answer": "<p>Absolutely. The patented open-ear design and skin-friendly silicone ensure a secure and comfortable fit, even during intense workouts. The IPX4 waterproof rating also protects them from sweat.</p>"
+            "question": "Are these products new or refurbished?",
+            "answer": "<p>All products sold on Heyup Store are brand new and officially authorized. We partner directly with brands to offer you exclusive deals.</p>"
           }
         },
         "faq_2": {
           "type": "faq_item",
           "settings": {
-            "question": "Can I connect to multiple devices at once?",
-            "answer": "<p>The Oladance OWS Pro supports Bluetooth 5.3 but does not officially support multipoint connection to two devices simultaneously. For this feature, please consider the OWS 2 model.</p>"
+            "question": "What is your shipping policy?",
+            "answer": "<p>We offer fast and reliable shipping from our local warehouses. Most orders are processed within 24 hours and delivered within 3-5 business days.</p>"
           }
         },
         "faq_3": {
           "type": "faq_item",
           "settings": {
-            "question": "How does the open-ear design affect sound leakage?",
-            "answer": "<p>Our sound leakage control technology minimizes sound leakage, ensuring your music and calls remain private in most environments. In very quiet settings, some sound may be audible to those in close proximity.</p>"
+            "question": "What if I have an issue with my product?",
+            "answer": "<p>Your purchase is backed by a full manufacturer's warranty and our dedicated customer support team. We offer hassle-free returns and after-sales service.</p>"
           }
         }
       },
@@ -91,10 +155,11 @@
     }
   },
   "order": [
-    "custom_hero_heyup_a5b1c8",
-    "featured_collection_reused_a5b1c8",
-    "custom_brand_pillars_heyup_a5b1c8",
-    "custom_social_proof_heyup_a5b1c8",
-    "faq_accordion_section_reused_a5b1c8",
+    "hero_highlight_reused_c7b3e1",
+    "featured_collection_reused_d8f4a2",
+    "platform_trust_created_a8b3f1",
+    "ksp_showcase_created_c4d9e2",
+    "media_logos_created_b9e5d7",
+    "faq_accordion_reused_e5f6g7"
   ]
 }
