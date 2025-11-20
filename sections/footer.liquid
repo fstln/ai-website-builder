@@ -12,53 +12,55 @@
 <footer 
   class="color-scheme color-{{ section_color_scheme }} site-footer heyup-footer" 
   data-footer>
-  <div class="footer__container container-custom">
+  {% assign newsletter_block = section.blocks | where: 'type', 'newsletter' | first %}
+  {% if section.settings.show_newsletter and newsletter_block %}
+    {% assign newsletter_color_scheme = newsletter_block.settings.color_scheme | default: section_color_scheme %}
+    <div class="footer__split footer__split--newsletter color-scheme color-{{ newsletter_color_scheme }}" {{ newsletter_block.shopify_attributes }}>
+      <div class="footer__container container-custom">
+        <div class="footer__newsletter-section">
+          <h3 class="footer__newsletter-title">{{ newsletter_block.settings.title | default: section.settings.newsletter_title | default: 'Get new tech guides & exclusive deals.' }}</h3>
+          {% assign desc_text = newsletter_block.settings.text | default: section.settings.newsletter_text %}
+          {% if desc_text != blank %}
+            <p class="footer__newsletter-text">{{ desc_text }}</p>
+          {% endif %}
+          <form 
+            action="/contact#contact_form" 
+            method="post" 
+            class="footer__newsletter-form"
+            accept-charset="UTF-8"
+            data-newsletter-form
+          >
+            <input type="hidden" name="form_type" value="customer">
+            <input type="hidden" name="utf8" value="✓">
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="footer__newsletter-input-wrapper">
+              <input 
+                type="email" 
+                name="contact[email]" 
+                placeholder="{{ 'footer.newsletter_placeholder' | t | default: 'Enter your email' }}"
+                class="footer__newsletter-input"
+                required
+                aria-label="Email address"
+              >
+              <button 
+                type="submit" 
+                class="btn btn-primary footer__newsletter-button"
+                aria-label="Subscribe"
+              >
+                {% render 'icon', name: 'arrow-right-long', class: 'w-5 h-5' %}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 
-    {% comment %} Blocks: Newsletter (with its own color scheme) {% endcomment %}
-    {% for block in section.blocks %}
-      {% case block.type %}
-        {% when 'newsletter' %}
-          {% assign newsletter_color_scheme = block.settings.color_scheme | default: section_color_scheme %}
-          <div class="color-scheme color-{{ newsletter_color_scheme }} footer__newsletter-section" {{ block.shopify_attributes }}>
-            <h3 class="footer__newsletter-title">{{ block.settings.title | default: section.settings.newsletter_title | default: 'Get new tech guides & exclusive deals.' }}</h3>
-            {% assign desc_text = block.settings.text | default: section.settings.newsletter_text %}
-            {% if desc_text != blank %}
-              <p class="footer__newsletter-text">{{ desc_text }}</p>
-            {% endif %}
-            <form 
-              action="/contact#contact_form" 
-              method="post" 
-              class="footer__newsletter-form"
-              accept-charset="UTF-8"
-              data-newsletter-form
-            >
-              <input type="hidden" name="form_type" value="customer">
-              <input type="hidden" name="utf8" value="✓">
-              <input type="hidden" name="contact[tags]" value="newsletter">
-              <div class="footer__newsletter-input-wrapper">
-                <input 
-                  type="email" 
-                  name="contact[email]" 
-                  placeholder="{{ 'footer.newsletter_placeholder' | t | default: 'Enter your email' }}"
-                  class="footer__newsletter-input"
-                  required
-                  aria-label="Email address"
-                >
-                <button 
-                  type="submit" 
-                  class="btn btn-primary footer__newsletter-button"
-                  aria-label="Subscribe"
-                >
-                  {% render 'icon', name: 'arrow-right-long', class: 'w-5 h-5' %}
-                </button>
-              </div>
-            </form>
-          </div>
-      {% endcase %}
-    {% endfor %}
+  <div class="footer__split footer__split--navigation">
+    <div class="footer__container container-custom">
 
-    {%comment%} Main Footer Content: Navigation + Contact {%endcomment%}
-    <div class="footer__main">
+      {%comment%} Main Footer Content: Navigation + Contact {%endcomment%}
+      <div class="footer__main">
       {%comment%} Navigation Columns - Dynamic from menu structure {%endcomment%}
       {% if menu_links.size > 0 %}
         <div class="footer__nav-section">
@@ -208,6 +210,7 @@
       {% endif %}
     </div>
   </div>
+</div>
 </footer>
 
 {% stylesheet %}
@@ -219,17 +222,33 @@
   margin-top: auto;
 }
 
-.footer__container {
+.footer__split {
+  width: 100%;
+}
+
+.footer__split--newsletter,
+.footer__split--navigation {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+.footer__split--newsletter {
+  border-bottom: 1px solid rgb(var(--color-border-rgb) / 0.4);
+}
+
+.footer__split--newsletter .footer__container {
   padding-top: clamp(48px, 8vw, 64px);
+  padding-bottom: clamp(32px, 6vw, 48px);
+}
+
+.footer__split--navigation .footer__container {
+  padding-top: clamp(32px, 6vw, 48px);
   padding-bottom: var(--spacing-8);
 }
 
 /* Newsletter Section - Full Width - Material Design Elevation */
 .footer__newsletter-section {
   text-align: center;
-  padding-bottom: 48px;
-  border-bottom: 1px solid rgb(var(--color-border-rgb) / 0.4);
-  margin-bottom: 48px;
 }
 
 .footer__newsletter-title {

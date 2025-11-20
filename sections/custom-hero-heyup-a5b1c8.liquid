@@ -31,19 +31,18 @@
                 </p>
                 {%- endif -%}
                 
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <div class="flex flex-col sm:flex-row gap-4 mt-6 md:mt-8 justify-center lg:justify-start">
                     {%- if section.settings.button_primary_label != blank and section.settings.button_primary_link != blank -%}
                     <a href="{{ section.settings.button_primary_link }}" 
-                       class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-[#5E89FF] text-white font-semibold text-lg shadow-lg shadow-blue-500/30 hover:bg-[#4a73e6] hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 hover:-translate-y-0.5">
+                       class="btn btn-primary inline-flex items-center justify-center rounded-full">
                         {{ section.settings.button_primary_label | escape }}
                         <i class="ri-arrow-right-line ml-2 text-xl"></i>
                     </a>
                     {%- endif -%}
                     {%- if section.settings.button_secondary_label != blank and section.settings.button_secondary_link != blank -%}
                     <a href="{{ section.settings.button_secondary_link }}" 
-                       class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-gray-900 font-semibold text-lg border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-300">
+                       class="btn btn-outline-primary inline-flex items-center justify-center">
                         {{ section.settings.button_secondary_label | escape }}
-                        <i class="ri-play-circle-line ml-2 text-xl"></i>
                     </a>
                     {%- endif -%}
                 </div>
@@ -67,6 +66,7 @@
             
             <div class="relative">
                 <div class="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl">
+                  <div class="relative aspect-[3/2]">
                     {%- if section.settings.image != blank -%}
                         <img src="{{ section.settings.image | image_url: width: 1200 }}" 
                              alt="{{ section.settings.image.alt | default: 'Featured innovative tech product showcase with modern design' | escape }}"
@@ -75,10 +75,11 @@
                              height="{{ section.settings.image.height }}"
                              loading="eager" />
                     {%- else -%}
-                        <img src="https://placehold.co/600x700/5E89FF/ffffff?text=Hero+Tech+Product" 
+                        <img src="https://placehold.co/600x400/5E89FF/ffffff?text=Hero+Tech+Product" 
                              alt="Placeholder for featured innovative tech product showcase with modern design"
                              class="w-full h-auto" />
                     {%- endif -%}
+                  </div>
                 </div>
                 
                 <div class="absolute -bottom-6 -left-6 w-40 h-40 bg-gradient-to-br from-[#A8B8FF] to-[#5E89FF] rounded-[2rem] opacity-20 blur-2xl -z-10"></div>

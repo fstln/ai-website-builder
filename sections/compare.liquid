@@ -23,107 +23,125 @@
       assign p2 = section.settings.product_col2
       assign p3 = section.settings.product_col3
       assign show_cards = section.settings.show_product_cards
+      assign has_col2 = false
+      assign has_col3 = false
+      if p2
+        assign has_col2 = true
+      else
+        for block in section.blocks
+          if block.settings.ows2_value != blank
+            assign has_col2 = true
+            break
+          endif
+        endfor
+      endif
+      if p3
+        assign has_col3 = true
+      else
+        for block in section.blocks
+          if block.settings.ows1_value != blank
+            assign has_col3 = true
+            break
+          endif
+        endfor
+      endif
     -%}
     {%- if p1 == blank and product -%}
       {%- assign p1 = product -%}
     {%- endif -%}
-    {%- if show_cards -%}
-      <div class="mt-12">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {%- if p1 -%}
-            <div class="rounded-xl border border-border/60 bg-surface p-5 text-center">
-              <div class="aspect-[4/3] rounded-lg overflow-hidden bg-background/60 flex items-center justify-center">
-                {%- if p1.featured_media -%}
-                  <img src="{{ p1.featured_media | image_url: width: 640 }}" alt="{{ p1.featured_media.alt | default: p1.title | escape }}" class="h-full w-full object-cover" loading="lazy" decoding="async">
-                {%- else -%}
-                  <div class="text-sm text-muted">No image</div>
-                {%- endif -%}
-              </div>
-              <h3 class="mt-4 font-heading text-lg font-semibold text-foreground">{{ p1.title | default: section.settings.col1_fallback_label | default: 'OWS Pro' }}</h3>
-              {%- if p1.url -%}
-                <a href="{{ p1.url }}" class="btn btn-primary mt-3 inline-flex items-center justify-center">{{ section.settings.buy_now_label | default: 'Buy now' }}</a>
-              {%- endif -%}
-            </div>
-          {%- endif -%}
-          {%- if p2 -%}
-            <div class="rounded-xl border border-border/60 bg-surface p-5 text-center">
-              <div class="aspect-[4/3] rounded-lg overflow-hidden bg-background/60 flex items-center justify-center">
-                {%- if p2.featured_media -%}
-                  <img src="{{ p2.featured_media | image_url: width: 640 }}" alt="{{ p2.featured_media.alt | default: p2.title | escape }}" class="h-full w-full object-cover" loading="lazy" decoding="async">
-                {%- else -%}
-                  <div class="text-sm text-muted">No image</div>
-                {%- endif -%}
-              </div>
-              <h3 class="mt-4 font-heading text-lg font-semibold text-foreground">{{ p2.title | default: section.settings.col2_fallback_label | default: 'OWS 2' }}</h3>
-              {%- if p2.url -%}
-                <a href="{{ p2.url }}" class="btn btn-primary mt-3 inline-flex items-center justify-center">{{ section.settings.buy_now_label | default: 'Buy now' }}</a>
-              {%- endif -%}
-            </div>
-          {%- endif -%}
-          {%- if p3 -%}
-            <div class="rounded-xl border border-border/60 bg-surface p-5 text-center">
-              <div class="aspect-[4/3] rounded-lg overflow-hidden bg-background/60 flex items-center justify-center">
-                {%- if p3.featured_media -%}
-                  <img src="{{ p3.featured_media | image_url: width: 640 }}" alt="{{ p3.featured_media.alt | default: p3.title | escape }}" class="h-full w-full object-cover" loading="lazy" decoding="async">
-                {%- else -%}
-                  <div class="text-sm text-muted">No image</div>
-                {%- endif -%}
-              </div>
-              <h3 class="mt-4 font-heading text-lg font-semibold text-foreground">{{ p3.title | default: section.settings.col3_fallback_label | default: 'OWS 1' }}</h3>
-              {%- if p3.url -%}
-                <a href="{{ p3.url }}" class="btn btn-primary mt-3 inline-flex items-center justify-center">{{ section.settings.buy_now_label | default: 'Buy now' }}</a>
-              {%- endif -%}
-            </div>
-          {%- endif -%}
-        </div>
-      </div>
-    {%- endif -%}
+    {%- liquid
+      assign column_count = 1
+      if has_col2
+        assign column_count = column_count | plus: 1
+      endif
+      if has_col3
+        assign column_count = column_count | plus: 1
+      endif
+      assign grid_template_style = 'grid-template-columns: repeat(' | append: column_count | append: ', minmax(0, 1fr));'
+      assign col1_title = p1.title | default: section.settings.col1_fallback_label | default: 'OWS Pro'
+      assign col2_title = p2.title | default: section.settings.col2_fallback_label | default: 'OWS 2'
+      assign col3_title = p3.title | default: section.settings.col3_fallback_label | default: 'OWS 1'
+    -%}
     <div class="mt-16 sm:mt-12 lg:mt-18">
-      <div class="rounded-[2.5rem] bg-surface/90 p-6">
+      <div class="rounded-[2.5rem]">
         <div class="-mx-2 overflow-x-auto sm:-mx-4">
-          <table class="w-full border-collapse text-left">
-            <thead class="text-sm font-semibold text-muted">
-              <tr class="bg-surface/80">
-                <th scope="col" class="px-5 py-5 text-left text-base font-semibold uppercase text-foreground sm:pl-4">
-                  <span class="inline-flex items-center rounded-full text-base font-semibold text-primary">
-                    {%- if p1 and p1.title != blank -%}
-                      {{ p1.title }}
+          <div class="min-w-[720px] space-y-4 px-2 sm:px-4">
+            <div class="grid gap-4" style="{{ grid_template_style }}">
+              <div class="text-center">
+                <div class="aspect-[4/3] rounded-xl overflow-hidden bg-background/50 flex items-center justify-center">
+                  {%- if p1 and p1.featured_media -%}
+                    <img src="{{ p1.featured_media | image_url: width: 640 }}" alt="{{ p1.featured_media.alt | default: col1_title | escape }}" class="h-full w-full object-cover" loading="lazy" decoding="async">
+                  {%- else -%}
+                    <div class="text-sm text-muted">No image</div>
+                  {%- endif -%}
+                </div>
+                <h3 class="mt-4 font-heading text-lg font-semibold text-foreground">{{ col1_title }}</h3>
+                {%- if p1 and p1.url -%}
+                  <a href="{{ p1.url }}" class="btn btn-primary mt-3 inline-flex items-center justify-center">{{ section.settings.buy_now_label | default: 'Buy now' }}</a>
+                {%- endif -%}
+              </div>
+              {%- if has_col2 -%}
+                <div class="text-center">
+                  <div class="aspect-[4/3] rounded-xl overflow-hidden bg-background/50 flex items-center justify-center">
+                    {%- if p2 and p2.featured_media -%}
+                      <img src="{{ p2.featured_media | image_url: width: 640 }}" alt="{{ p2.featured_media.alt | default: col2_title | escape }}" class="h-full w-full object-cover" loading="lazy" decoding="async">
                     {%- else -%}
-                      {{ section.settings.col1_fallback_label | default: 'OWS Pro' }}
+                      <div class="text-sm text-muted">No image</div>
                     {%- endif -%}
-                  </span>
-                </th>
-                <th scope="col" class="px-5 py-5 text-center text-base font-semibold uppercase text-foreground">
-                  {%- if p2 and p2.title != blank -%}
-                    {{ p2.title }}
-                  {%- else -%}
-                    {{ section.settings.col2_fallback_label | default: 'OWS 2' }}
+                  </div>
+                  <h3 class="mt-4 font-heading text-lg font-semibold text-foreground">{{ col2_title }}</h3>
+                  {%- if p2 and p2.url -%}
+                    <a href="{{ p2.url }}" class="btn btn-primary mt-3 inline-flex items-center justify-center">{{ section.settings.buy_now_label | default: 'Buy now' }}</a>
                   {%- endif -%}
-                </th>
-                <th scope="col" class="px-5 py-5 text-center text-base font-semibold uppercase text-foreground">
-                  {%- if p3 and p3.title != blank -%}
-                    {{ p3.title }}
-                  {%- else -%}
-                    {{ section.settings.col3_fallback_label | default: 'OWS 1' }}
+                </div>
+              {%- endif -%}
+              {%- if has_col3 -%}
+                <div class="text-center">
+                  <div class="aspect-[4/3] rounded-xl overflow-hidden bg-background/50 flex items-center justify-center">
+                    {%- if p3 and p3.featured_media -%}
+                      <img src="{{ p3.featured_media | image_url: width: 640 }}" alt="{{ p3.featured_media.alt | default: col3_title | escape }}" class="h-full w-full object-cover" loading="lazy" decoding="async">
+                    {%- else -%}
+                      <div class="text-sm text-muted">No image</div>
+                    {%- endif -%}
+                  </div>
+                  <h3 class="mt-4 font-heading text-lg font-semibold text-foreground">{{ col3_title }}</h3>
+                  {%- if p3 and p3.url -%}
+                    <a href="{{ p3.url }}" class="btn btn-primary mt-3 inline-flex items-center justify-center">{{ section.settings.buy_now_label | default: 'Buy now' }}</a>
                   {%- endif -%}
-                </th>
-              </tr>
-            </thead>
-            <tbody class="text-base text-muted">
-              {%- for block in section.blocks -%}
-                <tr class="border-b border-border/60 last:border-b-0 transition-colors hover:bg-surface/60" {{ block.shopify_attributes }}>
-                  <td class="px-5 py-6 text-left align-top sm:pl-4">
+                </div>
+              {%- endif -%}
+            </div>
+            {%- for block in section.blocks -%}
+              {%- if forloop.first -%}
+                <hr/>
+              {%- endif -%}
+              <div class="grid gap-4 rounded-3xl border-bottom border-border/60" style="{{ grid_template_style }}" {{ block.shopify_attributes }}>
+                <div class="">
+                  {%- if block.settings.feature_name != blank -%}
+                    <p class="text-xs font-semibold uppercase tracking-wide text-muted">{{ block.settings.feature_name }}</p>
+                  {%- endif -%}
+                  <p class="mt-3 text-base md:text-lg font-semibold text-primary">{{ block.settings.owspro_value | default: '—' }}</p>
+                </div>
+                {%- if has_col2 -%}
+                  <div class="rounded-2xl bg-background/70 text-center">
                     {%- if block.settings.feature_name != blank -%}
-                      <div class="text-xs font-semibold uppercase tracking-wide text-muted">{{ block.settings.feature_name }}</div>
+                      <p class="text-xs font-semibold uppercase opacity-0">{{ block.settings.feature_name }}</p>
                     {%- endif -%}
-                    <div class="mt-3 text-lg font-semibold text-primary">{{ block.settings.owspro_value }}</div>
-                  </td>
-                  <td class="whitespace-nowrap px-5 py-6 text-lg text-foreground text-center">{{ block.settings.ows2_value }}</td>
-                  <td class="whitespace-nowrap px-5 py-6 text-lg text-foreground text-center">{{ block.settings.ows1_value }}</td>
-                </tr>
-              {%- endfor -%}
-            </tbody>
-          </table>
+                    <p class="mt-3 text-foreground">{{ block.settings.ows2_value | default: '—' }}</p>
+                  </div>
+                {%- endif -%}
+                {%- if has_col3 -%}
+                  <div class="rounded-2xl bg-background/70 text-center">
+                    {%- if block.settings.feature_name != blank -%}
+                      <p class="text-xs font-semibold uppercase opacity-0">{{ block.settings.feature_name }}</p>
+                    {%- endif -%}
+                    <p class="mt-3 text-foreground">{{ block.settings.ows1_value | default: '—' }}</p>
+                  </div>
+                {%- endif -%}
+              </div>
+              <hr/>
+            {%- endfor -%}
+          </div>
         </div>
       </div>
     </div>

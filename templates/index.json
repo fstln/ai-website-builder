@@ -1,16 +1,6 @@
 {
   "name": "Home page",
   "sections": {
-    "announcement_bar_reused_a5b1c8": {
-      "type": "announcement-bar",
-      "settings": {
-        "message": "Free worldwide shipping on orders over $90"
-      }
-    },
-    "header": {
-      "type": "header",
-      "settings": {}
-    },
     "custom_hero_heyup_a5b1c8": {
       "type": "custom-hero-heyup-a5b1c8",
       "settings": {
@@ -98,20 +88,13 @@
         "faq_2",
         "faq_3"
       ]
-    },
-    "footer": {
-      "type": "footer",
-      "settings": {}
     }
   },
   "order": [
-    "announcement_bar_reused_a5b1c8",
-    "header",
     "custom_hero_heyup_a5b1c8",
     "featured_collection_reused_a5b1c8",
     "custom_brand_pillars_heyup_a5b1c8",
     "custom_social_proof_heyup_a5b1c8",
     "faq_accordion_section_reused_a5b1c8",
-    "footer"
   ]
 }

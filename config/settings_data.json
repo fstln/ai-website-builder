@@ -48,7 +48,7 @@
     "shadow_xl": "0 8px 24px rgba(0, 0, 0, 0.15)",
     "shadow_2xl": "0 16px 32px rgba(0, 0, 0, 0.18)",
     "button_padding_x": 24,
-    "button_padding_y": 16,
+    "button_padding_y": 8,
     "button_min_height": 48,
     "button_font_size": 14,
     "button_corner_radius": 12,

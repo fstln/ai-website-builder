@@ -964,14 +964,14 @@
         <button 
           type="button"
           onclick="document.querySelector('form.product-form').requestSubmit()"
-          class="btn btn-primary w-full sm:w-auto text-base font-semibold flex items-center justify-center gap-2"
+          class="btn btn-primary w-full sm:w-auto flex items-center justify-center gap-2"
           data-sticky-add-to-cart
         >
           <span data-sticky-cart-text>{{ 'products.product.add_to_cart' | t }}</span>
         </button>
         <a 
           href="/cart/{{ sticky_variant.id }}:1"
-          class="btn btn-secondary w-full sm:w-auto text-base font-semibold flex items-center justify-center gap-2"
+          class="btn btn-secondary w-full sm:w-auto flex items-center justify-center gap-2"
           data-sticky-checkout-link
         >
           <span>{{ 'products.product.checkout' | t | default: 'Checkout' }}</span>
@@ -1015,7 +1015,7 @@
       <button 
         type="button"
         onclick="document.querySelector('form.product-form').requestSubmit()"
-        class="btn btn-primary flex-shrink-0 px-6 py-3 text-base font-bold flex items-center gap-2"
+        class="btn btn-primary flex-shrink-0 px-6 py-3 flex items-center gap-2"
         data-sticky-add-to-cart
       >
         {% render 'icon', name: 'cart-outline', class: 'w-5 h-5' %}
