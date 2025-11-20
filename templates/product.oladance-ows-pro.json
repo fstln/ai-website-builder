@@ -281,14 +281,66 @@
         "section_id": "compare-1",
         "heading": "Compare Our Models",
         "subheading": "Find the perfect Oladance for your lifestyle.",
-        "product_col1": "",
-        "product_col2": "",
-        "product_col3": "",
+        "product_col1": "oladance-ows-pro-test",
+        "product_col2": "oladance-ows-2-test",
+        "product_col3": "oladance-wearable-stereo-test",
         "show_product_cards": true,
         "buy_now_label": "Buy now",
         "col1_fallback_label": "OWS Pro",
         "col2_fallback_label": "OWS 2",
         "col3_fallback_label": "OWS 1"
+      }
+    },
+    "compare_two_column_WCqWh9": {
+      "type": "compare-two-column",
+      "blocks": {
+        "comparison_row_m3WR8V": {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Battery Life",
+            "ows1_value": "11",
+            "ows2_value": "22",
+            "owspro_value": "33"
+          }
+        },
+        "comparison_row_NDU8QF": {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Battery Life",
+            "ows1_value": "11",
+            "ows2_value": "22",
+            "owspro_value": "33"
+          }
+        },
+        "comparison_row_mggaFi": {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Battery Life",
+            "ows1_value": "11",
+            "ows2_value": "22",
+            "owspro_value": "33"
+          }
+        }
+      },
+      "block_order": [
+        "comparison_row_m3WR8V",
+        "comparison_row_NDU8QF",
+        "comparison_row_mggaFi"
+      ],
+      "name": "Compare (two column)",
+      "settings": {
+        "color_scheme": "",
+        "section_id": "",
+        "heading": "Compare Our Models",
+        "subheading": "Choose any two models to compare side by side.",
+        "product_col1": "oladance-ows-pro-test",
+        "product_col2": "oladance-ows-2-test",
+        "product_col3": "",
+        "show_product_cards": false,
+        "buy_now_label": "Buy now",
+        "col1_fallback_label": "OWS Pro",
+        "col2_fallback_label": "OWS 2",
+        "col3_fallback_label": ""
       }
     },
     "custom_specs_ows_pro_e5f6g7h8": {
@@ -469,6 +521,7 @@
     "custom_hero_ows_pro_feature_open",
     "custom_reviews_ows_pro_c3d4e5f6",
     "custom_compare_ows_pro_d4e5f6g7",
+    "compare_two_column_WCqWh9",
     "custom_specs_ows_pro_e5f6g7h8",
     "custom_in_the_box_ows_pro_f6g7h8i9",
     "custom_faq_ows_pro_g7h8i9j0"
