@@ -1,116 +1,106 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "heyup_hero_q7z9": {
-      "type": "custom-heyup-hero",
+    "custom_hero_heyup_a5b1c8": {
+      "type": "custom-hero-heyup-a5b1c8",
       "settings": {
-        "heading": "Heyup Store",
-        "subheading": "<p>Your trusted Curated Tech Outlet for Early Adopters.</p>",
-        "button_text": "Explore Featured Collection",
-        "button_link": "#"
+        "eyebrow_text": "New Arrivals In Stock",
+        "heading": "<p>Heyup Store.</p>",
+        "subheading": "<p>A trusted, curated tech outlet for early adopters. Discover the future of audio with the Oladance Series.</p>",
+        "button_primary_label": "Explore Oladance Series",
+        "button_primary_link": "shopify://collections/all",
+        "button_secondary_label": "",
+        "button_secondary_link": "/"
       }
     },
-    "oladance_banner_p5k2": {
-      "type": "custom-oladance-launch-banner",
-      "blocks": {
-        "ksp_1": {
-          "type": "ksp",
-          "settings": {
-            "icon_class": "ri-feather-line",
-            "ksp_text": "Fully open-ear design"
-          }
-        },
-        "ksp_2": {
-          "type": "ksp",
-          "settings": {
-            "icon_class": "ri-battery-2-charge-line",
-            "ksp_text": "16-hour ultra-long battery life"
-          }
-        },
-        "ksp_3": {
-          "type": "ksp",
-          "settings": {
-            "icon_class": "ri-surround-sound-line",
-            "ksp_text": "Excellent bass performance"
-          }
-        }
-      },
-      "block_order": ["ksp_1", "ksp_2", "ksp_3"],
-      "settings": {
-        "heading": "Unlock Auditory Freedom",
-        "subheading": "<p>Oladance Open-Ear Headphones Limited-Time Offer.</p>"
-      }
-    },
-    "featured_collection_r8j4": {
+    "featured_collection_reused_a5b1c8": {
       "type": "featured-collection",
       "settings": {
-        "heading": "Meet the Oladance Family",
-        "collection": "oladance-series"
+        "color_scheme": "",
+        "heading": "Unlock Auditory Freedom",
+        "collection": "oladance",
+        "show_description": false,
+        "products_to_show": 4,
+        "button_label": "View Collection"
       }
     },
-    "trust_badges_s3n6": {
-      "type": "custom-platform-trust-badges",
+    "custom_brand_pillars_heyup_a5b1c8": {
+      "type": "custom-brand-pillars-heyup-a5b1c8",
       "blocks": {
-        "badge_1": {
-          "type": "badge",
+        "pillar_1": {
+          "type": "pillar",
           "settings": {
-            "icon_class": "ri-price-tag-3-line",
-            "badge_text": "Exclusive Deal"
+            "icon_class": "ri-search-line",
+            "heading": "Highly Selected SKUs + Unbeatable Prices",
+            "subheading": "We filter out the noise. Only the most innovative tech makes it to our store, offered at exclusive prices you won't find elsewhere."
           }
         },
-        "badge_2": {
-          "type": "badge",
+        "pillar_2": {
+          "type": "pillar",
           "settings": {
-            "icon_class": "ri-shield-check-line",
-            "badge_text": "Officially Authorized"
+            "icon_class": "ri-search-line",
+            "heading": "Officially Authorized & Ready to Ship",
+            "subheading": "No waiting games. All products are in-stock in our local warehouses and come with full manufacturer warranties."
           }
         },
-        "badge_3": {
-          "type": "badge",
+        "pillar_3": {
+          "type": "pillar",
           "settings": {
-            "icon_class": "ri-truck-line",
-            "badge_text": "In-stock & Ready to Ship"
-          }
-        },
-        "badge_4": {
-          "type": "badge",
-          "settings": {
-            "icon_class": "ri-customer-service-2-line",
-            "badge_text": "Worry-free After-sales"
+            "icon_class": "ri-search-line",
+            "heading": "Rated by Heyup Testers",
+            "subheading": "The quality control is genuinely impressive."
           }
         }
       },
-      "block_order": ["badge_1", "badge_2", "badge_3", "badge_4"],
-      "settings": {}
-    },
-    "social_proof_t2m1": {
-      "type": "custom-social-proof-community",
-      "blocks": {
-        "review_1": {
-          "type": "review",
-          "settings": {
-            "quote": "<p>4.8/5 rated by Heyup Testers.</p>",
-            "author": "Heyup Community"
-          }
-        },
-        "review_2": {
-          "type": "review",
-          "settings": {
-            "quote": "<p>The Oladance OWS has completely changed how I work from home. I can hear my surroundings while enjoying crystal clear music.</p>",
-            "author": "James D."
-          }
-        }
-      },
-      "block_order": ["review_1", "review_2"],
+      "block_order": [
+        "pillar_1",
+        "pillar_2",
+        "pillar_3"
+      ],
       "settings": {
-        "heading": "Trusted by the Heyup Community"
+        "heading": "<p>Our Promise to Early Adopters.</p>",
+        "subheading": "<p>We don't just sell tech; we curate experiences. Every product is tested, verified, and ready to ship.</p>"
+      }
+    },
+    "custom_social_proof_heyup_a5b1c8": {
+      "type": "custom-social-proof-heyup-a5b1c8",
+      "blocks": {
+        "testimonials_479R9Q": {
+          "type": "testimonials",
+          "settings": {
+            "testimonial_author_1": "Sarah L.",
+            "testimonial_title_1": "Verified Buyer",
+            "testimonial_quote_1": "\"The curation is top-notch. I've discovered so many cool gadgets on HeyUp that I wouldn't have found otherwise. It's my go-to for tech gifts!\"",
+            "testimonial_author_2": "Mike R.",
+            "testimonial_title_2": "Tech Reviewer",
+            "testimonial_quote_2": "\"As a reviewer, I appreciate the honest community feedback. HeyUp's platform is transparent and genuinely helpful for making purchase decisions.\"",
+            "testimonial_author_3": "Jessica Chen",
+            "testimonial_title_3": "Early Adopter",
+            "testimonial_quote_3": "\"Being part of the early access program is a game-changer. Testing new tech before it hits the market is an incredible experience. Highly recommend!\""
+          }
+        }
+      },
+      "block_order": [
+        "testimonials_479R9Q"
+      ],
+      "settings": {
+        "heading": "<p>Loved by Tech Lovers Worldwide</p>",
+        "subheading": "<p>Heyup brings a level of curation that is missing in the crowded tech market. A true gem for gadget lovers.</p>"
       }
     }
   },
   "order": [
-    "heyup_hero_q7z9",
-    "oladance_banner_p5k2",
-    "featured_collection_r8j4",
-    "trust_badges_s3n6",
-    "social_proof_t2m1"
+    "custom_hero_heyup_a5b1c8",
+    "featured_collection_reused_a5b1c8",
+    "custom_brand_pillars_heyup_a5b1c8",
+    "custom_social_proof_heyup_a5b1c8"
   ]
 }

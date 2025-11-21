@@ -1,0 +1,128 @@
+{
+  "sections": {
+    "heyup_hero_q7z9": {
+      "type": "custom-heyup-hero",
+      "settings": {
+        "heading": "Heyup Store",
+        "subheading": "<p>Your trusted Curated Tech Outlet for Early Adopters.</p>",
+        "button_text": "Explore Featured Collection",
+        "button_link": "#"
+      }
+    },
+    "oladance_banner_p5k2": {
+      "type": "custom-oladance-launch-banner",
+      "blocks": {
+        "ksp_1": {
+          "type": "ksp",
+          "settings": {
+            "icon_class": "ri-feather-line",
+            "ksp_text": "Fully open-ear design"
+          }
+        },
+        "ksp_2": {
+          "type": "ksp",
+          "settings": {
+            "icon_class": "ri-battery-2-charge-line",
+            "ksp_text": "16-hour ultra-long battery life"
+          }
+        },
+        "ksp_3": {
+          "type": "ksp",
+          "settings": {
+            "icon_class": "ri-surround-sound-line",
+            "ksp_text": "Excellent bass performance"
+          }
+        }
+      },
+      "block_order": [
+        "ksp_1",
+        "ksp_2",
+        "ksp_3"
+      ],
+      "settings": {
+        "heading": "Unlock Auditory Freedom",
+        "subheading": "<p>Oladance Open-Ear Headphones Limited-Time Offer.</p>"
+      }
+    },
+    "featured_collection_r8j4": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Meet the Oladance Family",
+        "collection": "oladance-series"
+      }
+    },
+    "trust_badges_s3n6": {
+      "type": "custom-platform-trust-badges",
+      "blocks": {
+        "badge_1": {
+          "type": "badge",
+          "settings": {
+            "icon_class": "ri-price-tag-3-line",
+            "badge_text": "Exclusive Deal"
+          }
+        },
+        "badge_2": {
+          "type": "badge",
+          "settings": {
+            "icon_class": "ri-shield-check-line",
+            "badge_text": "Officially Authorized"
+          }
+        },
+        "badge_3": {
+          "type": "badge",
+          "settings": {
+            "icon_class": "ri-truck-line",
+            "badge_text": "In-stock & Ready to Ship"
+          }
+        },
+        "badge_4": {
+          "type": "badge",
+          "settings": {
+            "icon_class": "ri-customer-service-2-line",
+            "badge_text": "Worry-free After-sales"
+          }
+        }
+      },
+      "block_order": [
+        "badge_1",
+        "badge_2",
+        "badge_3",
+        "badge_4"
+      ],
+      "settings": {}
+    },
+    "social_proof_t2m1": {
+      "type": "custom-social-proof-community",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>4.8/5 rated by Heyup Testers.</p>",
+            "author": "Heyup Community"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "quote": "<p>The Oladance OWS has completely changed how I work from home. I can hear my surroundings while enjoying crystal clear music.</p>",
+            "author": "James D."
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2"
+      ],
+      "settings": {
+        "heading": "Trusted by the Heyup Community"
+      }
+    }
+  },
+  "order": [
+    "heyup_hero_q7z9",
+    "oladance_banner_p5k2",
+    "featured_collection_r8j4",
+    "trust_badges_s3n6",
+    "social_proof_t2m1"
+  ]
+}
