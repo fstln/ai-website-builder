@@ -1,0 +1,103 @@
+{% comment %} /sections/custom-brand-feature.liquid {% endcomment %}
+<section
+  class="py-20"
+  style="--section-bg: {{ section.settings.background_color }}; --card-bg: {{ section.settings.card_background_color }};"
+>
+  <div class="bg-[var(--section-bg)]">
+    <div class="container mx-auto px-6 max-w-[1200px]">
+      {%- if section.blocks.size > 0 -%}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {%- for block in section.blocks -%}
+            <div
+              class="group p-8 rounded-2xl text-center md:text-left"
+              style="background-color: var(--card-bg);"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.heading != blank -%}
+                <h3 class="font-display font-bold text-xl text-gray-900 mb-3">
+                  {{ block.settings.heading }}
+                </h3>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <div class="font-sans text-gray-600 leading-relaxed">
+                  {{ block.settings.description }}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Brand Feature",
+  "tag": "section",
+  "class": "custom-brand-feature-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card Background Color",
+      "default": "#FAFAFA"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature_item",
+      "name": "Feature Item",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Feature Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Describe the feature here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "C: Brand Feature",
+      "blocks": [
+        {
+          "type": "feature_item",
+          "settings": {
+            "heading": "Exclusive Deals",
+            "description": "<p>The most competitive price online.</p>"
+          }
+        },
+        {
+          "type": "feature_item",
+          "settings": {
+            "heading": "Official Authorization",
+            "description": "<p>Worry-free after-sales support.</p>"
+          }
+        },
+        {
+          "type": "feature_item",
+          "settings": {
+            "heading": "Community Approved",
+            "description": "<p>4.8/5 rated by Heyup Testers.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
