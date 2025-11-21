@@ -29,7 +29,7 @@
         assign has_col2 = true
       else
         for block in section.blocks
-          if block.settings.ows2_value != blank
+          if block.settings.product_b_value != blank
             assign has_col2 = true
             break
           endif
@@ -39,7 +39,7 @@
         assign has_col3 = true
       else
         for block in section.blocks
-          if block.settings.ows1_value != blank
+          if block.settings.product_c_value != blank
             assign has_col3 = true
             break
           endif
@@ -58,9 +58,9 @@
         assign column_count = column_count | plus: 1
       endif
       assign grid_template_style = 'grid-template-columns: repeat(' | append: column_count | append: ', minmax(0, 1fr));'
-      assign col1_title = p1.title | default: section.settings.col1_fallback_label | default: 'OWS Pro'
-      assign col2_title = p2.title | default: section.settings.col2_fallback_label | default: 'OWS 2'
-      assign col3_title = p3.title | default: section.settings.col3_fallback_label | default: 'OWS 1'
+      assign col1_title = p1.title | default: section.settings.col1_fallback_label | default: 'Product A'
+      assign col2_title = p2.title | default: section.settings.col2_fallback_label | default: 'Product B'
+      assign col3_title = p3.title | default: section.settings.col3_fallback_label | default: 'Product C'
     -%}
     <div class="mt-16 sm:mt-12 lg:mt-18">
       <div class="rounded-[2.5rem]">
@@ -120,14 +120,14 @@
                   {%- if block.settings.feature_name != blank -%}
                     <p class="text-xs font-semibold uppercase tracking-wide text-muted">{{ block.settings.feature_name }}</p>
                   {%- endif -%}
-                  <p class="mt-3 text-base md:text-lg font-semibold text-primary">{{ block.settings.owspro_value | default: '—' }}</p>
+                  <p class="mt-3 text-base md:text-lg font-semibold text-primary">{{ block.settings.product_a_value | default: '—' }}</p>
                 </div>
                 {%- if has_col2 -%}
                   <div class="rounded-2xl bg-background/70 text-center">
                     {%- if block.settings.feature_name != blank -%}
                       <p class="text-xs font-semibold uppercase opacity-0">{{ block.settings.feature_name }}</p>
                     {%- endif -%}
-                    <p class="mt-3 text-foreground">{{ block.settings.ows2_value | default: '—' }}</p>
+                    <p class="mt-3 text-foreground">{{ block.settings.product_b_value | default: '—' }}</p>
                   </div>
                 {%- endif -%}
                 {%- if has_col3 -%}
@@ -135,7 +135,7 @@
                     {%- if block.settings.feature_name != blank -%}
                       <p class="text-xs font-semibold uppercase opacity-0">{{ block.settings.feature_name }}</p>
                     {%- endif -%}
-                    <p class="mt-3 text-foreground">{{ block.settings.ows1_value | default: '—' }}</p>
+                    <p class="mt-3 text-foreground">{{ block.settings.product_c_value | default: '—' }}</p>
                   </div>
                 {%- endif -%}
               </div>
@@ -182,17 +182,17 @@
     {
       "type": "product",
       "id": "product_col1",
-      "label": "Column 1 product (e.g. OWS Pro)"
+      "label": "Product A"
     },
     {
       "type": "product",
       "id": "product_col2",
-      "label": "Column 2 product (e.g. OWS 2)"
+      "label": "Product B"
     },
     {
       "type": "product",
       "id": "product_col3",
-      "label": "Column 3 product (optional)"
+      "label": "Product C"
     },
     {
       "type": "checkbox",
@@ -207,9 +207,9 @@
       "default": "Buy now"
     },
     { "type": "header", "content": "Fallback labels" },
-    { "type": "text", "id": "col1_fallback_label", "label": "Column 1 fallback label", "default": "OWS Pro" },
-    { "type": "text", "id": "col2_fallback_label", "label": "Column 2 fallback label", "default": "OWS 2" },
-    { "type": "text", "id": "col3_fallback_label", "label": "Column 3 fallback label", "default": "OWS 1" }
+    { "type": "text", "id": "col1_fallback_label", "label": "Product A label", "default": "Product A" },
+    { "type": "text", "id": "col2_fallback_label", "label": "Product B label", "default": "Product B" },
+    { "type": "text", "id": "col3_fallback_label", "label": "Product C label", "default": "Product C" }
   ],
   "blocks": [
     {
@@ -224,21 +224,21 @@
         },
         {
           "type": "text",
-          "id": "ows1_value",
-          "label": "OWS 1 Value",
+          "id": "product_a_value",
+          "label": "Product A Value",
+          "default": "5.3"
+        },
+                {
+          "type": "text",
+          "id": "product_b_value",
+          "label": "Product B Value",
+          "default": "5.3"
+        },
+        {
+          "type": "text",
+          "id": "product_c_value",
+          "label": "Product C Value",
           "default": "5.2"
-        },
-        {
-          "type": "text",
-          "id": "ows2_value",
-          "label": "OWS 2 Value",
-          "default": "5.3"
-        },
-        {
-          "type": "text",
-          "id": "owspro_value",
-          "label": "OWS Pro Value",
-          "default": "5.3"
         }
       ]
     }
@@ -251,54 +251,54 @@
           "type": "comparison_row",
           "settings": {
             "feature_name": "Driver Size",
-            "ows1_value": "16.5mm (x2)",
-            "ows2_value": "16.5mm (x2)",
-            "owspro_value": "23mm*10mm"
+            "product_c_value": "16.5mm (x2)",
+            "product_b_value": "16.5mm (x2)",
+            "product_a_value": "23mm*10mm"
           }
         },
         {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Battery Life (Earphones)",
-            "ows1_value": "16 hours",
-            "ows2_value": "19 hours",
-            "owspro_value": "16 hours"
+            "product_c_value": "16 hours",
+            "product_b_value": "19 hours",
+            "product_a_value": "16 hours"
           }
         },
         {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Total Battery Life (with Case)",
-            "ows1_value": "Not specified",
-            "ows2_value": "Not specified",
-            "owspro_value": "58 hours"
+            "product_c_value": "Not specified",
+            "product_b_value": "Not specified",
+            "product_a_value": "58 hours"
           }
         },
         {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Bass Technology",
-            "ows1_value": "Not specified",
-            "ows2_value": "Virtual Bass 2nd Gen",
-            "owspro_value": "Virtual Bass 2nd Algorithm"
+            "product_c_value": "Not specified",
+            "product_b_value": "Virtual Bass 2nd Gen",
+            "product_a_value": "Virtual Bass 2nd Algorithm"
           }
         },
         {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Weight (Single Earphone)",
-            "ows1_value": "12.7g",
-            "ows2_value": "12.7g",
-            "owspro_value": "13.8g"
+            "product_c_value": "12.7g",
+            "product_b_value": "12.7g",
+            "product_a_value": "13.8g"
           }
         },
         {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Waterproof Rating",
-            "ows1_value": "IPX4",
-            "ows2_value": "IPX4",
-            "owspro_value": "IPX4"
+            "product_c_value": "IPX4",
+            "product_b_value": "IPX4",
+            "product_a_value": "IPX4"
           }
         }
       ]

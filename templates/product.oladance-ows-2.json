@@ -1,4 +1,12 @@
-
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main-product": {
@@ -58,10 +66,16 @@
       "name": "Main Product",
       "settings": {
         "color_scheme": "",
+        "enable_color_swatches": false,
         "enable_global_sticky_bar": true,
+        "enable_dynamic_checkout": true,
+        "enable_sticky_price_promo": true,
         "discount_ribbon_color_start": "#ef4444",
         "discount_ribbon_color_end": "#ef4444",
-        "discount_ribbon_text_color": "#ffffff"
+        "discount_ribbon_text_color": "#ffffff",
+        "price_promo_color_start": "#ef4444",
+        "price_promo_color_end": "#ff4d1d",
+        "price_promo_text_color": "#ffffff"
       }
     },
     "sticky_navbar_ows_2_vbnm1234": {
@@ -200,45 +214,54 @@
           "type": "comparison_row",
           "settings": {
             "feature_name": "Driver Size",
-            "ows1_value": "16.5mm (x2)",
-            "ows2_value": "16.5mm (x2)",
-            "owspro_value": "23mm*10mm"
+            "product_a_value": "16.5mm (x2)",
+            "product_b_value": "23mm*10mm",
+            "product_c_value": "16.5mm (x2)"
           }
         },
         "block_2": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Battery Life (Earphones)",
-            "ows1_value": "16 hours",
-            "ows2_value": "19 hours",
-            "owspro_value": "16 hours"
+            "product_a_value": "19 hours",
+            "product_b_value": "16 hours",
+            "product_c_value": "16 hours"
           }
         },
         "block_3": {
           "type": "comparison_row",
           "settings": {
-            "feature_name": "Multipoint Connection",
-            "ows1_value": "Not Supported",
-            "ows2_value": "Supported",
-            "owspro_value": "Not Supported"
+            "feature_name": "Total Battery Life (with Case)",
+            "product_a_value": "Not specified",
+            "product_b_value": "58 hours",
+            "product_c_value": "Not specified"
           }
         },
         "block_4": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Bass Technology",
-            "ows1_value": "Not specified",
-            "ows2_value": "Virtual Bass 2nd Gen",
-            "owspro_value": "Virtual Bass 2nd Algorithm"
+            "product_a_value": "Virtual Bass 2nd Gen",
+            "product_b_value": "Virtual Bass 2nd Algorithm",
+            "product_c_value": "Not specified"
           }
         },
         "block_5": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Weight (Single Earphone)",
-            "ows1_value": "12.7g",
-            "ows2_value": "12.7g",
-            "owspro_value": "13.8g"
+            "product_a_value": "12.7g",
+            "product_b_value": "13.8g",
+            "product_c_value": "12.7g"
+          }
+        },
+        "comparison_row_hEYMdd": {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Bluetooth Version",
+            "product_a_value": "5.3",
+            "product_b_value": "5.3",
+            "product_c_value": "5.2"
           }
         }
       },
@@ -247,13 +270,22 @@
         "block_2",
         "block_3",
         "block_4",
-        "block_5"
+        "block_5",
+        "comparison_row_hEYMdd"
       ],
       "settings": {
         "color_scheme": "scheme-1",
         "section_id": "compare_ows_2",
         "heading": "Compare Our Models",
-        "subheading": "Find the perfect Oladance for your lifestyle."
+        "subheading": "Find the perfect Oladance for your lifestyle.",
+        "product_col1": "oladance-ows-2-test",
+        "product_col2": "oladance-ows-pro-test",
+        "product_col3": "oladance-wearable-stereo-test",
+        "show_product_cards": true,
+        "buy_now_label": "Buy now",
+        "col1_fallback_label": "OWS 2",
+        "col2_fallback_label": "OWS Pro",
+        "col3_fallback_label": "OWS 1"
       }
     },
     "specs_ows_2_uiop5678": {

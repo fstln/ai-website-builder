@@ -21,7 +21,7 @@
     assign has_col2 = true
   else
     for block in section.blocks
-      if block.settings.ows2_value != blank
+      if block.settings.product_b_value != blank
         assign has_col2 = true
         break
       endif
@@ -31,7 +31,7 @@
     assign has_col3 = true
   else
     for block in section.blocks
-      if block.settings.ows1_value != blank
+      if block.settings.product_c_value != blank
         assign has_col3 = true
         break
       endif
@@ -40,9 +40,9 @@
 -%}
 
 {%- liquid
-  assign col1_title = p1.title | default: section.settings.col1_fallback_label | default: 'OWS Pro'
-  assign col2_title = p2.title | default: section.settings.col2_fallback_label | default: 'OWS 2'
-  assign col3_title = p3.title | default: section.settings.col3_fallback_label | default: 'OWS 1'
+  assign col1_title = p1.title | default: section.settings.col1_fallback_label | default: 'Product A'
+  assign col2_title = p2.title | default: section.settings.col2_fallback_label | default: 'Product B'
+  assign col3_title = p3.title | default: section.settings.col3_fallback_label | default: 'Product C'
   assign col1_image = ''
   if p1 and p1.featured_media
     assign col1_image = p1.featured_media | image_url: width: 900
@@ -83,7 +83,7 @@
 {%- for block in section.blocks -%}
   {
     "feature": {{ block.settings.feature_name | json }},
-    "value": {{ block.settings.owspro_value | json }}
+    "value": {{ block.settings.product_a_value | json }}
   }{% unless forloop.last %},{% endunless %}
 {%- endfor -%}
 ]
@@ -93,7 +93,7 @@
 {%- for block in section.blocks -%}
   {
     "feature": {{ block.settings.feature_name | json }},
-    "value": {{ block.settings.ows2_value | json }}
+    "value": {{ block.settings.product_b_value | json }}
   }{% unless forloop.last %},{% endunless %}
 {%- endfor -%}
 ]
@@ -103,7 +103,7 @@
 {%- for block in section.blocks -%}
   {
     "feature": {{ block.settings.feature_name | json }},
-    "value": {{ block.settings.ows1_value | json }}
+    "value": {{ block.settings.product_c_value | json }}
   }{% unless forloop.last %},{% endunless %}
 {%- endfor -%}
 ]
@@ -187,22 +187,22 @@
                 {%- assign current_title = col1_title -%}
                 {%- assign current_image = col1_image -%}
                 {%- assign current_url = col1_url -%}
-                {%- assign current_values_key = 'owspro_value' -%}
+                {%- assign current_values_key = 'product_a_value' -%}
               {%- when 'col2' -%}
                 {%- assign current_title = col2_title -%}
                 {%- assign current_image = col2_image -%}
                 {%- assign current_url = col2_url -%}
-                {%- assign current_values_key = 'ows2_value' -%}
+                {%- assign current_values_key = 'product_b_value' -%}
               {%- when 'col3' -%}
                 {%- assign current_title = col3_title -%}
                 {%- assign current_image = col3_image -%}
                 {%- assign current_url = col3_url -%}
-                {%- assign current_values_key = 'ows1_value' -%}
+                {%- assign current_values_key = 'product_c_value' -%}
               {%- else -%}
                 {%- assign current_title = '' -%}
                 {%- assign current_image = '' -%}
                 {%- assign current_url = '' -%}
-                {%- assign current_values_key = 'owspro_value' -%}
+                {%- assign current_values_key = 'product_a_value' -%}
             {%- endcase -%}
             <div class="">
               <div class="text-center">
@@ -221,9 +221,9 @@
               <div class="mt-6 space-y-3" data-column-features>
                 {%- for block in section.blocks -%}
                   {%- case current_values_key -%}
-                    {%- when 'owspro_value' -%}{%- assign value = block.settings.owspro_value -%}
-                    {%- when 'ows2_value' -%}{%- assign value = block.settings.ows2_value -%}
-                    {%- when 'ows1_value' -%}{%- assign value = block.settings.ows1_value -%}
+                    {%- when 'product_a_value' -%}{%- assign value = block.settings.product_a_value -%}
+                    {%- when 'product_b_value' -%}{%- assign value = block.settings.product_b_value -%}
+                    {%- when 'product_c_value' -%}{%- assign value = block.settings.product_c_value -%}
                     {%- else -%}{%- assign value = '' -%}
                   {%- endcase -%}
                   <div class="rounded-2xl bg-background/70 px-4 py-3">
@@ -414,9 +414,9 @@
       "default": "Buy now"
     },
     { "type": "header", "content": "Fallback labels" },
-    { "type": "text", "id": "col1_fallback_label", "label": "Product A label", "default": "OWS Pro" },
-    { "type": "text", "id": "col2_fallback_label", "label": "Product B label", "default": "OWS 2" },
-    { "type": "text", "id": "col3_fallback_label", "label": "Product C label", "default": "OWS 1" }
+    { "type": "text", "id": "col1_fallback_label", "label": "Product A label", "default": "Product A" },
+    { "type": "text", "id": "col2_fallback_label", "label": "Product B label", "default": "Product B" },
+    { "type": "text", "id": "col3_fallback_label", "label": "Product C label", "default": "Product C" }
   ],
   "blocks": [
     {
@@ -431,20 +431,20 @@
         },
         {
           "type": "text",
-          "id": "ows1_value",
-          "label": "Product C value",
+          "id": "product_a_value",
+          "label": "Product A value",
           "default": "—"
         },
         {
           "type": "text",
-          "id": "ows2_value",
+          "id": "product_b_value",
           "label": "Product B value",
           "default": "—"
         },
         {
           "type": "text",
-          "id": "owspro_value",
-          "label": "Product A value",
+          "id": "product_c_value",
+          "label": "Product C value",
           "default": "—"
         }
       ]

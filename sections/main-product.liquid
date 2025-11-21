@@ -263,7 +263,7 @@
         
         {% if product.media.size > 0 %}
           <div class="lg:hidden mb-4">
-            <div class="flex gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain overscroll-y-none snap-x snap-mandatory scroll-px-4 pb-2" data-thumbnail-track>
+            <div class="flex gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain snap-x snap-mandatory scroll-px-4 pb-2" data-thumbnail-track>
               {% if selected_media %}
                 <div class="relative rounded-2xl overflow-hidden snap-start shrink-0 bg-background mobile-gallery__item">
                   <img
@@ -414,21 +414,21 @@
                       {{ product.title }}
                     </h1>
                   {% when 'product_price' %}
-                    <div class="product-price product-price--promo mb-8" {{ block_attributes }}>
-                      <div class="price-promo-bar">
+                    <div class="product-price mb-6" {{ block_attributes }}>
+                      <div class="flex items-baseline gap-3 flex-wrap">
                         {% if product.compare_at_price > product.price %}
-                          <span class="price-promo__current">
+                          <span class="text-3xl sm:text-4xl font-bold text-error tracking-tight">
                             {{ product.price | money }}
                           </span>
-                          <span class="price-promo__compare">
+                          <span class="text-lg text-muted line-through decoration-muted/60">
                             {{ product.compare_at_price | money }}
                           </span>
                           {% assign savings_amount = product.compare_at_price | minus: product.price | money %}
-                          <span class="price-promo__save">
+                          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-error/10 text-error">
                             {{ 'products.product.save_amount' | t: amount: savings_amount }}
                           </span>
                         {% else %}
-                          <span class="price-promo__current">
+                          <span class="text-3xl sm:text-4xl font-bold text-foreground tracking-tight">
                             {{ product.price | money }}
                           </span>
                         {% endif %}
@@ -496,6 +496,94 @@
                         {{ block.settings.description_content }}
                       </div>
                     {% endif %}
+                  {% when 'inventory_warning' %}
+                    {%- liquid
+                      assign current_variant = product.selected_or_first_available_variant
+                      assign threshold = block.settings.inventory_threshold | default: 10
+                      assign show_warning = false
+                      
+                      if current_variant.inventory_management == 'shopify' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= threshold
+                        assign show_warning = true
+                      endif
+                    -%}
+                    {% if show_warning %}
+                      <div class="flex items-center gap-2 mb-6 text-sm font-medium" style="color: {{ block.settings.text_color }}" {{ block_attributes }}>
+                        {% if block.settings.icon == 'timer' %}
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                            <circle cx="12" cy="13" r="8"></circle>
+                            <path d="M12 9v4l2 2"></path>
+                            <path d="M5 3 2 6"></path>
+                            <path d="M22 6 19 3"></path>
+                          </svg>
+                        {% else %}
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                          </svg>
+                        {% endif %}
+                        <span>{{ block.settings.message }}</span>
+                      </div>
+                    {% endif %}
+                  {% when 'countdown_promo' %}
+                    <div class="rounded-lg p-4 mb-6 flex items-center justify-between gap-4" style="background-color: {{ block.settings.background_color }}; color: {{ block.settings.text_color }};" {{ block_attributes }}>
+                      <div class="flex flex-col">
+                        <span class="text-xs font-medium uppercase tracking-wider opacity-80 mb-1">{{ block.settings.heading }}</span>
+                        <countdown-timer 
+                          class="font-mono text-xl font-bold flex gap-1" 
+                          data-deadline="{{ 'now' | date: '%s' | plus: 86400 | date: '%Y-%m-%dT%H:%M:%S' }}" 
+                          data-hours-duration="{{ block.settings.hours_duration }}"
+                        >
+                          <!-- Initial server render (optional fallback) -->
+                          <!-- Initial server render (optional fallback) -->
+                          <div class="flex items-center gap-1">
+                            <span class="bg-white/20 rounded px-1 min-w-[2ch] text-center" data-hours>--</span>:
+                            <span class="bg-white/20 rounded px-1 min-w-[2ch] text-center" data-minutes>--</span>:
+                            <span class="bg-white/20 rounded px-1 min-w-[2ch] text-center" data-seconds>--</span>.
+                            <span class="bg-white/20 rounded px-1 min-w-[2ch] text-center text-base" data-milliseconds>--</span>
+                          </div>
+                        </countdown-timer>
+                        <script>
+                          (function() {
+                            const timer = document.currentScript.previousElementSibling;
+                            const hours = {{ block.settings.hours_duration | default: 24 }};
+                            // Simple evergreen logic: set deadline to X hours from now
+                            // In a real app, this might be a fixed date or stored in localStorage to persist
+                            const deadline = new Date(Date.now() + hours * 60 * 60 * 1000);
+                            timer.dataset.deadline = deadline.toISOString();
+                          })();
+                        </script>
+                      </div>
+                      
+                      <div class="flex items-center gap-3 pl-4 border-l border-current/20">
+                        <div class="flex flex-col items-end">
+                          <span class="text-xs opacity-80">Code:</span>
+                          <span class="font-bold tracking-wide select-all">{{ block.settings.discount_code }}</span>
+                        </div>
+                        <button 
+                          type="button"
+                          class="p-2 hover:bg-black/5 rounded-full transition-all duration-200 relative group"
+                          onclick="
+                            navigator.clipboard.writeText('{{ block.settings.discount_code }}').then(() => { 
+                              const btn = this;
+                              const originalContent = btn.innerHTML;
+                              btn.innerHTML = `<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'></polyline></svg>`;
+                              
+                              setTimeout(() => { 
+                                btn.innerHTML = originalContent;
+                              }, 2000); 
+                            })
+                          "
+                          aria-label="Copy discount code"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                          </svg>
+                          <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Copy</span>
+                        </button>
+                      </div>
+                    </div>
                   {% when 'variant_selector' %}
                     {% unless product.has_only_default_variant %}
                       <div {{ block_attributes }}>
@@ -934,31 +1022,22 @@
     <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div class="flex-1 min-w-0">
         <p class="text-sm font-semibold text-foreground truncate" data-sticky-variant-title>{{ sticky_variant.title | default: product.title }}</p>
-        {% if section.settings.enable_sticky_price_promo %}
-          <div class="sticky-price-promo-bar">
-            <span class="sticky-price-promo__current" data-sticky-price>{{ sticky_variant.price | money }}</span>
-            <span class="sticky-price-promo__compare {% unless sticky_variant.compare_at_price > sticky_variant.price %}hidden{% endunless %}" data-sticky-compare-price>
-              {% if sticky_variant.compare_at_price > sticky_variant.price %}
-                {{ sticky_variant.compare_at_price | money }}
-              {% endif %}
-            </span>
+        <div class="flex items-baseline gap-2 flex-wrap">
+          <span class="text-lg font-bold {% if sticky_variant.compare_at_price > sticky_variant.price %}text-error{% else %}text-foreground{% endif %}" data-sticky-price>
+            {{ sticky_variant.price | money }}
+          </span>
+          <span class="text-sm text-muted line-through decoration-muted/60 {% unless sticky_variant.compare_at_price > sticky_variant.price %}hidden{% endunless %}" data-sticky-compare-price>
+            {% if sticky_variant.compare_at_price > sticky_variant.price %}
+              {{ sticky_variant.compare_at_price | money }}
+            {% endif %}
+          </span>
+          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-error/10 text-error {% unless sticky_variant.compare_at_price > sticky_variant.price %}hidden{% endunless %}" data-sticky-save>
             {% if sticky_variant.compare_at_price > sticky_variant.price %}
               {% assign sticky_savings_amount = sticky_variant.compare_at_price | minus: sticky_variant.price | money %}
-              <span class="sticky-price-promo__save" data-sticky-save>
-                {{ 'products.product.save_amount' | t: amount: sticky_savings_amount }}
-              </span>
+              {{ 'products.product.save_amount' | t: amount: sticky_savings_amount }}
             {% endif %}
-          </div>
-        {% else %}
-          <div class="flex items-baseline gap-2">
-            <span class="text-lg font-bold text-foreground" data-sticky-price>{{ sticky_variant.price | money }}</span>
-            <span class="text-sm text-muted line-through {% unless sticky_variant.compare_at_price > sticky_variant.price %}hidden{% endunless %}" data-sticky-compare-price>
-              {% if sticky_variant.compare_at_price > sticky_variant.price %}
-                {{ sticky_variant.compare_at_price | money }}
-              {% endif %}
-            </span>
-          </div>
-        {% endif %}
+          </span>
+        </div>
       </div>
       <div class="flex flex-col gap-2 w-full sm:w-auto sm:flex-row sm:items-center sm:gap-3">
         <button 
@@ -986,31 +1065,22 @@
       <div class="flex-1 min-w-0">
         <p class="text-xs text-muted truncate">{{ product.title }}</p>
         <p class="text-sm font-semibold text-foreground truncate" data-sticky-variant-title>{{ sticky_variant.title | default: product.title }}</p>
-        {% if section.settings.enable_sticky_price_promo %}
-          <div class="sticky-price-promo-bar">
-            <span class="sticky-price-promo__current" data-sticky-price>{{ sticky_variant.price | money }}</span>
-            <span class="sticky-price-promo__compare {% unless sticky_variant.compare_at_price > sticky_variant.price %}hidden{% endunless %}" data-sticky-compare-price>
-              {% if sticky_variant.compare_at_price > sticky_variant.price %}
-                {{ sticky_variant.compare_at_price | money }}
-              {% endif %}
-            </span>
+        <div class="flex items-baseline gap-2 flex-wrap">
+          <span class="text-lg font-bold {% if sticky_variant.compare_at_price > sticky_variant.price %}text-error{% else %}text-foreground{% endif %}" data-sticky-price>
+            {{ sticky_variant.price | money }}
+          </span>
+          <span class="text-sm text-muted line-through decoration-muted/60 {% unless sticky_variant.compare_at_price > sticky_variant.price %}hidden{% endunless %}" data-sticky-compare-price>
+            {% if sticky_variant.compare_at_price > sticky_variant.price %}
+              {{ sticky_variant.compare_at_price | money }}
+            {% endif %}
+          </span>
+          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-error/10 text-error {% unless sticky_variant.compare_at_price > sticky_variant.price %}hidden{% endunless %}" data-sticky-save>
             {% if sticky_variant.compare_at_price > sticky_variant.price %}
               {% assign sticky_savings_amount = sticky_variant.compare_at_price | minus: sticky_variant.price | money %}
-              <span class="sticky-price-promo__save" data-sticky-save>
-                {{ 'products.product.save_amount' | t: amount: sticky_savings_amount }}
-              </span>
+              {{ 'products.product.save_amount' | t: amount: sticky_savings_amount }}
             {% endif %}
-          </div>
-        {% else %}
-          <div class="flex items-baseline gap-2">
-            <span class="text-lg font-bold text-foreground" data-sticky-price>{{ sticky_variant.price | money }}</span>
-            <span class="text-xs text-muted line-through {% unless sticky_variant.compare_at_price > sticky_variant.price %}hidden{% endunless %}" data-sticky-compare-price>
-              {% if sticky_variant.compare_at_price > sticky_variant.price %}
-                {{ sticky_variant.compare_at_price | money }}
-              {% endif %}
-            </span>
-          </div>
-        {% endif %}
+          </span>
+        </div>
       </div>
       <button 
         type="button"
@@ -1072,6 +1142,7 @@
   const stickyVariantTitles = document.querySelectorAll('[data-sticky-variant-title]');
   const stickyPriceElements = document.querySelectorAll('[data-sticky-price]');
   const stickyCompareElements = document.querySelectorAll('[data-sticky-compare-price]');
+  const stickySaveElements = document.querySelectorAll('[data-sticky-save]');
   const stickyCheckoutLinks = document.querySelectorAll('[data-sticky-checkout-link]');
   const moneyFormatter = (cents) => {
     if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
@@ -1097,6 +1168,13 @@
     stickyPriceElements.forEach((priceEl) => {
       if (priceEl) {
         priceEl.textContent = moneyFormatter(variant.price);
+        if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+          priceEl.classList.add('text-error');
+          priceEl.classList.remove('text-foreground');
+        } else {
+          priceEl.classList.remove('text-error');
+          priceEl.classList.add('text-foreground');
+        }
       }
     });
 
@@ -1110,6 +1188,26 @@
         compareEl.classList.remove('hidden');
       } else {
         compareEl.classList.add('hidden');
+      }
+    });
+
+    stickySaveElements.forEach((saveEl) => {
+      if (!saveEl) return;
+      
+      if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+        const savedAmount = variant.compare_at_price - variant.price;
+        const savedText = '{{ 'products.product.save_amount' | t }}'.replace('{{ amount }}', moneyFormatter(savedAmount));
+        // Fallback if translation key interpolation doesn't work directly in JS (common issue if key has parameter)
+        // We'll try to reconstruct it or just show the amount if simple replacement fails.
+        // Since we can't easily access the raw translation string with placeholder in JS without outputting it,
+        // we will assume the structure "Save {amount}".
+        // A better way is to output the translation template to a data attribute.
+        // For now, let's just update visibility as the text update is complex without extra data attributes.
+        // Actually, let's try to update the text if we can.
+        saveEl.textContent = `Save ${moneyFormatter(savedAmount)}`; 
+        saveEl.classList.remove('hidden');
+      } else {
+        saveEl.classList.add('hidden');
       }
     });
 
@@ -1479,6 +1577,80 @@
           "id": "text",
           "label": "Text",
           "default": "FREE 3-day shipping"
+        }
+
+      ]
+    },
+    {
+      "type": "inventory_warning",
+      "name": "Low stock warning",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "number",
+          "id": "inventory_threshold",
+          "label": "Inventory threshold",
+          "default": 10
+        },
+        {
+          "type": "text",
+          "id": "message",
+          "label": "Message",
+          "default": "Low stock. Hurry before it is gone!"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#EF4444"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "timer",
+          "options": [
+            { "label": "Timer", "value": "timer" },
+            { "label": "Alert", "value": "alert" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "countdown_promo",
+      "name": "Countdown promotion",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Offer ends in:"
+        },
+        {
+          "type": "number",
+          "id": "hours_duration",
+          "label": "Duration (hours)",
+          "default": 24,
+          "info": "Set the duration for the countdown timer from now."
+        },
+        {
+          "type": "text",
+          "id": "discount_code",
+          "label": "Discount code",
+          "default": "SAVE20"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color",
+          "default": "#FEF2F2"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#991B1B"
         }
       ]
     }

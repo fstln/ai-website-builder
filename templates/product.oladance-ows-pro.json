@@ -20,6 +20,16 @@
           "type": "product_price",
           "settings": {}
         },
+        "countdown_promo_gVF8qU": {
+          "type": "countdown_promo",
+          "settings": {
+            "heading": "Offer ends in:",
+            "hours_duration": 48,
+            "discount_code": "SAVE20",
+            "background_color": "#fef2f2",
+            "text_color": "#991b1b"
+          }
+        },
         "promotion_discount_bar_d4A4KP": {
           "type": "promotion_discount_bar",
           "disabled": true,
@@ -38,7 +48,16 @@
         "product_description_R6JmKQ": {
           "type": "product_description",
           "settings": {
-            "description_content": "<p>Describe your hero product highlights, materials, and key benefits in a couple of punchy sentences.</p>"
+            "description_content": "<ul><li><strong>Pro-Level Bass:</strong> Patented \"Virtual Bass 2nd\" Tech.</li><li><strong>58-Hour</strong> Max Battery Life (with Case).</li><li><strong>Ex-Bose Engineer</strong> Design.</li></ul>"
+          }
+        },
+        "inventory_warning_VHNyek": {
+          "type": "inventory_warning",
+          "settings": {
+            "inventory_threshold": 1000,
+            "message": "Low stock. Hurry before it is gone!",
+            "text_color": "#ef4444",
+            "icon": "timer"
           }
         },
         "variant_selector_ifAAig": {
@@ -57,8 +76,10 @@
       "block_order": [
         "product_title_wkgHei",
         "product_price_bFpLGn",
+        "countdown_promo_gVF8qU",
         "promotion_discount_bar_d4A4KP",
         "product_description_R6JmKQ",
+        "inventory_warning_VHNyek",
         "variant_selector_ifAAig",
         "quantity_selector_jJfRJ9",
         "buy_buttons_aDWXeR"
@@ -227,45 +248,45 @@
           "type": "comparison_row",
           "settings": {
             "feature_name": "Driver Size",
-            "ows1_value": "16.5mm (x2)",
-            "ows2_value": "16.5mm (x2)",
-            "owspro_value": "23mm*10mm"
+            "product_a_value": "23mm*10mm",
+            "product_b_value": "16.5mm (x2)",
+            "product_c_value": "16.5mm (x2)"
           }
         },
         "block_2": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Battery Life (Earphones)",
-            "ows1_value": "16 hours",
-            "ows2_value": "19 hours",
-            "owspro_value": "16 hours"
+            "product_a_value": "16 hours",
+            "product_b_value": "19 hours",
+            "product_c_value": "16 hours"
           }
         },
         "block_3": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Total Battery Life (with Case)",
-            "ows1_value": "Not specified",
-            "ows2_value": "Not specified",
-            "owspro_value": "58 hours"
+            "product_a_value": "58 hours",
+            "product_b_value": "Not specified",
+            "product_c_value": "Not specified"
           }
         },
         "block_4": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Bass Technology",
-            "ows1_value": "Not specified",
-            "ows2_value": "Virtual Bass 2nd Gen",
-            "owspro_value": "Virtual Bass 2nd Algorithm"
+            "product_a_value": "Virtual Bass 2nd Algorithm",
+            "product_b_value": "Virtual Bass 2nd Gen",
+            "product_c_value": "Not specified"
           }
         },
         "block_5": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Weight (Single Earphone)",
-            "ows1_value": "12.7g",
-            "ows2_value": "12.7g",
-            "owspro_value": "13.8g"
+            "product_a_value": "13.8g",
+            "product_b_value": "12.7g",
+            "product_c_value": "12.7g"
           }
         }
       },
@@ -276,6 +297,7 @@
         "block_4",
         "block_5"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-1",
         "section_id": "compare-1",
@@ -294,38 +316,58 @@
     "compare_two_column_WCqWh9": {
       "type": "compare-two-column",
       "blocks": {
-        "comparison_row_m3WR8V": {
+        "cmp_2col_bass_tech": {
           "type": "comparison_row",
           "settings": {
-            "feature_name": "Battery Life",
-            "ows1_value": "11",
-            "ows2_value": "22",
-            "owspro_value": "33"
+            "feature_name": "Bass Technology",
+            "product_a_value": "Virtual Bass 2nd Algorithm",
+            "product_b_value": "Virtual Bass 2nd Gen",
+            "product_c_value": "Not specified"
           }
         },
-        "comparison_row_NDU8QF": {
+        "cmp_2col_battery_earphones": {
           "type": "comparison_row",
           "settings": {
-            "feature_name": "Battery Life",
-            "ows1_value": "11",
-            "ows2_value": "22",
-            "owspro_value": "33"
+            "feature_name": "Battery Life (Earphones)",
+            "product_a_value": "16 hours",
+            "product_b_value": "19 hours",
+            "product_c_value": "16 hours"
           }
         },
-        "comparison_row_mggaFi": {
+        "cmp_2col_driver_size": {
           "type": "comparison_row",
           "settings": {
-            "feature_name": "Battery Life",
-            "ows1_value": "11",
-            "ows2_value": "22",
-            "owspro_value": "33"
+            "feature_name": "Driver Size",
+            "product_a_value": "23mm*10mm",
+            "product_b_value": "16.5mm (x2)",
+            "product_c_value": "16.5mm (x2)"
+          }
+        },
+        "cmp_2col_battery_total": {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Total Battery Life (with Case)",
+            "product_a_value": "58 hours",
+            "product_b_value": "Not specified",
+            "product_c_value": "Not specified"
+          }
+        },
+        "cmp_2col_weight": {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Weight (Single Earphone)",
+            "product_a_value": "13.8g",
+            "product_b_value": "12.7g",
+            "product_c_value": "12.7g"
           }
         }
       },
       "block_order": [
-        "comparison_row_m3WR8V",
-        "comparison_row_NDU8QF",
-        "comparison_row_mggaFi"
+        "cmp_2col_bass_tech",
+        "cmp_2col_battery_earphones",
+        "cmp_2col_driver_size",
+        "cmp_2col_battery_total",
+        "cmp_2col_weight"
       ],
       "name": "Compare (two column)",
       "settings": {

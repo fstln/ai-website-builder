@@ -17,6 +17,7 @@ import './components/cart-items-new.js';  // Horizon-style cart items
 import './components/cart-drawer.js';
 import './components/quantity-selector.js';  // Base quantity selector
 import './components/cart-quantity-selector.js';  // Cart-specific quantity selector
+import './components/countdown-timer.js'; // Countdown timer component
 
 // Import utilities (for global access)
 import { initializeMoneyFormat } from './utils/format-money.js';
@@ -26,28 +27,28 @@ import { initializeMoneyFormat } from './utils/format-money.js';
  */
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Minimal Shopify Theme loaded');
-  
+
   // Initialize money formatting (from Liquid settings)
   if (window.Shopify && window.Shopify.money_format) {
     initializeMoneyFormat({
       moneyFormat: window.Shopify.money_format
     });
   }
-  
+
   // Initialize all modules
   initCart();
   initProduct();
   initNavigation();
-  
+
   // Listen for cart events
   document.addEventListener('cart:item-added', (e) => {
     console.log('Item added to cart:', e.detail);
   });
-  
+
   document.addEventListener('cart:updated', (e) => {
     console.log('Cart updated:', e.detail);
   });
-  
+
   document.addEventListener('cart:error', (e) => {
     console.error('Cart error:', e.detail);
   });
@@ -73,7 +74,7 @@ export function debounce(func, wait = 300) {
  */
 export function throttle(func, limit = 300) {
   let inThrottle;
-  return function(...args) {
+  return function (...args) {
     if (!inThrottle) {
       func.apply(this, args);
       inThrottle = true;

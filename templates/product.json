@@ -20,6 +20,16 @@
           "type": "product_price",
           "settings": {}
         },
+        "countdown_promo_gVF8qU": {
+          "type": "countdown_promo",
+          "settings": {
+            "heading": "Offer ends in:",
+            "hours_duration": 48,
+            "discount_code": "SAVE20",
+            "background_color": "#fef2f2",
+            "text_color": "#991b1b"
+          }
+        },
         "promotion_discount_bar_d4A4KP": {
           "type": "promotion_discount_bar",
           "disabled": true,
@@ -38,7 +48,16 @@
         "product_description_R6JmKQ": {
           "type": "product_description",
           "settings": {
-            "description_content": "<p>Describe your hero product highlights, materials, and key benefits in a couple of punchy sentences.</p>"
+            "description_content": "<ul><li><strong>Pro-Level Bass:</strong> Patented \"Virtual Bass 2nd\" Tech.</li><li><strong>58-Hour</strong> Max Battery Life (with Case).</li><li><strong>Ex-Bose Engineer</strong> Design.</li></ul>"
+          }
+        },
+        "inventory_warning_VHNyek": {
+          "type": "inventory_warning",
+          "settings": {
+            "inventory_threshold": 1000,
+            "message": "Low stock. Hurry before it is gone!",
+            "text_color": "#ef4444",
+            "icon": "timer"
           }
         },
         "variant_selector_ifAAig": {
@@ -57,8 +76,10 @@
       "block_order": [
         "product_title_wkgHei",
         "product_price_bFpLGn",
+        "countdown_promo_gVF8qU",
         "promotion_discount_bar_d4A4KP",
         "product_description_R6JmKQ",
+        "inventory_warning_VHNyek",
         "variant_selector_ifAAig",
         "quantity_selector_jJfRJ9",
         "buy_buttons_aDWXeR"
