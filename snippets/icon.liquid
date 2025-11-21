@@ -1,176 +1,132 @@
 {% comment %}
   Icon Snippet
   Usage: {% render 'icon', name: 'arrow-right', class: 'w-4 h-4' %}
+  - Accepts shorthand names ("cart", "user" …) and maps them to Remix Icon classes.
+  - Passing a direct Remix Icon class (e.g., "ri-smartphone-line") renders it as-is.
 {% endcomment %}
 
 {% assign icon_class = class | default: '' %}
+{% assign requested_icon = name | default: '' %}
+{% assign remix_icon = '' %}
 
-{% case name %}
-  {% when 'user', 'account', 'user-outline' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-      <circle cx="12" cy="7" r="4"></circle>
-    </svg>
+{% if requested_icon contains 'ri-' %}
+  {% assign remix_icon = requested_icon %}
+{% else %}
+  {% case requested_icon %}
+    {% when 'user', 'account', 'user-outline' %}
+      {% assign remix_icon = 'ri-user-3-line' %}
+    {% when 'shopping-cart', 'cart', 'cart-outline' %}
+      {% assign remix_icon = 'ri-shopping-cart-line' %}
+    {% when 'menu' %}
+      {% assign remix_icon = 'ri-menu-line' %}
+    {% when 'close' %}
+      {% assign remix_icon = 'ri-close-line' %}
+    {% when 'search' %}
+      {% assign remix_icon = 'ri-search-line' %}
+    {% when 'arrow-right' %}
+      {% assign remix_icon = 'ri-arrow-right-line' %}
+    {% when 'arrow-left' %}
+      {% assign remix_icon = 'ri-arrow-left-line' %}
+    {% when 'arrow-right-long', 'send' %}
+      {% assign remix_icon = 'ri-send-plane-line' %}
+    {% when 'chevron-down' %}
+      {% assign remix_icon = 'ri-arrow-down-s-line' %}
+    {% when 'mail', 'email' %}
+      {% assign remix_icon = 'ri-mail-line' %}
+    {% when 'document' %}
+      {% assign remix_icon = 'ri-file-text-line' %}
+    {% when 'comment', 'chat' %}
+      {% assign remix_icon = 'ri-chat-3-line' %}
+    {% when 'minus' %}
+      {% assign remix_icon = 'ri-subtract-line' %}
+    {% when 'plus' %}
+      {% assign remix_icon = 'ri-add-line' %}
+    {% when 'play' %}
+      {% assign remix_icon = 'ri-play-fill' %}
+    {% when 'check', 'success' %}
+      {% assign remix_icon = 'ri-check-line' %}
+    {% when 'bag', 'shopping-bag' %}
+      {% assign remix_icon = 'ri-shopping-bag-line' %}
+    {% when 'free-shipping' %}
+      {% assign remix_icon = 'ri-truck-line' %}
+    {% when 'refresh-cw', 'refresh', 'rotate-cw' %}
+      {% assign remix_icon = 'ri-refresh-line' %}
+    {% when 'tag', 'discount' %}
+      {% assign remix_icon = 'ri-price-tag-3-line' %}
+    {% when 'package', 'shipping', 'box' %}
+      {% assign remix_icon = 'ri-box-3-line' %}
+    {% when 'shield', 'shield-check', 'warranty', 'security' %}
+      {% assign remix_icon = 'ri-shield-check-line' %}
+    {% when 'star' %}
+      {% assign remix_icon = 'ri-star-fill' %}
+    {% when 'instagram', 'ins' %}
+      {% assign remix_icon = 'ri-instagram-line' %}
+    {% when 'facebook' %}
+      {% assign remix_icon = 'ri-facebook-fill' %}
+    {% when 'twitter', 'x' %}
+      {% assign remix_icon = 'ri-twitter-line' %}
+    {% when 'youtube' %}
+      {% assign remix_icon = 'ri-youtube-fill' %}
+    {% when 'tiktok' %}
+      {% assign remix_icon = 'ri-tiktok-fill' %}
+    {% when 'placeholder' %}
+      {% assign remix_icon = 'ri-image-line' %}
+    {% else %}
+      {% assign remix_icon = '' %}
+  {% endcase %}
+{% endif %}
 
-  {% when 'shopping-cart', 'cart', 'cart-outline' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <circle cx="9" cy="21" r="1"></circle>
-      <circle cx="20" cy="21" r="1"></circle>
-      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-    </svg>
+{% if remix_icon == blank %}
+  {% assign remix_icon = 'ri-question-line' %}
+{% endif %}
 
-  {% when 'menu' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="3" y1="12" x2="21" y2="12"></line>
-      <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
+{% assign icon_font_size_px = '' %}
+{% assign width_candidate = '' %}
+{% assign height_candidate = '' %}
+{% assign normalized_classes = icon_class | strip | replace: '
+', ' ' %}
+{% assign class_tokens = normalized_classes | split: ' ' %}
 
-  {% when 'close' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <line x1="18" y1="6" x2="6" y2="18"></line>
-      <line x1="6" y1="6" x2="18" y2="18"></line>
-    </svg>
+{% for token in class_tokens %}
+  {% assign token_clean = token | strip %}
+  {% if token_clean != '' %}
+    {% if width_candidate == '' %}
+      {% assign token_prefix = token_clean | slice: 0, 2 %}
+      {% if token_prefix == 'w-' %}
+        {% assign candidate = token_clean | remove_first: 'w-' %}
+        {% unless candidate contains '/' or candidate contains '[' or candidate == 'full' or candidate == 'auto' or candidate == 'screen' or candidate == 'min' or candidate == 'max' or candidate == 'fit' %}
+          {% assign width_candidate = candidate %}
+        {% endunless %}
+      {% endif %}
+    {% endif %}
 
-  {% when 'search' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <circle cx="11" cy="11" r="7"></circle>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-    </svg>
+    {% if height_candidate == '' %}
+      {% assign token_prefix = token_clean | slice: 0, 2 %}
+      {% if token_prefix == 'h-' %}
+        {% assign candidate = token_clean | remove_first: 'h-' %}
+        {% unless candidate contains '/' or candidate contains '[' or candidate == 'full' or candidate == 'auto' or candidate == 'screen' or candidate == 'min' or candidate == 'max' or candidate == 'fit' %}
+          {% assign height_candidate = candidate %}
+        {% endunless %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
 
-  {% when 'arrow-right' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M9 5l7 7-7 7"></path>
-    </svg>
+{% assign size_source = width_candidate %}
+{% if size_source == '' and height_candidate != '' %}
+  {% assign size_source = height_candidate %}
+{% endif %}
 
-  {% when 'arrow-left' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M15 19l-7-7 7-7"></path>
-    </svg>
+{% if size_source != '' %}
+  {% assign size_numeric = size_source | plus: 0 %}
+  {% assign icon_font_size_px = size_numeric | times: 4 %}
+{% endif %}
 
-  {% when 'arrow-right-long', 'send' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <line x1="5" y1="12" x2="19" y2="12"></line>
-      <polyline points="12 5 19 12 12 19"></polyline>
-    </svg>
+{% capture icon_style %}
+line-height: 1;
+{% if icon_font_size_px != '' %}
+  font-size: {{ icon_font_size_px }}px;
+{% endif %}
+{% endcapture %}
 
-  {% when 'chevron-down' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <polyline points="6 9 12 15 18 9"></polyline>
-    </svg>
-
-  {% when 'mail', 'email' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-      <polyline points="22,6 12,13 2,6"></polyline>
-    </svg>
-
-  {% when 'document' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2z"></path>
-      <polyline points="13 4 13 9 18 9"></polyline>
-      <line x1="7" y1="12" x2="13" y2="12"></line>
-      <line x1="7" y1="16" x2="11" y2="16"></line>
-    </svg>
-
-  {% when 'comment', 'chat' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72A7.963 7.963 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-    </svg>
-
-  {% when 'minus' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <line x1="4" y1="12" x2="20" y2="12"></line>
-    </svg>
-
-  {% when 'plus' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <line x1="12" y1="4" x2="12" y2="20"></line>
-      <line x1="4" y1="12" x2="20" y2="12"></line>
-    </svg>
-
-  {% when 'play' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path>
-    </svg>
-
-  {% when 'check', 'success' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M5 13l4 4L19 7"></path>
-    </svg>
-
-  {% when 'bag', 'shopping-bag' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M16 11V7a4 4 0 00-8 0v4"></path>
-      <path d="M5 9h14l1 12H4L5 9z"></path>
-    </svg>
-
-  {% when 'free-shipping' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
-      <path d="m3.3 7 8.7 5 8.7-5"></path>
-      <path d="M12 22V12"></path>
-    </svg>
-
-  {% when 'refresh-cw', 'refresh', 'rotate-cw' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M21 2v6h-6"></path>
-      <path d="M3 22v-6h6"></path>
-      <path d="M21 8a9 9 0 0 0-15.36-5.36L3 6"></path>
-      <path d="M3 16a9 9 0 0 0 15.36 5.36L21 18"></path>
-    </svg>
-
-
-  {% when 'tag', 'discount' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-      <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
-    </svg>
-
-  {% when 'package', 'shipping', 'box' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M21 16V8a2 2 0 0 0-1-1.732l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.732l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-      <path d="M3.3 7.8L12 12l8.7-4.2"/>
-      <path d="M12 22V12"/>
-    </svg>
-
-
-  {% when 'shield', 'shield-check', 'warranty', 'security' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M12 22s8-4 8-10V6l-8-4-8 4v6c0 6 8 10 8 10z"/>
-      <path d="M9 12l2 2 4-4"/>
-    </svg>
-
-  {% when 'star' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26ZM12.0006 15.968L16.2473 18.3451L15.2988 13.5717L18.8719 10.2674L14.039 9.69434L12.0006 5.27502L9.96214 9.69434L5.12921 10.2674L8.70231 13.5717L7.75383 18.3451L12.0006 15.968Z"></path></svg>
-
-  {% when 'instagram', 'ins' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.645.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm6.406-1.683a1.44 1.44 0 10-.001 2.88 1.44 1.44 0 00.001-2.88z"/>
-    </svg>
-
-  {% when 'facebook' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-    </svg>
-
-  {% when 'twitter', 'x' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M23.953 4.57a10 10 0 0 1-2.825.775 4.958 4.958 0 0 0 2.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 0 0-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 0 0-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 0 1-2.228-.616v.06a4.923 4.923 0 0 0 3.946 4.827 4.996 4.996 0 0 1-2.212.085 4.936 4.936 0 0 0 4.604 3.417 9.867 9.867 0 0 1-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0 0 7.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0 0 24 4.59z"/>
-    </svg>
-
-  {% when 'youtube' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="{{ icon_class }}" aria-hidden="true">
-      <path fill-rule="evenodd" d="M22.54 6.42c-.21-1.12-1.11-2.02-2.22-2.24C18.24 3.75 12 3.75 12 3.75s-6.24 0-8.32.43c-1.11.22-2.01 1.12-2.22 2.24C1 8.68 1 12 1 12s0 3.32.46 5.58c.21 1.12 1.11 2.01 2.22 2.23 2.08.44 8.32.44 8.32.44s6.24 0 8.32-.44c1.11-.22 2.01-1.11 2.22-2.23.46-2.26.46-5.58.46-5.58s0-3.32-.46-5.58Zm-12.54 9.08V8.5L16 12l-5.5 3.5Z" clip-rule="evenodd"/>
-    </svg>
-
-  {% when 'tiktok' %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="{{ icon_class }}" aria-hidden="true">
-      <path d="M21 7.5a5.49 5.49 0 0 1-3.27-1.08 6.65 6.65 0 0 1-1.38-1.47v7.33a5.72 5.72 0 1 1-5.72-5.72c.22 0 .44.02.65.05v2.9a3.05 3.05 0 1 0 2.16 2.93V2h2.56a5.01 5.01 0 0 0 1.59 3.33A5 5 0 0 0 21 6.9V7.5Z"/>
-    </svg>
-
-  {% else %}
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="{{ icon_class }}" aria-hidden="true">
-      <circle cx="12" cy="12" r="10"></circle>
-    </svg>
-{% endcase %}
+<i class="ri {{ remix_icon }}{% if icon_class != '' %} {{ icon_class }}{% endif %}" style="{{ icon_style | strip }}" aria-hidden="true"></i>

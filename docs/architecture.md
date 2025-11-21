@@ -64,7 +64,7 @@ ai-website-from-scratch/
 │   ├── breadcrumbs.liquid        # Breadcrumb navigation
 │   ├── price.liquid              # Price formatting
 │   ├── image.liquid              # Responsive image wrapper
-│   └── icon.liquid               # SVG icon renderer
+│   └── icon.liquid               # Remix Icon renderer (legacy name + `ri-*` class support)
 │
 ├── 📁 src/                       # Source files (not deployed to Shopify)
 │   ├── css/
@@ -173,7 +173,7 @@ ai-website-from-scratch/
 - `breadcrumbs.liquid` - Navigation breadcrumbs
 - `price.liquid` - Price formatting with sale/compare
 - `image.liquid` - Responsive image wrapper
-- `icon.liquid` - SVG icon renderer
+- `icon.liquid` - Remix Icon renderer (maps legacy shortcode names to `ri-*` classes)
 
 ### 💻 JavaScript Architecture
 

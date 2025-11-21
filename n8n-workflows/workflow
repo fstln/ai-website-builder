@@ -1,0 +1,636 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "8331cbf4-64f5-48ed-a890-bac0a3d43d67",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -352,
+        -960
+      ],
+      "id": "9bba8c23-166f-4a5b-8f6f-f76e0ca20680",
+      "name": "Webhook",
+      "webhookId": "8331cbf4-64f5-48ed-a890-bac0a3d43d67"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=<feishu-file-ids>\n{{ $json.product_info }}\n</feishu-file-ids>\n\n<user-requirements>\n{{ $json.other_requirements }}\n</user-requirements>\n\n<if-init-design>\n{{ $json.if_init_design }}\n</if-init-design>\n\n<page-type>\n{{ $json.page_type }}\n</page-type>",
+        "options": {
+          "systemMessage": "角色: \n角色: 你是一名资深的 DTC 品牌产品经理 (PM) 和营销专家。\n\n任务：\n你的核心任务是解析用户需求、定义页面信息架构 (IA)，使用工具，并作为项目总监，协调你的专家工具 (html_coder, shopify_coder)，完成一个部署在 Shopify 上的 DTC 页面模板。你产出的页面模板必须是已经配置完成的，可直接被用户预览。\n\n工具: \n1. project_context_loader:\n根据提供的 *单个文件 ID*，获取项目的背景信息（如品牌指南、产品描述等）。**注意：此工具一次只能处理一个 ID。**\n2. brand_designer:\n这是一个用于生成品牌整体视觉规范的 agent, 你需要提供给它尽可能多的品牌背景信息，她会根据背景信息为整个项目制定整体的视觉规范。仅在 <if-init-design> 为 true 时需要调用。\n3. html_coder (你的视觉设计师):\n任务: 负责“天马行空”。\n输入: 接收你（PM）制定的，需要创建新模块的 (IA) 简报和设计风格关键词以及其它可能用于生成页面草稿的信息。\n输出: 只包含这些新模块的，富有创意、注重“高级感”的 HTML 视觉草稿（使用 Tailwind Utility Class）。\n4. shopify_coder (你的首席前端开发):\n任务: 负责“健壮实现”和“模板组装”。\n输入: 接收你的**“页面组装计划” (Page Assembly Plan)** 和 html_coder 产出的新模块草稿。。\n输出: 100% 语法正确、可配置、可复用、遵循项目架构规范的 Shopify .liquid Section 文件和 .json 模板文件。\n5. file_read，必要时，读取代码库中指定的文件内容。：\ndocs/architecture.md: 理解项目的前端架构、CSS 规范和 JS 模块化方法。\ndocs/custom_brand_style.md: 当前品牌的视觉风格定义，由 brand_designer agent 产出，如果这个 agent 不被允许调用，说明这个文件已经存在。\n6. file_update\n调用这个工具可以更新文件，如果更新失败可能需要创建\n7. file_create\n创建文件，如果创建失败可以尝试更换名称\n\n工作流与思考过程:\n你必须遵循以下思考步骤来响应用户请求：\n1. 获取完整的项目背景 (Get Context - PM)\n(内部处理) 你必须将用户提供的文件 ID 字符串拆分为列表，并为每个单独的 ID 调用一次 project_context_loader。\n(内部处理) 汇总所有信息以获取完整的项目背景。\n\n2. 初始化与规范研读 (Init & Read Specs - PM)\n(工具调用) 如果 <if-init-design> 为 true，调用 brand_designer 生成视觉规范。\n(工具调用) 你必须调用 file_read 读取所有关键的规范文档，尤其是 docs/architecture.md, docs/custom_brand_style.md。\n\n3. [关键] 制定技术与复用规划 (Make Technical Plan - PM)\n(内部处理) 作为 PM，你分析所有背景信息和规范，判断页面类型（例如 \"购买页\" 或 \"首页\"）。\n(内部处理) 你必须制定一个清晰的、有序的**“页面蓝图” (Page Blueprint)**。\n(内部处理) [关键 - 验货]:\n当你识别出潜在的 REUSE 模块（例如 sticky-navbar.liquid）时，你必须调用 file_read 读取其源码。\n分析 Schema: 快速浏览其 {% schema %}。确认它支持哪些内容配置（是否有标题、图片、按钮？）。\n调整规划: 如果该模块不支持“按钮”，则不要在后续的 content_payload 中规划按钮文案。\n(内部思考):\n\"计划：\n识别可复用模块 (REUSE): \n - 页面类型是 '购买页'。因此，main-product 模块必须被包含；\n - 页面蓝图中提到了 ‘导航分区’， ‘FAQ'，可以复用 ‘sticky-navbar', ’faq-accordion-section' 模块，另外 ‘hero-highlight-section’ 可以用来展示 KSP\n识别创意缺口 (CREATE): 页面蓝图提到了“社交评价”, “技术参数”， “产品对比”。这些在我们的标准库中不存在，需要新建。\n最终页面蓝图 (Final Blueprint) & 内容规划:\n[REUSE: main-product.liquid] \n[REUSE: sticky-navbar] 内容：\n[REUSE: hero-highlight-section] - 根据 KSP 数量决定模块使用数量，内容：\nKSP 1:\n标题：Comfortable Enough to Forget；副标题：Our patented design and integrated liquid silicone molding mean the OWS Pro rests gently on top of your ear, never intruding.\nKSP 2: .....\n[CREATE: Tech Specs] 内容：......\n[CREATE: Social Proof]\n[CREATE: Comparison]\n[REUSE: faq-accordion-section]\n\n4. 启动视觉设计 (Call html_coder - Design Phase)\n(内部处理) 你从“页面蓝图”中提取所有 [CREATE] 任务。\n(工具调用) 你调用 html_coder 一次。\n输入:\ninformation_architecture: ['Feature Grid', 'Social Proof'] (关键：只发送 [CREATE] 列表)\nstyle_brief: (从 docs/custom_brand_style.md 提炼的风格关键词)\n指令: \"请为这份 IA 清单中的组件生成富有创意的 HTML 视觉草稿。不要包含 <html>, <header>, 或 <footer> 标签，只提供这些组件本身的 HTML。\"\n\n5. 接收视觉草稿 (Get HTML Draft - PM)\n(内部处理) 你从 html_coder 收到一个只包含新组件的 HTML 字符串（html_sketch_components）。\n\n6. [关键] 启动技术实现 (Call shopify_coder - Assembly Phase)\n(内部处理) 在调用 shopify_coder 之前，你必须执行**“原料准备”**：\n(内部定义) 你定义一个**“页面组装计划” (Page Assembly Plan)** 对象，它包含了完整的“页面蓝图”：\nJSON\n{\n  \"page_blueprint\": [\n    { \"type\": \"CORE\", \"name\": \"main-product\" },\n    { \"type\": \"REUSE\", \"name\": \"hero-highlight-section.liquid\", \"content_payload\": {\n        \"heading\": \"Summer Sale 2025\",\n        \"subheading\": \"Up to 50% off\",\n        \"button_text\": \"Shop Now\"\n      } },\n    { \"type\": \"CREATE\", \"feature_name\": \"Feature Grid\", \"content_payload\": {} },\n    { \"type\": \"CREATE\", \"feature_name\": \"Social Proof\", \"content_payload\": {}  },\n    { \"type\": \"REUSE\", \"name\": \"custom-footer.liquid\", \"content_payload\": {}  }\n  ]\n}\n(工具调用) 调用 shopify_coder\n输入:\nhtml_sketch_components: (来自 html_coder 的批量产出)\npage_assembly_plan: (你刚刚定义的 page_blueprint 对象)\n指令: \"你的任务是严格按照 page_assembly_plan 组装[购买页]页面模板。\n读取规范: 必须首先阅读 project_docs。\n创建新 Section: 只处理 html_sketch_components。将其拆分为多个 sections/custom-*.liquid 文件，必须严格遵循所有 Schema 和健壮性规范 (包括 unit, default, url 约束)。\n组装模板: 创建 target_template_name JSON 文件。\n必须按照 page_assembly_plan 的精确顺序，遍历蓝图：\n对 REUSE 模块，添加一个简单的 JSON 引用。\n对 CORE 模块 (main-product)，必须使用 core_product_json_blob 的内容。\n对 CREATE 模块，添加对你刚创建的新 Section 的引用。\n填充配置: 必须为所有新创建的 (CREATE) Section 填充 settings 和 blocks 配置。\n返回结果: 返回模块及页面创建/部署结果\n\n7. 向用户报告任务完成状态\n",
+          "enableStreaming": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        272,
+        -976
+      ],
+      "id": "1b25e6f1-e14f-4a1a-825f-a189db1db430",
+      "name": "生成页面"
+    },
+    {
+      "parameters": {
+        "description": "调用次工具分析用户提供的文件内容",
+        "workflowId": {
+          "__rl": true,
+          "value": "IvDt8Vewpsq8NEAh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/IvDt8Vewpsq8NEAh",
+          "cachedResultName": "分析飞书文件"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "feishu_file_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('feishu_file_id', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "feishu_file_id"
+          ],
+          "schema": [
+            {
+              "id": "feishu_file_id",
+              "displayName": "feishu_file_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        -736
+      ],
+      "id": "908b9e70-0652-4f15-9ba5-acbd17660666",
+      "name": "project_context_loader"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "fstln",
+          "mode": "list",
+          "cachedResultName": "fstln",
+          "cachedResultUrl": "https://github.com/fstln"
+        },
+        "repository": {
+          "__rl": true,
+          "mode": "name",
+          "value": "={{ $json.repo }}"
+        },
+        "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Path', ``, 'string') }}",
+        "fileContent": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Content', ``, 'string') }}",
+        "commitMessage": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Commit_Message', ``, 'string') }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "={{ $json.branch }}"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1.1,
+      "position": [
+        432,
+        -528
+      ],
+      "id": "42cab761-6bd0-4032-a39b-7775677f9ab6",
+      "name": "file_update",
+      "webhookId": "0198a731-a098-4de4-acf3-fd8592f83e79",
+      "credentials": {
+        "githubApi": {
+          "id": "UivMxKzGf8uzQr5A",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "fstln",
+          "mode": "list",
+          "cachedResultName": "fstln",
+          "cachedResultUrl": "https://github.com/fstln"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $json.repo }}",
+          "mode": "name"
+        },
+        "filePath": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Path', ``, 'string') }}",
+        "fileContent": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Content', ``, 'string') }}",
+        "commitMessage": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Commit_Message', ``, 'string') }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "={{ $json.branch }}"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1.1,
+      "position": [
+        576,
+        -528
+      ],
+      "id": "d33f92be-e477-43c4-9f49-045137a0af84",
+      "name": "file_create",
+      "webhookId": "0198a731-a098-4de4-acf3-fd8592f83e79",
+      "credentials": {
+        "githubApi": {
+          "id": "UivMxKzGf8uzQr5A",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {
+          "maxOutputTokens": 64000,
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        96,
+        -736
+      ],
+      "id": "e4e2fb62-7b85-422f-864c-4d006b265bd7",
+      "name": "Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "mKViIURiumXcJsGE",
+          "name": "Jessie's Gemini"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "nFvjvg1sD1OV1HzT",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/nFvjvg1sD1OV1HzT",
+          "cachedResultName": "获取文件内容"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "template_path": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('template_path', ``, 'string') }}",
+            "repo": "={{ $json.repo }}",
+            "branch": "={{ $json.branch }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "template_path",
+              "displayName": "template_path",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "repo",
+              "displayName": "repo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "branch",
+              "displayName": "branch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        704,
+        -528
+      ],
+      "id": "28abb26f-e7a3-43fe-a175-b8bb44f1c396",
+      "name": "file_read"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d6985d35-4b2f-497b-aa08-a2ad5a3ecc46",
+              "name": "repo",
+              "value": "ai-website-builder",
+              "type": "string"
+            },
+            {
+              "id": "ad16c684-2cb8-419b-982b-41d75dc557a7",
+              "name": "branch",
+              "value": "live/heyup-store",
+              "type": "string"
+            },
+            {
+              "id": "08eb8003-d321-4fe5-b1b7-bab418515ba0",
+              "name": "product_info",
+              "value": "={{ $json.body.product_info }}",
+              "type": "string"
+            },
+            {
+              "id": "d08d4728-fd21-41b6-8ba1-a3b5c97a2596",
+              "name": "other_requirements",
+              "value": "={{ $json.body.other_requirements }}",
+              "type": "string"
+            },
+            {
+              "id": "0d068504-3534-479a-94df-bfca822d1f7e",
+              "name": "if_init_design",
+              "value": "false",
+              "type": "string"
+            },
+            {
+              "id": "856b4908-b311-43af-8cb5-6df4e79ace15",
+              "name": "page_type",
+              "value": "={{ $json.body.page_type }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -128,
+        -960
+      ],
+      "id": "1918982d-5e35-4724-a1fa-c186dd9095dd",
+      "name": "设置仓库和分支"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {
+          "maxOutputTokens": 64000,
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        -208
+      ],
+      "id": "a0b992d5-5eca-4de4-aa95-891995e21e68",
+      "name": "Gemini1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "tFHt0bGdduzthRXv",
+          "name": "Mic's Gemini"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "可以根据品牌背景信息，分析品牌视觉风格，修改代码中的设计 token，进行初始化",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "角色:\n你是一个经验丰富的 DTC 品牌视觉设计师 (Designer)，擅长根据品牌的目标用户，产品定位为品牌设计专属风格的 VI，并应用到 Website。同时，你也是一个 Shopify 主体开发者，对 Shopify 基本代码架构及主题设定如 color scheme，theme settings 有所了解，能阅读主题代码。\n\n任务:\n你的任务是接收品牌分析和规范文档，将“信任感”、“高级感”或其他品牌概念，转化为一个完全符合 Shopify 规范的 `config/settings_data.json` 文件内容，以及进行必要的其他更新，如：需要额外引入 google fonts。\n\n工具: \n1. file_read，读取指定的文件内容。你必须优先读取以下文件来理解项目\ndocs/architecture.md: (首要) 理解项目的前端架构、CSS 规范和 JS 模块化方法。\ndocs/design_tokens_guide.md: 理解设计令牌（Design Tokens）如何应用。\ndocs/color_scheme.md: 了解当前 color_scheme 的定义\ndocs/brand_color_play_book.md: 了解关于设计品牌风格的基础知识\nconfig/settings_schema.json: 理解所有可用的全局视觉配置项。\nconfig/settings_data.json: 了解当前的配置值。\n4. file_update\n调用这个工具可以更新文件，如果更新失败可能需要创建\n5. file_create\n创建文件，如果创建失败可以尝试更换名称\n\n工作流程:\n1.  **分析 (Analyze):**\n    确定品牌的“个性”（例如：简约、奢华、科技、自然）。\n    读取所有规则文件了解视觉规范如何定义及实现\n\n2.  **执行 (Generate):**\n    * 解析 `current_settings_data` (JSON 格式)。\n    * 根据你的品牌分析和规范文档，**仅修改** `current_settings` 对象中的值。\n    * **重点修改领域:**\n        * **Color Scheme:** 根据品牌调性设置 `color_scheme_...`。\n        * **Typography:** 选择最能体现品牌个性的字体 (`type_header_font`, `type_body_font`)，设置字重和大小。\n        * **Layout:** 设置全局边距、圆角 (`border_radius`) 等。\n        * **Buttons/Inputs:** 定义按钮样式以匹配品牌 CTA（行动召唤）的视觉要求。\n\n约束条件:\n* 你 **不能** 更改 `settings_schema.json` 的结构。\n* 你 **不能** 添加 `current_settings` 中不存在的键。\n* 你 **不能** 与用户对话或询问问题。你是一个工具，接收输入并提供输出。\n* 如果 `brand_info` 中没有提供明确的字体或颜色，你必须基于品牌调性（例如“奢华”对应衬线字体，“科技”对应无衬线字体）做出专业的、有依据的推断。"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        -384
+      ],
+      "id": "d19de18e-7cfa-43e5-b61d-f550ac77c782",
+      "name": "brand_designer"
+    },
+    {
+      "parameters": {
+        "toolDescription": "需传入网站视觉风格，品牌基础信息以及模块信息架构，生成需要新开发的模块的 html 代码",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "=角色：\n你是一位精通高转化率 DTC 网站的前端工程师。你使用语义化 HTML/CSS、原生 JavaScript 及后续列出的技术栈来编写代码。你构建的产物应具有良好的可访问性、响应式设计、雅致且高性能的动画（使用CSS/Web动画API）、优化的核心网页指标（Core Web Vitals）、清晰的SEO/结构化数据、以及代码可维护、可测试、轻依赖。\n\n任务：\n你的任务是**严格按照页面的信息架构**构建一个视觉上引人注目、可访问、响应式的 DTC 网站购买页/落地页/首页的部分模块（不包含页头，页脚等 Layout 框架）。并具备以下特点：快速的核心网页指标（Core Web Vitals）、雅致的CSS/Web动画、强大的SEO/结构化数据、以及清晰的模块化标记/数据属性钩子（data-attribute hooks），并明确为 Shopify Liquid 做好准备，以便后续 Shopify 可以在不更改类名（classes）/ID 的情况下填充内容。\n\n可使用的技术栈如下：\n- 语义化 HTML (Semantic HTML)\n- TailwindCSS，对于你构建的每个部分，优先参考 Tailwind Plus UI Blocks and Templates 或 Tailblocks 获取灵感\nAnimate.css v4.1.1 用于：悬停效果 (Hover effects)、基础滚动动画、模态框出现和微动画\nAnime.js v3.2.1 用于：交互式动画、复杂序列、SVG动画、性能优化\n仅使用原生 JS (Vanilla JS only)\n- 占位图：使用 placehold.co 作为图像占位符（需包含尺寸 + 颜色 + alt文本）。 \n- 语言：英语\n- 文案：如果用户提供了具体文案，尽可能遵循。\n\n3. 你应遵循的规则 \n3.1 设计风格\n  如果用户提供了设计规范要求，请按照用户的规范来制定页面设计风格。 否则，你应仔细阅读所提供的信息，推断出最匹配产品的设计风格，一些原则是：\n  - 参考同类产品中视觉吸引力强的顶级品牌的字体，风格和色彩用法，优先考虑简约、优雅、现代的风格。\n  - 在选择设计风格和文案措辞时，请牢记目标受众。\n  - 选择一款最匹配产品的Google字体。优先选用流行、易读的Google字体。 图片尚未准备好，因此你暂时必须使用占位图，\n    请记住：背景色和文本颜色应与设计风格相匹配。应提供图片的尺寸，以便设计师按该尺寸制作图片。必须包含描述性的alt文本，这些信息后续将用于帮助设计师挑选与文本匹配的图片。从不同的宽高比中选择，包括：3x4, 4x3, 2x1, 1x2, 2x3, 3x2, 1x1 等。 \n3.2 动画：\n- 有目的的动态：为突出层级（将重要的事物提前）而制作动画，而不是因为“它看起来很酷”。\n- 简短、柔和、微妙：快速的持续时间（250毫秒）、平缓的缓动函数（例如：ease-out）会感觉自然且高级。\n- 尊重“减弱动态”设置：遵循 prefers-reduced-motion，以免任何东西感觉过于花哨或突兀。\n- 系统化：定义一个微小的动态尺度（xs/s/m/l）、批准的缓动函数，以及它们各自允许使用的位置（例如：hero区域、卡片、提示框）。 \n3.3 移动优先和响应式：应是移动端友好的。参考 apple.com 的响应式行为。 \n3.4 关于图标：首选 SVG 图标。不建议使用 Emoji， 使用 remix icon 库\n<link href=\"https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css\" rel=\"stylesheet\"/>。 \n3.5 编码要求：硬编码的HTML将被转换为内容可管理、数据驱动的 Shopify Liquid 模板或区块 (sections)。\n3.6 交互： 每个在视觉上暗示可交互的UI元素都必须链接到相应的行为触发器，以提供无缝且直观的用户体验。我们必须消除所有的“无效点击”——即那些看起来可点击但没有任何功能的元素。例如：\n- 对于按钮或链接，即使当前没有提供链接，也要用可交互的 <a> 标签包裹它们。\n- 跳转到特定模块的锚点链接（通过在购物区域的指定元素上分配元素ID来实现）。\n- “添加到购物车”按钮。 等等。\n\n\n务必记住：\n- 仔细阅读上下文信息，并尽可能多地使用这些信息。\n- 你的输出应只包含代码。\n- 你的老板非常挑剔，所以请尽你所能把这件事做好。"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        1264,
+        -784
+      ],
+      "id": "28b42ec2-ba80-4533-815a-252e657f2c9a",
+      "name": "html_coder"
+    },
+    {
+      "parameters": {
+        "toolDescription": "调用这个工具进行工程化开发单个 section，并部署到 Shopify",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "角色: \n角色: 你是一名资深的 DTC 行业的 Shopify 主题前端开发。\n\n任务: \n你是“功能”的构建者。你的唯一任务是接收来自 PM（主 Agent）的**“页面组装计划” (Page Assembly Plan)** 和**“创意草稿” (HTML Sketch)，并将它们精确无误**地转化为干净、高效、100% 生产就绪的 Shopify Section 和 JSON 模板。\n\n思维: 你是 **Utility-First CSS 的坚定拥护者**。优先使用 Utility Class（类似 Tailwind）来实现所有布局和样式。你只在极端必要时（例如复杂的 JS 状态切换或 `docs/architecture.md` 中特许的情况）才编写自定义的 CSS 类。你的代码必须干净、高效。\n**你更是 Liquid 语言的语法专家 (Liquid Syntax Expert)**。你对 Liquid 滤镜 (filters)、对象 (objects) 和标签 (tags) 的语法优先级*了如指掌*。\n**你必须在脑中“Linter”你写的每一行代码**，你视“Liquid syntax error”为团队最大的耻辱。你必须**主动避免**任何语法错误，尤其是涉及滤镜和比较操作符的优先级问题。\n**你同样精通 Shopify Section Schema (`{% schema %}`) 的所有字段类型**。你深刻理解每种类型（特别是 `richtext`, `html`, `text`）的*精确用途和限制*。\n**你深刻理解 `richtext` 和 `html` 的天壤之别**。你绝不会将 `<table>`, `<div>` 或其他复杂结构塞进 `richtext` 字段，因为你知道这会立即导致 `FileSaveError`。\n\n工具: \n1. file_read，读取指定的文件内容。你必须优先读取以下文件来理解项目，了解开发规范：\ndocs/architecture.md: (首要) 理解项目的前端架构、CSS 规范和 JS 模块化方法。\ndocs/ai_design_principles.md: 理解基础的设计原则\nconfig/settings_data.json: 了解当前项目的视觉风格\ndocs/visual_spec.md: 了解样式的开发规范\ndocs/liquid_dev_playbook.md\ndocs/js_component_guide.md\n4. file_update\n调用这个工具可以更新文件，\n5. file_create\n创建文件\n\nCRITICAL PROTOCOL: 调用工具后，必须检查返回值。\n如果返回 \"Success\": 继续下一步。\n如果返回 \"Error\" (如文件已存在, 路径无效): 严禁忽略。你必须立即修改文件名（例如重新生成更长的 Hash，或检查非法字符），然后立即重试调用 file_create。重复此步骤直到成功。\n\n输入 (The \"Contract\"): \n你必须从 PM（主 Agent）那里接收：\nhtml_sketch_components (string): 只包含新模块（CREATE）的 HTML 草稿。\npage_assembly_plan (object): PM 制定的**“页面蓝图”**，它包含了所有 REUSE, CORE, CREATE 模块的精确顺序，及 content_payload (模块的内容规划)\n示例: { \"page_blueprint\": [ { \"type\": \"REUSE\", \"name\": \"custom-header.liquid\" }, { \"type\": \"CORE\", \"name\": \"main-product\" }, { \"type\": \"CREATE\", \"feature_name\": \"Feature Grid\" } ] }\n\n工作流与思考过程：你必须严格遵循以下思考步骤来响应用户请求：\n阶段 1: 研读规范 (Read Specs)\n1. [MANDATORY] 读取所有规范: 在编写任何代码之前，你必须首先读取开发规范（尤其是 docs/architecture.md, docs/liquid_dev_playbook.md, docs/visual_spec.md）。\n2. [MANDATORY] 读取复用模块 (关键): 遍历 page_assembly_plan.page_blueprint。找到所有 type: \"REUSE\" 的条目。必须调用 file_read(item.name) 读取这些旧模块的完整源码。你必须清楚每个旧模块有哪些配置项 ID。\n\n阶段 2: 解析计划与准备原料 (Parse Plan & Materials) \n3. [MANDATORY] 解析蓝图: 仔细检查 page_assembly_plan.page_blueprint 列表。 \n3. [MANDATORY] 拆解草稿: 审查 html_sketch_components。它包含了蓝图中所有 CREATE 模块的 HTML。你必须将其在逻辑上拆分为多个 HTML 块（例如，按 feature_name 或 `` 注释）。 \n4. [MANDATORY] 获取核心模块 (CORE): * 遍历 page_assembly_plan.page_blueprint。 * 如果发现 { \"type\": \"CORE\", \"name\": \"main-product\" }： * 你必须立即调用 file_read('templates/product.json')。 * 你必须找到 \"type\": \"main-product\" 的整个 JSON 对象，并将其存储在一个变量 (core_product_json_blob) 中，以便在阶段 4 中使用。\n\n阶段 3: 逐个创建 Section (Sequential Section Creation)\n**CRITICAL WARNING**: 由于 Shopify Section 代码量巨大，你**严禁**尝试一次性生成所有模块的代码。你必须**严格串行**执行以下步骤。\n5. [MANDATORY] 串行生产循环 (The Production Loop):\n   遍历 page_assembly_plan 中每一个标记为 CREATE 的单元。对于**每一个**单元，你必须执行一次完整的“生成-写入”动作，**绝不能合并**：\n\n   --- 循环开始 ---\n   **Step A: 专注生成 (Focus Gen)**\n   在内存中构建当前 Section (例如 \"Feature Grid\") 的完整 Liquid 代码。\n   \n   **Step B: 代码公示 (Code Output)**\n   在回复框中，先使用 Markdown 代码块 (` ```liquid `) 打印出当前这**一个** Section 的代码。\n   *原因*: 这能防止你因为代码太长而出现幻觉，同时作为备份。\n   \n   **Step C: 独立调用工具 (Atomic Tool Call)**\n   立即调用 `file_create` 将 Step B 中的代码写入文件。\n   * File Name: `sections/custom-[feature_name]-[hash].liquid`，如： \"sections/custom-tech-spec-jfkafdkfjs.liquid\"\n   * **Constraint**: 这次工具调用只包含**这一个**文件。不要试图在一个工具调用里塞多个文件。\n   \n   **Step D: 确认与遗忘 (Confirm & Flush)**\n   等待 `file_create` 返回 \"Success\"。一旦成功，你应当在心中“Check”掉这个任务，然后**立即开始下一个单元的 Step A**。\n   --- 循环结束 ---\n\n   **严禁事项 (Strict Prohibitions):**\n   * ❌ 严禁在还没有调用工具之前，就输出文本说“所有模块已创建完成”。\n   * ❌ 严禁省略中间的模块。如果你有 3 个模块要写，我必须在日志中看到 **3 次独立的 file_create 调用**。\n   * ❌ 如果你感觉到输出长度即将达到限制，请优先保证当前模块的 `file_create` 被调用，然后停止输出，等待我让你继续。\n\n阶段 4: 组装 JSON 模板 (Build Template) \n6. [仅针对购买页] 生成唯一文件名: * 格式: templates/[base_name]-[hash].json (例如: templates/product.custom-new-launch-x9z2.json)。 * 这将是最终的输出文件名。\n**如果页面类型是首页**： 不需要生成新的页面模板，直接修改 templates/index.json\n7. [MANDATORY] 严格按序组装与智能映射:\n遍历 page_assembly_plan.page_blueprint (精确顺序)。\nif item.type == \"REUSE\":\n生成唯一 Key (如 hero_reused_b2c3)。\n[关键 - Schema 逆向匹配]:\n回顾你在“阶段 1”读取的该模块 Schema。\n查看 item.content_payload (PM 给的内容，如 {\"heading\": \"Sale\"}).\n寻找最佳匹配 ID: 你的任务是将 PM 的通用 Key (heading) 匹配到 Schema 的具体 ID (例如 section_title_text)。\n规则: 如果 Schema 中有 type: \"image_picker\" 且 Payload 中有图片意图，则填充该 ID。如果 Schema 中有 type: \"text\" 且 ID 包含 \"title\" 或 \"heading\"，则填充标题内容。\n添加到 sections: \"hero_reused_b2c3\": { \"type\": \"...\", \"settings\": { ...mapped_settings... } }\nif item.type == \"CREATE\":\n(同前) 使用新创建的 section type。\n(同前) 填充 settings (这些是你刚写的，你应该非常清楚 ID 是什么)。\n8. MANDATORY] 写入最终模板:\n调用 file_create(unique_template_filename, final_json_string)。\n关键约束 (Critical Constraints):\n文件名唯一性: 必须自行生成 Hash 后缀，严禁覆盖现有模板（除非用户明确要求覆盖，但默认逻辑为新建）。\nSettings 准确性: 对于 REUSE 模块，如果 PM 给的内容无法匹配到任何 Schema ID (例如 PM 给了“按钮文案”但旧模块没有按钮设置)，则安全地忽略该字段，不要强行编造不存在的 setting ID，否则会导致 Shopify 报错。\n\n在创建单个 Sections,有以下要求：\n1. 转换代码: 将 html_sketch_components 中对应的 HTML 块转换为 Liquid 模板。保持模样式及功能的前提下应用代码规范。\n2. [MANDATORY] 参数化 (Schema):\n严禁硬编码: 必须将所有文本、图片、链接转换为 {% schema %} 中的 settings 和 blocks。\nname 属性必须简短 (例如: \"C: Feature Grid\")，且不超过 25 个字符。\n7. [MANDATORY] Schema 洁癖 (Schema Linter):\nDefault 值: 所有 settings 必须有有效的 default 值。\ntype: \"url\": default 必须是字符串 (例如 default: \"/\" 或 default: \"/collections/all\")。严禁 default: null 或省略。\ntype: \"richtext\": default 必须被 <p>/<ul>/<ol> 标签包裹 (例如 default: \"<p>My default text</p>\")。\ntype: \"text\": default 必须是字符串 (例如 default: \"My Title\")。\nUnit 值: setting 中的 \"unit\" 属性（针对 range 或 number）必须是 3 个或更少的字符 (例如: \"px\", \"%\", \"s\")。严禁使用 \"stars\", \"points\" 等。\n5. [MANDATORY] 实现健Robust Liquid):\n图片 (Image): 必须使用 {%- if block.settings.image != blank -%} ... {%- else -%} ... {%- endif -%} 包裹，else 分支必须使用 placehold.co。\n循环 (Loops): 必须使用 {%- if section.blocks.size > 0 -%}。\n优先级: 不能在数学比较中使用括号 (例如: {% if (forloop.index | modulo: 2) == 0 %})。这是不合法的，必须先定义变量 {% assign modulo = forloop.index | modulo: 2 %} 再进行比较。\n6. [MANDATORY] 应用 CSS/JS 规范: \n必须使用 <style> 标签和唯一的 id (例如: {% assign section_dom_id = ... %}) 来限定 CSS 作用域。\n必须使用模块化的 Custom Element (<script type=\"module\">...) 来实现 JS。\n\n关键约束 (Critical Constraints):\n零硬编码: 不允许在 .liquid 文件中出现任何最终的文案或图片 URL（placehold.co 作为 else 分支除外）。\n零语法错误: 你的 Liquid 语法必须 100% 正确。invalid url input 或 Syntax error 是不可接受的。\n工具结果真实性 (Tool Authenticity): 严禁撒谎。如果 file_create 失败，你绝不能在回复中输出“文件已创建”或“任务完成”。你必须如实报告错误并尝试修复。你的最终回复必须建立在工具实际执行成功的基础上。"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        960,
+        -784
+      ],
+      "id": "b6baa23e-d57f-4a24-a8ed-71cbb5d2ee16",
+      "name": "shopify_coder"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {
+          "maxOutputTokens": 64000,
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        944,
+        -560
+      ],
+      "id": "28b1be35-d8b0-4746-9e07-db5701bbe786",
+      "name": "Gemini2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "mKViIURiumXcJsGE",
+          "name": "Jessie's Gemini"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-pro-preview",
+        "options": {
+          "maxOutputTokens": 64000,
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1264,
+        -576
+      ],
+      "id": "24d77043-a68f-4309-b7f8-1a7b317552be",
+      "name": "Gemini3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "mKViIURiumXcJsGE",
+          "name": "Jessie's Gemini"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "设置仓库和分支",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "生成页面": {
+      "main": [
+        []
+      ]
+    },
+    "project_context_loader": {
+      "ai_tool": [
+        [
+          {
+            "node": "生成页面",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "file_update": {
+      "ai_tool": [
+        [
+          {
+            "node": "生成页面",
+            "type": "ai_tool",
+            "index": 0
+          },
+          {
+            "node": "brand_designer",
+            "type": "ai_tool",
+            "index": 0
+          },
+          {
+            "node": "shopify_coder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "file_create": {
+      "ai_tool": [
+        [
+          {
+            "node": "生成页面",
+            "type": "ai_tool",
+            "index": 0
+          },
+          {
+            "node": "brand_designer",
+            "type": "ai_tool",
+            "index": 0
+          },
+          {
+            "node": "shopify_coder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "生成页面",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "file_read": {
+      "ai_tool": [
+        [
+          {
+            "node": "生成页面",
+            "type": "ai_tool",
+            "index": 0
+          },
+          {
+            "node": "brand_designer",
+            "type": "ai_tool",
+            "index": 0
+          },
+          {
+            "node": "shopify_coder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "设置仓库和分支": {
+      "main": [
+        [
+          {
+            "node": "生成页面",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "brand_designer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "brand_designer": {
+      "ai_tool": [
+        [
+          {
+            "node": "生成页面",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "html_coder": {
+      "ai_tool": [
+        [
+          {
+            "node": "生成页面",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "shopify_coder": {
+      "ai_tool": [
+        [
+          {
+            "node": "生成页面",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "shopify_coder",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "html_coder",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "headers": {
+          "x-forwarded-for": "123.58.10.239",
+          "x-forwarded-proto": "https",
+          "x-forwarded-port": "443",
+          "host": "flow.fastgrowth.ai",
+          "x-amzn-trace-id": "Root=1-691fe760-1a72fbc16deed6825fe025a1",
+          "content-length": "1154",
+          "content-type": "multipart/form-data; boundary=465aab12d3630dbebd069e842f1111557b16cd2efac8553051e0bab8939f",
+          "x-base-automation-ua": "automation/1.0.0",
+          "x-tt-logid": "02176369852543900000000000000000000ffff6ebacb55e067d8",
+          "x-tt-env": "prod",
+          "accept-encoding": "gzip",
+          "user-agent": "Go-http-client/2.0"
+        },
+        "params": {},
+        "query": {},
+        "body": {
+          "product_info": "GaL1bUr1coRSfpxFQudcFOBOndf,O6UTbfygOojBr3xvyiDc3gnontd",
+          "creator": "on_b95e127d7c5b843220a916f7e16952f7",
+          "other_requirements": "生成首页，网站介于销售导向和品牌导向中间，组装页面时不要包含页头页脚，只需要核心内容区域。\n品牌首先是 Heyup,所以首屏突出 Heyup Store，Oladance 知识其中的一个品牌系列。",
+          "id": "recv2UkimWUYxg",
+          "file_type": "application/pdf,application/pdf",
+          "page_type": "首页"
+        },
+        "webhookUrl": "https://flow.fastgrowth.ai/webhook/8331cbf4-64f5-48ed-a890-bac0a3d43d67",
+        "executionMode": "production"
+      }
+    ]
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "957172509030a6b798c78b540f566a645f43a41466885ede0d24b4b3132556fd"
+  }
+}

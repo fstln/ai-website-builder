@@ -1,0 +1,497 @@
+!-- 
+  Dependencies & Config 
+  (In a real environment, these would be in <head> or build process)
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: {
+            blue: '#5E89FF',
+            accent: '#A8B8FF',
+            dark: '#000000',
+            light: '#FAFAFA',
+          }
+        },
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+          display: ['Outfit', 'sans-serif'],
+        },
+        borderRadius: {
+          'xl': '1rem',
+          '2xl': '1.5rem', // 24px as requested
+          '3xl': '2rem',
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  /* Custom Utilities for Smoothness */
+  .smooth-transition { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .hover-lift:hover { transform: translateY(-4px); }
+  
+  /* Hide scrollbar for horizontal scroll areas */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+
+<!-- ==========================================
+     1. HERO SECTION
+     Goal: Brand Intro & Main Collection Guide
+     ========================================== -->
+<section id="hero-section" class="relative w-full bg-[#FAFAFA] overflow-hidden pt-12 pb-16 lg:pt-24 lg:pb-32" data-shopify-section-id="hero">
+  <div class="container mx-auto px-6 max-w-[1200px]">
+    <div class="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
+      
+      <!-- Text Content -->
+      <div class="w-full lg:w-1/2 flex flex-col items-start text-left z-10">
+        <span class="inline-block py-1 px-3 rounded-full bg-brand-blue/10 text-brand-blue text-sm font-semibold tracking-wide mb-6 animate__animated animate__fadeInDown">
+          NEW ARRIVAL
+        </span>
+        <h1 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-gray-900 leading-[1.1] mb-6 tracking-tight animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+          Cute Outside, <br>
+          <span class="text-brand-blue">Powerful Inside.</span>
+        </h1>
+        <p class="font-sans text-lg text-gray-600 mb-8 leading-relaxed max-w-md animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+          Experience the next generation of open-wearable stereo. Designed for comfort, engineered for sound, and styled for you.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+          <a href="/collections/all" class="group relative inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-black rounded-full overflow-hidden transition-all duration-300 hover:bg-brand-blue hover:shadow-lg hover:shadow-brand-blue/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue" aria-label="Shop the collection">
+            <span class="relative z-10">Shop Collection</span>
+            <i class="ri-arrow-right-line ml-2 relative z-10 transition-transform group-hover:translate-x-1"></i>
+          </a>
+          <a href="#product-showcase" class="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-gray-900 bg-white border border-gray-200 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-all duration-300" aria-label="Learn more about products">
+            Learn More
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero Image -->
+      <div class="w-full lg:w-1/2 relative">
+        <!-- Decorative Blob -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-brand-accent/20 to-brand-blue/10 rounded-full blur-3xl -z-10"></div>
+        
+        <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-brand-blue/10 animate__animated animate__fadeInRight" style="animation-delay: 0.2s;">
+          <img 
+            src="https://placehold.co/600x700/F0F4FF/5E89FF?text=Heyup+OWS+Lifestyle" 
+            alt="Model wearing Heyup OWS headphones in a lifestyle setting" 
+            class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700 ease-out"
+            width="600"
+            height="700"
+            loading="eager"
+          >
+          <!-- Floating Badge -->
+          <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg flex items-center gap-3 animate__animated animate__fadeInUp" style="animation-delay: 0.8s;">
+            <div class="bg-green-100 p-2 rounded-full text-green-600">
+              <i class="ri-battery-2-charge-line text-xl"></i>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500 font-sans uppercase tracking-wider">Battery Life</p>
+              <p class="text-sm font-bold font-display text-gray-900">Up to 16 Hours</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     2. BRAND FEATURE SECTION
+     Goal: Core Benefits & Trust
+     ========================================== -->
+<section class="py-20 bg-white" data-shopify-section-id="features">
+  <div class="container mx-auto px-6 max-w-[1200px]">
+    <div class="text-center mb-16">
+      <h2 class="font-display font-bold text-3xl md:text-4xl text-gray-900 mb-4">Why Choose Heyup?</h2>
+      <p class="text-gray-500 max-w-2xl mx-auto">Redefining the listening experience with open-ear technology that keeps you connected to your world.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Feature 1 -->
+      <div class="group p-8 rounded-2xl bg-[#FAFAFA] hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 border border-transparent hover:border-gray-100 text-center md:text-left">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-brand-blue/10 text-brand-blue mb-6 group-hover:scale-110 transition-transform duration-300">
+          <i class="ri-sound-module-line text-2xl"></i>
+        </div>
+        <h3 class="font-display font-bold text-xl text-gray-900 mb-3">Immersive OWS Audio</h3>
+        <p class="font-sans text-gray-600 leading-relaxed">
+          Proprietary sound direction technology delivers rich bass and clear highs without blocking your ear canal.
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="group p-8 rounded-2xl bg-[#FAFAFA] hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 border border-transparent hover:border-gray-100 text-center md:text-left">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-brand-blue/10 text-brand-blue mb-6 group-hover:scale-110 transition-transform duration-300">
+          <i class="ri-feather-line text-2xl"></i>
+        </div>
+        <h3 class="font-display font-bold text-xl text-gray-900 mb-3">Zero-Gravity Comfort</h3>
+        <p class="font-sans text-gray-600 leading-relaxed">
+          Ergonomically designed to distribute weight evenly. So comfortable, you'll forget you're wearing them.
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="group p-8 rounded-2xl bg-[#FAFAFA] hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 border border-transparent hover:border-gray-100 text-center md:text-left">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-brand-blue/10 text-brand-blue mb-6 group-hover:scale-110 transition-transform duration-300">
+          <i class="ri-shield-check-line text-2xl"></i>
+        </div>
+        <h3 class="font-display font-bold text-xl text-gray-900 mb-3">30-Day Risk Free</h3>
+        <p class="font-sans text-gray-600 leading-relaxed">
+          Try them out in your daily life. If you don't love the experience, send them back for a full refund.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     3. PRODUCT SHOWCASE SECTION (Tabs)
+     Goal: Display OWS Pro, OWS 2, OWS 1
+     ========================================== -->
+<section id="product-showcase" class="py-24 bg-[#FAFAFA]" data-shopify-section-id="product-tabs">
+  <div class="container mx-auto px-6 max-w-[1200px]">
+    
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <h2 class="font-display font-bold text-3xl md:text-4xl text-gray-900">Find Your Perfect Sound</h2>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="flex justify-center mb-12">
+      <div class="inline-flex bg-white p-1.5 rounded-full shadow-sm border border-gray-200" role="tablist">
+        <button 
+          class="tab-btn px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 bg-black text-white shadow-md"
+          data-target="ows-pro"
+          aria-selected="true"
+          role="tab">
+          OWS Pro
+        </button>
+        <button 
+          class="tab-btn px-6 py-2.5 rounded-full text-sm font-semibold text-gray-500 hover:text-gray-900 transition-all duration-300"
+          data-target="ows-2"
+          aria-selected="false"
+          role="tab">
+          OWS 2
+        </button>
+        <button 
+          class="tab-btn px-6 py-2.5 rounded-full text-sm font-semibold text-gray-500 hover:text-gray-900 transition-all duration-300"
+          data-target="ows-1"
+          aria-selected="false"
+          role="tab">
+          OWS 1
+        </button>
+      </div>
+    </div>
+
+    <!-- Tab Content Container -->
+    <div class="relative min-h-[500px]">
+      
+      <!-- Product 1: OWS Pro -->
+      <div id="ows-pro" class="tab-content grid grid-cols-1 lg:grid-cols-2 gap-12 items-center" role="tabpanel">
+        <!-- Image Side -->
+        <div class="relative group rounded-3xl overflow-hidden bg-white shadow-xl shadow-gray-200/50 aspect-[4/3]">
+          <img src="https://placehold.co/800x600/E8EEFF/5E89FF?text=OWS+Pro+Product+Shot" alt="Heyup OWS Pro Headphones" class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105">
+          <div class="absolute top-4 right-4 bg-black text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Flagship</div>
+        </div>
+        
+        <!-- Details Side -->
+        <div class="flex flex-col items-start space-y-6">
+          <div>
+            <h3 class="font-display font-bold text-4xl text-gray-900 mb-2">Heyup OWS Pro</h3>
+            <div class="flex items-center gap-2 mb-4">
+              <div class="flex text-yellow-400 text-sm">
+                <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+              </div>
+              <span class="text-sm text-gray-500">(1,240 Reviews)</span>
+            </div>
+            <p class="text-2xl font-medium text-brand-blue">$199.00</p>
+          </div>
+          
+          <p class="text-gray-600 leading-relaxed">
+            The ultimate open-ear experience. Featuring active noise cancellation, multipoint connection, and our most advanced bass enhancement algorithm yet.
+          </p>
+
+          <ul class="space-y-3 w-full">
+            <li class="flex items-center gap-3 text-gray-700">
+              <i class="ri-check-line text-brand-blue text-xl"></i> <span>Multipoint Connection</span>
+            </li>
+            <li class="flex items-center gap-3 text-gray-700">
+              <i class="ri-check-line text-brand-blue text-xl"></i> <span>16hr Battery Life</span>
+            </li>
+            <li class="flex items-center gap-3 text-gray-700">
+              <i class="ri-check-line text-brand-blue text-xl"></i> <span>IPX5 Water Resistant</span>
+            </li>
+          </ul>
+
+          <div class="pt-4 w-full sm:w-auto">
+            <a href="/products/ows-pro" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-black text-white rounded-full font-medium hover:bg-brand-blue transition-colors duration-300 shadow-lg shadow-gray-300/50">
+              Add to Cart - $199
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2: OWS 2 (Hidden by default) -->
+      <div id="ows-2" class="tab-content hidden grid grid-cols-1 lg:grid-cols-2 gap-12 items-center" role="tabpanel">
+        <div class="relative group rounded-3xl overflow-hidden bg-white shadow-xl shadow-gray-200/50 aspect-[4/3]">
+          <img src="https://placehold.co/800x600/F0F4FF/A8B8FF?text=OWS+2+Product+Shot" alt="Heyup OWS 2 Headphones" class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105">
+          <div class="absolute top-4 right-4 bg-brand-blue text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Best Seller</div>
+        </div>
+        <div class="flex flex-col items-start space-y-6">
+          <div>
+            <h3 class="font-display font-bold text-4xl text-gray-900 mb-2">Heyup OWS 2</h3>
+            <div class="flex items-center gap-2 mb-4">
+              <div class="flex text-yellow-400 text-sm">
+                <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-half-fill"></i>
+              </div>
+              <span class="text-sm text-gray-500">(850 Reviews)</span>
+            </div>
+            <p class="text-2xl font-medium text-brand-blue">$129.00</p>
+          </div>
+          <p class="text-gray-600 leading-relaxed">
+            The perfect balance of performance and style. Upgraded drivers deliver punchy sound while maintaining situational awareness.
+          </p>
+          <ul class="space-y-3 w-full">
+            <li class="flex items-center gap-3 text-gray-700">
+              <i class="ri-check-line text-brand-blue text-xl"></i> <span>Enhanced Bass Drivers</span>
+            </li>
+            <li class="flex items-center gap-3 text-gray-700">
+              <i class="ri-check-line text-brand-blue text-xl"></i> <span>12hr Battery Life</span>
+            </li>
+          </ul>
+          <div class="pt-4 w-full sm:w-auto">
+            <a href="/products/ows-2" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-black text-white rounded-full font-medium hover:bg-brand-blue transition-colors duration-300 shadow-lg shadow-gray-300/50">
+              Add to Cart - $129
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 3: OWS 1 (Hidden by default) -->
+      <div id="ows-1" class="tab-content hidden grid grid-cols-1 lg:grid-cols-2 gap-12 items-center" role="tabpanel">
+        <div class="relative group rounded-3xl overflow-hidden bg-white shadow-xl shadow-gray-200/50 aspect-[4/3]">
+          <img src="https://placehold.co/800x600/FFFFFF/CCCCCC?text=OWS+1+Product+Shot" alt="Heyup OWS 1 Headphones" class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105">
+        </div>
+        <div class="flex flex-col items-start space-y-6">
+          <div>
+            <h3 class="font-display font-bold text-4xl text-gray-900 mb-2">Heyup OWS 1</h3>
+            <div class="flex items-center gap-2 mb-4">
+              <div class="flex text-yellow-400 text-sm">
+                <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-line"></i>
+              </div>
+              <span class="text-sm text-gray-500">(420 Reviews)</span>
+            </div>
+            <p class="text-2xl font-medium text-brand-blue">$89.00</p>
+          </div>
+          <p class="text-gray-600 leading-relaxed">
+            Where it all started. Essential open-ear listening at an unbeatable price point. Lightweight and reliable.
+          </p>
+          <ul class="space-y-3 w-full">
+            <li class="flex items-center gap-3 text-gray-700">
+              <i class="ri-check-line text-brand-blue text-xl"></i> <span>Original Open-Ear Design</span>
+            </li>
+            <li class="flex items-center gap-3 text-gray-700">
+              <i class="ri-check-line text-brand-blue text-xl"></i> <span>10hr Battery Life</span>
+            </li>
+          </ul>
+          <div class="pt-4 w-full sm:w-auto">
+            <a href="/products/ows-1" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-black text-white rounded-full font-medium hover:bg-brand-blue transition-colors duration-300 shadow-lg shadow-gray-300/50">
+              Add to Cart - $89
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     4. SOCIAL PROOF SECTION
+     Goal: Media & User Reviews
+     ========================================== -->
+<section class="py-20 bg-white overflow-hidden" data-shopify-section-id="social-proof">
+  <div class="container mx-auto px-6 max-w-[1200px]">
+    
+    <!-- Media Logos (Static for layout, Marquee logic can be added via CSS/JS) -->
+    <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 mb-20 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+      <img src="https://placehold.co/120x40/FFFFFF/000000?text=TECHCRUNCH" alt="TechCrunch Logo" class="h-8 w-auto object-contain">
+      <img src="https://placehold.co/120x40/FFFFFF/000000?text=THE+VERGE" alt="The Verge Logo" class="h-8 w-auto object-contain">
+      <img src="https://placehold.co/120x40/FFFFFF/000000?text=WIRED" alt="Wired Logo" class="h-8 w-auto object-contain">
+      <img src="https://placehold.co/120x40/FFFFFF/000000?text=GIZMODO" alt="Gizmodo Logo" class="h-8 w-auto object-contain">
+    </div>
+
+    <div class="text-center mb-12">
+      <h2 class="font-display font-bold text-3xl md:text-4xl text-gray-900">Loved by 50,000+ Ears</h2>
+    </div>
+
+    <!-- Reviews Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Review Card 1 -->
+      <article class="bg-[#FAFAFA] p-8 rounded-2xl border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+        <div class="flex text-brand-blue mb-4 text-lg">
+          <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+        </div>
+        <blockquote class="font-sans text-gray-700 text-lg mb-6 flex-grow">
+          "I can finally listen to music while running without feeling unsafe. The sound quality is surprisingly deep for open ears."
+        </blockquote>
+        <div class="flex items-center gap-3 mt-auto">
+          <img src="https://placehold.co/48x48/CCCCCC/FFFFFF?text=SJ" alt="Sarah J." class="w-10 h-10 rounded-full object-cover">
+          <div>
+            <cite class="not-italic font-bold text-gray-900 block text-sm">Sarah Jenkins</cite>
+            <span class="text-xs text-gray-500">Verified Buyer</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Review Card 2 -->
+      <article class="bg-[#FAFAFA] p-8 rounded-2xl border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+        <div class="flex text-brand-blue mb-4 text-lg">
+          <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+        </div>
+        <blockquote class="font-sans text-gray-700 text-lg mb-6 flex-grow">
+          "The battery life is insane. I use them for work calls all day and then for my gym session. Best investment this year."
+        </blockquote>
+        <div class="flex items-center gap-3 mt-auto">
+          <img src="https://placehold.co/48x48/CCCCCC/FFFFFF?text=MD" alt="Mike D." class="w-10 h-10 rounded-full object-cover">
+          <div>
+            <cite class="not-italic font-bold text-gray-900 block text-sm">Mike Davidson</cite>
+            <span class="text-xs text-gray-500">Verified Buyer</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Review Card 3 -->
+      <article class="bg-[#FAFAFA] p-8 rounded-2xl border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+        <div class="flex text-brand-blue mb-4 text-lg">
+          <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+        </div>
+        <blockquote class="font-sans text-gray-700 text-lg mb-6 flex-grow">
+          "Cute design but seriously powerful sound. They don't hurt my ears like traditional earbuds do after an hour."
+        </blockquote>
+        <div class="flex items-center gap-3 mt-auto">
+          <img src="https://placehold.co/48x48/CCCCCC/FFFFFF?text=EL" alt="Emma L." class="w-10 h-10 rounded-full object-cover">
+          <div>
+            <cite class="not-italic font-bold text-gray-900 block text-sm">Emma Lee</cite>
+            <span class="text-xs text-gray-500">Verified Buyer</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    
+    <div class="text-center mt-12">
+      <a href="/pages/reviews" class="inline-flex items-center text-brand-blue font-semibold hover:text-brand-dark transition-colors">
+        Read all reviews <i class="ri-arrow-right-line ml-1"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 
+  Interactive Logic 
+  (Handles Tabs & Scroll Animations)
+-->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- Tab Logic with Anime.js ---
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const targetId = btn.getAttribute('data-target');
+        
+        // 1. Update Button Styles
+        tabBtns.forEach(b => {
+          b.classList.remove('bg-black', 'text-white', 'shadow-md');
+          b.classList.add('text-gray-500');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.remove('text-gray-500');
+        btn.classList.add('bg-black', 'text-white', 'shadow-md');
+        btn.setAttribute('aria-selected', 'true');
+
+        // 2. Animate Content Switch
+        // First, fade out current visible content
+        const currentContent = document.querySelector('.tab-content:not(.hidden)');
+        
+        if(currentContent && currentContent.id !== targetId) {
+           anime({
+            targets: currentContent,
+            opacity: [1, 0],
+            translateY: [0, 10],
+            duration: 200,
+            easing: 'easeInQuad',
+            complete: () => {
+              currentContent.classList.add('hidden');
+              
+              // Show new content
+              const newContent = document.getElementById(targetId);
+              newContent.classList.remove('hidden');
+              
+              anime({
+                targets: newContent,
+                opacity: [0, 1],
+                translateY: [10, 0],
+                duration: 400,
+                easing: 'easeOutQuad'
+              });
+            }
+          });
+        }
+      });
+    });
+
+    // --- Scroll Animations (Intersection Observer) ---
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+          entry.target.style.opacity = 1;
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Select elements to animate on scroll (Features & Reviews)
+    const scrollElements = document.querySelectorAll('#features .group, #social-proof article');
+    scrollElements.forEach((el, index) => {
+      el.style.opacity = 0; // Hide initially
+      el.style.animationDelay = `${index * 0.1}s`; // Stagger effect
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Test HTML",
+  "tag": "section",
+  "class": "test-html",
+  "presets": [
+    {
+      "name": "Test HTML"
+    }
+  ]
+}
+{% endschema %}

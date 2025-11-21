@@ -41,7 +41,7 @@
   - 场景：全站固定能力，建议在 `layout/theme.liquid` 引入一次。
   - 交互：调用 `window.openCartDrawer()` 或分发 `document.dispatchEvent(new CustomEvent('cart:open-drawer'))` 打开；更新事件见下文。
 
-- 其他：`snippets/icon.liquid`（SVG 渲染）、`snippets/quantity-input.liquid`（数量输入）。
+- 其他：`snippets/icon.liquid`（Remix Icon 渲染，兼容旧 name → `ri-*` 映射）、`snippets/quantity-input.liquid`（数量输入）。
 
 ---
 
@@ -145,4 +145,3 @@
 - [ ] 性能与懒加载策略符合 `docs/seo_playbook.md` 与 `docs/js_component_guide.md`。
 
 以上目录会随功能演进补充；新增模块完成后请在 PR 中同步更新本文件，以便 AI/人类协作者快速索引与复用。
-
