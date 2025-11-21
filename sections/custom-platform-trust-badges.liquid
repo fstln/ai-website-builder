@@ -1,0 +1,80 @@
+{% comment %}
+  Platform Trust Badges Section
+  - A simple grid of icon + text badges to build customer trust.
+{% endcomment %}
+
+{%- liquid
+  assign section_dom_id = 'section-' | append: section.id
+  assign color_scheme = section.settings.color_scheme | default: 'scheme-1'
+-%}
+
+<section
+  id="{{ section_dom_id }}"
+  class="color-scheme color-{{ color_scheme }} border-b border-border py-12"
+>
+  <div class="container mx-auto px-6 md:px-12">
+    {%- if section.blocks.size > 0 -%}
+      <div class="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-4">
+        {%- for block in section.blocks -%}
+          <div class="flex flex-col items-center gap-3 text-center" {{ block.shopify_attributes }}>
+            <div class="text-3xl text-foreground">
+              <i class="{{ block.settings.icon_class | default: 'ri-price-tag-3-line' }}"></i>
+            </div>
+            {%- if block.settings.badge_text != blank -%}
+              <h3 class="text-sm font-bold uppercase tracking-wide text-foreground">
+                {{ block.settings.badge_text }}
+              </h3>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Trust Badges",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Trust Badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon_class",
+          "label": "Remix Icon Class",
+          "default": "ri-price-tag-3-line"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge Text",
+          "default": "Exclusive Deal"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "C: Trust Badges",
+      "blocks": [
+        { "type": "badge" },
+        { "type": "badge", "settings": { "icon_class": "ri-shield-check-line", "badge_text": "Officially Authorized" } },
+        { "type": "badge", "settings": { "icon_class": "ri-truck-line", "badge_text": "In-stock & Ready to Ship" } },
+        { "type": "badge", "settings": { "icon_class": "ri-customer-service-2-line", "badge_text": "Worry-free After-sales" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
