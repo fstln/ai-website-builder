@@ -154,6 +154,7 @@
       "settings": {
         "color_scheme": "scheme-2",
         "section_id": "hero-highlight-section-1",
+        "image": "shopify://shop_images/1.jpg",
         "image_position": "right",
         "subheading": "",
         "heading": "Comfortable Enough to Forget",
@@ -167,6 +168,7 @@
       "settings": {
         "color_scheme": "scheme-1",
         "section_id": "hero-highlight-section-1",
+        "image": "shopify://shop_images/2_1.jpg",
         "image_position": "left",
         "subheading": "",
         "heading": "Powerful Surge of Sound",
@@ -180,6 +182,7 @@
       "settings": {
         "color_scheme": "scheme-2",
         "section_id": "hero-highlight-section-1",
+        "image": "shopify://shop_images/3.jpg",
         "image_position": "right",
         "subheading": "",
         "heading": "58 Hours of Full Battery Life",
@@ -193,6 +196,7 @@
       "settings": {
         "color_scheme": "scheme-1",
         "section_id": "hero-highlight-section-1",
+        "image": "shopify://shop_images/4.jpg",
         "image_position": "left",
         "subheading": "",
         "heading": "Real-Time Hearing Protection",
@@ -377,7 +381,7 @@
         "subheading": "Choose any two models to compare side by side.",
         "product_col1": "oladance-ows-pro-test",
         "product_col2": "oladance-ows-2-test",
-        "product_col3": "",
+        "product_col3": "oladance-wearable-stereo-test",
         "show_product_cards": false,
         "buy_now_label": "Buy now",
         "col1_fallback_label": "OWS Pro",

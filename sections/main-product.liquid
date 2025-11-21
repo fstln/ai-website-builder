@@ -30,7 +30,7 @@
   #shopify-section-{{ section.id }} .dynamic-checkout-button :is(shopify-accelerated-checkout, shopify-accelerated-checkout-cart) {
     --shopify-accelerated-checkout-inline-alignment: stretch;
     --shopify-accelerated-checkout-row-gap: 0.75rem;
-    --shopify-accelerated-checkout-button-border-radius: var(--radius-md, 12px);
+    --shopify-accelerated-checkout-button-border-radius: var(--radius-button, 12px);
     --shopify-accelerated-checkout-button-block-size: var(--button-min-height, 44px);
   }
 
@@ -492,7 +492,7 @@
                     {% endif %}
                   {% when 'product_description' %}
                     {% if block.settings.description_content != blank %}
-                      <div class="product-short-description text-base leading-relaxed text-foreground mb-6 pb-6" {{ block_attributes }}>
+                      <div class="product-short-description text-base leading-relaxed text-foreground mb-6" {{ block_attributes }}>
                         {{ block.settings.description_content }}
                       </div>
                     {% endif %}
@@ -841,7 +841,7 @@
                     </div>
                   {% when 'product_description' %}
                     {% assign fallback_description = '<p>Crafted for daily use with aerospace-grade materials, responsive haptics, and thoughtful ergonomics that elevate every interaction.</p>' %}
-                    <div class="product-short-description text-base leading-relaxed text-foreground mb-6 pb-6">
+                    <div class="product-short-description text-base leading-relaxed text-foreground mb-6">
                       {{ fallback_description }}
                     </div>
                   {% when 'variant_selector' %}
