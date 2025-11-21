@@ -1,0 +1,113 @@
+{% comment %} /sections/custom-social-proof.liquid {% endcomment %}
+<section
+  class="py-20"
+  style="--section-bg: {{ section.settings.background_color }}; --card-bg: {{ section.settings.card_background_color }};"
+>
+  <div class="bg-[var(--section-bg)]">
+    <div class="container mx-auto px-6 max-w-[1200px]">
+      {%- if section.settings.heading != blank -%}
+        <div class="text-center mb-12">
+          <h2 class="font-display font-bold text-3xl md:text-4xl text-gray-900">{{ section.settings.heading }}</h2>
+        </div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {%- for block in section.blocks -%}
+            <article
+              class="p-8 rounded-2xl"
+              style="background-color: var(--card-bg);"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.quote != blank -%}
+                <blockquote class="text-gray-800">
+                  {{ block.settings.quote }}
+                </blockquote>
+              {%- endif -%}
+              {%- if block.settings.author != blank -%}
+                <cite class="mt-4 not-italic text-gray-600 block">- {{ block.settings.author }}</cite>
+              {%- endif -%}
+            </article>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Social Proof",
+  "tag": "section",
+  "class": "custom-social-proof-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card Background Color",
+      "default": "#FAFAFA"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Loved by 50,000+ Ears"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Quote",
+          "default": "<p>\"Add a customer quote here.\"</p>"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Customer Name"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "C: Social Proof",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "<p>\"The Verge: 'A new challenger in open-ear audio.'\"</p>",
+            "author": ""
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "<p>\"Finally, open-ear headphones with real bass!\"</p>",
+            "author": "Alex"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "<p>\"I forget I'm even wearing them. Perfect for all-day calls.\"</p>",
+            "author": "Sarah"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
