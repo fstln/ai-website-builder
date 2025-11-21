@@ -1,106 +1,169 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "custom_hero_heyup_a5b1c8": {
-      "type": "custom-hero-heyup-a5b1c8",
+    "custom_hero_kS7yNq": {
+      "type": "custom-hero",
       "settings": {
-        "eyebrow_text": "New Arrivals In Stock",
-        "heading": "<p>Heyup Store.</p>",
-        "subheading": "<p>A trusted, curated tech outlet for early adopters. Discover the future of audio with the Oladance Series.</p>",
-        "button_primary_label": "Explore Oladance Series",
-        "button_primary_link": "shopify://collections/all",
-        "button_secondary_label": "",
-        "button_secondary_link": "/"
+        "background_color": "#FAFAFA",
+        "gradient_start": "rgba(168, 184, 255, 0.2)",
+        "gradient_end": "rgba(94, 137, 255, 0.1)",
+        "heading": "Heyup Store",
+        "subheading": "<p>Curated Tech Outlet. Now Featuring: Oladance.</p>",
+        "button_label": "Explore Oladance Series",
+        "button_link": "#product-showcase"
       }
     },
-    "featured_collection_reused_a5b1c8": {
-      "type": "featured-collection",
-      "settings": {
-        "color_scheme": "",
-        "heading": "Unlock Auditory Freedom",
-        "collection": "oladance",
-        "show_description": false,
-        "products_to_show": 4,
-        "button_label": "View Collection"
-      }
-    },
-    "custom_brand_pillars_heyup_a5b1c8": {
-      "type": "custom-brand-pillars-heyup-a5b1c8",
+    "custom_brand_feature_bEa8bE": {
+      "type": "custom-brand-feature",
       "blocks": {
-        "pillar_1": {
-          "type": "pillar",
+        "feature_item_p3aQ8g": {
+          "type": "feature_item",
           "settings": {
-            "icon_class": "ri-search-line",
-            "heading": "Highly Selected SKUs + Unbeatable Prices",
-            "subheading": "We filter out the noise. Only the most innovative tech makes it to our store, offered at exclusive prices you won't find elsewhere."
+            "heading": "Exclusive Deals",
+            "description": "<p>The most competitive price online.</p>"
           }
         },
-        "pillar_2": {
-          "type": "pillar",
+        "feature_item_y9rT9J": {
+          "type": "feature_item",
           "settings": {
-            "icon_class": "ri-search-line",
-            "heading": "Officially Authorized & Ready to Ship",
-            "subheading": "No waiting games. All products are in-stock in our local warehouses and come with full manufacturer warranties."
+            "heading": "Official Authorization",
+            "description": "<p>Worry-free after-sales support.</p>"
           }
         },
-        "pillar_3": {
-          "type": "pillar",
+        "feature_item_fKq3pE": {
+          "type": "feature_item",
           "settings": {
-            "icon_class": "ri-search-line",
-            "heading": "Rated by Heyup Testers",
-            "subheading": "The quality control is genuinely impressive."
+            "heading": "Community Approved",
+            "description": "<p>4.8/5 rated by Heyup Testers.</p>"
           }
         }
       },
       "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
+        "feature_item_p3aQ8g",
+        "feature_item_y9rT9J",
+        "feature_item_fKq3pE"
       ],
       "settings": {
-        "heading": "<p>Our Promise to Early Adopters.</p>",
-        "subheading": "<p>We don't just sell tech; we curate experiences. Every product is tested, verified, and ready to ship.</p>"
+        "background_color": "#FFFFFF",
+        "card_background_color": "#FAFAFA"
       }
     },
-    "custom_social_proof_heyup_a5b1c8": {
-      "type": "custom-social-proof-heyup-a5b1c8",
+    "custom_product_showcase_qJ4xPa": {
+      "type": "custom-product-showcase",
       "blocks": {
-        "testimonials_479R9Q": {
-          "type": "testimonials",
+        "product_tab_xXpE4a": {
+          "type": "product_tab",
           "settings": {
-            "testimonial_author_1": "Sarah L.",
-            "testimonial_title_1": "Verified Buyer",
-            "testimonial_quote_1": "\"The curation is top-notch. I've discovered so many cool gadgets on HeyUp that I wouldn't have found otherwise. It's my go-to for tech gifts!\"",
-            "testimonial_author_2": "Mike R.",
-            "testimonial_title_2": "Tech Reviewer",
-            "testimonial_quote_2": "\"As a reviewer, I appreciate the honest community feedback. HeyUp's platform is transparent and genuinely helpful for making purchase decisions.\"",
-            "testimonial_author_3": "Jessica Chen",
-            "testimonial_title_3": "Early Adopter",
-            "testimonial_quote_3": "\"Being part of the early access program is a game-changer. Testing new tech before it hits the market is an incredible experience. Highly recommend!\""
+            "tab_label": "OWS Pro",
+            "product_title": "OWS Pro",
+            "product_description": "<p>HEAR THE BASS, NOT THE NOISE</p>",
+            "button_label": "Shop Now"
+          }
+        },
+        "product_tab_rRk4gJ": {
+          "type": "product_tab",
+          "settings": {
+            "tab_label": "OWS 2",
+            "product_title": "OWS 2",
+            "product_description": "<p>HEAR THE DIFFERENCE. FEEL THE DEPTH.</p>",
+            "button_label": "Shop Now"
+          }
+        },
+        "product_tab_yYp4qE": {
+          "type": "product_tab",
+          "settings": {
+            "tab_label": "OWS 1",
+            "product_title": "OWS 1",
+            "product_description": "<p>True Open-Ear Design, 16h Battery</p>",
+            "button_label": "Shop Now"
           }
         }
       },
       "block_order": [
-        "testimonials_479R9Q"
+        "product_tab_xXpE4a",
+        "product_tab_rRk4gJ",
+        "product_tab_yYp4qE"
       ],
       "settings": {
-        "heading": "<p>Loved by Tech Lovers Worldwide</p>",
-        "subheading": "<p>Heyup brings a level of curation that is missing in the crowded tech market. A true gem for gadget lovers.</p>"
+        "background_color": "#FAFAFA",
+        "heading": "Find Your Perfect Sound"
       }
+    },
+    "custom_social_proof_aB7dEa": {
+      "type": "custom-social-proof",
+      "blocks": {
+        "testimonial_nKq8pE": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "<p>\"The Verge: 'A new challenger in open-ear audio.'\"</p>",
+            "author": ""
+          }
+        },
+        "testimonial_bEa8bE": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "<p>\"Finally, open-ear headphones with real bass!\"</p>",
+            "author": "Alex"
+          }
+        },
+        "testimonial_fKq3pE": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "<p>\"I forget I'm even wearing them. Perfect for all-day calls.\"</p>",
+            "author": "Sarah"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_nKq8pE",
+        "testimonial_bEa8bE",
+        "testimonial_fKq3pE"
+      ],
+      "settings": {
+        "background_color": "#FFFFFF",
+        "card_background_color": "#FAFAFA",
+        "heading": "Loved by 50,000+ Ears"
+      }
+    },
+    "faq_accordion_section_reused_tY9uXw": {
+      "type": "faq-accordion-section",
+      "settings": {
+        "heading": "Frequently Asked Questions"
+      },
+      "blocks": {
+        "faq_item_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is the warranty policy?",
+            "answer": "<p>All products come with a 12-month warranty.</p>"
+          }
+        },
+        "faq_item_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Orders are typically processed within 24 hours and shipped within 3-5 business days.</p>"
+          }
+        },
+        "faq_item_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are these products authentic?",
+            "answer": "<p>Yes, Heyup Store is an officially authorized retailer for all featured brands.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_1",
+        "faq_item_2",
+        "faq_item_3"
+      ]
     }
   },
   "order": [
-    "custom_hero_heyup_a5b1c8",
-    "featured_collection_reused_a5b1c8",
-    "custom_brand_pillars_heyup_a5b1c8",
-    "custom_social_proof_heyup_a5b1c8"
+    "custom_hero_kS7yNq",
+    "custom_brand_feature_bEa8bE",
+    "custom_product_showcase_qJ4xPa",
+    "custom_social_proof_aB7dEa",
+    "faq_accordion_section_reused_tY9uXw"
   ]
 }
