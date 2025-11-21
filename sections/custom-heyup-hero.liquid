@@ -1,0 +1,107 @@
+{% comment %}
+  Heyup Hero Section
+  - A full-width hero component with a title, subheading, CTA, and a prominent image.
+  - Includes a decorative background blur element.
+{% endcomment %}
+
+{%- liquid
+  assign section_dom_id = 'section-' | append: section.id
+  assign color_scheme = section.settings.color_scheme | default: 'scheme-1'
+-%}
+
+<section
+  id="{{ section_dom_id }}"
+  class="color-scheme color-{{ color_scheme }} relative w-full overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24"
+>
+  <div class="absolute top-0 right-0 -z-10 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-[#A8B8FF] opacity-10 blur-3xl"></div>
+  <div class="container mx-auto px-6 md:px-12 lg:px-20">
+    <div class="flex flex-col-reverse items-center gap-12 lg:flex-row lg:gap-20">
+      <div class="z-10 flex w-full flex-col items-start text-left lg:w-1/2">
+        {%- if section.settings.heading != blank -%}
+          <h1 class="text-4xl font-bold leading-[1.1] text-foreground md:text-5xl lg:text-6xl mb-6">
+            {{ section.settings.heading }}
+          </h1>
+        {%- endif -%}
+
+        {%- if section.settings.subheading != blank -%}
+          <p class="text-lg leading-relaxed text-foreground/70 md:text-xl mb-8 max-w-lg">
+            {{ section.settings.subheading }}
+          </p>
+        {%- endif -%}
+
+        {%- if section.settings.button_text != blank and section.settings.button_link != blank -%}
+          <a
+            href="{{ section.settings.button_link }}"
+            class="inline-flex items-center justify-center rounded-full bg-black px-8 py-4 text-base font-medium text-white"
+          >
+            {{ section.settings.button_text }}
+          </a>
+        {%- endif -%}
+      </div>
+      <div class="relative w-full lg:w-1/2">
+        <div class="relative aspect-[4/3] overflow-hidden rounded-[32px] shadow-2xl shadow-gray-100 lg:aspect-square">
+          {%- if section.settings.image != blank -%}
+            <img
+              src="{{ section.settings.image | image_url: width: 1600 }}"
+              alt="{{ section.settings.image.alt | escape }}"
+              width="800"
+              height="800"
+              class="h-full w-full object-cover"
+              loading="lazy"
+            >
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'w-full h-full object-cover bg-surface' }}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "C: Heyup Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Heyup Store"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Your trusted Curated Tech Outlet for Early Adopters.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Explore Featured Collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "C: Heyup Hero"
+    }
+  ]
+}
+{% endschema %}
